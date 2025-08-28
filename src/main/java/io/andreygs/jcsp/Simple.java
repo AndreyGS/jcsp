@@ -2,8 +2,6 @@ package io.andreygs.jcsp;
 
 import io.andreygs.jcsp_base.context.CspMessageSerializationCommonContext;
 
-import java.nio.ByteOrder;
-
 public class Simple
 {
     public static void main(String[] args)
@@ -12,7 +10,6 @@ public class Simple
         var buffer = commonContext.getBinaryData();
         buffer.write(1L);
         buffer.write((short)5);
-        buffer.endiannessToWriteOperations(ByteOrder.BIG_ENDIAN);
         int[] x = new int[2];
         x[0] = 2;
         x[1] = 6;

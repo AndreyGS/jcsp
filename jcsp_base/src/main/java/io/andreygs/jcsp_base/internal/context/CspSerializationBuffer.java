@@ -1,14 +1,17 @@
-package io.andreygs.jcsp_base.context;
+package io.andreygs.jcsp_base.internal.context;
+
+import io.andreygs.jcsp_base.common.IBufferResizeStrategy;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 public class CspSerializationBuffer
 {
+    @SuppressWarnings({"NotNullFieldNotInitialized", "null"})
     private ByteBuffer byteBuffer;
     private int allocatedSize;
     private boolean directBuffer;
-    private IBufferExpandingSizeStrategy bufferExpandingSizeStrategy;
+    private IBufferResizeStrategy bufferExpandingSizeStrategy;
 
     private static final int DEFAULT_ALLOCATION_SIZE = 256;
 
@@ -137,7 +140,7 @@ public class CspSerializationBuffer
         byteBuffer.order(byteOrder);
     }
 
-    public void setBufferExpandingSizeStrategy(IBufferExpandingSizeStrategy bufferExpandingSizeStrategy)
+    public void setBufferExpandingSizeStrategy(IBufferResizeStrategy bufferExpandingSizeStrategy)
     {
         this.bufferExpandingSizeStrategy = bufferExpandingSizeStrategy;
     }
@@ -157,7 +160,6 @@ public class CspSerializationBuffer
         this.directBuffer = directBuffer;
         setByteBuffer(DEFAULT_ALLOCATION_SIZE);
         bufferExpandingSizeStrategy = new DoubleBufferExpandingSizeStrategy();
-        byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
     }
 
     private void setByteBuffer(int allocationSize)
@@ -180,23 +182,18 @@ public class CspSerializationBuffer
         if (minimumRequiredSize > allocatedSize)
         {
             ByteBuffer oldByteBuffer = byteBuffer;
-            int newAllocationSize = bufferExpandingSizeStrategy.evalExpandedSize(allocatedSize, minimumRequiredSize);
+            int newAllocationSize = bufferExpandingSizeStrategy.calculateResize(allocatedSize, minimumRequiredSize);
             setByteBuffer(newAllocationSize);
             oldByteBuffer.flip();
             byteBuffer.put(oldByteBuffer);
         }
     }
 
-    public interface IBufferExpandingSizeStrategy
-    {
-        int evalExpandedSize(int currentlyAllocatedSize, int minimumRequiredSize);
-    }
-
     public static class DoubleBufferExpandingSizeStrategy
-        implements IBufferExpandingSizeStrategy
+        implements IBufferResizeStrategy
     {
         @Override
-        public int evalExpandedSize(int currentlyAllocatedSize, int minimumRequiredSize)
+        public int calculateResize(int currentlyAllocatedSize, int minimumRequiredSize)
         {
             return currentlyAllocatedSize * 2;
         }

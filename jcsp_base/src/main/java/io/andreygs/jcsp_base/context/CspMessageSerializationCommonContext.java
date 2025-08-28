@@ -1,10 +1,10 @@
 package io.andreygs.jcsp_base.context;
 
-import java.nio.ByteBuffer;
+import io.andreygs.jcsp_base.internal.context.CspSerializationBuffer;
 
 public class CspMessageSerializationCommonContext
 {
-    private CspSerializationBuffer binaryData;
+    private final CspSerializationBuffer binaryData;
 
     public CspMessageSerializationCommonContext()
     {
