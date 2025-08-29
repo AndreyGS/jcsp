@@ -1,6 +1,6 @@
 package io.andreygs.jcsp;
 
-import io.andreygs.jcsp_base.context.CspMessageSerializationCommonContext;
+import io.andreygs.jcsp_base.context.internal.CspMessageSerializationCommonContext;
 
 public class Simple
 {
@@ -14,7 +14,7 @@ public class Simple
         x[0] = 2;
         x[1] = 6;
         buffer.write(x);
-        buffer.commitMessage();
+        buffer.commitBuffer();
 
         var byteBuffer = buffer.getByteBuffer();
         while (byteBuffer.hasRemaining()) {

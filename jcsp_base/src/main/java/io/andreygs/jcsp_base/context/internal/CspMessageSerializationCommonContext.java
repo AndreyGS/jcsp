@@ -1,6 +1,4 @@
-package io.andreygs.jcsp_base.context;
-
-import io.andreygs.jcsp_base.internal.context.CspSerializationBuffer;
+package io.andreygs.jcsp_base.context.internal;
 
 public class CspMessageSerializationCommonContext
 {

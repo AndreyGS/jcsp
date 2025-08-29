@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,9 +22,34 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module io.andreygs.jcsp_base {
-    requires transitive org.jetbrains.annotations;
 
-    exports io.andreygs.jcsp_base.utils.api;
-    exports io.andreygs.jcsp_base.context.internal to io.andreygs.jcsp;
+package io.andreygs.jcsp_base.types.api;
+
+/**
+ * TODO: place description here
+ */
+public enum CspProtocolVersion
+{
+    CSP_VERSION_1((byte)1, "Csp Version: 1"),
+    CSP_VERSION_2((byte)2, "Csp Version: 2");
+
+    private final short value;
+    private final String name;
+
+    CspProtocolVersion(short value, String name)
+    {
+        this.value = value;
+        this.name = name;
+    }
+
+    public short getValue()
+    {
+        return value;
+    }
+
+    @Override
+    public String toString()
+    {
+        return name;
+    }
 }

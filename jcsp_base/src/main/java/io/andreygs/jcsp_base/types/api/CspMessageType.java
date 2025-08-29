@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,9 +22,37 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module io.andreygs.jcsp_base {
-    requires transitive org.jetbrains.annotations;
 
-    exports io.andreygs.jcsp_base.utils.api;
-    exports io.andreygs.jcsp_base.context.internal to io.andreygs.jcsp;
+package io.andreygs.jcsp_base.types.api;
+
+import org.jetbrains.annotations.ApiStatus;
+
+/**
+ * TODO: place description here
+ */
+public enum CspMessageType
+{
+    STATUS((short)0, "Csp Message Type: \"Status\""),
+    DATA((short)1, "Csp Message Type: \"Data\""),
+    GET_STATUS((short)2, "Csp Message Type: \"Get Settings\"");
+
+    private final short value;
+    private final String name;
+
+    CspMessageType(short value, String name)
+    {
+        this.value = value;
+        this.name = name;
+    }
+
+    public short getValue()
+    {
+        return value;
+    }
+
+    @Override
+    public String toString()
+    {
+        return name;
+    }
 }

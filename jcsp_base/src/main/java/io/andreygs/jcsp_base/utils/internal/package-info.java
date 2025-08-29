@@ -24,9 +24,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module io.andreygs.jcsp_base {
-    requires transitive org.jetbrains.annotations;
+@NotNullByDefault
+package io.andreygs.jcsp_base.utils.internal;
 
-    exports io.andreygs.jcsp_base.utils.api;
-    exports io.andreygs.jcsp_base.context.internal to io.andreygs.jcsp;
-}
+import org.jetbrains.annotations.NotNullByDefault;

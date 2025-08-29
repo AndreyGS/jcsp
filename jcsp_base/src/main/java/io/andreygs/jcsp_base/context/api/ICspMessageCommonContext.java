@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,9 +22,19 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module io.andreygs.jcsp_base {
-    requires transitive org.jetbrains.annotations;
 
-    exports io.andreygs.jcsp_base.utils.api;
-    exports io.andreygs.jcsp_base.context.internal to io.andreygs.jcsp;
+package io.andreygs.jcsp_base.context.api;
+
+import io.andreygs.jcsp_base.types.api.CspMessageType;
+import io.andreygs.jcsp_base.types.api.CspProtocolVersion;
+
+public interface ICspMessageCommonContext
+{
+    CspProtocolVersion getCspProtocolVersion();
+    CspMessageType getCspMessageType();
+    boolean isBitness32();
+    boolean isBigEndianFormat();
+    boolean isEndiannessDifference();
+    boolean areProtocolVersionsNotMatch();
+    boolean areEndiannessNotMatch();
 }

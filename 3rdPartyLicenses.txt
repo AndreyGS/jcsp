@@ -1,0 +1,6 @@
+Dependency: org.jetbrains:annotations:26.0.2
+
+Project URL: https://github.com/JetBrains/java-annotations
+
+License: The Apache Software License, Version 2.0
+https://www.apache.org/licenses/LICENSE-2.0.txt
