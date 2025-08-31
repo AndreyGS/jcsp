@@ -25,34 +25,22 @@
 
 package io.andreygs.jcsp_base.types.api;
 
-import org.jetbrains.annotations.ApiStatus;
+import io.andreygs.jcsp_base.utils.api.AbstractResourceMessages;
 
 /**
  * TODO: place description here
  */
-public enum CspMessageType
+@SuppressWarnings("final")
+final class Messages
+    extends AbstractResourceMessages
 {
-    STATUS((short)0, Messages.CspMessageType_Status),
-    DATA((short)1, Messages.CspMessageType_Data),
-    GET_STATUS((short)2, Messages.CspMessageType_GetStatus);
+    public static String CspMessageType_Data;
+    public static String CspMessageType_GetStatus;
+    public static String CspMessageType_Status;
+    public static String CspMessageType_Type;
 
-    private final short value;
-    private final String name;
-
-    CspMessageType(short value, String name)
+    static
     {
-        this.value = value;
-        this.name = Messages.CspMessageType_Type + ": " + name;
-    }
-
-    public short getValue()
-    {
-        return value;
-    }
-
-    @Override
-    public String toString()
-    {
-        return name;
+        loadMessages(Messages.class);
     }
 }

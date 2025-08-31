@@ -25,34 +25,13 @@
 
 package io.andreygs.jcsp_base.types.api;
 
-import org.jetbrains.annotations.ApiStatus;
-
 /**
  * TODO: place description here
  */
-public enum CspMessageType
+public class CspRuntimeException extends RuntimeException
 {
-    STATUS((short)0, Messages.CspMessageType_Status),
-    DATA((short)1, Messages.CspMessageType_Data),
-    GET_STATUS((short)2, Messages.CspMessageType_GetStatus);
-
-    private final short value;
-    private final String name;
-
-    CspMessageType(short value, String name)
+    public CspRuntimeException(String message)
     {
-        this.value = value;
-        this.name = Messages.CspMessageType_Type + ": " + name;
-    }
-
-    public short getValue()
-    {
-        return value;
-    }
-
-    @Override
-    public String toString()
-    {
-        return name;
+        super(message);
     }
 }

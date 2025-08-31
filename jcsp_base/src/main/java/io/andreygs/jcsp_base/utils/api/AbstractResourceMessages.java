@@ -23,36 +23,39 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp_base.types.api;
+package io.andreygs.jcsp_base.utils.api;
 
-import org.jetbrains.annotations.ApiStatus;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * TODO: place description here
  */
-public enum CspMessageType
+public class AbstractResourceMessages
 {
-    STATUS((short)0, Messages.CspMessageType_Status),
-    DATA((short)1, Messages.CspMessageType_Data),
-    GET_STATUS((short)2, Messages.CspMessageType_GetStatus);
-
-    private final short value;
-    private final String name;
-
-    CspMessageType(short value, String name)
+    protected static void loadMessages(Class<?> clazz)
     {
-        this.value = value;
-        this.name = Messages.CspMessageType_Type + ": " + name;
-    }
-
-    public short getValue()
-    {
-        return value;
-    }
-
-    @Override
-    public String toString()
-    {
-        return name;
+        try
+        {
+            ResourceBundle bundle = ResourceBundle.getBundle(clazz.getPackageName() + ".messages"
+                , Locale.getDefault());
+            for (Field field : clazz.getDeclaredFields())
+            {
+                if (Modifier.isStatic(field.getModifiers()) && Modifier.isPublic(field.getModifiers())
+                        && field.getType() == String.class)
+                {
+                    String key = field.getName();
+                    String value = bundle.getString(key);
+                    field.setAccessible(true);
+                    field.set(null, value);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }

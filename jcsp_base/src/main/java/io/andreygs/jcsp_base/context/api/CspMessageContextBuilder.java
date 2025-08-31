@@ -23,36 +23,19 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp_base.types.api;
+package io.andreygs.jcsp_base.context.api;
 
-import org.jetbrains.annotations.ApiStatus;
+import io.andreygs.jcsp_base.types.api.CspMessageType;
+import io.andreygs.jcsp_base.types.api.CspProtocolVersion;
 
 /**
  * TODO: place description here
  */
-public enum CspMessageType
+public class CspMessageContextBuilder
 {
-    STATUS((short)0, Messages.CspMessageType_Status),
-    DATA((short)1, Messages.CspMessageType_Data),
-    GET_STATUS((short)2, Messages.CspMessageType_GetStatus);
-
-    private final short value;
-    private final String name;
-
-    CspMessageType(short value, String name)
+    /*
+    ICspMessageCommonContext createCspMessage(CspProtocolVersion protocolVersion, CspMessageType messageType)
     {
-        this.value = value;
-        this.name = Messages.CspMessageType_Type + ": " + name;
-    }
 
-    public short getValue()
-    {
-        return value;
-    }
-
-    @Override
-    public String toString()
-    {
-        return name;
-    }
+    }*/
 }

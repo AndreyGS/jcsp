@@ -1,11 +1,16 @@
 package io.andreygs.jcsp;
 
 import io.andreygs.jcsp_base.context.internal.CspMessageSerializationCommonContext;
+import io.andreygs.jcsp_base.types.api.CspMessageType;
+
+import java.util.Locale;
 
 public class Simple
 {
     public static void main(String[] args)
     {
+        Locale.setDefault(new Locale("ru", "RU"));
+        String test = CspMessageType.STATUS.toString();
         CspMessageSerializationCommonContext commonContext  = new CspMessageSerializationCommonContext();
         var buffer = commonContext.getBinaryData();
         buffer.write(1L);

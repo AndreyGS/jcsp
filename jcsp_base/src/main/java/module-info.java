@@ -27,6 +27,7 @@
 module io.andreygs.jcsp_base {
     requires transitive org.jetbrains.annotations;
 
-    exports io.andreygs.jcsp_base.utils.api;
     exports io.andreygs.jcsp_base.context.internal to io.andreygs.jcsp;
+    exports io.andreygs.jcsp_base.types.api;
+    exports io.andreygs.jcsp_base.utils.api;
 }

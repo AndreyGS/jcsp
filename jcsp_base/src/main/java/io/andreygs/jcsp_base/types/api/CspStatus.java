@@ -25,27 +25,24 @@
 
 package io.andreygs.jcsp_base.types.api;
 
-import org.jetbrains.annotations.ApiStatus;
-
 /**
  * TODO: place description here
  */
-public enum CspMessageType
+public enum CspStatus
 {
-    STATUS((short)0, Messages.CspMessageType_Status),
-    DATA((short)1, Messages.CspMessageType_Data),
-    GET_STATUS((short)2, Messages.CspMessageType_GetStatus);
+    NO_ERROR(0, "Csp status: no error"),
+    NO_MEMORY(1, "Csp status: no memory");
 
-    private final short value;
-    private final String name;
+    private final int value;
+    private final String message;
 
-    CspMessageType(short value, String name)
+    CspStatus(int value, String message)
     {
         this.value = value;
-        this.name = Messages.CspMessageType_Type + ": " + name;
+        this.message = message;
     }
 
-    public short getValue()
+    public int getValue()
     {
         return value;
     }
@@ -53,6 +50,6 @@ public enum CspMessageType
     @Override
     public String toString()
     {
-        return name;
+        return message;
     }
 }
