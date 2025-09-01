@@ -30,8 +30,8 @@ package io.andreygs.jcsp_base.types.api;
  */
 public class CspRuntimeException extends RuntimeException
 {
-    public CspRuntimeException(String message)
+    public CspRuntimeException(CspStatus status)
     {
-        super(message);
+        super(status.toString());
     }
 }

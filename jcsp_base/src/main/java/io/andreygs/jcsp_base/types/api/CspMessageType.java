@@ -25,8 +25,6 @@
 
 package io.andreygs.jcsp_base.types.api;
 
-import org.jetbrains.annotations.ApiStatus;
-
 /**
  * TODO: place description here
  */
@@ -34,7 +32,7 @@ public enum CspMessageType
 {
     STATUS((short)0, Messages.CspMessageType_Status),
     DATA((short)1, Messages.CspMessageType_Data),
-    GET_STATUS((short)2, Messages.CspMessageType_GetStatus);
+    GET_SETTINGS((short)2, Messages.CspMessageType_GetSettings);
 
     private final short value;
     private final String name;

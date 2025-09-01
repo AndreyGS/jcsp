@@ -25,11 +25,16 @@
 
 package io.andreygs.jcsp_base.context.internal;
 
+import io.andreygs.jcsp_base.types.api.CspProtocolVersion;
+
 /**
  * TODO: place description here
  */
 public class CspMessageSerializationDataContext
     extends CspMessageSerializationCommonContext
 {
-
+    public CspMessageSerializationDataContext(CspProtocolVersion cspProtocolVersion)
+    {
+        super(cspProtocolVersion);
+    }
 }

@@ -30,21 +30,26 @@ package io.andreygs.jcsp_base.types.api;
  */
 public enum CspProtocolVersion
 {
-    CSP_VERSION_1((byte)1, "Csp Version: 1"),
-    CSP_VERSION_2((byte)2, "Csp Version: 2");
+    CSP_VERSION_1((byte)1, Messages.CspProtocolVersion_1),
+    CSP_VERSION_2((byte)2, Messages.CspProtocolVersion_2);
 
-    private final short value;
+    private final byte version;
     private final String name;
 
-    CspProtocolVersion(short value, String name)
+    CspProtocolVersion(byte value, String name)
     {
-        this.value = value;
-        this.name = name;
+        this.version = value;
+        this.name = Messages.CspProtocolVersion_Type + ": " + name;
     }
 
-    public short getValue()
+    public static CspProtocolVersion latestVersion()
     {
-        return value;
+        return CSP_VERSION_2;
+    }
+
+    public byte getVersion()
+    {
+        return version;
     }
 
     @Override

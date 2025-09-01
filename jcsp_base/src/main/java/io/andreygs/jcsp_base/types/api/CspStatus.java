@@ -30,26 +30,31 @@ package io.andreygs.jcsp_base.types.api;
  */
 public enum CspStatus
 {
-    NO_ERROR(0, "Csp status: no error"),
-    NO_MEMORY(1, "Csp status: no memory");
+    NO_ERROR(0, Messages.CspStatus_No_Error),
+    NO_MEMORY(-1, Messages.CspStatus_No_Memory);
 
-    private final int value;
+    private final int code;
     private final String message;
 
-    CspStatus(int value, String message)
+    CspStatus(int code, String message)
     {
-        this.value = value;
-        this.message = message;
+        this.code = code;
+        this.message = Messages.CspStatus_Type + ": " + message + " (" + code + ")";
     }
 
     public int getValue()
     {
-        return value;
+        return code;
     }
 
     @Override
     public String toString()
     {
         return message;
+    }
+
+    public boolean isErrorStatus()
+    {
+        return code < 0;
     }
 }

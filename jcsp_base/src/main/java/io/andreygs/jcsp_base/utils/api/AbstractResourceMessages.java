@@ -53,9 +53,9 @@ public class AbstractResourceMessages
                 }
             }
         }
-        catch (Exception e)
+        catch (IllegalAccessException e)
         {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

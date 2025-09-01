@@ -30,14 +30,19 @@ import io.andreygs.jcsp_base.utils.api.AbstractResourceMessages;
 /**
  * TODO: place description here
  */
-@SuppressWarnings("final")
 final class Messages
     extends AbstractResourceMessages
 {
     public static String CspMessageType_Data;
-    public static String CspMessageType_GetStatus;
+    public static String CspMessageType_GetSettings;
     public static String CspMessageType_Status;
     public static String CspMessageType_Type;
+    public static String CspProtocolVersion_1;
+    public static String CspProtocolVersion_2;
+    public static String CspProtocolVersion_Type;
+    public static String CspStatus_No_Error;
+    public static String CspStatus_No_Memory;
+    public static String CspStatus_Type;
 
     static
     {

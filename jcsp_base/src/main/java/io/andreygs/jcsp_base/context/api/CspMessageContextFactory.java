@@ -25,17 +25,21 @@
 
 package io.andreygs.jcsp_base.context.api;
 
-import io.andreygs.jcsp_base.types.api.CspMessageType;
+import io.andreygs.jcsp_base.context.internal.CspMessageSerializationCommonContext;
 import io.andreygs.jcsp_base.types.api.CspProtocolVersion;
 
 /**
  * TODO: place description here
  */
-public class CspMessageContextBuilder
+public class CspMessageContextFactory
 {
-    /*
-    ICspMessageCommonContext createCspMessage(CspProtocolVersion protocolVersion, CspMessageType messageType)
+    public static ICspMessageCommonContext createStatusContext()
     {
+        return new CspMessageSerializationCommonContext(CspProtocolVersion.CSP_VERSION_2);
+    }
 
-    }*/
+    public static ICspMessageCommonContext createStatusContext(CspProtocolVersion cspProtocolVersion)
+    {
+        return new CspMessageSerializationCommonContext(cspProtocolVersion);
+    }
 }
