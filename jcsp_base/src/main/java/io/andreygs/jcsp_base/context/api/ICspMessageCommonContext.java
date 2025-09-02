@@ -25,16 +25,15 @@
 
 package io.andreygs.jcsp_base.context.api;
 
+import io.andreygs.jcsp_base.types.api.CspCommonFlags;
 import io.andreygs.jcsp_base.types.api.CspMessageType;
 import io.andreygs.jcsp_base.types.api.CspProtocolVersion;
+
+import java.util.List;
 
 public interface ICspMessageCommonContext
 {
     CspProtocolVersion getCspProtocolVersion();
     CspMessageType getCspMessageType();
-    boolean isBitness32();
-    boolean isBigEndianFormat();
-    boolean isEndiannessDifference();
-    boolean areProtocolVersionsNotMatch();
-    boolean areEndiannessNotMatch();
+    List<CspCommonFlags> getCspCommonFlags();
 }

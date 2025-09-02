@@ -1,8 +1,11 @@
 package io.andreygs.jcsp_base.context.internal;
 
 import io.andreygs.jcsp_base.context.api.ICspMessageCommonContext;
+import io.andreygs.jcsp_base.types.api.CspCommonFlags;
 import io.andreygs.jcsp_base.types.api.CspMessageType;
 import io.andreygs.jcsp_base.types.api.CspProtocolVersion;
+
+import java.util.List;
 
 public class CspMessageSerializationCommonContext implements ICspMessageCommonContext
 {
@@ -33,32 +36,8 @@ public class CspMessageSerializationCommonContext implements ICspMessageCommonCo
     }
 
     @Override
-    public boolean isBitness32()
+    public List<CspCommonFlags> getCspCommonFlags()
     {
-        return false;
-    }
-
-    @Override
-    public boolean isBigEndianFormat()
-    {
-        return false;
-    }
-
-    @Override
-    public boolean isEndiannessDifference()
-    {
-        return false;
-    }
-
-    @Override
-    public boolean areProtocolVersionsNotMatch()
-    {
-        return false;
-    }
-
-    @Override
-    public boolean areEndiannessNotMatch()
-    {
-        return false;
+        return List.of();
     }
 }

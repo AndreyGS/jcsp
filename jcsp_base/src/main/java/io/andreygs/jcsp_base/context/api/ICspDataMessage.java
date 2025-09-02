@@ -23,36 +23,15 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp_base.types.api;
+package io.andreygs.jcsp_base.context.api;
 
-import io.andreygs.jcsp_base.utils.api.AbstractResourceMessages;
+import java.nio.ByteBuffer;
 
 /**
  * TODO: place description here
  */
-final class Messages
-    extends AbstractResourceMessages
+public interface ICspDataMessage
+    extends ICspMessageDataContext
 {
-    public static String CspCommonFlags_BigEndian;
-    public static String CspCommonFlags_Bitness32;
-    public static String CspCommonFlags_Bitness64;
-    public static String CspCommonFlags_EndiannessDifference;
-    public static String CspCommonFlags_LittleEndian;
-    public static String CspCommonFlags_No_EndiannessDifference;
-    public static String CspCommonFlags_Type;
-    public static String CspMessageType_Data;
-    public static String CspMessageType_GetSettings;
-    public static String CspMessageType_Status;
-    public static String CspMessageType_Type;
-    public static String CspProtocolVersion_1;
-    public static String CspProtocolVersion_2;
-    public static String CspProtocolVersion_Type;
-    public static String CspStatus_No_Error;
-    public static String CspStatus_No_Memory;
-    public static String CspStatus_Type;
-
-    static
-    {
-        loadMessages(Messages.class);
-    }
+    ByteBuffer getBinaryData();
 }

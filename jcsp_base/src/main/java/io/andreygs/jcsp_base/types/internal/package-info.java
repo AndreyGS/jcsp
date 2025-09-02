@@ -1,4 +1,6 @@
 /**
+ * TODO: place brief description here
+ *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -22,37 +24,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+@NotNullByDefault
+package io.andreygs.jcsp_base.types.internal;
 
-package io.andreygs.jcsp_base.types.api;
-
-import io.andreygs.jcsp_base.utils.api.AbstractResourceMessages;
-
-/**
- * TODO: place description here
- */
-final class Messages
-    extends AbstractResourceMessages
-{
-    public static String CspCommonFlags_BigEndian;
-    public static String CspCommonFlags_Bitness32;
-    public static String CspCommonFlags_Bitness64;
-    public static String CspCommonFlags_EndiannessDifference;
-    public static String CspCommonFlags_LittleEndian;
-    public static String CspCommonFlags_No_EndiannessDifference;
-    public static String CspCommonFlags_Type;
-    public static String CspMessageType_Data;
-    public static String CspMessageType_GetSettings;
-    public static String CspMessageType_Status;
-    public static String CspMessageType_Type;
-    public static String CspProtocolVersion_1;
-    public static String CspProtocolVersion_2;
-    public static String CspProtocolVersion_Type;
-    public static String CspStatus_No_Error;
-    public static String CspStatus_No_Memory;
-    public static String CspStatus_Type;
-
-    static
-    {
-        loadMessages(Messages.class);
-    }
-}
+import org.jetbrains.annotations.NotNullByDefault;

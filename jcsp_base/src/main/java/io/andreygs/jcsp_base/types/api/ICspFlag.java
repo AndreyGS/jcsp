@@ -25,34 +25,19 @@
 
 package io.andreygs.jcsp_base.types.api;
 
-import io.andreygs.jcsp_base.utils.api.AbstractResourceMessages;
+import io.andreygs.jcsp_base.types.internal.CspFlagsMethods;
+
+import java.util.List;
 
 /**
  * TODO: place description here
  */
-final class Messages
-    extends AbstractResourceMessages
+public sealed interface ICspFlag permits CspCommonFlags
 {
-    public static String CspCommonFlags_BigEndian;
-    public static String CspCommonFlags_Bitness32;
-    public static String CspCommonFlags_Bitness64;
-    public static String CspCommonFlags_EndiannessDifference;
-    public static String CspCommonFlags_LittleEndian;
-    public static String CspCommonFlags_No_EndiannessDifference;
-    public static String CspCommonFlags_Type;
-    public static String CspMessageType_Data;
-    public static String CspMessageType_GetSettings;
-    public static String CspMessageType_Status;
-    public static String CspMessageType_Type;
-    public static String CspProtocolVersion_1;
-    public static String CspProtocolVersion_2;
-    public static String CspProtocolVersion_Type;
-    public static String CspStatus_No_Error;
-    public static String CspStatus_No_Memory;
-    public static String CspStatus_Type;
-
-    static
-    {
-        loadMessages(Messages.class);
-    }
+    int getValue();
+    String getNameWhenSet();
+    String getNameWhenUnset();
+    String flagGroupName();
+    int validFlagsMask();
+    ICspFlag[] groupValues();
 }
