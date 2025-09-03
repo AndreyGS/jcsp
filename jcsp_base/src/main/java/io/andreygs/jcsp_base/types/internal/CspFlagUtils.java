@@ -35,29 +35,8 @@ import java.util.List;
 /**
  * TODO: place description here
  */
-public class CspFlagsMethods
+public class CspFlagUtils
 {
-    public static <T extends ICspFlag> String stringDescription(List<T> setFlags, boolean printEmptyHeaderIfFlagsPrinted
-        , boolean printEmptyHeaderIfNoFlagIsSet)
-    {
-        return stringDescriptionInternal(setFlags.get(0).groupValues(), setFlags, printEmptyHeaderIfFlagsPrinted
-            , printEmptyHeaderIfNoFlagIsSet);
-    }
-
-    public static String stringDescription(Class<? extends ICspFlag> clazz, boolean printEmptyHeaderIfFlagsPrinted
-        , boolean printEmptyHeaderIfNoFlagIsSet)
-    {
-        try
-        {
-            ICspFlag[] flags = (ICspFlag[])clazz.getDeclaredMethod("values").invoke(null);
-            return stringDescriptionInternal(flags, null, printEmptyHeaderIfFlagsPrinted, printEmptyHeaderIfNoFlagIsSet);
-        }
-        catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e)
-        {
-            throw new RuntimeException(e);
-        }
-    }
-
     public static <T extends ICspFlag> int calcFlagMask(List<T> setFlags)
     {
         int[] flagsSum = new int[1];
@@ -71,16 +50,16 @@ public class CspFlagsMethods
         return (flag.getValue() & flagMask) != 0;
     }
 
-    private static <T extends ICspFlag> String stringDescriptionInternal(ICspFlag[] allFlags, @Nullable List<T> setFlags
-        , boolean onlySetFlagsShouldBePrinted, boolean printEmptyHeaderIfFlagsPrinted)
+    public static <T extends ICspFlag> String stringDescription(ICspFlag[] allFlags, List<T> setFlags
+        , String flagGroupName, boolean onlySetFlagsShouldBePrinted, boolean printEmptyHeaderIfNoFlagIsSet)
     {
-        int flagMask = setFlags != null ? calcFlagMask(setFlags) : 0;
+        int flagMask = calcFlagMask(setFlags);
         String[] messageArr = new String[1];
         messageArr[0] = "";
 
-        if (setFlags != null && !setFlags.isEmpty() || !onlySetFlagsShouldBePrinted || printEmptyHeaderIfFlagsPrinted)
+        if (!setFlags.isEmpty() || !onlySetFlagsShouldBePrinted || printEmptyHeaderIfNoFlagIsSet)
         {
-            messageArr[0] = allFlags[0].flagGroupName() + ": ";
+            messageArr[0] = flagGroupName + ": ";
 
             boolean[] firstFlagArr = new boolean[1];
             firstFlagArr[0] = true;

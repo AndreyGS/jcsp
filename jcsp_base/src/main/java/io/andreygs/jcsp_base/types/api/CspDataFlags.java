@@ -33,12 +33,19 @@ import java.util.List;
 /**
  * TODO: place description here
  */
-public enum CspCommonFlags implements ICspFlag
+public enum CspDataFlags implements ICspFlag
 {
-    BIG_ENDIAN(0x1, Messages.CspCommonFlags_BigEndian, Messages.CspCommonFlags_LittleEndian),
-    BITNESS_32(0x2, Messages.CspCommonFlags_Bitness32, Messages.CspCommonFlags_Bitness64),
-    ENDIANNESS_DIFFERENCE(0x4, Messages.CspCommonFlags_EndiannessDifference,
-                          Messages.CspCommonFlags_No_EndiannessDifference);
+    ALIGNMENT_MAY_BE_NOT_EQUAL(0x1, Messages.CspDataFlags_AlignmentMayBeNotEqual,
+                               Messages.CspDataFlags_AlignmentsAreEqual),
+    SIZE_OF_INTEGERS_MAY_BE_NOT_EQUAL(0x2, Messages.CspDataFlags_SizeOfIntegersMayBeNotEqual,
+                                      Messages.CspDataFlags_SizeOfIntegersAreEqual),
+    ALLOW_UNMANAGED_POINTERS(0x4, Messages.CspDataFlags_AllowUnmanagedPointers,
+                             Messages.CspDataFlags_DoNotAllowUnmanagedPointers),
+    CHECK_RECURSIVE_POINTERS(0x8, Messages.CspDataFlags_CheckRecursivePointers,
+                             Messages.CspDataFlags_DoNotCheckRecursivePointers),
+    SIMPLY_ASSIGNABLE_TAGS_OPTIMIZATIONS_ARE_TURNED_OFF(0x10,
+                                                        Messages.CspDataFlags_SimplyAssignableTagsOptimizationsAreOff,
+                                                        Messages.CspDataFlags_SimplyAssignableTagsOptimizationsAreAvailable);
 
     private static int validFlagsMask = 0;
 
@@ -52,10 +59,10 @@ public enum CspCommonFlags implements ICspFlag
     private final String nameWhenSet;
     private final String nameWhenUnset;
 
-    CspCommonFlags(int value, String nameWhenSet, String nameWhenUnset)
+    CspDataFlags(int value, String nameWhenSet, String nameWhenUnset)
     {
         this.value = value;
-        this.name = Messages.CspCommonFlags_Type + ": " + nameWhenSet;
+        this.name = Messages.CspDataFlags_Type + ": " + nameWhenSet;
         this.nameWhenSet = nameWhenSet;
         this.nameWhenUnset = nameWhenUnset;
     }
@@ -65,15 +72,15 @@ public enum CspCommonFlags implements ICspFlag
         return validFlagsMask;
     }
 
-    public static String stringDescription(List<CspCommonFlags> setFlags)
+    public static String stringDescription(List<CspDataFlags> setFlags)
     {
         return stringDescription(setFlags, true, true);
     }
 
-    public static String stringDescription(List<CspCommonFlags> setFlags, boolean onlySetFlagsShouldBePrinted,
+    public static String stringDescription(List<CspDataFlags> setFlags, boolean onlySetFlagsShouldBePrinted,
                                            boolean printEmptyHeaderIfNoFlagIsSet)
     {
-        return CspFlagUtils.stringDescription(values(), setFlags, Messages.CspCommonFlags_Type,
+        return CspFlagUtils.stringDescription(values(), setFlags, Messages.CspDataFlags_Type,
                                               onlySetFlagsShouldBePrinted, printEmptyHeaderIfNoFlagIsSet);
     }
 

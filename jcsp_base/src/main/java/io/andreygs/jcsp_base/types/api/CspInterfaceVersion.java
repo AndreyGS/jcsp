@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,11 +22,23 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module io.andreygs.jcsp_base {
-    requires transitive org.jetbrains.annotations;
-    requires io.andreygs.jcsp_base;
 
-    exports io.andreygs.jcsp_base.context.internal to io.andreygs.jcsp;
-    exports io.andreygs.jcsp_base.types.api;
-    exports io.andreygs.jcsp_base.utils.api;
+package io.andreygs.jcsp_base.types.api;
+
+/**
+ * TODO: place description here
+ */
+public class CspInterfaceVersion
+{
+    private final int version;
+
+    public CspInterfaceVersion(int version)
+    {
+        this.version = version;
+    }
+
+    public int getVersion()
+    {
+        return version;
+    }
 }

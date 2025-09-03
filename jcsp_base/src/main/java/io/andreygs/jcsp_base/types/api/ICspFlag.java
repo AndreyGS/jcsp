@@ -25,19 +25,13 @@
 
 package io.andreygs.jcsp_base.types.api;
 
-import io.andreygs.jcsp_base.types.internal.CspFlagsMethods;
-
-import java.util.List;
-
 /**
  * TODO: place description here
  */
-public sealed interface ICspFlag permits CspCommonFlags
+public sealed interface ICspFlag
+    permits CspCommonFlags, CspDataFlags
 {
     int getValue();
     String getNameWhenSet();
     String getNameWhenUnset();
-    String flagGroupName();
-    int validFlagsMask();
-    ICspFlag[] groupValues();
 }

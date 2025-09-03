@@ -23,19 +23,48 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp_base.context.api;
+package io.andreygs.jcsp_base.context.internal;
 
+import io.andreygs.jcsp_base.context.api.ICspMessageCommonContext;
 import io.andreygs.jcsp_base.types.api.CspCommonFlags;
 import io.andreygs.jcsp_base.types.api.CspMessageType;
 import io.andreygs.jcsp_base.types.api.CspProtocolVersion;
 
-import java.nio.ByteBuffer;
 import java.util.List;
 
-public interface ICspMessageCommonContext
+/**
+ * TODO: place description here
+ */
+public abstract class AbstractCspMessageCommon
+    implements ICspMessageCommonContext
 {
-    ByteBuffer getBinaryData();
-    CspProtocolVersion getCspProtocolVersion();
-    CspMessageType getCspMessageType();
-    List<CspCommonFlags> getCspCommonFlags();
+    private final CspProtocolVersion cspProtocolVersion;
+    private final CspMessageType cspMessageType;
+    private final List<CspCommonFlags> cspCommonFlags;
+
+    public AbstractCspMessageCommon(CspProtocolVersion cspProtocolVersion, CspMessageType cspMessageType
+        , List<CspCommonFlags> cspCommonFlags)
+    {
+        this.cspProtocolVersion = cspProtocolVersion;
+        this.cspMessageType = cspMessageType;
+        this.cspCommonFlags = cspCommonFlags;
+    }
+
+    @Override
+    public CspProtocolVersion getCspProtocolVersion()
+    {
+        return cspProtocolVersion;
+    }
+
+    @Override
+    public CspMessageType getCspMessageType()
+    {
+        return cspMessageType;
+    }
+
+    @Override
+    public List<CspCommonFlags> getCspCommonFlags()
+    {
+        return cspCommonFlags;
+    }
 }

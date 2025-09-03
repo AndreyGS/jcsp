@@ -25,13 +25,19 @@
 
 package io.andreygs.jcsp_base.context.api;
 
-import java.nio.ByteBuffer;
+import io.andreygs.jcsp_base.types.api.CspDataFlags;
+import io.andreygs.jcsp_base.types.api.CspInterfaceVersion;
+
+import java.util.List;
+import java.util.UUID;
 
 /**
  * TODO: place description here
  */
 public interface ICspDataMessage
-    extends ICspMessageDataContext
+    extends ICspMessageCommonContext
 {
-    ByteBuffer getBinaryData();
+    UUID getStructUuid();
+    CspInterfaceVersion getInterfaceVersion();
+    List<CspDataFlags> getCspDataFlags();
 }

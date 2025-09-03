@@ -40,6 +40,17 @@ final class Messages
     public static String CspCommonFlags_LittleEndian;
     public static String CspCommonFlags_No_EndiannessDifference;
     public static String CspCommonFlags_Type;
+    public static String CspDataFlags_AlignmentMayBeNotEqual;
+    public static String CspDataFlags_AlignmentsAreEqual;
+    public static String CspDataFlags_AllowUnmanagedPointers;
+    public static String CspDataFlags_CheckRecursivePointers;
+    public static String CspDataFlags_DoNotAllowUnmanagedPointers;
+    public static String CspDataFlags_DoNotCheckRecursivePointers;
+    public static String CspDataFlags_SimplyAssignableTagsOptimizationsAreAvailable;
+    public static String CspDataFlags_SimplyAssignableTagsOptimizationsAreOff;
+    public static String CspDataFlags_SizeOfIntegersMayBeNotEqual;
+    public static String CspDataFlags_SizeOfIntegersAreEqual;
+    public static String CspDataFlags_Type;
     public static String CspMessageType_Data;
     public static String CspMessageType_GetSettings;
     public static String CspMessageType_Status;

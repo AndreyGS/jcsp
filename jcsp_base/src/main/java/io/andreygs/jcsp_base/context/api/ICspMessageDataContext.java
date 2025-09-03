@@ -31,5 +31,4 @@ package io.andreygs.jcsp_base.context.api;
 public interface ICspMessageDataContext
     extends ICspMessageCommonContext
 {
-
 }
