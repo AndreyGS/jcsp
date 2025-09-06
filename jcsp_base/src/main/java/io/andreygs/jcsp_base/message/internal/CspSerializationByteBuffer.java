@@ -23,15 +23,16 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp_base.context.internal;
+package io.andreygs.jcsp_base.message.internal;
 
 import io.andreygs.jcsp_base.utils.api.IBufferResizeStrategy;
 import io.andreygs.jcsp_base.utils.internal.BufferDoublingResizeStrategy;
+import org.jetbrains.annotations.Nullable;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-public class CspByteBuffer
+public class CspSerializationByteBuffer
 {
     @SuppressWarnings({"NotNullFieldNotInitialized", "null", "RedundantSuppression"})
     private ByteBuffer byteBuffer;
@@ -40,14 +41,9 @@ public class CspByteBuffer
 
     private static final int DEFAULT_CAPACITY_SIZE = 256;
 
-    public CspByteBuffer()
+    public CspSerializationByteBuffer(boolean directBuffer, @Nullable IBufferResizeStrategy bufferResizeStrategy)
     {
-        init(false);
-    }
-
-    public CspByteBuffer(boolean directBuffer)
-    {
-        init(directBuffer);
+        init(directBuffer, bufferResizeStrategy);
     }
 
     public boolean isDirectBuffer()
@@ -58,88 +54,6 @@ public class CspByteBuffer
     public ByteBuffer getByteBuffer()
     {
         return byteBuffer;
-    }
-
-    public byte readByte()
-    {
-        return byteBuffer.get();
-    }
-
-    public short readShort()
-    {
-        return byteBuffer.getShort();
-    }
-
-    public int readInt()
-    {
-        return byteBuffer.getInt();
-    }
-
-    public long readLong()
-    {
-        return byteBuffer.getLong();
-    }
-
-    public char readChar()
-    {
-        return byteBuffer.getChar();
-    }
-
-    public float readFloat()
-    {
-        return byteBuffer.getFloat();
-    }
-
-    public double readDouble()
-    {
-        return byteBuffer.getDouble();
-    }
-
-    public void read(byte[] value)
-    {
-        byteBuffer.get(value);
-    }
-
-    public void read(short[] value)
-    {
-        byteBuffer.asShortBuffer().get(value);
-        int readDataSize = value.length * Short.BYTES;
-        byteBuffer.position(byteBuffer.position() + readDataSize);
-    }
-
-    public void read(int[] value)
-    {
-        byteBuffer.asIntBuffer().get(value);
-        int readDataSize = value.length * Integer.BYTES;
-        byteBuffer.position(byteBuffer.position() + readDataSize);
-    }
-
-    public void read(long[] value)
-    {
-        byteBuffer.asLongBuffer().get(value);
-        int readDataSize = value.length * Long.BYTES;
-        byteBuffer.position(byteBuffer.position() + readDataSize);
-    }
-
-    public void read(char[] value)
-    {
-        byteBuffer.asCharBuffer().get(value);
-        int readDataSize = value.length * Character.BYTES;
-        byteBuffer.position(byteBuffer.position() + readDataSize);
-    }
-
-    public void read(float[] value)
-    {
-        byteBuffer.asFloatBuffer().get(value);
-        int readDataSize = value.length * Float.BYTES;
-        byteBuffer.position(byteBuffer.position() + readDataSize);
-    }
-
-    public void read(double[] value)
-    {
-        byteBuffer.asDoubleBuffer().get(value);
-        int readDataSize = value.length * Double.BYTES;
-        byteBuffer.position(byteBuffer.position() + readDataSize);
     }
 
     public void write(byte value)
@@ -262,11 +176,11 @@ public class CspByteBuffer
         return byteBuffer.limit();
     }
 
-    private void init(boolean directBuffer)
+    private void init(boolean directBuffer, @Nullable IBufferResizeStrategy bufferResizeStrategy)
     {
         this.directBuffer = directBuffer;
         setByteBuffer(DEFAULT_CAPACITY_SIZE);
-        bufferResizeStrategy = new BufferDoublingResizeStrategy();
+        this.bufferResizeStrategy = bufferResizeStrategy != null ? bufferResizeStrategy : new BufferDoublingResizeStrategy();
     }
 
     private void setByteBuffer(int capacity)

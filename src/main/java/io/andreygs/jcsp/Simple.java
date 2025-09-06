@@ -1,6 +1,5 @@
 package io.andreygs.jcsp;
 
-import io.andreygs.jcsp_base.context.internal.CspMessageSerializationCommonContext;
 import io.andreygs.jcsp_base.types.api.CspCommonFlags;
 import io.andreygs.jcsp_base.types.api.CspMessageType;
 import io.andreygs.jcsp_base.types.api.CspProtocolVersion;

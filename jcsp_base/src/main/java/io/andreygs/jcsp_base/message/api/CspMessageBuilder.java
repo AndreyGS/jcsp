@@ -23,21 +23,29 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp_base.context.api;
+package io.andreygs.jcsp_base.message.api;
 
-import io.andreygs.jcsp_base.types.api.CspDataFlags;
-import io.andreygs.jcsp_base.types.api.CspInterfaceVersion;
-
-import java.util.List;
-import java.util.UUID;
+import io.andreygs.jcsp_base.message.internal.CspSerializationStatusMessage;
+import io.andreygs.jcsp_base.types.api.CspMessageType;
+import io.andreygs.jcsp_base.types.api.CspProtocolVersion;
 
 /**
  * TODO: place description here
  */
-public interface ICspDataMessage
-    extends ICspMessageCommonContext
+public class CspMessageBuilder
 {
-    UUID getStructUuid();
-    CspInterfaceVersion getInterfaceVersion();
-    List<CspDataFlags> getCspDataFlags();
+    private final ICspMessageSerializationCommonContext message;
+
+    private CspMessageBuilder(CspMessageType cspMessageType)
+    {
+        message = switch (cspMessageType)
+        {
+            case STATUS -> new CspSerializationStatusMessage();
+        }
+    }
+
+    public static CspMessageBuilder createCspMessageBuilder(CspProtocolVersion cspProtocolVersion)
+    {
+
+    }
 }

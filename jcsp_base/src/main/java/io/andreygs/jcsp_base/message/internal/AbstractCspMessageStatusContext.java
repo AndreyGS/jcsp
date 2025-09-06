@@ -23,18 +23,35 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp_base.context.internal;
+package io.andreygs.jcsp_base.message.internal;
 
+import io.andreygs.jcsp_base.message.api.ICspMessageStatusContext;
+import io.andreygs.jcsp_base.types.api.CspCommonFlags;
+import io.andreygs.jcsp_base.types.api.CspMessageType;
 import io.andreygs.jcsp_base.types.api.CspProtocolVersion;
+import io.andreygs.jcsp_base.types.api.CspStatus;
+
+import java.util.List;
 
 /**
  * TODO: place description here
  */
-public class CspMessageSerializationDataContext
-    extends CspMessageSerializationCommonContext
+public abstract class AbstractCspMessageStatusContext
+    extends AbstractCspMessageCommonContext
+    implements ICspMessageStatusContext
 {
-    public CspMessageSerializationDataContext(CspProtocolVersion cspProtocolVersion)
+    private final CspStatus cspStatus;
+
+    public AbstractCspMessageStatusContext(CspProtocolVersion cspProtocolVersion, CspMessageType cspMessageType,
+                                           List<CspCommonFlags> cspCommonFlags, CspStatus cspStatus)
     {
-        super(cspProtocolVersion);
+        super(cspProtocolVersion, cspMessageType, cspCommonFlags);
+        this.cspStatus = cspStatus;
+    }
+
+    @Override
+    public CspStatus getStatus()
+    {
+        return cspStatus;
     }
 }

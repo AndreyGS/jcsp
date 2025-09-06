@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,12 +22,22 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module io.andreygs.jcsp_base {
-    requires transitive org.jetbrains.annotations;
-    requires io.andreygs.jcsp_base;
 
-    exports io.andreygs.jcsp_base.message.internal to io.andreygs.jcsp;
-    exports io.andreygs.jcsp_base.types.api;
-    exports io.andreygs.jcsp_base.utils.api;
-    exports io.andreygs.jcsp_base.message.api;
+package io.andreygs.jcsp_base.message.api;
+
+import io.andreygs.jcsp_base.types.api.CspDataFlags;
+import io.andreygs.jcsp_base.types.api.CspInterfaceVersion;
+
+import java.util.List;
+import java.util.UUID;
+
+/**
+ * TODO: place description here
+ */
+public interface ICspMessageDataContext
+    extends ICspMessageCommonContext
+{
+    UUID getStructUuid();
+    CspInterfaceVersion getInterfaceVersion();
+    List<CspDataFlags> getCspDataFlags();
 }

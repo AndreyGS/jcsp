@@ -23,9 +23,9 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp_base.context.internal;
+package io.andreygs.jcsp_base.message.api;
 
-import io.andreygs.jcsp_base.context.api.ICspMessageCommonContext;
+import io.andreygs.jcsp_base.message.internal.CspSerializationByteBuffer;
 
 /**
  * TODO: place description here
@@ -33,5 +33,5 @@ import io.andreygs.jcsp_base.context.api.ICspMessageCommonContext;
 public interface ICspMessageSerializationCommonContext
     extends ICspMessageCommonContext
 {
-    CspByteBuffer getSerializationBuffer();
+    CspSerializationByteBuffer getSerializationBuffer();
 }

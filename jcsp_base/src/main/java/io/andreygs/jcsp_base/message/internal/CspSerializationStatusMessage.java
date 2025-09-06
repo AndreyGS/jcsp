@@ -23,19 +23,46 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp_base.context.api;
+package io.andreygs.jcsp_base.message.internal;
 
+import io.andreygs.jcsp_base.message.api.ICspMessageStatusContext;
+import io.andreygs.jcsp_base.message.api.ICspStatusMessage;
 import io.andreygs.jcsp_base.types.api.CspCommonFlags;
 import io.andreygs.jcsp_base.types.api.CspMessageType;
 import io.andreygs.jcsp_base.types.api.CspProtocolVersion;
+import io.andreygs.jcsp_base.types.api.CspStatus;
+import io.andreygs.jcsp_base.utils.api.IBufferResizeStrategy;
+import org.jetbrains.annotations.Nullable;
 
 import java.nio.ByteBuffer;
 import java.util.List;
 
-public interface ICspMessageCommonContext
+/**
+ * TODO: place description here
+ */
+public final class CspSerializationStatusMessage
+    extends AbstractCspMessageStatusContext
+    implements ICspStatusMessage
 {
-    ByteBuffer getBinaryData();
-    CspProtocolVersion getCspProtocolVersion();
-    CspMessageType getCspMessageType();
-    List<CspCommonFlags> getCspCommonFlags();
+    private final CspSerializationByteBuffer cspSerializationByteBuffer;
+
+    public CspSerializationStatusMessage(CspProtocolVersion cspProtocolVersion, CspMessageType cspMessageType,
+                                         List<CspCommonFlags> cspCommonFlags, CspStatus cspStatus,
+                                         boolean directBuffer, @Nullable IBufferResizeStrategy bufferResizeStrategy)
+    {
+        super(cspProtocolVersion, cspMessageType, cspCommonFlags, cspStatus);
+        cspSerializationByteBuffer = new CspSerializationByteBuffer(directBuffer, bufferResizeStrategy);
+    }
+
+    @Override
+    public ByteBuffer getBody()
+    {
+        return cspSerializationByteBuffer.getByteBuffer();
+    }
+
+    @Override
+    public ICspMessageStatusContext getContext()
+    {
+        return this;
+    }
 }

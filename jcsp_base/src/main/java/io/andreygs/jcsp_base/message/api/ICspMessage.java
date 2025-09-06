@@ -23,14 +23,16 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp_base.context.api;
+package io.andreygs.jcsp_base.message.api;
 
-import io.andreygs.jcsp_base.types.api.CspStatus;
+import java.nio.ByteBuffer;
 
 /**
  * TODO: place description here
  */
-public interface ICspStatusMessage
+public sealed interface ICspMessage
+    permits ICspStatusMessage, ICspDataMessage, ICspGetSettingsMessage
 {
-    CspStatus getStatus();
+    ByteBuffer getBody();
+    ICspMessageCommonContext getContext();
 }

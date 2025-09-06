@@ -23,48 +23,45 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp_base.context.internal;
+package io.andreygs.jcsp_base.message.internal;
 
-import io.andreygs.jcsp_base.context.api.ICspMessageCommonContext;
-import io.andreygs.jcsp_base.types.api.CspCommonFlags;
-import io.andreygs.jcsp_base.types.api.CspMessageType;
-import io.andreygs.jcsp_base.types.api.CspProtocolVersion;
+import io.andreygs.jcsp_base.message.api.ICspDataMessage;
+import io.andreygs.jcsp_base.message.api.ICspMessageDataContext;
+import io.andreygs.jcsp_base.types.api.*;
+import io.andreygs.jcsp_base.utils.api.IBufferResizeStrategy;
+import org.jetbrains.annotations.Nullable;
 
+import java.nio.ByteBuffer;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * TODO: place description here
  */
-public abstract class AbstractCspMessageCommon
-    implements ICspMessageCommonContext
+public final class CspDeserializationDataMessage
+    extends AbstractCspMessageDataContext
+    implements ICspDataMessage
 {
-    private final CspProtocolVersion cspProtocolVersion;
-    private final CspMessageType cspMessageType;
-    private final List<CspCommonFlags> cspCommonFlags;
+    private final CspDeserializationByteBuffer cspDeserializationByteBuffer;
 
-    public AbstractCspMessageCommon(CspProtocolVersion cspProtocolVersion, CspMessageType cspMessageType
-        , List<CspCommonFlags> cspCommonFlags)
+    public CspDeserializationDataMessage(CspProtocolVersion cspProtocolVersion, CspMessageType cspMessageType,
+                                       List<CspCommonFlags> cspCommonFlags, UUID cspId,
+                                       CspInterfaceVersion cspInterfaceVersion, List<CspDataFlags> cspDataFlags,
+                                       ByteBuffer byteBuffer)
     {
-        this.cspProtocolVersion = cspProtocolVersion;
-        this.cspMessageType = cspMessageType;
-        this.cspCommonFlags = cspCommonFlags;
+        super(cspProtocolVersion, cspMessageType, cspCommonFlags, cspId, cspInterfaceVersion, cspDataFlags);
+        cspDeserializationByteBuffer = new CspDeserializationByteBuffer(byteBuffer);
     }
 
     @Override
-    public CspProtocolVersion getCspProtocolVersion()
+    public ByteBuffer getBody()
     {
-        return cspProtocolVersion;
+        return cspDeserializationByteBuffer.getByteBuffer();
     }
 
     @Override
-    public CspMessageType getCspMessageType()
+    public ICspMessageDataContext getContext()
     {
-        return cspMessageType;
-    }
-
-    @Override
-    public List<CspCommonFlags> getCspCommonFlags()
-    {
-        return cspCommonFlags;
+        return this;
     }
 }

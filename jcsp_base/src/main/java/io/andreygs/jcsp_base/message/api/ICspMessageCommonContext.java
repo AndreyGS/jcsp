@@ -23,29 +23,17 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp_base.context.api;
+package io.andreygs.jcsp_base.message.api;
 
-import io.andreygs.jcsp_base.context.internal.ICspMessageSerializationCommonContext;
+import io.andreygs.jcsp_base.types.api.CspCommonFlags;
 import io.andreygs.jcsp_base.types.api.CspMessageType;
 import io.andreygs.jcsp_base.types.api.CspProtocolVersion;
 
-/**
- * TODO: place description here
- */
-public class CspMessageBuilder
+import java.util.List;
+
+public interface ICspMessageCommonContext
 {
-    private final ICspMessageSerializationCommonContext message;
-
-    private CspMessageBuilder(CspMessageType cspMessageType)
-    {
-        message = switch (cspMessageType)
-        {
-            case STATUS -> new
-        }
-    }
-
-    public static CspMessageBuilder createCspMessageBuilder(CspProtocolVersion cspProtocolVersion)
-    {
-
-    }
+    CspProtocolVersion getCspProtocolVersion();
+    CspMessageType getCspMessageType();
+    List<CspCommonFlags> getCspCommonFlags();
 }
