@@ -34,16 +34,18 @@ import java.nio.ByteOrder;
 
 public class CspSerializationByteBuffer
 {
-    @SuppressWarnings({"NotNullFieldNotInitialized", "null", "RedundantSuppression"})
     private ByteBuffer byteBuffer;
-    private boolean directBuffer;
-    private IBufferResizeStrategy bufferResizeStrategy;
+    private final Boolean directBuffer;
+    private final IBufferResizeStrategy bufferResizeStrategy;
 
     private static final int DEFAULT_CAPACITY_SIZE = 256;
 
-    public CspSerializationByteBuffer(boolean directBuffer, @Nullable IBufferResizeStrategy bufferResizeStrategy)
+    public CspSerializationByteBuffer(@Nullable Integer initialBufferCapacity, @Nullable Boolean directBuffer,
+                                      @Nullable IBufferResizeStrategy bufferResizeStrategy)
     {
-        init(directBuffer, bufferResizeStrategy);
+        this.directBuffer = directBuffer != null ? directBuffer : false;
+        setByteBuffer(initialBufferCapacity != null ? initialBufferCapacity : DEFAULT_CAPACITY_SIZE);
+        this.bufferResizeStrategy = bufferResizeStrategy != null ? bufferResizeStrategy : new BufferDoublingResizeStrategy();
     }
 
     public boolean isDirectBuffer()
@@ -161,11 +163,6 @@ public class CspSerializationByteBuffer
         byteBuffer.order(byteOrder);
     }
 
-    public void setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy)
-    {
-        this.bufferResizeStrategy = bufferResizeStrategy;
-    }
-
     public void commitBuffer()
     {
         byteBuffer.flip();
@@ -174,13 +171,6 @@ public class CspSerializationByteBuffer
     public int size()
     {
         return byteBuffer.limit();
-    }
-
-    private void init(boolean directBuffer, @Nullable IBufferResizeStrategy bufferResizeStrategy)
-    {
-        this.directBuffer = directBuffer;
-        setByteBuffer(DEFAULT_CAPACITY_SIZE);
-        this.bufferResizeStrategy = bufferResizeStrategy != null ? bufferResizeStrategy : new BufferDoublingResizeStrategy();
     }
 
     private void setByteBuffer(int capacity)

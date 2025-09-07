@@ -26,42 +26,56 @@
 package io.andreygs.jcsp_base.message.internal;
 
 import io.andreygs.jcsp_base.message.api.ICspDataMessage;
-import io.andreygs.jcsp_base.message.api.ICspMessageDataContext;
-import io.andreygs.jcsp_base.types.api.*;
+
+import io.andreygs.jcsp_base.types.api.CspCommonFlags;
+import io.andreygs.jcsp_base.types.api.CspDataFlags;
+import io.andreygs.jcsp_base.types.api.CspInterfaceVersion;
+import io.andreygs.jcsp_base.types.api.CspMessageType;
+import io.andreygs.jcsp_base.types.api.CspProtocolVersion;
 import io.andreygs.jcsp_base.utils.api.IBufferResizeStrategy;
 import org.jetbrains.annotations.Nullable;
 
-import java.nio.ByteBuffer;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * TODO: place description here
  */
-public final class CspSerializationDataMessage
-    extends AbstractCspMessageDataContext
+public abstract class CspSerializationDataMessage extends AbstractCspSerializationMessageCommon
     implements ICspDataMessage
 {
-    private final CspSerializationByteBuffer cspSerializationByteBuffer;
+    private final Class<?> structClazz;
+    private final CspInterfaceVersion cspInterfaceVersion;
+    private final List<CspDataFlags> cspDataFlags;
 
-    public CspSerializationDataMessage(CspProtocolVersion cspProtocolVersion, CspMessageType cspMessageType,
-                                       List<CspCommonFlags> cspCommonFlags, UUID cspId,
-                                       CspInterfaceVersion cspInterfaceVersion, List<CspDataFlags> cspDataFlags,
-                                       boolean directBuffer, @Nullable IBufferResizeStrategy bufferResizeStrategy)
+    public CspSerializationDataMessage(CspProtocolVersion cspProtocolVersion, List<CspCommonFlags> cspCommonFlags,
+                                       @Nullable Integer initialBufferCapacity,
+                                       @Nullable Boolean directBuffer,
+                                       @Nullable IBufferResizeStrategy bufferResizeStrategy,
+                                       Class<?> structClazz, CspInterfaceVersion cspInterfaceVersion,
+                                       List<CspDataFlags> cspDataFlags)
     {
-        super(cspProtocolVersion, cspMessageType, cspCommonFlags, cspId, cspInterfaceVersion, cspDataFlags);
-        cspSerializationByteBuffer = new CspSerializationByteBuffer(directBuffer, bufferResizeStrategy);
+        super(cspProtocolVersion, CspMessageType.DATA, cspCommonFlags, initialBufferCapacity, directBuffer,
+              bufferResizeStrategy);
+        this.structClazz = structClazz;
+        this.cspInterfaceVersion = cspInterfaceVersion;
+        this.cspDataFlags = cspDataFlags;
     }
 
     @Override
-    public ByteBuffer getBody()
+    public Class<?> getStructClazz()
     {
-        return cspSerializationByteBuffer.getByteBuffer();
+        return structClazz;
     }
 
     @Override
-    public ICspMessageDataContext getContext()
+    public CspInterfaceVersion getInterfaceVersion()
     {
-        return this;
+        return cspInterfaceVersion;
+    }
+
+    @Override
+    public List<CspDataFlags> getCspDataFlags()
+    {
+        return cspDataFlags;
     }
 }

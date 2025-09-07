@@ -23,21 +23,21 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp_base.message.api;
+package io.andreygs.jcsp_base.types.api;
 
-import io.andreygs.jcsp_base.types.api.CspDataFlags;
-import io.andreygs.jcsp_base.types.api.CspInterfaceVersion;
-
-import java.util.List;
 import java.util.UUID;
 
 /**
  * TODO: place description here
  */
-public interface ICspMessageDataContext
-    extends ICspMessageCommonContext
+public interface ICspSerializable
 {
-    UUID getStructUuid();
+    UUID getId();
+    CspInterfaceVersion[] getPrivateVersions();
     CspInterfaceVersion getInterfaceVersion();
-    List<CspDataFlags> getCspDataFlags();
+
+    default CspInterfaceVersion getOriginPrivateVersion()
+    {
+        return getPrivateVersions()[getPrivateVersions().length - 1];
+    }
 }

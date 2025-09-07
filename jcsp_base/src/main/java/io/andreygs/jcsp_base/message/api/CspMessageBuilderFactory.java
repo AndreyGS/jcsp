@@ -25,13 +25,16 @@
 
 package io.andreygs.jcsp_base.message.api;
 
-import io.andreygs.jcsp_base.types.api.CspStatus;
+import io.andreygs.jcsp_base.message.internal.CspSerializationDataMessageBuilder;
+import io.andreygs.jcsp_base.types.api.CspProtocolVersion;
 
 /**
  * TODO: place description here
  */
-public interface ICspStatusMessage
-    extends ICspMessageCommon
+public class CspMessageBuilderFactory
 {
-    CspStatus getStatus();
+    public static ICspSerializationDataMessageBuilder createCspSerializationDataMessageBuilder(CspProtocolVersion cspProtocolVersion)
+    {
+        return new CspSerializationDataMessageBuilder(cspProtocolVersion);
+    }
 }

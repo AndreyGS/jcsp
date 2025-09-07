@@ -22,6 +22,8 @@ public class Simple
         var x7 = CspCommonFlags.stringDescription(Arrays.asList(CspCommonFlags.BIG_ENDIAN, CspCommonFlags.ENDIANNESS_DIFFERENCE), true, false);
         var x8 = CspCommonFlags.stringDescription(Arrays.asList(CspCommonFlags.BIG_ENDIAN, CspCommonFlags.ENDIANNESS_DIFFERENCE), true, true);
         String test = CspMessageType.STATUS.toString();
+
+        /*
         CspMessageSerializationCommonContext commonContext  = new CspMessageSerializationCommonContext(
             CspProtocolVersion.CSP_VERSION_2);
         var buffer = commonContext.getBinaryData();
@@ -38,6 +40,6 @@ public class Simple
             byte b = byteBuffer.get();
             System.out.printf("%02X ", b);
         }
-        System.out.println();
+        System.out.println();*/
     }
 }

@@ -25,27 +25,32 @@
 
 package io.andreygs.jcsp_base.message.api;
 
-import io.andreygs.jcsp_base.message.internal.CspSerializationStatusMessage;
-import io.andreygs.jcsp_base.types.api.CspMessageType;
-import io.andreygs.jcsp_base.types.api.CspProtocolVersion;
+import io.andreygs.jcsp_base.types.api.CspCommonFlags;
+import io.andreygs.jcsp_base.types.api.CspDataFlags;
+import io.andreygs.jcsp_base.types.api.CspInterfaceVersion;
+import io.andreygs.jcsp_base.types.api.ICspSerializable;
+import io.andreygs.jcsp_base.utils.api.IBufferResizeStrategy;
+
+import java.util.List;
 
 /**
  * TODO: place description here
  */
-public class CspMessageBuilder
+public interface ICspSerializationDataMessageBuilder extends ICspSerializationMessageCommonBuilder
 {
-    private final ICspMessageSerializationCommonContext message;
+    @Override
+    ICspSerializationDataMessageBuilder setBufferInitialCapacity(int initialBufferCapacity);
 
-    private CspMessageBuilder(CspMessageType cspMessageType)
-    {
-        message = switch (cspMessageType)
-        {
-            case STATUS -> new CspSerializationStatusMessage();
-        }
-    }
+    @Override
+    ICspSerializationDataMessageBuilder setDirectBuffer(boolean directBuffer);
 
-    public static CspMessageBuilder createCspMessageBuilder(CspProtocolVersion cspProtocolVersion)
-    {
+    @Override
+    ICspSerializationDataMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
 
-    }
+    @Override
+    ICspSerializationDataMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
+
+    ICspSerializationDataMessageBuilder setInterfaceVersion(CspInterfaceVersion cspInterfaceVersion);
+    ICspSerializationDataMessageBuilder setCspDataFlags(List<CspDataFlags> cspDataFlags);
+    ICspDataMessage serialize(ICspSerializable cspSerializable);
 }

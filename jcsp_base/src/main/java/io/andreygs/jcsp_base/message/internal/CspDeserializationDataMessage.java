@@ -26,42 +26,50 @@
 package io.andreygs.jcsp_base.message.internal;
 
 import io.andreygs.jcsp_base.message.api.ICspDataMessage;
-import io.andreygs.jcsp_base.message.api.ICspMessageDataContext;
-import io.andreygs.jcsp_base.types.api.*;
-import io.andreygs.jcsp_base.utils.api.IBufferResizeStrategy;
-import org.jetbrains.annotations.Nullable;
+import io.andreygs.jcsp_base.types.api.CspCommonFlags;
+import io.andreygs.jcsp_base.types.api.CspDataFlags;
+import io.andreygs.jcsp_base.types.api.CspInterfaceVersion;
+import io.andreygs.jcsp_base.types.api.CspMessageType;
+import io.andreygs.jcsp_base.types.api.CspProtocolVersion;
 
 import java.nio.ByteBuffer;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * TODO: place description here
  */
-public final class CspDeserializationDataMessage
-    extends AbstractCspMessageDataContext
+public final class CspDeserializationDataMessage extends AbstractCspDeserializationMessageCommon
     implements ICspDataMessage
 {
-    private final CspDeserializationByteBuffer cspDeserializationByteBuffer;
+    private final Class<?> structClazz;
+    private final CspInterfaceVersion cspInterfaceVersion;
+    private final List<CspDataFlags> cspDataFlags;
 
-    public CspDeserializationDataMessage(CspProtocolVersion cspProtocolVersion, CspMessageType cspMessageType,
-                                       List<CspCommonFlags> cspCommonFlags, UUID cspId,
-                                       CspInterfaceVersion cspInterfaceVersion, List<CspDataFlags> cspDataFlags,
-                                       ByteBuffer byteBuffer)
+    public CspDeserializationDataMessage(CspProtocolVersion cspProtocolVersion, List<CspCommonFlags> cspCommonFlags,
+                                         ByteBuffer byteBuffer, Class<?> structClazz, CspInterfaceVersion cspInterfaceVersion,
+                                         List<CspDataFlags> cspDataFlags)
     {
-        super(cspProtocolVersion, cspMessageType, cspCommonFlags, cspId, cspInterfaceVersion, cspDataFlags);
-        cspDeserializationByteBuffer = new CspDeserializationByteBuffer(byteBuffer);
+        super(cspProtocolVersion, CspMessageType.DATA, cspCommonFlags, byteBuffer);
+        this.structClazz = structClazz;
+        this.cspInterfaceVersion = cspInterfaceVersion;
+        this.cspDataFlags = cspDataFlags;
     }
 
     @Override
-    public ByteBuffer getBody()
+    public Class<?> getStructClazz()
     {
-        return cspDeserializationByteBuffer.getByteBuffer();
+        return structClazz;
     }
 
     @Override
-    public ICspMessageDataContext getContext()
+    public CspInterfaceVersion getInterfaceVersion()
     {
-        return this;
+        return cspInterfaceVersion;
+    }
+
+    @Override
+    public List<CspDataFlags> getCspDataFlags()
+    {
+        return cspDataFlags;
     }
 }

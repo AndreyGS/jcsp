@@ -23,17 +23,35 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp_base.message.api;
+package io.andreygs.jcsp_base.message.internal;
 
+import io.andreygs.jcsp_base.message.api.ICspStatusMessage;
 import io.andreygs.jcsp_base.types.api.CspCommonFlags;
 import io.andreygs.jcsp_base.types.api.CspMessageType;
 import io.andreygs.jcsp_base.types.api.CspProtocolVersion;
+import io.andreygs.jcsp_base.types.api.CspStatus;
 
+import java.nio.ByteBuffer;
 import java.util.List;
 
-public interface ICspMessageCommonContext
+/**
+ * TODO: place description here
+ */
+public class CspDeserializationStatusMessage extends AbstractCspDeserializationMessageCommon
+    implements ICspStatusMessage
 {
-    CspProtocolVersion getCspProtocolVersion();
-    CspMessageType getCspMessageType();
-    List<CspCommonFlags> getCspCommonFlags();
+    private final CspStatus cspStatus;
+
+    public CspDeserializationStatusMessage(CspProtocolVersion cspProtocolVersion, List<CspCommonFlags> cspCommonFlags,
+                                           ByteBuffer byteBuffer, CspStatus cspStatus)
+    {
+        super(cspProtocolVersion, CspMessageType.STATUS, cspCommonFlags, byteBuffer);
+        this.cspStatus = cspStatus;
+    }
+
+    @Override
+    public CspStatus getStatus()
+    {
+        return cspStatus;
+    }
 }

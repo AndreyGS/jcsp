@@ -25,39 +25,56 @@
 
 package io.andreygs.jcsp_base.message.internal;
 
-import io.andreygs.jcsp_base.message.api.ICspStatusMessage;
+import io.andreygs.jcsp_base.message.api.ICspSerializationMessageCommonBuilder;
 import io.andreygs.jcsp_base.types.api.CspCommonFlags;
-import io.andreygs.jcsp_base.types.api.CspMessageType;
 import io.andreygs.jcsp_base.types.api.CspProtocolVersion;
+import io.andreygs.jcsp_base.types.api.CspRuntimeException;
 import io.andreygs.jcsp_base.types.api.CspStatus;
 import io.andreygs.jcsp_base.utils.api.IBufferResizeStrategy;
-import org.jetbrains.annotations.Nullable;
 
-import java.nio.ByteBuffer;
 import java.util.List;
 
 /**
  * TODO: place description here
  */
-public final class CspSerializationStatusMessage extends AbstractCspSerializationMessageCommon
-    implements ICspStatusMessage
+public abstract class AbstractCspSerializationMessageCommonBuilder implements ICspSerializationMessageCommonBuilder
 {
-    private final CspStatus cspStatus;
+    private int initialBufferCapacity;
+    private boolean directBuffer;
+    private IBufferResizeStrategy bufferResizeStrategy;
+    private final CspProtocolVersion cspProtocolVersion;
+    private List<CspCommonFlags> cspCommonFlags;
 
-    public CspSerializationStatusMessage(CspProtocolVersion cspProtocolVersion, List<CspCommonFlags> cspCommonFlags,
-                                         @Nullable Integer initialBufferCapacity,
-                                         @Nullable Boolean directBuffer,
-                                         @Nullable IBufferResizeStrategy bufferResizeStrategy,
-                                         CspStatus cspStatus)
+    public AbstractCspSerializationMessageCommonBuilder(CspProtocolVersion cspProtocolVersion)
     {
-        super(cspProtocolVersion, CspMessageType.STATUS, cspCommonFlags, initialBufferCapacity, directBuffer,
-              bufferResizeStrategy);
-        this.cspStatus = cspStatus;
+        this.cspProtocolVersion = cspProtocolVersion;
     }
 
     @Override
-    public CspStatus getStatus()
+    public ICspSerializationMessageCommonBuilder setBufferInitialCapacity(int initialBufferCapacity)
     {
-        return cspStatus;
+        this.initialBufferCapacity = initialBufferCapacity;
+        return this;
+    }
+
+    @Override
+    public ICspSerializationMessageCommonBuilder setDirectBuffer(boolean directBuffer)
+    {
+        this.directBuffer = directBuffer;
+        return this;
+    }
+
+    @Override
+    public ICspSerializationMessageCommonBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy)
+    {
+        this.bufferResizeStrategy = bufferResizeStrategy;
+        return this;
+    }
+
+    @Override
+    public ICspSerializationMessageCommonBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags)
+    {
+        this.cspCommonFlags = cspCommonFlags;
+        return this;
     }
 }

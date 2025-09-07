@@ -25,14 +25,28 @@
 
 package io.andreygs.jcsp_base.message.api;
 
-import java.nio.ByteBuffer;
+import io.andreygs.jcsp_base.types.api.CspCommonFlags;
+import io.andreygs.jcsp_base.types.api.CspStatus;
+import io.andreygs.jcsp_base.utils.api.IBufferResizeStrategy;
+
+import java.util.List;
 
 /**
  * TODO: place description here
  */
-public sealed interface ICspMessage
-    permits ICspStatusMessage, ICspDataMessage, ICspGetSettingsMessage
+public interface ICspSerializationStatusMessageBuilder extends ICspSerializationMessageCommonBuilder
 {
-    ByteBuffer getBody();
-    ICspMessageCommonContext getContext();
+    @Override
+    ICspSerializationStatusMessageBuilder setBufferInitialCapacity(int initialBufferCapacity);
+
+    @Override
+    ICspSerializationStatusMessageBuilder setDirectBuffer(boolean directBuffer);
+
+    @Override
+    ICspSerializationStatusMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
+
+    @Override
+    ICspSerializationStatusMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
+
+    ICspStatusMessage serialize(CspStatus cspStatus);
 }

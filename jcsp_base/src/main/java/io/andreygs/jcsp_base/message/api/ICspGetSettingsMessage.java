@@ -28,7 +28,7 @@ package io.andreygs.jcsp_base.message.api;
 /**
  * TODO: place description here
  */
-public non-sealed interface ICspGetSettingsMessage
-    extends ICspMessage
+public interface ICspGetSettingsMessage
+    extends ICspMessageCommon
 {
 }

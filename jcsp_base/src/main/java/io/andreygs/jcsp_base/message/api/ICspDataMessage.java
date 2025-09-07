@@ -25,15 +25,18 @@
 
 package io.andreygs.jcsp_base.message.api;
 
-import io.andreygs.jcsp_base.message.internal.CspDeserializationDataMessage;
-import io.andreygs.jcsp_base.message.internal.CspSerializationDataMessage;
+import io.andreygs.jcsp_base.types.api.CspDataFlags;
+import io.andreygs.jcsp_base.types.api.CspInterfaceVersion;
+
+import java.util.List;
 
 /**
  * TODO: place description here
  */
-public non-sealed interface ICspDataMessage
-    extends ICspMessage
+public interface ICspDataMessage
+    extends ICspMessageCommon
 {
-    @Override
-    ICspMessageDataContext getContext();
+    Class<?> getStructClazz();
+    CspInterfaceVersion getInterfaceVersion();
+    List<CspDataFlags> getCspDataFlags();
 }

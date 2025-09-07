@@ -25,13 +25,27 @@
 
 package io.andreygs.jcsp_base.message.api;
 
-import io.andreygs.jcsp_base.types.api.CspStatus;
+import io.andreygs.jcsp_base.types.api.CspCommonFlags;
+import io.andreygs.jcsp_base.utils.api.IBufferResizeStrategy;
+
+import java.util.List;
 
 /**
  * TODO: place description here
  */
-public interface ICspMessageStatusContext
-    extends ICspMessageCommonContext
+public interface ICspSerializationGetSettingsMessageBuilder extends ICspSerializationMessageCommonBuilder
 {
-    CspStatus getStatus();
+    @Override
+    ICspSerializationGetSettingsMessageBuilder setBufferInitialCapacity(int initialBufferCapacity);
+
+    @Override
+    ICspSerializationGetSettingsMessageBuilder setDirectBuffer(boolean directBuffer);
+
+    @Override
+    ICspSerializationGetSettingsMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
+
+    @Override
+    ICspSerializationGetSettingsMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
+
+    ICspGetSettingsMessage serialize();
 }

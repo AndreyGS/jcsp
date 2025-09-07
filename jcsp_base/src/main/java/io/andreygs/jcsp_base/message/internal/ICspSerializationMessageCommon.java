@@ -25,46 +25,12 @@
 
 package io.andreygs.jcsp_base.message.internal;
 
-import io.andreygs.jcsp_base.message.api.ICspMessageCommonContext;
-import io.andreygs.jcsp_base.types.api.CspCommonFlags;
-import io.andreygs.jcsp_base.types.api.CspMessageType;
-import io.andreygs.jcsp_base.types.api.CspProtocolVersion;
-
-import java.util.List;
+import io.andreygs.jcsp_base.message.api.ICspMessageCommon;
 
 /**
  * TODO: place description here
  */
-public abstract class AbstractCspMessageCommonContext
-    implements ICspMessageCommonContext
+public interface ICspSerializationMessageCommon extends ICspMessageCommon
 {
-    private final CspProtocolVersion cspProtocolVersion;
-    private final CspMessageType cspMessageType;
-    private final List<CspCommonFlags> cspCommonFlags;
-
-    public AbstractCspMessageCommonContext(CspProtocolVersion cspProtocolVersion, CspMessageType cspMessageType
-        , List<CspCommonFlags> cspCommonFlags)
-    {
-        this.cspProtocolVersion = cspProtocolVersion;
-        this.cspMessageType = cspMessageType;
-        this.cspCommonFlags = cspCommonFlags;
-    }
-
-    @Override
-    public CspProtocolVersion getCspProtocolVersion()
-    {
-        return cspProtocolVersion;
-    }
-
-    @Override
-    public CspMessageType getCspMessageType()
-    {
-        return cspMessageType;
-    }
-
-    @Override
-    public List<CspCommonFlags> getCspCommonFlags()
-    {
-        return cspCommonFlags;
-    }
+    CspSerializationByteBuffer getCspSerializationByteBuffer();
 }

@@ -23,50 +23,19 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp_base.message.internal;
+package io.andreygs.jcsp_base.message.api;
 
-import io.andreygs.jcsp_base.message.api.ICspMessageDataContext;
-import io.andreygs.jcsp_base.types.api.*;
+import io.andreygs.jcsp_base.types.api.CspCommonFlags;
+import io.andreygs.jcsp_base.types.api.CspMessageType;
+import io.andreygs.jcsp_base.types.api.CspProtocolVersion;
 
+import java.nio.ByteBuffer;
 import java.util.List;
-import java.util.UUID;
 
-/**
- * TODO: place description here
- */
-public abstract class AbstractCspMessageDataContext
-    extends AbstractCspMessageCommonContext
-    implements ICspMessageDataContext
+public interface ICspMessageCommon
 {
-    private final UUID cspId;
-    private final CspInterfaceVersion cspInterfaceVersion;
-    private final List<CspDataFlags> cspDataFlags;
-
-    public AbstractCspMessageDataContext(CspProtocolVersion cspProtocolVersion, CspMessageType cspMessageType
-        , List<CspCommonFlags> cspCommonFlags, UUID cspId, CspInterfaceVersion cspInterfaceVersion
-        , List<CspDataFlags> cspDataFlags)
-    {
-        super(cspProtocolVersion, cspMessageType, cspCommonFlags);
-        this.cspId = cspId;
-        this.cspInterfaceVersion = cspInterfaceVersion;
-        this.cspDataFlags = cspDataFlags;
-    }
-
-    @Override
-    public UUID getStructUuid()
-    {
-        return cspId;
-    }
-
-    @Override
-    public CspInterfaceVersion getInterfaceVersion()
-    {
-        return cspInterfaceVersion;
-    }
-
-    @Override
-    public List<CspDataFlags> getCspDataFlags()
-    {
-        return cspDataFlags;
-    }
+    ByteBuffer getBinaryData();
+    CspProtocolVersion getCspProtocolVersion();
+    CspMessageType getCspMessageType();
+    List<CspCommonFlags> getCspCommonFlags();
 }
