@@ -43,8 +43,8 @@ public class AbstractCspDeserializationMessageCommon implements ICspMessageCommo
     private final CspMessageType cspMessageType;
     private final List<CspCommonFlags> cspCommonFlags;
 
-    public AbstractCspDeserializationMessageCommon(CspProtocolVersion cspProtocolVersion, CspMessageType cspMessageType,
-                                                   List<CspCommonFlags> cspCommonFlags, ByteBuffer byteBuffer)
+    public AbstractCspDeserializationMessageCommon(ByteBuffer byteBuffer, CspProtocolVersion cspProtocolVersion,
+                                                   CspMessageType cspMessageType, List<CspCommonFlags> cspCommonFlags)
     {
         this.cspProtocolVersion = cspProtocolVersion;
         this.cspMessageType = cspMessageType;

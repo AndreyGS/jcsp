@@ -45,11 +45,11 @@ public final class CspDeserializationDataMessage extends AbstractCspDeserializat
     private final CspInterfaceVersion cspInterfaceVersion;
     private final List<CspDataFlags> cspDataFlags;
 
-    public CspDeserializationDataMessage(CspProtocolVersion cspProtocolVersion, List<CspCommonFlags> cspCommonFlags,
-                                         ByteBuffer byteBuffer, Class<?> structClazz, CspInterfaceVersion cspInterfaceVersion,
+    public CspDeserializationDataMessage(ByteBuffer byteBuffer, CspProtocolVersion cspProtocolVersion, List<CspCommonFlags> cspCommonFlags,
+                                         Class<?> structClazz, CspInterfaceVersion cspInterfaceVersion,
                                          List<CspDataFlags> cspDataFlags)
     {
-        super(cspProtocolVersion, CspMessageType.DATA, cspCommonFlags, byteBuffer);
+        super(byteBuffer, cspProtocolVersion, CspMessageType.DATA, cspCommonFlags);
         this.structClazz = structClazz;
         this.cspInterfaceVersion = cspInterfaceVersion;
         this.cspDataFlags = cspDataFlags;

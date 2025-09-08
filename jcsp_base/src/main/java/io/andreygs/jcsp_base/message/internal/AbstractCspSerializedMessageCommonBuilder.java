@@ -25,56 +25,83 @@
 
 package io.andreygs.jcsp_base.message.internal;
 
-import io.andreygs.jcsp_base.message.api.ICspSerializationMessageCommonBuilder;
+import io.andreygs.jcsp_base.message.api.ICspSerializedMessageCommonBuilder;
 import io.andreygs.jcsp_base.types.api.CspCommonFlags;
 import io.andreygs.jcsp_base.types.api.CspProtocolVersion;
-import io.andreygs.jcsp_base.types.api.CspRuntimeException;
-import io.andreygs.jcsp_base.types.api.CspStatus;
 import io.andreygs.jcsp_base.utils.api.IBufferResizeStrategy;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * TODO: place description here
  */
-public abstract class AbstractCspSerializationMessageCommonBuilder implements ICspSerializationMessageCommonBuilder
+public abstract class AbstractCspSerializedMessageCommonBuilder implements ICspSerializedMessageCommonBuilder
 {
-    private int initialBufferCapacity;
-    private boolean directBuffer;
-    private IBufferResizeStrategy bufferResizeStrategy;
-    private final CspProtocolVersion cspProtocolVersion;
-    private List<CspCommonFlags> cspCommonFlags;
-
-    public AbstractCspSerializationMessageCommonBuilder(CspProtocolVersion cspProtocolVersion)
-    {
-        this.cspProtocolVersion = cspProtocolVersion;
-    }
+    private @Nullable Integer initialBufferCapacity;
+    private @Nullable Boolean directBuffer;
+    private @Nullable IBufferResizeStrategy bufferResizeStrategy;
+    private @Nullable CspProtocolVersion cspProtocolVersion;
+    private @Nullable List<CspCommonFlags> cspCommonFlags;
 
     @Override
-    public ICspSerializationMessageCommonBuilder setBufferInitialCapacity(int initialBufferCapacity)
+    public ICspSerializedMessageCommonBuilder setBufferInitialCapacity(int initialBufferCapacity)
     {
         this.initialBufferCapacity = initialBufferCapacity;
         return this;
     }
 
     @Override
-    public ICspSerializationMessageCommonBuilder setDirectBuffer(boolean directBuffer)
+    public ICspSerializedMessageCommonBuilder setDirectBuffer(boolean directBuffer)
     {
         this.directBuffer = directBuffer;
         return this;
     }
 
     @Override
-    public ICspSerializationMessageCommonBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy)
+    public ICspSerializedMessageCommonBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy)
     {
         this.bufferResizeStrategy = bufferResizeStrategy;
         return this;
     }
 
     @Override
-    public ICspSerializationMessageCommonBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags)
+    public ICspSerializedMessageCommonBuilder setCspProtocolVersion(CspProtocolVersion cspProtocolVersion)
+    {
+        this.cspProtocolVersion = cspProtocolVersion;
+        return this;
+    }
+
+    @Override
+    public ICspSerializedMessageCommonBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags)
     {
         this.cspCommonFlags = cspCommonFlags;
         return this;
+    }
+
+    protected Optional<Integer> getInitialBufferCapacity()
+    {
+        return Optional.ofNullable(initialBufferCapacity);
+    }
+
+    protected Optional<Boolean> getDirectBuffer()
+    {
+        return Optional.ofNullable(directBuffer);
+    }
+
+    protected Optional<IBufferResizeStrategy> getBufferResizeStrategy()
+    {
+        return Optional.ofNullable(bufferResizeStrategy);
+    }
+
+    protected Optional<CspProtocolVersion> getCspProtocolVersion()
+    {
+        return Optional.ofNullable(cspProtocolVersion);
+    }
+
+    protected Optional<List<CspCommonFlags>> getCspCommonFlags()
+    {
+        return Optional.ofNullable(cspCommonFlags);
     }
 }

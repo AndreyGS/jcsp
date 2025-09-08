@@ -45,11 +45,11 @@ public abstract class AbstractCspSerializationMessageCommon implements ICspMessa
     private final CspMessageType cspMessageType;
     private final List<CspCommonFlags> cspCommonFlags;
 
-    public AbstractCspSerializationMessageCommon(CspProtocolVersion cspProtocolVersion, CspMessageType cspMessageType,
-                                                 List<CspCommonFlags> cspCommonFlags,
-                                                 @Nullable Integer initialBufferCapacity,
+    public AbstractCspSerializationMessageCommon(@Nullable Integer initialBufferCapacity,
                                                  @Nullable Boolean directBuffer,
-                                                 @Nullable IBufferResizeStrategy bufferResizeStrategy)
+                                                 @Nullable IBufferResizeStrategy bufferResizeStrategy,
+                                                 CspProtocolVersion cspProtocolVersion, CspMessageType cspMessageType,
+                                                 List<CspCommonFlags> cspCommonFlags)
     {
         this.cspProtocolVersion = cspProtocolVersion;
         this.cspMessageType = cspMessageType;

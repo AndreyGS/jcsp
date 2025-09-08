@@ -42,10 +42,10 @@ public class CspDeserializationStatusMessage extends AbstractCspDeserializationM
 {
     private final CspStatus cspStatus;
 
-    public CspDeserializationStatusMessage(CspProtocolVersion cspProtocolVersion, List<CspCommonFlags> cspCommonFlags,
-                                           ByteBuffer byteBuffer, CspStatus cspStatus)
+    public CspDeserializationStatusMessage(ByteBuffer byteBuffer, CspProtocolVersion cspProtocolVersion,
+                                           List<CspCommonFlags> cspCommonFlags, CspStatus cspStatus)
     {
-        super(cspProtocolVersion, CspMessageType.STATUS, cspCommonFlags, byteBuffer);
+        super(byteBuffer, cspProtocolVersion, CspMessageType.STATUS, cspCommonFlags);
         this.cspStatus = cspStatus;
     }
 

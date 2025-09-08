@@ -25,19 +25,10 @@
 
 package io.andreygs.jcsp_base.message.api;
 
-import io.andreygs.jcsp_base.types.api.CspCommonFlags;
-import io.andreygs.jcsp_base.utils.api.IBufferResizeStrategy;
-
-import java.util.List;
-
 /**
  * TODO: place description here
  */
-public interface ICspSerializationMessageCommonBuilder
+public interface ICspMessageBuilderFactory
 {
-    ICspSerializationMessageCommonBuilder setBufferInitialCapacity(int initialBufferCapacity);
-    ICspSerializationMessageCommonBuilder setDirectBuffer(boolean directBuffer);
-    ICspSerializationMessageCommonBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
-
-    ICspSerializationMessageCommonBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
+    ICspSerializedDataMessageBuilder createCspSerializationDataMessageBuilder();
 }

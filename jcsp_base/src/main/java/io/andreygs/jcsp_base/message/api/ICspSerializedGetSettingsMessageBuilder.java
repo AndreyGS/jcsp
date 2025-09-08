@@ -33,19 +33,19 @@ import java.util.List;
 /**
  * TODO: place description here
  */
-public interface ICspSerializationGetSettingsMessageBuilder extends ICspSerializationMessageCommonBuilder
+public interface ICspSerializedGetSettingsMessageBuilder extends ICspSerializedMessageCommonBuilder
 {
     @Override
-    ICspSerializationGetSettingsMessageBuilder setBufferInitialCapacity(int initialBufferCapacity);
+    ICspSerializedGetSettingsMessageBuilder setBufferInitialCapacity(int initialBufferCapacity);
 
     @Override
-    ICspSerializationGetSettingsMessageBuilder setDirectBuffer(boolean directBuffer);
+    ICspSerializedGetSettingsMessageBuilder setDirectBuffer(boolean directBuffer);
 
     @Override
-    ICspSerializationGetSettingsMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
+    ICspSerializedGetSettingsMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
 
     @Override
-    ICspSerializationGetSettingsMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
+    ICspSerializedGetSettingsMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
 
     ICspGetSettingsMessage serialize();
 }

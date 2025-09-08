@@ -23,14 +23,36 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp_base.message.internal;
+package io.andreygs.jcsp_base.message.api;
 
-import io.andreygs.jcsp_base.message.api.ICspMessageCommon;
+import io.andreygs.jcsp_base.types.api.CspCommonFlags;
+import io.andreygs.jcsp_base.types.api.CspDataFlags;
+import io.andreygs.jcsp_base.types.api.CspInterfaceVersion;
+import io.andreygs.jcsp_base.types.api.ICspSerializable;
+import io.andreygs.jcsp_base.utils.api.IBufferResizeStrategy;
+
+import java.util.List;
 
 /**
  * TODO: place description here
  */
-public interface ICspSerializationMessageCommon extends ICspMessageCommon
+public interface ICspSerializedDataMessageBuilder extends ICspSerializedMessageCommonBuilder
 {
-    CspSerializationByteBuffer getCspSerializationByteBuffer();
+    @Override
+    ICspSerializedDataMessageBuilder setBufferInitialCapacity(int initialBufferCapacity);
+
+    @Override
+    ICspSerializedDataMessageBuilder setDirectBuffer(boolean directBuffer);
+
+    @Override
+    ICspSerializedDataMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
+
+    @Override
+    ICspSerializedDataMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
+
+    ICspSerializedDataMessageBuilder setInterfaceVersion(CspInterfaceVersion cspInterfaceVersion);
+
+    ICspSerializedDataMessageBuilder setCspDataFlags(List<CspDataFlags> cspDataFlags);
+
+    ICspDataMessage serialize(ICspSerializable cspSerializable);
 }

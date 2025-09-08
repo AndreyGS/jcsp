@@ -23,13 +23,15 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp_base.message.internal;
+package io.andreygs.jcsp_base.processing.internal;
 
-import io.andreygs.jcsp_base.message.api.ICspStatusMessage;
+import io.andreygs.jcsp_base.message.api.ICspDataMessage;
+import io.andreygs.jcsp_base.message.internal.CspSerializationDataMessage;
 import io.andreygs.jcsp_base.types.api.CspCommonFlags;
-import io.andreygs.jcsp_base.types.api.CspMessageType;
+import io.andreygs.jcsp_base.types.api.CspDataFlags;
+import io.andreygs.jcsp_base.types.api.CspInterfaceVersion;
 import io.andreygs.jcsp_base.types.api.CspProtocolVersion;
-import io.andreygs.jcsp_base.types.api.CspStatus;
+import io.andreygs.jcsp_base.types.api.ICspSerializable;
 import io.andreygs.jcsp_base.utils.api.IBufferResizeStrategy;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,23 +40,22 @@ import java.util.List;
 /**
  * TODO: place description here
  */
-public class CspSerializationStatusMessage extends AbstractCspSerializationMessageCommon implements ICspStatusMessage
+public class Serializer
 {
-    private final CspStatus cspStatus;
-
-    public CspSerializationStatusMessage(@Nullable Integer initialBufferCapacity, @Nullable Boolean directBuffer,
-                                         @Nullable IBufferResizeStrategy bufferResizeStrategy,
-                                         CspProtocolVersion cspProtocolVersion, List<CspCommonFlags> cspCommonFlags,
-                                         CspStatus cspStatus)
+    private Serializer()
     {
-        super(initialBufferCapacity, directBuffer, bufferResizeStrategy, cspProtocolVersion, CspMessageType.STATUS,
-              cspCommonFlags);
-        this.cspStatus = cspStatus;
     }
 
-    @Override
-    public CspStatus getStatus()
+    public static ICspDataMessage serializeDataMessage(@Nullable Integer initialBufferCapacity, @Nullable Boolean directBuffer,
+                                                       @Nullable IBufferResizeStrategy bufferResizeStrategy,
+                                                       @Nullable CspProtocolVersion cspProtocolVersion,
+                                                       @Nullable List<CspCommonFlags> cspCommonFlags,
+                                                       @Nullable CspInterfaceVersion cspInterfaceVersion,
+                                                       @Nullable List<CspDataFlags> cspDataFlags,
+                                                       ICspSerializable cspSerializable)
     {
-        return cspStatus;
+        return new CspSerializationDataMessage(initialBufferCapacity, directBuffer, bufferResizeStrategy,
+                                               cspProtocolVersion, cspCommonFlags, cspSerializable.getClass(),
+                                               cspInterfaceVersion, cspDataFlags);
     }
 }

@@ -34,19 +34,19 @@ import java.util.List;
 /**
  * TODO: place description here
  */
-public interface ICspSerializationStatusMessageBuilder extends ICspSerializationMessageCommonBuilder
+public interface ICspSerializedStatusMessageBuilder extends ICspSerializedMessageCommonBuilder
 {
     @Override
-    ICspSerializationStatusMessageBuilder setBufferInitialCapacity(int initialBufferCapacity);
+    ICspSerializedStatusMessageBuilder setBufferInitialCapacity(int initialBufferCapacity);
 
     @Override
-    ICspSerializationStatusMessageBuilder setDirectBuffer(boolean directBuffer);
+    ICspSerializedStatusMessageBuilder setDirectBuffer(boolean directBuffer);
 
     @Override
-    ICspSerializationStatusMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
+    ICspSerializedStatusMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
 
     @Override
-    ICspSerializationStatusMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
+    ICspSerializedStatusMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
 
     ICspStatusMessage serialize(CspStatus cspStatus);
 }

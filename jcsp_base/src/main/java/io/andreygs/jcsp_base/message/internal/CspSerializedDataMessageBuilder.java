@@ -26,71 +26,82 @@
 package io.andreygs.jcsp_base.message.internal;
 
 import io.andreygs.jcsp_base.message.api.ICspDataMessage;
-import io.andreygs.jcsp_base.message.api.ICspSerializationDataMessageBuilder;
-import io.andreygs.jcsp_base.message.api.ICspSerializationMessageCommonBuilder;
-import io.andreygs.jcsp_base.types.api.*;
+import io.andreygs.jcsp_base.message.api.ICspSerializedDataMessageBuilder;
+import io.andreygs.jcsp_base.processing.internal.Serializer;
+import io.andreygs.jcsp_base.types.api.CspCommonFlags;
+import io.andreygs.jcsp_base.types.api.CspDataFlags;
+import io.andreygs.jcsp_base.types.api.CspInterfaceVersion;
+import io.andreygs.jcsp_base.types.api.CspProtocolVersion;
+import io.andreygs.jcsp_base.types.api.ICspSerializable;
 import io.andreygs.jcsp_base.utils.api.IBufferResizeStrategy;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 /**
  * TODO: place description here
  */
-public class CspSerializationDataMessageBuilder extends AbstractCspSerializationMessageCommonBuilder implements ICspSerializationDataMessageBuilder
+public class CspSerializedDataMessageBuilder extends AbstractCspSerializedMessageCommonBuilder
+    implements ICspSerializedDataMessageBuilder
 {
-    private CspInterfaceVersion cspInterfaceVersion;
-    private List<CspDataFlags> cspDataFlags;
-
-    public CspSerializationDataMessageBuilder(CspProtocolVersion cspProtocolVersion)
-    {
-        super(cspProtocolVersion);
-    }
+    private @Nullable CspInterfaceVersion cspInterfaceVersion;
+    private @Nullable List<CspDataFlags> cspDataFlags;
 
     @Override
-    public ICspSerializationDataMessageBuilder setBufferInitialCapacity(int initialBufferCapacity)
+    public ICspSerializedDataMessageBuilder setBufferInitialCapacity(int initialBufferCapacity)
     {
         super.setBufferInitialCapacity(initialBufferCapacity);
         return this;
     }
 
     @Override
-    public ICspSerializationDataMessageBuilder setDirectBuffer(boolean directBuffer)
+    public ICspSerializedDataMessageBuilder setDirectBuffer(boolean directBuffer)
     {
         super.setDirectBuffer(directBuffer);
         return this;
     }
 
     @Override
-    public ICspSerializationDataMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy)
+    public ICspSerializedDataMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy)
     {
         super.setBufferResizeStrategy(bufferResizeStrategy);
         return this;
     }
 
     @Override
-    public ICspSerializationDataMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags)
+    public ICspSerializedDataMessageBuilder setCspProtocolVersion(CspProtocolVersion cspProtocolVersion)
+    {
+        super.setCspProtocolVersion(cspProtocolVersion);
+        return this;
+    }
+
+    @Override
+    public ICspSerializedDataMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags)
     {
         super.setCspCommonFlags(cspCommonFlags);
         return this;
     }
 
     @Override
-    public ICspSerializationDataMessageBuilder setInterfaceVersion(CspInterfaceVersion cspInterfaceVersion)
+    public ICspSerializedDataMessageBuilder setInterfaceVersion(CspInterfaceVersion cspInterfaceVersion)
     {
         this.cspInterfaceVersion = cspInterfaceVersion;
         return this;
     }
 
     @Override
-    public ICspSerializationDataMessageBuilder setCspDataFlags(List<CspDataFlags> cspDataFlags)
+    public ICspSerializedDataMessageBuilder setCspDataFlags(List<CspDataFlags> cspDataFlags)
     {
         this.cspDataFlags = cspDataFlags;
         return this;
     }
-/*
+
     @Override
     public ICspDataMessage serialize(ICspSerializable cspSerializable)
     {
-        CspSerializationDataMessage message
-    }*/
+        return Serializer.serializeDataMessage(getInitialBufferCapacity().get(), getDirectBuffer().get(),
+                                               getBufferResizeStrategy().get(), getCspProtocolVersion().get(),
+                                               getCspCommonFlags().get(), cspInterfaceVersion, cspDataFlags,
+                                               cspSerializable);
+    }
 }

@@ -26,7 +26,6 @@
 package io.andreygs.jcsp_base.message.internal;
 
 import io.andreygs.jcsp_base.message.api.ICspDataMessage;
-
 import io.andreygs.jcsp_base.types.api.CspCommonFlags;
 import io.andreygs.jcsp_base.types.api.CspDataFlags;
 import io.andreygs.jcsp_base.types.api.CspInterfaceVersion;
@@ -40,22 +39,20 @@ import java.util.List;
 /**
  * TODO: place description here
  */
-public abstract class CspSerializationDataMessage extends AbstractCspSerializationMessageCommon
-    implements ICspDataMessage
+public class CspSerializationDataMessage extends AbstractCspSerializationMessageCommon implements ICspDataMessage
 {
     private final Class<?> structClazz;
     private final CspInterfaceVersion cspInterfaceVersion;
     private final List<CspDataFlags> cspDataFlags;
 
-    public CspSerializationDataMessage(CspProtocolVersion cspProtocolVersion, List<CspCommonFlags> cspCommonFlags,
-                                       @Nullable Integer initialBufferCapacity,
-                                       @Nullable Boolean directBuffer,
+    public CspSerializationDataMessage(@Nullable Integer initialBufferCapacity, @Nullable Boolean directBuffer,
                                        @Nullable IBufferResizeStrategy bufferResizeStrategy,
+                                       CspProtocolVersion cspProtocolVersion, List<CspCommonFlags> cspCommonFlags,
                                        Class<?> structClazz, CspInterfaceVersion cspInterfaceVersion,
                                        List<CspDataFlags> cspDataFlags)
     {
-        super(cspProtocolVersion, CspMessageType.DATA, cspCommonFlags, initialBufferCapacity, directBuffer,
-              bufferResizeStrategy);
+        super(initialBufferCapacity, directBuffer, bufferResizeStrategy, cspProtocolVersion, CspMessageType.DATA,
+              cspCommonFlags);
         this.structClazz = structClazz;
         this.cspInterfaceVersion = cspInterfaceVersion;
         this.cspDataFlags = cspDataFlags;

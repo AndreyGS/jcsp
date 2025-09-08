@@ -1,4 +1,6 @@
 /**
+ * TODO: place brief description here
+ *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -22,18 +24,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
+@NotNullByDefault
 package io.andreygs.jcsp_base.message.api;
 
-import io.andreygs.jcsp_base.message.internal.CspSerializedDataMessageBuilder;
-
-/**
- * TODO: place description here
- */
-public class CspMessageBuilderFactory implements ICspMessageBuilderFactory
-{
-    public ICspSerializedDataMessageBuilder createCspSerializationDataMessageBuilder()
-    {
-        return new CspSerializedDataMessageBuilder();
-    }
-}
+import org.jetbrains.annotations.NotNullByDefault;
