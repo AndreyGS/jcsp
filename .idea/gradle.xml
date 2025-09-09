@@ -9,7 +9,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/jcsp_base" />
+            <option value="$PROJECT_DIR$/base" />
           </set>
         </option>
       </GradleProjectSettings>

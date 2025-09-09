@@ -1,8 +1,7 @@
 package io.andreygs.jcsp;
 
-import io.andreygs.jcsp_base.types.api.CspCommonFlags;
-import io.andreygs.jcsp_base.types.api.CspMessageType;
-import io.andreygs.jcsp_base.types.api.CspProtocolVersion;
+import io.andreygs.jcsp.base.types.api.CspCommonFlags;
+import io.andreygs.jcsp.base.types.api.CspMessageType;
 
 import java.util.ArrayList;
 import java.util.Arrays;

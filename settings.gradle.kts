@@ -1,2 +1,2 @@
 rootProject.name = "jcsp"
-include("jcsp_base")
+include("base")
