@@ -43,7 +43,31 @@ public class CspSerializationByteBufferTests
         byte targetValue = 100;
         cspSerializationByteBuffer.write(targetValue);
         cspSerializationByteBuffer.commitBuffer();
-        assertEquals(cspSerializationByteBuffer.size(), Byte.BYTES);
+        assertEquals(cspSerializationByteBuffer.getByteBuffer().limit(), Byte.BYTES);
         assertEquals(targetValue, cspSerializationByteBuffer.getByteBuffer().get());
+    }
+
+    @Test
+    void writeShort()
+    {
+        CspSerializationByteBuffer cspSerializationByteBuffer = new CspSerializationByteBuffer(null, null, null);
+
+        short targetValue = 10000;
+        cspSerializationByteBuffer.write(targetValue);
+        cspSerializationByteBuffer.commitBuffer();
+        assertEquals(cspSerializationByteBuffer.getByteBuffer().limit(), Short.BYTES);
+        assertEquals(targetValue, cspSerializationByteBuffer.getByteBuffer().getShort());
+    }
+
+    @Test
+    void writeInt()
+    {
+        CspSerializationByteBuffer cspSerializationByteBuffer = new CspSerializationByteBuffer(null, null, null);
+
+        int targetValue = 10000000;
+        cspSerializationByteBuffer.write(targetValue);
+        cspSerializationByteBuffer.commitBuffer();
+        assertEquals(cspSerializationByteBuffer.getByteBuffer().limit(), Integer.BYTES);
+        assertEquals(targetValue, cspSerializationByteBuffer.getByteBuffer().getInt());
     }
 }

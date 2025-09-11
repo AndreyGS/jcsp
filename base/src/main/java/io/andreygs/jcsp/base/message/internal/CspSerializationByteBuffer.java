@@ -32,14 +32,40 @@ import org.jetbrains.annotations.Nullable;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+/**
+ * This class works as buffer for writing raw data in serialization process.
+ */
 public class CspSerializationByteBuffer
 {
+    /**
+     * Buffer that will be used in operations.
+     */
     private ByteBuffer byteBuffer;
+
+    /**
+     * Does ByteBuffer contain a direct buffer.
+     *
+     * @see ByteBuffer
+     */
     private final Boolean directBuffer;
+
+    /**
+     * Strategy of buffer resizing.
+     */
     private final IBufferResizeStrategy bufferResizeStrategy;
 
+    /**
+     * Default capacity of ByteBuffer when it is created, if no explicit value is provided.
+     */
     private static final int DEFAULT_CAPACITY_SIZE = 256;
 
+    /**
+     * Constructor of CspSerializationByteBuffer.
+     *
+     * @param initialBufferCapacity Initial capacity of buffer.
+     * @param directBuffer Is buffer direct or not. You can read what it means in {@link ByteBuffer} documentation.
+     * @param bufferResizeStrategy Strategy of buffer resizing.
+     */
     public CspSerializationByteBuffer(@Nullable Integer initialBufferCapacity, @Nullable Boolean directBuffer,
                                       @Nullable IBufferResizeStrategy bufferResizeStrategy)
     {
@@ -48,64 +74,119 @@ public class CspSerializationByteBuffer
         this.bufferResizeStrategy = bufferResizeStrategy != null ? bufferResizeStrategy : new BufferDoublingResizeStrategy();
     }
 
+    /**
+     * Is underlying storage has direct buffer or not.
+     *
+     * @return direct buffer or not
+     */
     public boolean isDirectBuffer()
     {
         return directBuffer;
     }
 
+    /**
+     * Get underlying buffer.
+     *
+     * @return underlying buffer.
+     */
     public ByteBuffer getByteBuffer()
     {
         return byteBuffer;
     }
 
+    /**
+     * Write single byte value to buffer.
+     *
+     * @param value Value to write.
+     */
     public void write(byte value)
     {
         expandBufferIfNeed(Byte.BYTES);
         byteBuffer.put(value);
     }
 
+    /**
+     * Write single short value to buffer.
+     *
+     * @param value Value to write.
+     */
     public void write(short value)
     {
         expandBufferIfNeed(Short.BYTES);
         byteBuffer.putShort(value);
     }
 
+    /**
+     * Write single int value to buffer.
+     *
+     * @param value Value to write.
+     */
     public void write(int value)
     {
         expandBufferIfNeed(Integer.BYTES);
         byteBuffer.putInt(value);
     }
 
+    /**
+     * Write single long value to buffer.
+     *
+     * @param value Value to write.
+     */
     public void write(long value)
     {
         expandBufferIfNeed(Long.BYTES);
         byteBuffer.putLong(value);
     }
 
+    /**
+     * Write single char value to buffer.
+     *
+     * @param value Value to write.
+     */
     public void write(char value)
     {
         expandBufferIfNeed(Character.BYTES);
         byteBuffer.putChar(value);
     }
 
+    /**
+     * Write single float value to buffer.
+     *
+     * @param value Value to write.
+     */
     public void write(float value)
     {
         expandBufferIfNeed(Float.BYTES);
         byteBuffer.putFloat(value);
     }
 
+    /**
+     * Write single double value to buffer.
+     *
+     * @param value Value to write.
+     */
     public void write(double value)
     {
         expandBufferIfNeed(Double.BYTES);
         byteBuffer.putDouble(value);
     }
 
+    /**
+     * Write byte array value to buffer.
+     *
+     * @param value Value to write.
+     */
     public void write(byte[] value)
     {
         expandBufferIfNeed(value.length * Byte.BYTES);
         byteBuffer.put(value);
     }
 
+    /**
+     * Write short array value to buffer.
+     *
+     * @param value Value to write.
+     */
     public void write(short[] value)
     {
         int addingDataSize = value.length * Short.BYTES;
@@ -118,6 +199,11 @@ public class CspSerializationByteBuffer
         byteBuffer.position(byteBuffer.position() + addingDataSize);
     }
 
+    /**
+     * Write int array value to buffer.
+     *
+     * @param value Value to write.
+     */
     public void write(int[] value)
     {
         int addingDataSize = value.length * Integer.BYTES;
@@ -126,14 +212,24 @@ public class CspSerializationByteBuffer
         byteBuffer.position(byteBuffer.position() + addingDataSize);
     }
 
+    /**
+     * Write long array value to buffer.
+     *
+     * @param value Value to write.
+     */
     public void write(long[] value)
     {
-        int addingDataSize =value.length * Long.BYTES;
+        int addingDataSize = value.length * Long.BYTES;
         expandBufferIfNeed(addingDataSize);
         byteBuffer.asLongBuffer().put(value);
         byteBuffer.position(byteBuffer.position() + addingDataSize);
     }
 
+    /**
+     * Write char array value to buffer.
+     *
+     * @param value Value to write.
+     */
     public void write(char[] value)
     {
         int addingDataSize =value.length * Character.BYTES;
@@ -142,6 +238,11 @@ public class CspSerializationByteBuffer
         byteBuffer.position(byteBuffer.position() + addingDataSize);
     }
 
+    /**
+     * Write float array value to buffer.
+     *
+     * @param value Value to write.
+     */
     public void write(float[] value)
     {
         int addingDataSize =value.length * Float.BYTES;
@@ -150,6 +251,11 @@ public class CspSerializationByteBuffer
         byteBuffer.position(byteBuffer.position() + addingDataSize);
     }
 
+    /**
+     * Write double array value to buffer.
+     *
+     * @param value Value to write.
+     */
     public void write(double[] value)
     {
         int addingDataSize =value.length * Double.BYTES;
@@ -158,21 +264,33 @@ public class CspSerializationByteBuffer
         byteBuffer.position(byteBuffer.position() + addingDataSize);
     }
 
+    /**
+     * Set endianness to write operations to underlying buffer.
+     *
+     * @param byteOrder Endianness byte order.
+     */
     public void endiannessToWriteOperations(ByteOrder byteOrder)
     {
         byteBuffer.order(byteOrder);
     }
 
+    /**
+     * Commits buffer, when serialization is completed.
+     * <p>
+     * It must be called only once, after last write operation.
+     *
+     * @see ByteBuffer#flip
+     */
     public void commitBuffer()
     {
         byteBuffer.flip();
     }
 
-    public int size()
-    {
-        return byteBuffer.limit();
-    }
-
+    /**
+     * Allocates and sets new ByteBuffer with giving capacity.
+     *
+     * @param capacity Capacity of new ByteBuffer.
+     */
     private void setByteBuffer(int capacity)
     {
         if (directBuffer)
@@ -185,6 +303,11 @@ public class CspSerializationByteBuffer
         }
     }
 
+    /**
+     * Expands buffer if current allocated size is not enough to write {@code addingDataSize}.
+     *
+     * @param addingDataSize .
+     */
     private void expandBufferIfNeed(int addingDataSize)
     {
         int minimumRequiredSize = byteBuffer.position() + addingDataSize;
