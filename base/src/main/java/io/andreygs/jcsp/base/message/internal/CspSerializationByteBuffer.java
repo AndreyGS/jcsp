@@ -60,11 +60,22 @@ public class CspSerializationByteBuffer
     private static final int DEFAULT_CAPACITY_SIZE = 256;
 
     /**
-     * Constructor of CspSerializationByteBuffer.
+     * Constructs CspSerializationByteBuffer.
+     */
+    public CspSerializationByteBuffer()
+    {
+        this(DEFAULT_CAPACITY_SIZE, false, new BufferDoublingResizeStrategy());
+    }
+
+    /**
+     * Constructs CspSerializationByteBuffer.
      *
-     * @param initialBufferCapacity Initial capacity of buffer.
+     * @param initialBufferCapacity Initial capacity of buffer. If it equals null, then default capacity value will be used.
      * @param directBuffer Is buffer direct or not. You can read what it means in {@link ByteBuffer} documentation.
-     * @param bufferResizeStrategy Strategy of buffer resizing.
+     *                     You should consider that direct buffer may not have underlying array that can be retrieved.
+     *                     Non-direct buffer, otherwise will always have underlying array, and it can be used in all
+     *                     cases safely. If it equals null, then non-direct buffer will be used.
+     * @param bufferResizeStrategy Strategy of buffer resizing. If it equals null, then doubling resize strategy will be used.
      */
     public CspSerializationByteBuffer(@Nullable Integer initialBufferCapacity, @Nullable Boolean directBuffer,
                                       @Nullable IBufferResizeStrategy bufferResizeStrategy)
@@ -75,9 +86,9 @@ public class CspSerializationByteBuffer
     }
 
     /**
-     * Is underlying storage has direct buffer or not.
+     * Gets whether underlying storage has direct buffer or not.
      *
-     * @return direct buffer or not
+     * @return direct buffer or not.
      */
     public boolean isDirectBuffer()
     {
@@ -85,7 +96,7 @@ public class CspSerializationByteBuffer
     }
 
     /**
-     * Get underlying buffer.
+     * Gets underlying buffer.
      *
      * @return underlying buffer.
      */
@@ -95,7 +106,7 @@ public class CspSerializationByteBuffer
     }
 
     /**
-     * Write single byte value to buffer.
+     * Writes single byte value to buffer.
      *
      * @param value Value to write.
      */
@@ -106,7 +117,7 @@ public class CspSerializationByteBuffer
     }
 
     /**
-     * Write single short value to buffer.
+     * Writes single short value to buffer.
      *
      * @param value Value to write.
      */
@@ -117,7 +128,7 @@ public class CspSerializationByteBuffer
     }
 
     /**
-     * Write single int value to buffer.
+     * Writes single int value to buffer.
      *
      * @param value Value to write.
      */
@@ -128,7 +139,7 @@ public class CspSerializationByteBuffer
     }
 
     /**
-     * Write single long value to buffer.
+     * Writes single long value to buffer.
      *
      * @param value Value to write.
      */
@@ -139,7 +150,7 @@ public class CspSerializationByteBuffer
     }
 
     /**
-     * Write single char value to buffer.
+     * Writes single char value to buffer.
      *
      * @param value Value to write.
      */
@@ -150,7 +161,7 @@ public class CspSerializationByteBuffer
     }
 
     /**
-     * Write single float value to buffer.
+     * Writes single float value to buffer.
      *
      * @param value Value to write.
      */
@@ -161,7 +172,7 @@ public class CspSerializationByteBuffer
     }
 
     /**
-     * Write single double value to buffer.
+     * Writes single double value to buffer.
      *
      * @param value Value to write.
      */
@@ -172,7 +183,7 @@ public class CspSerializationByteBuffer
     }
 
     /**
-     * Write byte array value to buffer.
+     * Writes byte array value to buffer.
      *
      * @param value Value to write.
      */
@@ -183,7 +194,7 @@ public class CspSerializationByteBuffer
     }
 
     /**
-     * Write short array value to buffer.
+     * Writes short array value to buffer.
      *
      * @param value Value to write.
      */
@@ -200,7 +211,7 @@ public class CspSerializationByteBuffer
     }
 
     /**
-     * Write int array value to buffer.
+     * Writes int array value to buffer.
      *
      * @param value Value to write.
      */
@@ -213,7 +224,7 @@ public class CspSerializationByteBuffer
     }
 
     /**
-     * Write long array value to buffer.
+     * Writes long array value to buffer.
      *
      * @param value Value to write.
      */
@@ -226,7 +237,7 @@ public class CspSerializationByteBuffer
     }
 
     /**
-     * Write char array value to buffer.
+     * Writes char array value to buffer.
      *
      * @param value Value to write.
      */
@@ -239,7 +250,7 @@ public class CspSerializationByteBuffer
     }
 
     /**
-     * Write float array value to buffer.
+     * Writes float array value to buffer.
      *
      * @param value Value to write.
      */
@@ -252,7 +263,7 @@ public class CspSerializationByteBuffer
     }
 
     /**
-     * Write double array value to buffer.
+     * Writes double array value to buffer.
      *
      * @param value Value to write.
      */
@@ -265,7 +276,7 @@ public class CspSerializationByteBuffer
     }
 
     /**
-     * Set endianness to write operations to underlying buffer.
+     * Sets endianness to write operations.
      *
      * @param byteOrder Endianness byte order.
      */
@@ -287,7 +298,7 @@ public class CspSerializationByteBuffer
     }
 
     /**
-     * Allocates and sets new ByteBuffer with giving capacity.
+     * Allocates and sets new ByteBuffer with the giving capacity.
      *
      * @param capacity Capacity of new ByteBuffer.
      */

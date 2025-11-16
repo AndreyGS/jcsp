@@ -26,6 +26,7 @@
 package io.andreygs.jcsp.base.message.internal;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 /**
  * TODO: place description here
@@ -125,5 +126,15 @@ public class CspDeserializationByteBuffer
         byteBuffer.asDoubleBuffer().get(value);
         int readDataSize = value.length * Double.BYTES;
         byteBuffer.position(byteBuffer.position() + readDataSize);
+    }
+
+    /**
+     * Sets endianness to read operations.
+     *
+     * @param byteOrder Endianness byte order.
+     */
+    public void endiannessToReadOperations(ByteOrder byteOrder)
+    {
+        byteBuffer.order(byteOrder);
     }
 }
