@@ -23,38 +23,16 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.types.api;
+package io.andreygs.jcsp.base.utils;
 
-/**
- * TODO: place description here
- */
-public enum CspStatus
+import io.andreygs.jcsp.base.utils.internal.BufferDoublingResizeStrategy;
+
+public class BufferResizeStrategyProvider
+    implements IBufferResizeStrategyProvider
 {
-    NO_ERROR(0, Messages.CspStatus_No_Error),
-    NO_MEMORY(-1, Messages.CspStatus_No_Memory);
-
-    private final int code;
-    private final String message;
-
-    CspStatus(int code, String message)
-    {
-        this.code = code;
-        this.message = Messages.CspStatus_Type + ": " + message + " (" + code + ")";
-    }
-
-    public int getValue()
-    {
-        return code;
-    }
-
     @Override
-    public String toString()
+    public IBufferResizeStrategy provideDoublingStrategy()
     {
-        return message;
-    }
-
-    public boolean isErrorStatus()
-    {
-        return code < 0;
+        return BufferDoublingResizeStrategy.INSTANCE;
     }
 }

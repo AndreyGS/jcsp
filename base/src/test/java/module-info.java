@@ -1,19 +1,21 @@
 /**
+ * TODO: place brief description here
+ *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
  * <p>
  * Copyright 2025 Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
  * documentation files
- * (the "Software"), to deal in the Software without restriction, including without limitation the rights to use,
+ * (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, 
  * copy, modify, merge,
  * publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so,
  * subject to the following conditions:
  * <p>
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of 
  * the Software.
  * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -22,18 +24,10 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+module io.andreygs.jcsp.base.test {
+    requires io.andreygs.jcsp.base;
+    requires org.apache.commons.lang3;
+    requires org.junit.jupiter.api;
 
-package io.andreygs.jcsp.base.message.api;
-
-import io.andreygs.jcsp.base.message.internal.CspSerializedDataMessageBuilder;
-
-/**
- * TODO: place description here
- */
-public class CspMessageBuilderFactory implements ICspMessageBuilderFactory
-{
-    public ICspSerializedDataMessageBuilder createCspSerializationDataMessageBuilder()
-    {
-        return new CspSerializedDataMessageBuilder();
-    }
+    opens io.andreygs.jcsp.base.test.message.internal to org.junit.platform.commons;
 }

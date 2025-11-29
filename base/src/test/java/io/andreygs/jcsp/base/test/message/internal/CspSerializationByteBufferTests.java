@@ -49,49 +49,49 @@ public class CspSerializationByteBufferTests
     @Test
     void writeByte()
     {
-        writePrimitive(Byte.valueOf((byte)100), Byte.valueOf((byte)101), CspSerializationByteBuffer::write, ByteBuffer::get);
+        writePrimitive((byte) 100, (byte) 101, CspSerializationByteBuffer::write, ByteBuffer::get);
     }
 
     @Test
     void writeShort()
     {
-        writePrimitive(Short.valueOf((short)10000), Short.valueOf((short)10001), CspSerializationByteBuffer::write, ByteBuffer::getShort);
+        writePrimitive((short) 10000, (short) 10001, CspSerializationByteBuffer::write, ByteBuffer::getShort);
     }
 
     @Test
     void writeInt()
     {
-        writePrimitive(Integer.valueOf(10000000), Integer.valueOf(10000001), CspSerializationByteBuffer::write, ByteBuffer::getInt);
+        writePrimitive(10000000, 10000001, CspSerializationByteBuffer::write, ByteBuffer::getInt);
     }
 
     @Test
     void writeLong()
     {
-        writePrimitive(Long.valueOf(10000000000l), Long.valueOf(10000000001l), CspSerializationByteBuffer::write, ByteBuffer::getLong);
+        writePrimitive(10000000000L, 10000000001L, CspSerializationByteBuffer::write, ByteBuffer::getLong);
     }
 
     @Test
     void writeChar()
     {
-        writePrimitive(Character.valueOf('a'), Character.valueOf('b'), CspSerializationByteBuffer::write, ByteBuffer::getChar);
+        writePrimitive('a', 'b', CspSerializationByteBuffer::write, ByteBuffer::getChar);
     }
 
     @Test
     void writeFloat()
     {
-        writePrimitive(Float.valueOf(10000000f), Float.valueOf(10000001f), CspSerializationByteBuffer::write, ByteBuffer::getFloat);
+        writePrimitive(10000000f, 10000001f, CspSerializationByteBuffer::write, ByteBuffer::getFloat);
     }
 
     @Test
     void writeDouble()
     {
-        writePrimitive(Double.valueOf(1000000000000000000d), Double.valueOf(1000000000000000001d), CspSerializationByteBuffer::write, ByteBuffer::getDouble);
+        writePrimitive(1000000000000000000d, 1000000000000000001d, CspSerializationByteBuffer::write, ByteBuffer::getDouble);
     }
 
     @Test
     void writeByteArray()
     {
-        CspSerializationByteBuffer cspSerializationByteBuffer = new CspSerializationByteBuffer();
+        CspSerializationByteBuffer cspSerializationByteBuffer = CspSerializationByteBuffer.createDefault();
 
         byte[] value1 = { 1, 2, 3 };
         byte[] value2 = { 4, 5, 6, 7 };
@@ -113,7 +113,7 @@ public class CspSerializationByteBufferTests
     @Test
     void writeShortArray()
     {
-        CspSerializationByteBuffer cspSerializationByteBuffer = new CspSerializationByteBuffer();
+        CspSerializationByteBuffer cspSerializationByteBuffer = CspSerializationByteBuffer.createDefault();
 
         short[] value1 = { 1, 2, 3 };
         short[] value2 = { 4, 5, 6, 7 };
@@ -136,7 +136,7 @@ public class CspSerializationByteBufferTests
     @Test
     void writeIntArray()
     {
-        CspSerializationByteBuffer cspSerializationByteBuffer = new CspSerializationByteBuffer();
+        CspSerializationByteBuffer cspSerializationByteBuffer = CspSerializationByteBuffer.createDefault();
 
         int[] value1 = { 1, 2, 3 };
         int[] value2 = { 4, 5, 6, 7 };
@@ -160,7 +160,7 @@ public class CspSerializationByteBufferTests
     @Test
     void writeLongArray()
     {
-        CspSerializationByteBuffer cspSerializationByteBuffer = new CspSerializationByteBuffer();
+        CspSerializationByteBuffer cspSerializationByteBuffer = CspSerializationByteBuffer.createDefault();
 
         long[] value1 = { 1, 2, 3 };
         long[] value2 = { 4, 5, 6, 7 };
@@ -183,7 +183,7 @@ public class CspSerializationByteBufferTests
     @Test
     void writeCharArray()
     {
-        CspSerializationByteBuffer cspSerializationByteBuffer = new CspSerializationByteBuffer();
+        CspSerializationByteBuffer cspSerializationByteBuffer = CspSerializationByteBuffer.createDefault();
 
         char[] value1 = { 1, 2, 3 };
         char[] value2 = { 4, 5, 6, 7 };
@@ -206,7 +206,7 @@ public class CspSerializationByteBufferTests
     @Test
     void writeFloatArray()
     {
-        CspSerializationByteBuffer cspSerializationByteBuffer = new CspSerializationByteBuffer();
+        CspSerializationByteBuffer cspSerializationByteBuffer = CspSerializationByteBuffer.createDefault();
 
         float[] value1 = { 1, 2, 3 };
         float[] value2 = { 4, 5, 6, 7 };
@@ -229,7 +229,7 @@ public class CspSerializationByteBufferTests
     @Test
     void writeDoubleArray()
     {
-        CspSerializationByteBuffer cspSerializationByteBuffer = new CspSerializationByteBuffer();
+        CspSerializationByteBuffer cspSerializationByteBuffer = CspSerializationByteBuffer.createDefault();
 
         double[] value1 = { 1, 2, 3 };
         double[] value2 = { 4, 5, 6, 7 };
@@ -249,10 +249,16 @@ public class CspSerializationByteBufferTests
         Assertions.assertArrayEquals(value2, writtenValue2);
     }
 
+    @Test
+    void testDefaultConstructor()
+    {
+
+    }
+
     private <T> void writePrimitive(T value1, T value2, BiConsumer<CspSerializationByteBuffer, T> writeFunction,
                                     Function<ByteBuffer, T> testValueFunction)
     {
-        CspSerializationByteBuffer cspSerializationByteBuffer = new CspSerializationByteBuffer();
+        CspSerializationByteBuffer cspSerializationByteBuffer = CspSerializationByteBuffer.createDefault();
 
         writeFunction.accept(cspSerializationByteBuffer, value1);
         writeFunction.accept(cspSerializationByteBuffer, value2);

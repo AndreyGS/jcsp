@@ -25,14 +25,14 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
-import io.andreygs.jcsp.base.message.api.ICspDataMessage;
+import io.andreygs.jcsp.base.message.ICspDataMessage;
 import io.andreygs.jcsp.base.message.internal.CspSerializationDataMessage;
-import io.andreygs.jcsp.base.types.api.CspCommonFlags;
-import io.andreygs.jcsp.base.types.api.CspDataFlags;
-import io.andreygs.jcsp.base.types.api.CspInterfaceVersion;
-import io.andreygs.jcsp.base.types.api.CspProtocolVersion;
-import io.andreygs.jcsp.base.types.api.ICspSerializable;
-import io.andreygs.jcsp.base.utils.api.IBufferResizeStrategy;
+import io.andreygs.jcsp.base.types.CspCommonFlags;
+import io.andreygs.jcsp.base.types.CspDataFlags;
+import io.andreygs.jcsp.base.types.CspInterfaceVersion;
+import io.andreygs.jcsp.base.types.CspProtocolVersion;
+import io.andreygs.jcsp.base.types.ICspSerializable;
+import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;

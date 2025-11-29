@@ -23,15 +23,15 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.types.api;
+package io.andreygs.jcsp.base.message;
+
+import io.andreygs.jcsp.base.types.CspStatus;
 
 /**
  * TODO: place description here
  */
-public class CspRuntimeException extends RuntimeException
+public interface ICspStatusMessage
+    extends ICspMessageCommon
 {
-    public CspRuntimeException(CspStatus status)
-    {
-        super(status.toString());
-    }
+    CspStatus getStatus();
 }

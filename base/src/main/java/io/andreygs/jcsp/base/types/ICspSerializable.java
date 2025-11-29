@@ -23,22 +23,21 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.types.api;
+package io.andreygs.jcsp.base.types;
+
+import java.util.UUID;
 
 /**
  * TODO: place description here
  */
-public class CspInterfaceVersion
+public interface ICspSerializable
 {
-    private final int version;
+    UUID getId();
+    CspInterfaceVersion[] getPrivateVersions();
+    CspInterfaceVersion getInterfaceVersion();
 
-    public CspInterfaceVersion(int version)
+    default CspInterfaceVersion getOriginPrivateVersion()
     {
-        this.version = version;
-    }
-
-    public int getVersion()
-    {
-        return version;
+        return getPrivateVersions()[getPrivateVersions().length - 1];
     }
 }

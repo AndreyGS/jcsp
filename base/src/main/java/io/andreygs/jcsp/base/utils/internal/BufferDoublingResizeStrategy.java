@@ -25,11 +25,13 @@
 
 package io.andreygs.jcsp.base.utils.internal;
 
-import io.andreygs.jcsp.base.utils.api.IBufferResizeStrategy;
+import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 
-public class BufferDoublingResizeStrategy
+public enum BufferDoublingResizeStrategy
     implements IBufferResizeStrategy
 {
+    INSTANCE;
+
     @Override
     public int calculateResize(int currentCapacity, int minimumRequiredSize)
     {

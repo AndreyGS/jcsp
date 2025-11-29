@@ -25,10 +25,10 @@
 
 package io.andreygs.jcsp.base.message.internal;
 
-import io.andreygs.jcsp.base.message.api.ICspMessageCommon;
-import io.andreygs.jcsp.base.types.api.CspCommonFlags;
-import io.andreygs.jcsp.base.types.api.CspMessageType;
-import io.andreygs.jcsp.base.types.api.CspProtocolVersion;
+import io.andreygs.jcsp.base.message.ICspMessageCommon;
+import io.andreygs.jcsp.base.types.CspCommonFlags;
+import io.andreygs.jcsp.base.types.CspMessageType;
+import io.andreygs.jcsp.base.types.CspProtocolVersion;
 
 import java.nio.ByteBuffer;
 import java.util.List;

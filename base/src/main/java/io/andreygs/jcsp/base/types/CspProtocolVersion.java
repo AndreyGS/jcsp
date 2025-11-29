@@ -23,16 +23,38 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.utils.api;
+package io.andreygs.jcsp.base.types;
 
-import io.andreygs.jcsp.base.utils.internal.BufferDoublingResizeStrategy;
-
-public class BufferResizeStrategyFactory
-    implements IBufferResizeStrategyFactory
+/**
+ * TODO: place description here
+ */
+public enum CspProtocolVersion
 {
-    @Override
-    public IBufferResizeStrategy createDoublingStrategy()
+    CSP_VERSION_1((byte)1, Messages.CspProtocolVersion_1),
+    CSP_VERSION_2((byte)2, Messages.CspProtocolVersion_2);
+
+    private final byte version;
+    private final String name;
+
+    CspProtocolVersion(byte value, String name)
     {
-        return new BufferDoublingResizeStrategy();
+        this.version = value;
+        this.name = Messages.CspProtocolVersion_Type + ": " + name;
+    }
+
+    public static CspProtocolVersion latestVersion()
+    {
+        return CSP_VERSION_2;
+    }
+
+    public byte getVersion()
+    {
+        return version;
+    }
+
+    @Override
+    public String toString()
+    {
+        return name;
     }
 }

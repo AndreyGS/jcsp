@@ -23,39 +23,20 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.utils.api;
+package io.andreygs.jcsp.base.message;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import io.andreygs.jcsp.base.types.CspDataFlags;
+import io.andreygs.jcsp.base.types.CspInterfaceVersion;
+
+import java.util.List;
 
 /**
  * TODO: place description here
  */
-public class AbstractResourceMessages
+public interface ICspDataMessage
+    extends ICspMessageCommon
 {
-    protected static void loadMessages(Class<?> clazz)
-    {
-        try
-        {
-            ResourceBundle bundle = ResourceBundle.getBundle(clazz.getPackageName() + ".messages"
-                , Locale.getDefault());
-            for (Field field : clazz.getDeclaredFields())
-            {
-                if (Modifier.isStatic(field.getModifiers()) && Modifier.isPublic(field.getModifiers())
-                        && field.getType() == String.class)
-                {
-                    String key = field.getName();
-                    String value = bundle.getString(key);
-                    field.setAccessible(true);
-                    field.set(null, value);
-                }
-            }
-        }
-        catch (IllegalAccessException e)
-        {
-            throw new RuntimeException(e);
-        }
-    }
+    Class<?> getStructClazz();
+    CspInterfaceVersion getInterfaceVersion();
+    List<CspDataFlags> getCspDataFlags();
 }

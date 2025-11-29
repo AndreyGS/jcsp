@@ -23,9 +23,9 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.types.api;
+package io.andreygs.jcsp.base.types;
 
-import io.andreygs.jcsp.base.utils.api.AbstractResourceMessages;
+import io.andreygs.jcsp.base.utils.AbstractResourceMessages;
 
 /**
  * TODO: place description here

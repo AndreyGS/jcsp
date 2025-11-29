@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.base.types.internal;
 
-import io.andreygs.jcsp.base.types.api.ICspFlag;
+import io.andreygs.jcsp.base.types.ICspFlag;
 
 import java.util.Arrays;
 import java.util.List;

@@ -23,15 +23,17 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.types.api;
+package io.andreygs.jcsp.base.utils;
 
 /**
- * TODO: place description here
+ * Factory for creating instances of IBufferResizeStrategy
  */
-public sealed interface ICspFlag
-    permits CspCommonFlags, CspDataFlags
+public interface IBufferResizeStrategyProvider
 {
-    int getValue();
-    String getNameWhenSet();
-    String getNameWhenUnset();
+    /**
+     * Creates instance of strategy that doubles buffer size.
+     *
+     * @return new instance of IBufferResizeStrategy.
+     */
+    IBufferResizeStrategy provideDoublingStrategy();
 }

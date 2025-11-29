@@ -23,29 +23,18 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.api;
+package io.andreygs.jcsp.base.message.internal;
 
-import io.andreygs.jcsp.base.types.api.CspCommonFlags;
-import io.andreygs.jcsp.base.utils.api.IBufferResizeStrategy;
-
-import java.util.List;
+import io.andreygs.jcsp.base.message.ICspMessageBuilderFactory;
+import io.andreygs.jcsp.base.message.ICspSerializedDataMessageBuilder;
 
 /**
  * TODO: place description here
  */
-public interface ICspSerializedGetSettingsMessageBuilder extends ICspSerializedMessageCommonBuilder
+public class CspMessageBuilderFactory implements ICspMessageBuilderFactory
 {
-    @Override
-    ICspSerializedGetSettingsMessageBuilder setBufferInitialCapacity(int initialBufferCapacity);
-
-    @Override
-    ICspSerializedGetSettingsMessageBuilder setDirectBuffer(boolean directBuffer);
-
-    @Override
-    ICspSerializedGetSettingsMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
-
-    @Override
-    ICspSerializedGetSettingsMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
-
-    ICspGetSettingsMessage serialize();
+    public ICspSerializedDataMessageBuilder createCspSerializedDataMessageBuilder()
+    {
+        return new CspSerializedDataMessageBuilder();
+    }
 }

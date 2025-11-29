@@ -23,38 +23,30 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
+package io.andreygs.jcsp.base.message;
 
-import io.andreygs.jcsp.base.message.ICspStatusMessage;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
-import io.andreygs.jcsp.base.types.CspMessageType;
-import io.andreygs.jcsp.base.types.CspProtocolVersion;
 import io.andreygs.jcsp.base.types.CspStatus;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 /**
  * TODO: place description here
  */
-public class CspSerializationStatusMessage extends AbstractCspSerializationMessageCommon implements ICspStatusMessage
+public interface ICspSerializedStatusMessageBuilder extends ICspSerializedMessageCommonBuilder
 {
-    private final CspStatus cspStatus;
-
-    public CspSerializationStatusMessage(@Nullable Integer initialBufferCapacity, @Nullable Boolean directBuffer,
-                                         @Nullable IBufferResizeStrategy bufferResizeStrategy,
-                                         CspProtocolVersion cspProtocolVersion, List<CspCommonFlags> cspCommonFlags,
-                                         CspStatus cspStatus)
-    {
-        super(initialBufferCapacity, directBuffer, bufferResizeStrategy, cspProtocolVersion, CspMessageType.STATUS,
-              cspCommonFlags);
-        this.cspStatus = cspStatus;
-    }
+    @Override
+    ICspSerializedStatusMessageBuilder setBufferInitialCapacity(int initialBufferCapacity);
 
     @Override
-    public CspStatus getStatus()
-    {
-        return cspStatus;
-    }
+    ICspSerializedStatusMessageBuilder setDirectBuffer(boolean directBuffer);
+
+    @Override
+    ICspSerializedStatusMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
+
+    @Override
+    ICspSerializedStatusMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
+
+    ICspStatusMessage serialize(CspStatus cspStatus);
 }

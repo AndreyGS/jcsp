@@ -23,36 +23,29 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.api;
+package io.andreygs.jcsp.base.message;
 
-import io.andreygs.jcsp.base.types.api.CspCommonFlags;
-import io.andreygs.jcsp.base.types.api.CspDataFlags;
-import io.andreygs.jcsp.base.types.api.CspInterfaceVersion;
-import io.andreygs.jcsp.base.types.api.ICspSerializable;
-import io.andreygs.jcsp.base.utils.api.IBufferResizeStrategy;
+import io.andreygs.jcsp.base.types.CspCommonFlags;
+import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 
 import java.util.List;
 
 /**
  * TODO: place description here
  */
-public interface ICspSerializedDataMessageBuilder extends ICspSerializedMessageCommonBuilder
+public interface ICspSerializedGetSettingsMessageBuilder extends ICspSerializedMessageCommonBuilder
 {
     @Override
-    ICspSerializedDataMessageBuilder setBufferInitialCapacity(int initialBufferCapacity);
+    ICspSerializedGetSettingsMessageBuilder setBufferInitialCapacity(int initialBufferCapacity);
 
     @Override
-    ICspSerializedDataMessageBuilder setDirectBuffer(boolean directBuffer);
+    ICspSerializedGetSettingsMessageBuilder setDirectBuffer(boolean directBuffer);
 
     @Override
-    ICspSerializedDataMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
+    ICspSerializedGetSettingsMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
 
     @Override
-    ICspSerializedDataMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
+    ICspSerializedGetSettingsMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
 
-    ICspSerializedDataMessageBuilder setInterfaceVersion(CspInterfaceVersion cspInterfaceVersion);
-
-    ICspSerializedDataMessageBuilder setCspDataFlags(List<CspDataFlags> cspDataFlags);
-
-    ICspDataMessage serialize(ICspSerializable cspSerializable);
+    ICspGetSettingsMessage serialize();
 }

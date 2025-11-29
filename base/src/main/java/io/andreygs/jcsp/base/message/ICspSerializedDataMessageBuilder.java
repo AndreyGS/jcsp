@@ -23,17 +23,36 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.utils.api;
+package io.andreygs.jcsp.base.message;
+
+import io.andreygs.jcsp.base.types.CspCommonFlags;
+import io.andreygs.jcsp.base.types.CspDataFlags;
+import io.andreygs.jcsp.base.types.CspInterfaceVersion;
+import io.andreygs.jcsp.base.types.ICspSerializable;
+import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
+
+import java.util.List;
 
 /**
- * Factory for creating instances of IBufferResizeStrategy
+ * TODO: place description here
  */
-public interface IBufferResizeStrategyFactory
+public interface ICspSerializedDataMessageBuilder extends ICspSerializedMessageCommonBuilder
 {
-    /**
-     * Creates instance of strategy that doubles buffer size.
-     *
-     * @return new instance of IBufferResizeStrategy.
-     */
-    IBufferResizeStrategy createDoublingStrategy();
+    @Override
+    ICspSerializedDataMessageBuilder setBufferInitialCapacity(int initialBufferCapacity);
+
+    @Override
+    ICspSerializedDataMessageBuilder setDirectBuffer(boolean directBuffer);
+
+    @Override
+    ICspSerializedDataMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
+
+    @Override
+    ICspSerializedDataMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
+
+    ICspSerializedDataMessageBuilder setInterfaceVersion(CspInterfaceVersion cspInterfaceVersion);
+
+    ICspSerializedDataMessageBuilder setCspDataFlags(List<CspDataFlags> cspDataFlags);
+
+    ICspDataMessage serialize(ICspSerializable cspSerializable);
 }

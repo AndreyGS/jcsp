@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,7 +22,40 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-@NotNullByDefault
-package io.andreygs.jcsp.base.utils.api;
 
-import org.jetbrains.annotations.NotNullByDefault;
+package io.andreygs.jcsp.base.utils;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+/**
+ * TODO: place description here
+ */
+public class AbstractResourceMessages
+{
+    protected static void loadMessages(Class<?> clazz)
+    {
+        try
+        {
+            ResourceBundle bundle = ResourceBundle.getBundle(clazz.getPackageName() + ".messages"
+                , Locale.getDefault());
+            for (Field field : clazz.getDeclaredFields())
+            {
+                if (Modifier.isStatic(field.getModifiers()) && Modifier.isPublic(field.getModifiers())
+                        && field.getType() == String.class)
+                {
+                    String key = field.getName();
+                    String value = bundle.getString(key);
+                    field.setAccessible(true);
+                    field.set(null, value);
+                }
+            }
+        }
+        catch (IllegalAccessException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+}

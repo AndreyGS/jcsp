@@ -23,20 +23,9 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.api;
+package io.andreygs.jcsp.base.utils;
 
-import io.andreygs.jcsp.base.types.api.CspDataFlags;
-import io.andreygs.jcsp.base.types.api.CspInterfaceVersion;
-
-import java.util.List;
-
-/**
- * TODO: place description here
- */
-public interface ICspDataMessage
-    extends ICspMessageCommon
+public interface IBufferResizeStrategy
 {
-    Class<?> getStructClazz();
-    CspInterfaceVersion getInterfaceVersion();
-    List<CspDataFlags> getCspDataFlags();
+    int calculateResize(int currentCapacity, int minimumRequiredSize);
 }

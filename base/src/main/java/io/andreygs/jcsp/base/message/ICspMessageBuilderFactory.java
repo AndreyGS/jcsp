@@ -23,12 +23,12 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.api;
+package io.andreygs.jcsp.base.message;
 
 /**
  * TODO: place description here
  */
 public interface ICspMessageBuilderFactory
 {
-    ICspSerializedDataMessageBuilder createCspSerializationDataMessageBuilder();
+    ICspSerializedDataMessageBuilder createCspSerializedDataMessageBuilder();
 }

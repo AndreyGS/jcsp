@@ -25,11 +25,11 @@
 
 package io.andreygs.jcsp.base.message.internal;
 
-import io.andreygs.jcsp.base.message.api.ICspMessageCommon;
-import io.andreygs.jcsp.base.types.api.CspCommonFlags;
-import io.andreygs.jcsp.base.types.api.CspMessageType;
-import io.andreygs.jcsp.base.types.api.CspProtocolVersion;
-import io.andreygs.jcsp.base.utils.api.IBufferResizeStrategy;
+import io.andreygs.jcsp.base.message.ICspMessageCommon;
+import io.andreygs.jcsp.base.types.CspCommonFlags;
+import io.andreygs.jcsp.base.types.CspMessageType;
+import io.andreygs.jcsp.base.types.CspProtocolVersion;
+import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.ByteBuffer;
@@ -54,8 +54,8 @@ public abstract class AbstractCspSerializationMessageCommon implements ICspMessa
         this.cspProtocolVersion = cspProtocolVersion;
         this.cspMessageType = cspMessageType;
         this.cspCommonFlags = cspCommonFlags;
-        cspSerializationByteBuffer = new CspSerializationByteBuffer(initialBufferCapacity, directBuffer,
-                                                                    bufferResizeStrategy);
+        this.cspSerializationByteBuffer = CspSerializationByteBuffer.create(initialBufferCapacity, directBuffer,
+                                                                            bufferResizeStrategy);
     }
 
     public CspSerializationByteBuffer getCspSerializationByteBuffer()

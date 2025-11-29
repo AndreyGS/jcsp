@@ -23,30 +23,15 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.api;
-
-import io.andreygs.jcsp.base.types.api.CspCommonFlags;
-import io.andreygs.jcsp.base.types.api.CspStatus;
-import io.andreygs.jcsp.base.utils.api.IBufferResizeStrategy;
-
-import java.util.List;
+package io.andreygs.jcsp.base.types;
 
 /**
  * TODO: place description here
  */
-public interface ICspSerializedStatusMessageBuilder extends ICspSerializedMessageCommonBuilder
+public class CspRuntimeException extends RuntimeException
 {
-    @Override
-    ICspSerializedStatusMessageBuilder setBufferInitialCapacity(int initialBufferCapacity);
-
-    @Override
-    ICspSerializedStatusMessageBuilder setDirectBuffer(boolean directBuffer);
-
-    @Override
-    ICspSerializedStatusMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
-
-    @Override
-    ICspSerializedStatusMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
-
-    ICspStatusMessage serialize(CspStatus cspStatus);
+    public CspRuntimeException(CspStatus status)
+    {
+        super(status.toString());
+    }
 }

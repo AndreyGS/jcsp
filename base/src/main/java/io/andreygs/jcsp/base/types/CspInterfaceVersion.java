@@ -23,38 +23,22 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.types.api;
+package io.andreygs.jcsp.base.types;
 
 /**
  * TODO: place description here
  */
-public enum CspProtocolVersion
+public class CspInterfaceVersion
 {
-    CSP_VERSION_1((byte)1, Messages.CspProtocolVersion_1),
-    CSP_VERSION_2((byte)2, Messages.CspProtocolVersion_2);
+    private final int version;
 
-    private final byte version;
-    private final String name;
-
-    CspProtocolVersion(byte value, String name)
+    public CspInterfaceVersion(int version)
     {
-        this.version = value;
-        this.name = Messages.CspProtocolVersion_Type + ": " + name;
+        this.version = version;
     }
 
-    public static CspProtocolVersion latestVersion()
-    {
-        return CSP_VERSION_2;
-    }
-
-    public byte getVersion()
+    public int getVersion()
     {
         return version;
-    }
-
-    @Override
-    public String toString()
-    {
-        return name;
     }
 }

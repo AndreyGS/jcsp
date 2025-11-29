@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.base.message.internal;
 
-import io.andreygs.jcsp.base.utils.api.IBufferResizeStrategy;
+import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 import io.andreygs.jcsp.base.utils.internal.BufferDoublingResizeStrategy;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,51 +38,92 @@ import java.nio.ByteOrder;
 public class CspSerializationByteBuffer
 {
     /**
-     * Buffer that will be used in operations.
+     * {@link ByteBuffer internal buffer} that will be used in operations.
      */
     private ByteBuffer byteBuffer;
 
     /**
-     * Does ByteBuffer contain a direct buffer.
+     * Does {@link ByteBuffer internal buffer} contain a direct buffer.
      *
      * @see ByteBuffer
      */
     private final Boolean directBuffer;
 
     /**
-     * Strategy of buffer resizing.
+     * Strategy of {@link ByteBuffer internal buffer} resizing.
      */
     private final IBufferResizeStrategy bufferResizeStrategy;
 
     /**
-     * Default capacity of ByteBuffer when it is created, if no explicit value is provided.
+     * Default capacity of {@link ByteBuffer internal buffer} when it is created, if no explicit value is provided.
      */
-    private static final int DEFAULT_CAPACITY_SIZE = 256;
+    public static final int DEFAULT_CAPACITY_SIZE = 256;
 
     /**
-     * Constructs CspSerializationByteBuffer.
+     * Creates CspSerializationByteBuffer with default parameters.
+     * <p/>
+     * Default parameters are:
+     * <ul>
+     *     <li>Initial {@link ByteBuffer internal buffer} capacity is equal to {@link #DEFAULT_CAPACITY_SIZE}.</li>
+     *     <li>Internal buffer is {@link ByteBuffer#isDirect() direct}.</li>
+     *     <li>Internal buffer resizing strategy is {@link BufferDoublingResizeStrategy}.</li>
+     * </ul>
+     *
+     * @return instance of CspSerializationByteBuffer.
      */
-    public CspSerializationByteBuffer()
+    public static CspSerializationByteBuffer createDefault()
     {
-        this(DEFAULT_CAPACITY_SIZE, false, new BufferDoublingResizeStrategy());
+        return new CspSerializationByteBuffer(DEFAULT_CAPACITY_SIZE, true, BufferDoublingResizeStrategy.INSTANCE);
+    }
+
+    /**
+     * Creates CspSerializationByteBuffer.
+     *
+     * @param initialBufferCapacity Initial capacity of buffer. Must not be negative.
+     *                              If it equals null, then {@link #DEFAULT_CAPACITY_SIZE default capacity} value will be used.
+     * @param directBuffer Is buffer direct or not.
+     *                     You should consider that direct buffer may not have underlying array that can be retrieved.
+     *                     Non-direct buffer, otherwise will always have underlying array, and it can be used in all
+     *                     cases safely, but it has at least one additional copying when passed to any native function,
+     *                     including methods of sockets and streams.
+     *                     So if you want to pass data by net buffer should be direct. But many cryptographic libraries,
+     *                     on the other hand, are using byte[], and you must either use non-direct buffer or
+     *                     convert make additionally copy to byte[] from direct buffer manually.
+     *                     If it equals null, then direct buffer will be used.
+     * @param bufferResizeStrategy Strategy of buffer resizing.
+     *                             If it equals null, then {@link BufferDoublingResizeStrategy} will be used.
+     * @see ByteBuffer
+     */
+    public static CspSerializationByteBuffer create(@Nullable Integer initialBufferCapacity, @Nullable Boolean directBuffer,
+                                                    @Nullable IBufferResizeStrategy bufferResizeStrategy)
+    {
+        return new CspSerializationByteBuffer(
+            initialBufferCapacity != null ? initialBufferCapacity : DEFAULT_CAPACITY_SIZE,
+            directBuffer != null ? directBuffer : true,
+            bufferResizeStrategy != null ? bufferResizeStrategy : BufferDoublingResizeStrategy.INSTANCE);
     }
 
     /**
      * Constructs CspSerializationByteBuffer.
      *
-     * @param initialBufferCapacity Initial capacity of buffer. If it equals null, then default capacity value will be used.
-     * @param directBuffer Is buffer direct or not. You can read what it means in {@link ByteBuffer} documentation.
+     * @param initialBufferCapacity Initial capacity of buffer. Must not be negative.
+     * @param directBuffer Is buffer direct or not.
      *                     You should consider that direct buffer may not have underlying array that can be retrieved.
      *                     Non-direct buffer, otherwise will always have underlying array, and it can be used in all
-     *                     cases safely. If it equals null, then non-direct buffer will be used.
-     * @param bufferResizeStrategy Strategy of buffer resizing. If it equals null, then doubling resize strategy will be used.
+     *                     cases safely, but it has at least one additional copying when passed to any native function,
+     *                     including methods of sockets and streams.
+     *                     So if you want to pass data by net buffer should be direct. But many cryptographic libraries,
+     *                     on the other hand, are using byte[], and you must either use non-direct buffer or
+     *                     convert make additionally copy to byte[] from direct buffer manually.
+     * @param bufferResizeStrategy Strategy of buffer resizing.
+     * @see ByteBuffer
      */
-    public CspSerializationByteBuffer(@Nullable Integer initialBufferCapacity, @Nullable Boolean directBuffer,
-                                      @Nullable IBufferResizeStrategy bufferResizeStrategy)
+    private CspSerializationByteBuffer(int initialBufferCapacity, boolean directBuffer,
+                                       IBufferResizeStrategy bufferResizeStrategy)
     {
-        this.directBuffer = directBuffer != null ? directBuffer : false;
-        setByteBuffer(initialBufferCapacity != null ? initialBufferCapacity : DEFAULT_CAPACITY_SIZE);
-        this.bufferResizeStrategy = bufferResizeStrategy != null ? bufferResizeStrategy : new BufferDoublingResizeStrategy();
+        this.directBuffer = directBuffer;
+        setByteBuffer(initialBufferCapacity);
+        this.bufferResizeStrategy = bufferResizeStrategy;
     }
 
     /**

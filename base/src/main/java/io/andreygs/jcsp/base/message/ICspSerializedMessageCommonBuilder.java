@@ -23,12 +23,26 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.api;
+package io.andreygs.jcsp.base.message;
+
+import io.andreygs.jcsp.base.types.CspCommonFlags;
+import io.andreygs.jcsp.base.types.CspProtocolVersion;
+import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
+
+import java.util.List;
 
 /**
  * TODO: place description here
  */
-public interface ICspGetSettingsMessage
-    extends ICspMessageCommon
+public interface ICspSerializedMessageCommonBuilder
 {
+    ICspSerializedMessageCommonBuilder setBufferInitialCapacity(int initialBufferCapacity);
+
+    ICspSerializedMessageCommonBuilder setDirectBuffer(boolean directBuffer);
+
+    ICspSerializedMessageCommonBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
+
+    ICspSerializedMessageCommonBuilder setCspProtocolVersion(CspProtocolVersion cspProtocolVersion);
+
+    ICspSerializedMessageCommonBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
 }

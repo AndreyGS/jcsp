@@ -23,38 +23,12 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
-
-import io.andreygs.jcsp.base.message.ICspStatusMessage;
-import io.andreygs.jcsp.base.types.CspCommonFlags;
-import io.andreygs.jcsp.base.types.CspMessageType;
-import io.andreygs.jcsp.base.types.CspProtocolVersion;
-import io.andreygs.jcsp.base.types.CspStatus;
-import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
+package io.andreygs.jcsp.base.message;
 
 /**
  * TODO: place description here
  */
-public class CspSerializationStatusMessage extends AbstractCspSerializationMessageCommon implements ICspStatusMessage
+public interface ICspGetSettingsMessage
+    extends ICspMessageCommon
 {
-    private final CspStatus cspStatus;
-
-    public CspSerializationStatusMessage(@Nullable Integer initialBufferCapacity, @Nullable Boolean directBuffer,
-                                         @Nullable IBufferResizeStrategy bufferResizeStrategy,
-                                         CspProtocolVersion cspProtocolVersion, List<CspCommonFlags> cspCommonFlags,
-                                         CspStatus cspStatus)
-    {
-        super(initialBufferCapacity, directBuffer, bufferResizeStrategy, cspProtocolVersion, CspMessageType.STATUS,
-              cspCommonFlags);
-        this.cspStatus = cspStatus;
-    }
-
-    @Override
-    public CspStatus getStatus()
-    {
-        return cspStatus;
-    }
 }

@@ -23,34 +23,15 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.types.api;
+package io.andreygs.jcsp.base.types;
 
 /**
  * TODO: place description here
  */
-public enum CspMessageType
+public sealed interface ICspFlag
+    permits CspCommonFlags, CspDataFlags
 {
-    STATUS((short)0, Messages.CspMessageType_Status),
-    DATA((short)1, Messages.CspMessageType_Data),
-    GET_SETTINGS((short)2, Messages.CspMessageType_GetSettings);
-
-    private final short value;
-    private final String name;
-
-    CspMessageType(short value, String name)
-    {
-        this.value = value;
-        this.name = Messages.CspMessageType_Type + ": " + name;
-    }
-
-    public short getValue()
-    {
-        return value;
-    }
-
-    @Override
-    public String toString()
-    {
-        return name;
-    }
+    int getValue();
+    String getNameWhenSet();
+    String getNameWhenUnset();
 }

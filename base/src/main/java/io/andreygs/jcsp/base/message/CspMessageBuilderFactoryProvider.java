@@ -23,15 +23,46 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.api;
+package io.andreygs.jcsp.base.message;
 
-import io.andreygs.jcsp.base.types.api.CspStatus;
+import java.util.Optional;
+import java.util.ServiceLoader;
 
 /**
  * TODO: place description here
  */
-public interface ICspStatusMessage
-    extends ICspMessageCommon
+public class CspMessageBuilderFactoryProvider
 {
-    CspStatus getStatus();
+    private CspMessageBuilderFactoryProvider()
+    {
+    }
+
+    public static ICspMessageBuilderFactory provideCspMessageBuilderFactory()
+    {
+        return FactoryHolder.INSTANCE;
+    }
+
+    private static class FactoryHolder
+    {
+        public static final ICspMessageBuilderFactory INSTANCE = initializeFactoryInstance();
+
+        public static ICspMessageBuilderFactory initializeFactoryInstance()
+        {
+            Optional<ICspMessageBuilderFactory> cspMessageBuilderFactoryOpt  =
+                ServiceLoader.load(ICspMessageBuilderFactory.class)
+                                .stream()
+                                .map(ServiceLoader.Provider::get)
+                                .findFirst();
+
+            if (cspMessageBuilderFactoryOpt.isPresent())
+            {
+                return cspMessageBuilderFactoryOpt.get();
+            }
+            else
+            {
+                throw new IllegalStateException("No ICspMessageBuilderFactory implementation found on on the "
+                                                    + "classpath/module path.");
+            }
+        }
+    }
 }
