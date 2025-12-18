@@ -36,7 +36,12 @@ public class CspDeserializationByteBuffer
     private final ByteBuffer byteBuffer;
     private boolean directBuffer;
 
-    public CspDeserializationByteBuffer(ByteBuffer byteBuffer)
+    public static CspDeserializationByteBuffer create(ByteBuffer byteBuffer)
+    {
+        return new CspDeserializationByteBuffer(byteBuffer);
+    }
+
+    private CspDeserializationByteBuffer(ByteBuffer byteBuffer)
     {
         this.byteBuffer = byteBuffer;
     }
@@ -129,11 +134,12 @@ public class CspDeserializationByteBuffer
     }
 
     /**
-     * Sets endianness to read operations.
+     * Applies endianness to underlying ByteBuffer operations.
      *
      * @param byteOrder Endianness byte order.
+     * @see ByteBuffer#order()
      */
-    public void endiannessToReadOperations(ByteOrder byteOrder)
+    public void applyEndianness(ByteOrder byteOrder)
     {
         byteBuffer.order(byteOrder);
     }

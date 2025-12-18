@@ -32,6 +32,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.CharBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
@@ -42,10 +43,51 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 /**
- * TODO: place description here
+ * Tests for {@link CspSerializationByteBuffer} class.
  */
 public class CspSerializationByteBufferTests
 {
+    @Test
+    void testCreateDefault()
+    {
+        CspSerializationByteBuffer cspSerializationByteBuffer = CspSerializationByteBuffer.createDefault();
+        Assertions.assertEquals(CspSerializationByteBuffer.DEFAULT_CAPACITY_SIZE,
+                                cspSerializationByteBuffer.getByteBuffer().capacity());
+        Assertions.assertTrue(cspSerializationByteBuffer.isDirectBuffer());
+    }
+
+    @Test
+    void testCreate()
+    {
+        int capacitySize = 171;
+        boolean directBuffer = false;
+
+        CspSerializationByteBuffer cspSerializationByteBuffer = CspSerializationByteBuffer.create(capacitySize,
+                                                                                                  directBuffer, null);
+        Assertions.assertEquals(capacitySize,
+                                cspSerializationByteBuffer.getByteBuffer().capacity());
+        Assertions.assertFalse(cspSerializationByteBuffer.isDirectBuffer());
+    }
+
+    @Test
+    void testIsDirectBuffer()
+    {
+        CspSerializationByteBuffer cspSerializationByteBuffer = CspSerializationByteBuffer.create(0,
+                                                                                                 true, null);
+
+        Assertions.assertTrue(cspSerializationByteBuffer.isDirectBuffer());
+        CspSerializationByteBuffer cspSerializationByteBuffer2 = CspSerializationByteBuffer.create(0,
+                                                                                                  false, null);
+        Assertions.assertFalse(cspSerializationByteBuffer2.isDirectBuffer());
+    }
+
+    @Test
+    void testGetByteBuffer()
+    {
+        CspSerializationByteBuffer cspSerializationByteBuffer = CspSerializationByteBuffer.createDefault();
+        Assertions.assertNotNull(cspSerializationByteBuffer.getByteBuffer());
+    }
+
     @Test
     void writeByte()
     {
@@ -122,7 +164,7 @@ public class CspSerializationByteBufferTests
         cspSerializationByteBuffer.commitBuffer();
 
         int sizeOfWrittenValue = CommonUtils.getPrimitiveSize(value1[0]) * (value1.length + value2.length);
-        Assertions.assertEquals(cspSerializationByteBuffer.getByteBuffer().limit(), sizeOfWrittenValue);
+        Assertions.assertEquals(sizeOfWrittenValue, cspSerializationByteBuffer.getByteBuffer().limit());
 
         short[] writtenValue1 = new short[3];
         short[] writtenValue2 = new short[4];
@@ -145,7 +187,7 @@ public class CspSerializationByteBufferTests
         cspSerializationByteBuffer.commitBuffer();
 
         int sizeOfWrittenValue = CommonUtils.getPrimitiveSize(value1[0]) * (value1.length + value2.length);
-        Assertions.assertEquals(cspSerializationByteBuffer.getByteBuffer().limit(), sizeOfWrittenValue);
+        Assertions.assertEquals(sizeOfWrittenValue, cspSerializationByteBuffer.getByteBuffer().limit());
 
         int[] writtenValue1 = new int[3];
         int[] writtenValue2 = new int[4];
@@ -169,7 +211,7 @@ public class CspSerializationByteBufferTests
         cspSerializationByteBuffer.commitBuffer();
 
         int sizeOfWrittenValue = CommonUtils.getPrimitiveSize(value1[0]) * (value1.length + value2.length);
-        Assertions.assertEquals(cspSerializationByteBuffer.getByteBuffer().limit(), sizeOfWrittenValue);
+        Assertions.assertEquals(sizeOfWrittenValue, cspSerializationByteBuffer.getByteBuffer().limit());
 
         long[] writtenValue1 = new long[3];
         long[] writtenValue2 = new long[4];
@@ -192,7 +234,7 @@ public class CspSerializationByteBufferTests
         cspSerializationByteBuffer.commitBuffer();
 
         int sizeOfWrittenValue = CommonUtils.getPrimitiveSize(value1[0]) * (value1.length + value2.length);
-        Assertions.assertEquals(cspSerializationByteBuffer.getByteBuffer().limit(), sizeOfWrittenValue);
+        Assertions.assertEquals(sizeOfWrittenValue, cspSerializationByteBuffer.getByteBuffer().limit());
 
         char[] writtenValue1 = new char[3];
         char[] writtenValue2 = new char[4];
@@ -215,7 +257,7 @@ public class CspSerializationByteBufferTests
         cspSerializationByteBuffer.commitBuffer();
 
         int sizeOfWrittenValue = CommonUtils.getPrimitiveSize(value1[0]) * (value1.length + value2.length);
-        Assertions.assertEquals(cspSerializationByteBuffer.getByteBuffer().limit(), sizeOfWrittenValue);
+        Assertions.assertEquals(sizeOfWrittenValue, cspSerializationByteBuffer.getByteBuffer().limit());
 
         float[] writtenValue1 = new float[3];
         float[] writtenValue2 = new float[4];
@@ -238,7 +280,7 @@ public class CspSerializationByteBufferTests
         cspSerializationByteBuffer.commitBuffer();
 
         int sizeOfWrittenValue = CommonUtils.getPrimitiveSize(value1[0]) * (value1.length + value2.length);
-        Assertions.assertEquals(cspSerializationByteBuffer.getByteBuffer().limit(), sizeOfWrittenValue);
+        Assertions.assertEquals(sizeOfWrittenValue, cspSerializationByteBuffer.getByteBuffer().limit());
 
         double[] writtenValue1 = new double[3];
         double[] writtenValue2 = new double[4];
@@ -250,9 +292,34 @@ public class CspSerializationByteBufferTests
     }
 
     @Test
-    void testDefaultConstructor()
+    void testApplyEndianness()
     {
+        CspSerializationByteBuffer cspSerializationByteBuffer = CspSerializationByteBuffer.createDefault();
+        cspSerializationByteBuffer.applyEndianness(ByteOrder.BIG_ENDIAN);
 
+        Assertions.assertEquals(ByteOrder.BIG_ENDIAN, cspSerializationByteBuffer.getByteBuffer().order());
+
+        cspSerializationByteBuffer.applyEndianness(ByteOrder.LITTLE_ENDIAN);
+        Assertions.assertEquals(ByteOrder.LITTLE_ENDIAN, cspSerializationByteBuffer.getByteBuffer().order());
+    }
+
+    @Test
+    void testCommitBuffer()
+    {
+        int capacitySize = 16;
+
+        CspSerializationByteBuffer cspSerializationByteBuffer = CspSerializationByteBuffer.create(capacitySize,
+                                                                                                  true, null);
+        int i = 5;
+        cspSerializationByteBuffer.write(i);
+
+        ByteBuffer byteBuffer = cspSerializationByteBuffer.getByteBuffer();
+        Assertions.assertEquals(capacitySize, byteBuffer.limit());
+        Assertions.assertEquals(CommonUtils.getPrimitiveSize(i), byteBuffer.position());
+
+        cspSerializationByteBuffer.commitBuffer();
+        Assertions.assertEquals(CommonUtils.getPrimitiveSize(i), byteBuffer.limit());
+        Assertions.assertEquals(0, byteBuffer.position());
     }
 
     private <T> void writePrimitive(T value1, T value2, BiConsumer<CspSerializationByteBuffer, T> writeFunction,
@@ -265,7 +332,7 @@ public class CspSerializationByteBufferTests
         cspSerializationByteBuffer.commitBuffer();
 
         ByteBuffer byteBuffer = cspSerializationByteBuffer.getByteBuffer();
-        Assertions.assertEquals(byteBuffer.limit(), CommonUtils.getPrimitiveSize(value1) * 2);
+        Assertions.assertEquals(CommonUtils.getPrimitiveSize(value1) * 2, byteBuffer.limit());
 
         Assertions.assertEquals(value1, testValueFunction.apply(byteBuffer));
         Assertions.assertEquals(value2, testValueFunction.apply(byteBuffer));

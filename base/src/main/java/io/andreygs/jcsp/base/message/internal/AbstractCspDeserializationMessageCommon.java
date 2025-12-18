@@ -49,7 +49,7 @@ public class AbstractCspDeserializationMessageCommon implements ICspMessageCommo
         this.cspProtocolVersion = cspProtocolVersion;
         this.cspMessageType = cspMessageType;
         this.cspCommonFlags = cspCommonFlags;
-        cspDeserializationByteBuffer = new CspDeserializationByteBuffer(byteBuffer);
+        cspDeserializationByteBuffer = CspDeserializationByteBuffer.create(byteBuffer);
     }
 
     public CspDeserializationByteBuffer getCspDeserializationByteBuffer()

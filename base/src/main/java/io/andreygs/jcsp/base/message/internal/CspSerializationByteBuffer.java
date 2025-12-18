@@ -38,6 +38,11 @@ import java.nio.ByteOrder;
 public class CspSerializationByteBuffer
 {
     /**
+     * Default capacity of {@link ByteBuffer internal buffer} when it is created, if no explicit value is provided.
+     */
+    public static final int DEFAULT_CAPACITY_SIZE = 256;
+
+    /**
      * {@link ByteBuffer internal buffer} that will be used in operations.
      */
     private ByteBuffer byteBuffer;
@@ -53,12 +58,7 @@ public class CspSerializationByteBuffer
      * Strategy of {@link ByteBuffer internal buffer} resizing.
      */
     private final IBufferResizeStrategy bufferResizeStrategy;
-
-    /**
-     * Default capacity of {@link ByteBuffer internal buffer} when it is created, if no explicit value is provided.
-     */
-    public static final int DEFAULT_CAPACITY_SIZE = 256;
-
+    
     /**
      * Creates CspSerializationByteBuffer with default parameters.
      * <p/>
@@ -317,11 +317,12 @@ public class CspSerializationByteBuffer
     }
 
     /**
-     * Sets endianness to write operations.
+     * Applies endianness to underlying ByteBuffer operations.
      *
      * @param byteOrder Endianness byte order.
+     * @see ByteBuffer#order()
      */
-    public void endiannessToWriteOperations(ByteOrder byteOrder)
+    public void applyEndianness(ByteOrder byteOrder)
     {
         byteBuffer.order(byteOrder);
     }
@@ -330,8 +331,7 @@ public class CspSerializationByteBuffer
      * Commits buffer, when serialization is completed.
      * <p>
      * It must be called only once, after last write operation.
-     *
-     * @see ByteBuffer#flip
+     * It internally calls {@link ByteBuffer#flip}
      */
     public void commitBuffer()
     {
