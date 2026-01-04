@@ -23,43 +23,31 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.test.message.internal;
-
-import io.andreygs.jcsp.base.message.internal.CspDeserializationByteBuffer;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+package io.andreygs.jcsp.base.message.buffer.internal;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 /**
- * Tests for {@link CspDeserializationByteBuffer} class.
+ *  Buffer for data that is using in CSP serialization/deserialization processes.
+ *  <p/>
+ *  Current interface holds common for both (serialization and deserialization) operations.
+ *  It is the wrapper of {@link ByteBuffer} optimized for use in CSP operations.
  */
-public class CspDeserializationByteBufferTests
+sealed interface ICspBuffer permits ICspSerializationBuffer, ICspDeserializationBuffer
 {
-    @Test
-    void testCreate()
-    {
-        ByteBuffer byteBuffer = ByteBuffer.allocate(0);
-        CspDeserializationByteBuffer cspDeserializationByteBuffer = CspDeserializationByteBuffer.create(byteBuffer);
+    /**
+     * Gets underlying buffer.
+     *
+     * @return underlying buffer.
+     */
+    ByteBuffer getByteBuffer();
 
-        Assertions.assertEquals(byteBuffer, cspDeserializationByteBuffer.getByteBuffer());
-    }
-
-    @Test
-    void testGetByteBuffer()
-    {
-        ByteBuffer byteBuffer = ByteBuffer.allocate(0);
-        CspDeserializationByteBuffer cspDeserializationByteBuffer = CspDeserializationByteBuffer.create(byteBuffer);
-
-        Assertions.assertEquals(byteBuffer, cspDeserializationByteBuffer.getByteBuffer());
-    }
-
-    @Test
-    void testReadByte()
-    {
-        ByteBuffer byteBuffer = ByteBuffer.allocate(0);
-        CspDeserializationByteBuffer cspDeserializationByteBuffer = CspDeserializationByteBuffer.create(byteBuffer);
-
-        Assertions.assertEquals(byteBuffer, cspDeserializationByteBuffer.getByteBuffer());
-    }
+    /**
+     * Applies endianness to underlying ByteBuffer operations.
+     *
+     * @param byteOrder Endianness byte order.
+     * @see ByteBuffer#order()
+     */
+    void applyEndianness(ByteOrder byteOrder);
 }

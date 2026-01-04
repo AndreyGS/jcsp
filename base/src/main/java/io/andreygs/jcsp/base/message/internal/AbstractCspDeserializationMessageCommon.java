@@ -26,6 +26,9 @@
 package io.andreygs.jcsp.base.message.internal;
 
 import io.andreygs.jcsp.base.message.ICspMessageCommon;
+import io.andreygs.jcsp.base.message.buffer.internal.CspDeserializationBuffer;
+import io.andreygs.jcsp.base.message.buffer.internal.CspDeserializationBufferFactory;
+import io.andreygs.jcsp.base.message.buffer.internal.ICspDeserializationBuffer;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspMessageType;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
@@ -38,7 +41,7 @@ import java.util.List;
  */
 public class AbstractCspDeserializationMessageCommon implements ICspMessageCommon
 {
-    private final CspDeserializationByteBuffer cspDeserializationByteBuffer;
+    private final ICspDeserializationBuffer cspDeserializationBuffer;
     private final CspProtocolVersion cspProtocolVersion;
     private final CspMessageType cspMessageType;
     private final List<CspCommonFlags> cspCommonFlags;
@@ -49,18 +52,18 @@ public class AbstractCspDeserializationMessageCommon implements ICspMessageCommo
         this.cspProtocolVersion = cspProtocolVersion;
         this.cspMessageType = cspMessageType;
         this.cspCommonFlags = cspCommonFlags;
-        cspDeserializationByteBuffer = CspDeserializationByteBuffer.create(byteBuffer);
+        cspDeserializationBuffer = CspDeserializationBufferFactory.create(byteBuffer);
     }
 
-    public CspDeserializationByteBuffer getCspDeserializationByteBuffer()
+    public ICspDeserializationBuffer getCspDeserializationBuffer()
     {
-        return cspDeserializationByteBuffer;
+        return cspDeserializationBuffer;
     }
 
     @Override
     public ByteBuffer getBinaryData()
     {
-        return cspDeserializationByteBuffer.getByteBuffer();
+        return cspDeserializationBuffer.getByteBuffer();
     }
 
     @Override
