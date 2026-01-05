@@ -25,6 +25,7 @@
 
 package io.andreygs.jcsp.base.message.buffer.internal;
 
+import io.andreygs.jcsp.base.message.buffer.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 import io.andreygs.jcsp.base.utils.internal.BufferDoublingResizeStrategy;
 import org.jetbrains.annotations.Nullable;
@@ -37,7 +38,7 @@ import java.nio.ByteOrder;
  * <p/>
  * It is a wrapper over {@link ByteBuffer} optimized for use in CSP serialization process.
  */
-public class CspSerializationBuffer
+public final class CspSerializationBuffer
     implements ICspSerializationBuffer
 {
     /**

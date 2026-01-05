@@ -80,28 +80,28 @@ public abstract class AbstractCspSerializedMessageCommonBuilder implements ICspS
         return this;
     }
 
-    protected Optional<Integer> getInitialBufferCapacity()
+    protected @Nullable Integer getInitialBufferCapacity()
     {
-        return Optional.ofNullable(initialBufferCapacity);
+        return initialBufferCapacity;
     }
 
-    protected Optional<Boolean> getDirectBuffer()
+    protected @Nullable Boolean getDirectBuffer()
     {
-        return Optional.ofNullable(directBuffer);
+        return directBuffer;
     }
 
-    protected Optional<IBufferResizeStrategy> getBufferResizeStrategy()
+    protected @Nullable IBufferResizeStrategy getBufferResizeStrategy()
     {
-        return Optional.ofNullable(bufferResizeStrategy);
+        return bufferResizeStrategy;
     }
 
-    protected Optional<CspProtocolVersion> getCspProtocolVersion()
+    protected @Nullable CspProtocolVersion getCspProtocolVersion()
     {
-        return Optional.ofNullable(cspProtocolVersion);
+        return cspProtocolVersion;
     }
 
-    protected Optional<List<CspCommonFlags>> getCspCommonFlags()
+    protected @Nullable List<CspCommonFlags> getCspCommonFlags()
     {
-        return Optional.ofNullable(cspCommonFlags);
+        return cspCommonFlags;
     }
 }

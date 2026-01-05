@@ -25,6 +25,8 @@
 
 package io.andreygs.jcsp.base.message.buffer.internal;
 
+import io.andreygs.jcsp.base.message.buffer.ICspDeserializationBuffer;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
@@ -33,7 +35,7 @@ import java.nio.ByteOrder;
  * <p/>
  * It is a wrapper over {@link ByteBuffer} optimized for use in CSP deserialization process.
  */
-public class CspDeserializationBuffer
+public final class CspDeserializationBuffer
     implements ICspDeserializationBuffer
 {
     /**

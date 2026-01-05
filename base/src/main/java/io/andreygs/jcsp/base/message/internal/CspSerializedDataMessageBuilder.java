@@ -99,9 +99,9 @@ public class CspSerializedDataMessageBuilder extends AbstractCspSerializedMessag
     @Override
     public ICspDataMessage serialize(ICspSerializable cspSerializable)
     {
-        return Serializer.serializeDataMessage(getInitialBufferCapacity().get(), getDirectBuffer().get(),
-                                               getBufferResizeStrategy().get(), getCspProtocolVersion().get(),
-                                               getCspCommonFlags().get(), cspInterfaceVersion, cspDataFlags,
+        return Serializer.serializeDataMessage(getInitialBufferCapacity(), getDirectBuffer(),
+                                               getBufferResizeStrategy(), getCspProtocolVersion(),
+                                               getCspCommonFlags(), cspInterfaceVersion, cspDataFlags,
                                                cspSerializable);
     }
 }

@@ -28,17 +28,6 @@ package io.andreygs.jcsp.base.types;
 /**
  * TODO: place description here
  */
-public class CspInterfaceVersion
+public record CspInterfaceVersion(int version)
 {
-    private final int version;
-
-    public CspInterfaceVersion(int version)
-    {
-        this.version = version;
-    }
-
-    public int getVersion()
-    {
-        return version;
-    }
 }

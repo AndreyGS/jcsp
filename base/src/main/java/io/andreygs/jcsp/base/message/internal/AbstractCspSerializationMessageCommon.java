@@ -26,9 +26,8 @@
 package io.andreygs.jcsp.base.message.internal;
 
 import io.andreygs.jcsp.base.message.ICspMessageCommon;
-import io.andreygs.jcsp.base.message.buffer.internal.CspSerializationBuffer;
 import io.andreygs.jcsp.base.message.buffer.internal.CspSerializationBufferFactory;
-import io.andreygs.jcsp.base.message.buffer.internal.ICspSerializationBuffer;
+import io.andreygs.jcsp.base.message.buffer.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspMessageType;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
@@ -41,17 +40,19 @@ import java.util.List;
 /**
  * TODO: place description here
  */
-public abstract class AbstractCspSerializationMessageCommon implements ICspMessageCommon
+public abstract class AbstractCspSerializationMessageCommon
+    implements ICspMessageCommon
 {
     private final ICspSerializationBuffer cspSerializationBuffer;
     private final CspProtocolVersion cspProtocolVersion;
     private final CspMessageType cspMessageType;
     private final List<CspCommonFlags> cspCommonFlags;
 
-    public AbstractCspSerializationMessageCommon(@Nullable Integer initialBufferCapacity,
-                                                 @Nullable Boolean directBuffer,
-                                                 @Nullable IBufferResizeStrategy bufferResizeStrategy,
-                                                 CspProtocolVersion cspProtocolVersion, CspMessageType cspMessageType,
+    public AbstractCspSerializationMessageCommon(Integer initialBufferCapacity,
+                                                 Boolean directBuffer,
+                                                 IBufferResizeStrategy bufferResizeStrategy,
+                                                 CspProtocolVersion cspProtocolVersion,
+                                                 CspMessageType cspMessageType,
                                                  List<CspCommonFlags> cspCommonFlags)
     {
         this.cspProtocolVersion = cspProtocolVersion;

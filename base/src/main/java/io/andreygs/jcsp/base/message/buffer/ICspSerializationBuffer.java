@@ -23,15 +23,21 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.buffer.internal;
+package io.andreygs.jcsp.base.message.buffer;
+
+import io.andreygs.jcsp.base.message.buffer.internal.CspSerializationBuffer;
+import io.andreygs.jcsp.base.message.buffer.internal.ICspBuffer;
 
 import java.nio.ByteBuffer;
 
 /**
  * Extension of {@link ICspBuffer} to be used in CSP serialization process.
+ * <p/>
+ * Clients can use it for implementing ad-hoc serialization methods.
  */
-public non-sealed interface ICspSerializationBuffer
+public sealed interface ICspSerializationBuffer
     extends ICspBuffer
+    permits CspSerializationBuffer
 {
     /**
      * Default capacity of {@link ByteBuffer} when it is created, if no explicit value is provided.

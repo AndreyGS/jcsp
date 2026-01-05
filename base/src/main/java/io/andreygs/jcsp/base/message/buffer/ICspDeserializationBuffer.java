@@ -23,13 +23,19 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.buffer.internal;
+package io.andreygs.jcsp.base.message.buffer;
+
+import io.andreygs.jcsp.base.message.buffer.internal.CspDeserializationBuffer;
+import io.andreygs.jcsp.base.message.buffer.internal.ICspBuffer;
 
 /**
- * TODO: place description here
+ * Extension of {@link ICspBuffer} to be used in CSP deserialization process.
+ * <p/>
+ * Clients can use it for implementing ad-hoc deserialization methods.
  */
-public non-sealed interface ICspDeserializationBuffer
+public sealed interface ICspDeserializationBuffer
     extends ICspBuffer
+    permits CspDeserializationBuffer
 {
     /**
      * Reads byte value from buffer.

@@ -26,9 +26,8 @@
 package io.andreygs.jcsp.base.message.internal;
 
 import io.andreygs.jcsp.base.message.ICspMessageCommon;
-import io.andreygs.jcsp.base.message.buffer.internal.CspDeserializationBuffer;
 import io.andreygs.jcsp.base.message.buffer.internal.CspDeserializationBufferFactory;
-import io.andreygs.jcsp.base.message.buffer.internal.ICspDeserializationBuffer;
+import io.andreygs.jcsp.base.message.buffer.ICspDeserializationBuffer;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspMessageType;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;

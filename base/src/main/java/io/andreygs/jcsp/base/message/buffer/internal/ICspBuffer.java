@@ -25,6 +25,9 @@
 
 package io.andreygs.jcsp.base.message.buffer.internal;
 
+import io.andreygs.jcsp.base.message.buffer.ICspDeserializationBuffer;
+import io.andreygs.jcsp.base.message.buffer.ICspSerializationBuffer;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
@@ -34,7 +37,7 @@ import java.nio.ByteOrder;
  *  Current interface holds common for both (serialization and deserialization) operations.
  *  It is the wrapper of {@link ByteBuffer} optimized for use in CSP operations.
  */
-sealed interface ICspBuffer permits ICspSerializationBuffer, ICspDeserializationBuffer
+public sealed interface ICspBuffer permits ICspSerializationBuffer, ICspDeserializationBuffer
 {
     /**
      * Gets underlying buffer.

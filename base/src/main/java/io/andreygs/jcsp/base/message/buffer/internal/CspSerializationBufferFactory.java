@@ -25,6 +25,7 @@
 
 package io.andreygs.jcsp.base.message.buffer.internal;
 
+import io.andreygs.jcsp.base.message.buffer.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 import io.andreygs.jcsp.base.utils.internal.BufferDoublingResizeStrategy;
 import org.jetbrains.annotations.Nullable;

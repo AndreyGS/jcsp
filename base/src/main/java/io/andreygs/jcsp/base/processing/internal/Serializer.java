@@ -42,6 +42,10 @@ import java.util.List;
  */
 public class Serializer
 {
+    private static final CspProtocolVersion DEFAULT_CSP_PROTOCOL_VERSION = CspProtocolVersion.latestVersion();
+    private static final List<CspCommonFlags> DEFAULT_CSP_COMMON_FLAGS = List.of(CspCommonFlags.BIG_ENDIAN);
+    private static final List<CspDataFlags> DEFAULT_CSP_DATA_FLAGS = List.of(CspDataFlags.ALLOW_UNMANAGED_POINTERS);
+
     private Serializer()
     {
     }
@@ -54,8 +58,11 @@ public class Serializer
                                                        @Nullable List<CspDataFlags> cspDataFlags,
                                                        ICspSerializable cspSerializable)
     {
+
+        // TODO replace nullable
         return new CspSerializationDataMessage(initialBufferCapacity, directBuffer, bufferResizeStrategy,
                                                cspProtocolVersion, cspCommonFlags, cspSerializable.getClass(),
-                                               cspInterfaceVersion, cspDataFlags);
+                                               cspInterfaceVersion == null ? cspSerializable.getInterfaceVersion() : cspInterfaceVersion,
+                                               cspDataFlags);
     }
 }

@@ -39,16 +39,20 @@ import java.util.List;
 /**
  * TODO: place description here
  */
-public class CspSerializationDataMessage extends AbstractCspSerializationMessageCommon implements ICspDataMessage
+public final class CspSerializationDataMessage extends AbstractCspSerializationMessageCommon
+    implements ICspDataMessage
 {
     private final Class<?> structClazz;
     private final CspInterfaceVersion cspInterfaceVersion;
     private final List<CspDataFlags> cspDataFlags;
 
-    public CspSerializationDataMessage(@Nullable Integer initialBufferCapacity, @Nullable Boolean directBuffer,
-                                       @Nullable IBufferResizeStrategy bufferResizeStrategy,
-                                       CspProtocolVersion cspProtocolVersion, List<CspCommonFlags> cspCommonFlags,
-                                       Class<?> structClazz, CspInterfaceVersion cspInterfaceVersion,
+    public CspSerializationDataMessage(Integer initialBufferCapacity,
+                                       Boolean directBuffer,
+                                       IBufferResizeStrategy bufferResizeStrategy,
+                                       CspProtocolVersion cspProtocolVersion,
+                                       List<CspCommonFlags> cspCommonFlags,
+                                       Class<?> structClazz,
+                                       CspInterfaceVersion cspInterfaceVersion,
                                        List<CspDataFlags> cspDataFlags)
     {
         super(initialBufferCapacity, directBuffer, bufferResizeStrategy, cspProtocolVersion, CspMessageType.DATA,
