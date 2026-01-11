@@ -26,9 +26,10 @@
 package io.andreygs.jcsp.base.message.internal;
 
 import io.andreygs.jcsp.base.message.ICspDataMessage;
+import io.andreygs.jcsp.base.message.buffer.ICspDeserializationBuffer;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspDataFlags;
-import io.andreygs.jcsp.base.types.CspInterfaceVersion;
+import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
 import io.andreygs.jcsp.base.types.CspMessageType;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 
@@ -38,18 +39,20 @@ import java.util.List;
 /**
  * TODO: place description here
  */
-public final class CspDeserializationDataMessage extends AbstractCspDeserializationMessageCommon
-    implements ICspDataMessage
+final class CspDeserializationDataMessage extends AbstractCspDeserializationMessageCommon
+    implements ICspDeserializationDataMessage
 {
     private final Class<?> structClazz;
-    private final CspInterfaceVersion cspInterfaceVersion;
+    private final ICspInterfaceVersion cspInterfaceVersion;
     private final List<CspDataFlags> cspDataFlags;
 
-    public CspDeserializationDataMessage(ByteBuffer byteBuffer, CspProtocolVersion cspProtocolVersion, List<CspCommonFlags> cspCommonFlags,
-                                         Class<?> structClazz, CspInterfaceVersion cspInterfaceVersion,
+    public CspDeserializationDataMessage(ICspDeserializationBuffer cspDeserializationBuffer,
+                                         CspProtocolVersion cspProtocolVersion,
+                                         List<CspCommonFlags> cspCommonFlags,
+                                         Class<?> structClazz, ICspInterfaceVersion cspInterfaceVersion,
                                          List<CspDataFlags> cspDataFlags)
     {
-        super(byteBuffer, cspProtocolVersion, CspMessageType.DATA, cspCommonFlags);
+        super(cspDeserializationBuffer, cspProtocolVersion, CspMessageType.DATA, cspCommonFlags);
         this.structClazz = structClazz;
         this.cspInterfaceVersion = cspInterfaceVersion;
         this.cspDataFlags = cspDataFlags;
@@ -62,7 +65,7 @@ public final class CspDeserializationDataMessage extends AbstractCspDeserializat
     }
 
     @Override
-    public CspInterfaceVersion getInterfaceVersion()
+    public ICspInterfaceVersion getInterfaceVersion()
     {
         return cspInterfaceVersion;
     }

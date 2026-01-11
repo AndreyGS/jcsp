@@ -30,7 +30,7 @@ import io.andreygs.jcsp.base.message.ICspSerializedDataMessageBuilder;
 import io.andreygs.jcsp.base.processing.internal.Serializer;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspDataFlags;
-import io.andreygs.jcsp.base.types.CspInterfaceVersion;
+import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 import io.andreygs.jcsp.base.types.ICspSerializable;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
@@ -41,10 +41,10 @@ import java.util.List;
 /**
  * TODO: place description here
  */
-public class CspSerializedDataMessageBuilder extends AbstractCspSerializedMessageCommonBuilder
+class CspSerializedDataMessageBuilder extends AbstractCspSerializedMessageCommonBuilder
     implements ICspSerializedDataMessageBuilder
 {
-    private @Nullable CspInterfaceVersion cspInterfaceVersion;
+    private @Nullable ICspInterfaceVersion cspInterfaceVersion;
     private @Nullable List<CspDataFlags> cspDataFlags;
 
     @Override
@@ -83,7 +83,7 @@ public class CspSerializedDataMessageBuilder extends AbstractCspSerializedMessag
     }
 
     @Override
-    public ICspSerializedDataMessageBuilder setInterfaceVersion(CspInterfaceVersion cspInterfaceVersion)
+    public ICspSerializedDataMessageBuilder setInterfaceVersion(ICspInterfaceVersion cspInterfaceVersion)
     {
         this.cspInterfaceVersion = cspInterfaceVersion;
         return this;

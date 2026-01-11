@@ -33,7 +33,7 @@ import java.nio.ByteOrder;
 
 /**
  *  Buffer for data that is using in CSP serialization/deserialization processes.
- *  <p/>
+ *  <p>
  *  Current interface holds common for both (serialization and deserialization) operations.
  *  It is the wrapper of {@link ByteBuffer} optimized for use in CSP operations.
  */

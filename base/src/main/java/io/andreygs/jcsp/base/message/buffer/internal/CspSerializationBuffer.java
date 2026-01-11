@@ -35,7 +35,7 @@ import java.nio.ByteOrder;
 
 /**
  * This class works as buffer for writing raw data in CSP serialization process.
- * <p/>
+ * <p>
  * It is a wrapper over {@link ByteBuffer} optimized for use in CSP serialization process.
  */
 public final class CspSerializationBuffer

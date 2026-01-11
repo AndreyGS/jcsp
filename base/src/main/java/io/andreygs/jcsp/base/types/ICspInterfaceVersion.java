@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,19 +22,23 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module io.andreygs.jcsp.base {
-    requires transitive org.jetbrains.annotations;
 
-    exports io.andreygs.jcsp.base.message;
-    exports io.andreygs.jcsp.base.types;
-    exports io.andreygs.jcsp.base.utils;
+package io.andreygs.jcsp.base.types;
 
-    exports io.andreygs.jcsp.base.message.buffer to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.message.buffer.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.message.internal to io.andreygs.jcsp.base.test;
-
-    opens io.andreygs.jcsp.base.message.buffer.internal to io.andreygs.jcsp.base.test;
-
-    uses io.andreygs.jcsp.base.message.ICspMessageBuilderFactory;
-    provides io.andreygs.jcsp.base.message.ICspMessageBuilderFactory with io.andreygs.jcsp.base.message.internal.CspMessageBuilderFactory;
+/**
+ * Version of CSP compatible interface.
+ * <p>
+ * As CSP states: it must be present in raw form of 4-octet length integer.
+ * However, internal form can be any.
+ * <p>
+ * For example:
+ * <ul>
+ *     <li>1 octet - Major | 1 octet Minor | 2 octet Patch</li>
+ *     <li>1 octet - Major | 1 octet Minor | 1 octet Patch | 1 octet Build</li>
+ * </ul>
+ * In any implementor must exist compareTo() override.
+ */
+public interface ICspInterfaceVersion extends Comparable<ICspInterfaceVersion>
+{
+    int getRawVersion();
 }

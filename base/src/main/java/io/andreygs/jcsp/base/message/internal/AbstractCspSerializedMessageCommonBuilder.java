@@ -37,7 +37,7 @@ import java.util.Optional;
 /**
  * TODO: place description here
  */
-public abstract class AbstractCspSerializedMessageCommonBuilder implements ICspSerializedMessageCommonBuilder
+abstract class AbstractCspSerializedMessageCommonBuilder implements ICspSerializedMessageCommonBuilder
 {
     private @Nullable Integer initialBufferCapacity;
     private @Nullable Boolean directBuffer;

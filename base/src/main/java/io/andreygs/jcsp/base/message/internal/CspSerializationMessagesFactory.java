@@ -25,34 +25,27 @@
 
 package io.andreygs.jcsp.base.message.internal;
 
-import io.andreygs.jcsp.base.message.ICspStatusMessage;
-import io.andreygs.jcsp.base.message.buffer.ICspDeserializationBuffer;
+import io.andreygs.jcsp.base.message.buffer.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
-import io.andreygs.jcsp.base.types.CspMessageType;
+import io.andreygs.jcsp.base.types.CspDataFlags;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
-import io.andreygs.jcsp.base.types.CspStatus;
+import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
 
-import java.nio.ByteBuffer;
 import java.util.List;
 
 /**
  * TODO: place description here
  */
-final class CspDeserializationStatusMessage extends AbstractCspDeserializationMessageCommon
-    implements ICspDeserializationStatusMessage
+public class CspSerializationMessagesFactory
 {
-    private final CspStatus cspStatus;
-
-    public CspDeserializationStatusMessage(ICspDeserializationBuffer cspDeserializationBuffer, CspProtocolVersion cspProtocolVersion,
-                                           List<CspCommonFlags> cspCommonFlags, CspStatus cspStatus)
+    public static ICspSerializationDataMessage createCspSerializationDataMessage(ICspSerializationBuffer cspSerializationBuffer,
+                                                                          CspProtocolVersion cspProtocolVersion,
+                                                                          List<CspCommonFlags> cspCommonFlags,
+                                                                          Class<?> structClazz,
+                                                                          ICspInterfaceVersion cspInterfaceVersion,
+                                                                          List<CspDataFlags> cspDataFlags)
     {
-        super(cspDeserializationBuffer, cspProtocolVersion, CspMessageType.STATUS, cspCommonFlags);
-        this.cspStatus = cspStatus;
-    }
-
-    @Override
-    public CspStatus getStatus()
-    {
-        return cspStatus;
+        return new CspSerializationDataMessage(cspSerializationBuffer, cspProtocolVersion, cspCommonFlags,
+                                               structClazz, cspInterfaceVersion, cspDataFlags);
     }
 }

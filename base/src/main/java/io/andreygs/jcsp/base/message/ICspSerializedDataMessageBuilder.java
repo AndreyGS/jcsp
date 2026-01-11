@@ -27,7 +27,7 @@ package io.andreygs.jcsp.base.message;
 
 import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspDataFlags;
-import io.andreygs.jcsp.base.types.CspInterfaceVersion;
+import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
 import io.andreygs.jcsp.base.types.ICspSerializable;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 
@@ -50,7 +50,7 @@ public interface ICspSerializedDataMessageBuilder extends ICspSerializedMessageC
     @Override
     ICspSerializedDataMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
 
-    ICspSerializedDataMessageBuilder setInterfaceVersion(CspInterfaceVersion cspInterfaceVersion);
+    ICspSerializedDataMessageBuilder setInterfaceVersion(ICspInterfaceVersion cspInterfaceVersion);
 
     ICspSerializedDataMessageBuilder setCspDataFlags(List<CspDataFlags> cspDataFlags);
 

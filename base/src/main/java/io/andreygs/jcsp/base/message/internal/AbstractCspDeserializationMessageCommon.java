@@ -38,25 +38,24 @@ import java.util.List;
 /**
  * TODO: place description here
  */
-public class AbstractCspDeserializationMessageCommon implements ICspMessageCommon
+sealed class AbstractCspDeserializationMessageCommon
+    implements ICspDeserializationMessageCommon
+    permits CspDeserializationDataMessage, CspDeserializationStatusMessage
 {
     private final ICspDeserializationBuffer cspDeserializationBuffer;
     private final CspProtocolVersion cspProtocolVersion;
     private final CspMessageType cspMessageType;
     private final List<CspCommonFlags> cspCommonFlags;
 
-    public AbstractCspDeserializationMessageCommon(ByteBuffer byteBuffer, CspProtocolVersion cspProtocolVersion,
-                                                   CspMessageType cspMessageType, List<CspCommonFlags> cspCommonFlags)
+    public AbstractCspDeserializationMessageCommon(ICspDeserializationBuffer cspDeserializationBuffer,
+                                                   CspProtocolVersion cspProtocolVersion,
+                                                   CspMessageType cspMessageType,
+                                                   List<CspCommonFlags> cspCommonFlags)
     {
+        this.cspDeserializationBuffer = cspDeserializationBuffer;
         this.cspProtocolVersion = cspProtocolVersion;
         this.cspMessageType = cspMessageType;
         this.cspCommonFlags = cspCommonFlags;
-        cspDeserializationBuffer = CspDeserializationBufferFactory.create(byteBuffer);
-    }
-
-    public ICspDeserializationBuffer getCspDeserializationBuffer()
-    {
-        return cspDeserializationBuffer;
     }
 
     @Override
@@ -81,6 +80,12 @@ public class AbstractCspDeserializationMessageCommon implements ICspMessageCommo
     public List<CspCommonFlags> getCspCommonFlags()
     {
         return cspCommonFlags;
+    }
+
+    @Override
+    public ICspDeserializationBuffer getCspDeserializationBuffer()
+    {
+        return cspDeserializationBuffer;
     }
 }
 

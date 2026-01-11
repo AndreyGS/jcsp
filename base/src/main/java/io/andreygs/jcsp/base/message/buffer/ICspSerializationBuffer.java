@@ -32,7 +32,7 @@ import java.nio.ByteBuffer;
 
 /**
  * Extension of {@link ICspBuffer} to be used in CSP serialization process.
- * <p/>
+ * <p>
  * Clients can use it for implementing ad-hoc serialization methods.
  */
 public sealed interface ICspSerializationBuffer
@@ -151,7 +151,7 @@ public sealed interface ICspSerializationBuffer
 
     /**
      * Commits buffer, when serialization is completed.
-     * <p/>
+     * <p>
      * Sets buffer limit (data size) to current cursor position and sets cursor to 0 position.
      * It must be called only once, after last write operation.
      */

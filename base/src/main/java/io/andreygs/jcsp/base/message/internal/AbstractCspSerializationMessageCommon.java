@@ -40,31 +40,24 @@ import java.util.List;
 /**
  * TODO: place description here
  */
-public abstract class AbstractCspSerializationMessageCommon
-    implements ICspMessageCommon
+sealed abstract class AbstractCspSerializationMessageCommon
+    implements ICspSerializationMessageCommon
+    permits CspSerializationDataMessage, CspSerializationStatusMessage
 {
     private final ICspSerializationBuffer cspSerializationBuffer;
     private final CspProtocolVersion cspProtocolVersion;
     private final CspMessageType cspMessageType;
     private final List<CspCommonFlags> cspCommonFlags;
 
-    public AbstractCspSerializationMessageCommon(Integer initialBufferCapacity,
-                                                 Boolean directBuffer,
-                                                 IBufferResizeStrategy bufferResizeStrategy,
+    public AbstractCspSerializationMessageCommon(ICspSerializationBuffer cspSerializationBuffer,
                                                  CspProtocolVersion cspProtocolVersion,
                                                  CspMessageType cspMessageType,
                                                  List<CspCommonFlags> cspCommonFlags)
     {
+        this.cspSerializationBuffer = cspSerializationBuffer;
         this.cspProtocolVersion = cspProtocolVersion;
         this.cspMessageType = cspMessageType;
         this.cspCommonFlags = cspCommonFlags;
-        this.cspSerializationBuffer = CspSerializationBufferFactory.create(initialBufferCapacity, directBuffer,
-                                                                           bufferResizeStrategy);
-    }
-
-    public ICspSerializationBuffer getCspSerializationBuffer()
-    {
-        return cspSerializationBuffer;
     }
 
     @Override
@@ -89,5 +82,11 @@ public abstract class AbstractCspSerializationMessageCommon
     public List<CspCommonFlags> getCspCommonFlags()
     {
         return cspCommonFlags;
+    }
+
+    @Override
+    public ICspSerializationBuffer getCspSerializationBuffer()
+    {
+        return cspSerializationBuffer;
     }
 }

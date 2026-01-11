@@ -23,11 +23,14 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.types;
+package io.andreygs.jcsp.base.message.internal;
+
+import io.andreygs.jcsp.base.message.ICspStatusMessage;
 
 /**
  * TODO: place description here
  */
-public record CspInterfaceVersion(int version)
+public sealed interface ICspSerializationStatusMessage extends ICspStatusMessage, ICspSerializationMessageCommon
+    permits CspSerializationStatusMessage
 {
 }

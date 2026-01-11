@@ -33,11 +33,11 @@ import java.util.UUID;
 public interface ICspSerializable
 {
     UUID getId();
-    CspInterfaceVersion[] getPrivateVersions();
-    CspInterfaceVersion getInterfaceVersion();
+    ICspInterfaceVersion[] getPrivateVersions();
+    ICspInterfaceVersion getInterfaceVersion();
     String[] getSerializableFields();
 
-    default CspInterfaceVersion getOriginPrivateVersion()
+    default ICspInterfaceVersion getOriginPrivateVersion()
     {
         return getPrivateVersions()[getPrivateVersions().length - 1];
     }

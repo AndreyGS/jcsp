@@ -32,7 +32,7 @@ import java.nio.ByteOrder;
 
 /**
  * This class works as buffer for reading raw data in CSP deserialization process.
- * <p/>
+ * <p>
  * It is a wrapper over {@link ByteBuffer} optimized for use in CSP deserialization process.
  */
 public final class CspDeserializationBuffer

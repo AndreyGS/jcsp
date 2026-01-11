@@ -26,7 +26,7 @@
 package io.andreygs.jcsp.base.message;
 
 import io.andreygs.jcsp.base.types.CspDataFlags;
-import io.andreygs.jcsp.base.types.CspInterfaceVersion;
+import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
 
 import java.util.List;
 
@@ -37,6 +37,6 @@ public interface ICspDataMessage
     extends ICspMessageCommon
 {
     Class<?> getStructClazz();
-    CspInterfaceVersion getInterfaceVersion();
+    ICspInterfaceVersion getInterfaceVersion();
     List<CspDataFlags> getCspDataFlags();
 }

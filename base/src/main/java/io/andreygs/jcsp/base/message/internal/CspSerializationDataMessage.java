@@ -26,9 +26,10 @@
 package io.andreygs.jcsp.base.message.internal;
 
 import io.andreygs.jcsp.base.message.ICspDataMessage;
+import io.andreygs.jcsp.base.message.buffer.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspDataFlags;
-import io.andreygs.jcsp.base.types.CspInterfaceVersion;
+import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
 import io.andreygs.jcsp.base.types.CspMessageType;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
@@ -39,23 +40,21 @@ import java.util.List;
 /**
  * TODO: place description here
  */
-public final class CspSerializationDataMessage extends AbstractCspSerializationMessageCommon
-    implements ICspDataMessage
+final class CspSerializationDataMessage extends AbstractCspSerializationMessageCommon
+    implements ICspSerializationDataMessage
 {
     private final Class<?> structClazz;
-    private final CspInterfaceVersion cspInterfaceVersion;
+    private final ICspInterfaceVersion cspInterfaceVersion;
     private final List<CspDataFlags> cspDataFlags;
 
-    public CspSerializationDataMessage(Integer initialBufferCapacity,
-                                       Boolean directBuffer,
-                                       IBufferResizeStrategy bufferResizeStrategy,
+    public CspSerializationDataMessage(ICspSerializationBuffer cspSerializationBuffer,
                                        CspProtocolVersion cspProtocolVersion,
                                        List<CspCommonFlags> cspCommonFlags,
                                        Class<?> structClazz,
-                                       CspInterfaceVersion cspInterfaceVersion,
+                                       ICspInterfaceVersion cspInterfaceVersion,
                                        List<CspDataFlags> cspDataFlags)
     {
-        super(initialBufferCapacity, directBuffer, bufferResizeStrategy, cspProtocolVersion, CspMessageType.DATA,
+        super(cspSerializationBuffer, cspProtocolVersion, CspMessageType.DATA,
               cspCommonFlags);
         this.structClazz = structClazz;
         this.cspInterfaceVersion = cspInterfaceVersion;
@@ -69,7 +68,7 @@ public final class CspSerializationDataMessage extends AbstractCspSerializationM
     }
 
     @Override
-    public CspInterfaceVersion getInterfaceVersion()
+    public ICspInterfaceVersion getInterfaceVersion()
     {
         return cspInterfaceVersion;
     }

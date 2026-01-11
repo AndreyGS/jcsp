@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,19 +22,17 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module io.andreygs.jcsp.base {
-    requires transitive org.jetbrains.annotations;
 
-    exports io.andreygs.jcsp.base.message;
-    exports io.andreygs.jcsp.base.types;
-    exports io.andreygs.jcsp.base.utils;
+package io.andreygs.jcsp.base.message.internal;
 
-    exports io.andreygs.jcsp.base.message.buffer to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.message.buffer.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.message.internal to io.andreygs.jcsp.base.test;
+import io.andreygs.jcsp.base.message.ICspMessageCommon;
+import io.andreygs.jcsp.base.message.buffer.ICspSerializationBuffer;
 
-    opens io.andreygs.jcsp.base.message.buffer.internal to io.andreygs.jcsp.base.test;
-
-    uses io.andreygs.jcsp.base.message.ICspMessageBuilderFactory;
-    provides io.andreygs.jcsp.base.message.ICspMessageBuilderFactory with io.andreygs.jcsp.base.message.internal.CspMessageBuilderFactory;
+/**
+ * TODO: place description here
+ */
+public sealed interface ICspSerializationMessageCommon extends ICspMessageCommon
+    permits AbstractCspSerializationMessageCommon, ICspSerializationDataMessage, ICspSerializationStatusMessage
+{
+    ICspSerializationBuffer getCspSerializationBuffer();
 }

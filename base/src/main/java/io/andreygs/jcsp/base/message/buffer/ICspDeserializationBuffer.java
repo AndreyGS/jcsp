@@ -30,7 +30,7 @@ import io.andreygs.jcsp.base.message.buffer.internal.ICspBuffer;
 
 /**
  * Extension of {@link ICspBuffer} to be used in CSP deserialization process.
- * <p/>
+ * <p>
  * Clients can use it for implementing ad-hoc deserialization methods.
  */
 public sealed interface ICspDeserializationBuffer
