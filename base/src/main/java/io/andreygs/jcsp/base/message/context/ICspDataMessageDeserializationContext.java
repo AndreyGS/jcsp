@@ -23,14 +23,16 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
+package io.andreygs.jcsp.base.message.context;
 
 import io.andreygs.jcsp.base.message.ICspDataMessage;
+import io.andreygs.jcsp.base.message.context.internal.CspDataMessageDeserializationContext;
+import io.andreygs.jcsp.base.message.context.internal.ICspMessageDeserializationContext;
 
 /**
  * TODO: place description here
  */
-public sealed interface ICspDeserializationDataMessage extends ICspDataMessage, ICspDeserializationMessageCommon
-    permits CspDeserializationDataMessage
+public sealed interface ICspDataMessageDeserializationContext extends ICspDataMessage, ICspMessageDeserializationContext
+    permits CspDataMessageDeserializationContext
 {
 }

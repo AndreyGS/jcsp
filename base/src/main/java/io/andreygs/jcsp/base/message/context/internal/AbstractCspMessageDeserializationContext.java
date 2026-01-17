@@ -23,14 +23,11 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
+package io.andreygs.jcsp.base.message.context.internal;
 
-import io.andreygs.jcsp.base.message.ICspStatusMessage;
-import io.andreygs.jcsp.base.message.buffer.ICspDeserializationBuffer;
+import io.andreygs.jcsp.base.message.buffer.internal.ICspDeserializationBuffer;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
-import io.andreygs.jcsp.base.types.CspMessageType;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
-import io.andreygs.jcsp.base.types.CspStatus;
 
 import java.nio.ByteBuffer;
 import java.util.List;
@@ -38,21 +35,45 @@ import java.util.List;
 /**
  * TODO: place description here
  */
-final class CspDeserializationStatusMessage extends AbstractCspDeserializationMessageCommon
-    implements ICspDeserializationStatusMessage
+sealed abstract class AbstractCspMessageDeserializationContext
+    implements ICspMessageDeserializationContext
+    permits CspDataMessageDeserializationContext, CspStatusMessageDeserializationContext
 {
-    private final CspStatus cspStatus;
+    private final ICspDeserializationBuffer cspDeserializationBuffer;
+    private final CspProtocolVersion cspProtocolVersion;
+    private final List<CspCommonFlags> cspCommonFlags;
 
-    public CspDeserializationStatusMessage(ICspDeserializationBuffer cspDeserializationBuffer, CspProtocolVersion cspProtocolVersion,
-                                           List<CspCommonFlags> cspCommonFlags, CspStatus cspStatus)
+    public AbstractCspMessageDeserializationContext(ICspDeserializationBuffer cspDeserializationBuffer,
+                                                    CspProtocolVersion cspProtocolVersion,
+                                                    List<CspCommonFlags> cspCommonFlags)
     {
-        super(cspDeserializationBuffer, cspProtocolVersion, CspMessageType.STATUS, cspCommonFlags);
-        this.cspStatus = cspStatus;
+        this.cspDeserializationBuffer = cspDeserializationBuffer;
+        this.cspProtocolVersion = cspProtocolVersion;
+        this.cspCommonFlags = cspCommonFlags;
     }
 
     @Override
-    public CspStatus getStatus()
+    final public ByteBuffer getBinaryData()
     {
-        return cspStatus;
+        return cspDeserializationBuffer.getByteBuffer();
+    }
+
+    @Override
+    final public CspProtocolVersion getCspProtocolVersion()
+    {
+        return cspProtocolVersion;
+    }
+
+    @Override
+    final public List<CspCommonFlags> getCspCommonFlags()
+    {
+        return cspCommonFlags;
+    }
+
+    @Override
+    final public ICspDeserializationBuffer getCspDeserializationBuffer()
+    {
+        return cspDeserializationBuffer;
     }
 }
+

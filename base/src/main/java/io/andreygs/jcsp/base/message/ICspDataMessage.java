@@ -34,7 +34,7 @@ import java.util.List;
  * TODO: place description here
  */
 public interface ICspDataMessage
-    extends ICspMessageCommon
+    extends ICspMessage
 {
     Class<?> getStructClazz();
     ICspInterfaceVersion getInterfaceVersion();

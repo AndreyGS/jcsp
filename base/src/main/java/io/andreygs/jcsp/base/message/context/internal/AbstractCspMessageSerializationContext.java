@@ -23,16 +23,11 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
+package io.andreygs.jcsp.base.message.context.internal;
 
-import io.andreygs.jcsp.base.message.ICspMessageCommon;
-import io.andreygs.jcsp.base.message.buffer.internal.CspSerializationBufferFactory;
-import io.andreygs.jcsp.base.message.buffer.ICspSerializationBuffer;
+import io.andreygs.jcsp.base.message.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
-import io.andreygs.jcsp.base.types.CspMessageType;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
-import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
-import org.jetbrains.annotations.Nullable;
 
 import java.nio.ByteBuffer;
 import java.util.List;
@@ -40,23 +35,20 @@ import java.util.List;
 /**
  * TODO: place description here
  */
-sealed abstract class AbstractCspSerializationMessageCommon
-    implements ICspSerializationMessageCommon
-    permits CspSerializationDataMessage, CspSerializationStatusMessage
+sealed abstract class AbstractCspMessageSerializationContext
+    implements ICspMessageSerializationContext
+    permits CspDataMessageSerializationContext, CspStatusMessageSerializationContext
 {
     private final ICspSerializationBuffer cspSerializationBuffer;
     private final CspProtocolVersion cspProtocolVersion;
-    private final CspMessageType cspMessageType;
     private final List<CspCommonFlags> cspCommonFlags;
 
-    public AbstractCspSerializationMessageCommon(ICspSerializationBuffer cspSerializationBuffer,
-                                                 CspProtocolVersion cspProtocolVersion,
-                                                 CspMessageType cspMessageType,
-                                                 List<CspCommonFlags> cspCommonFlags)
+    public AbstractCspMessageSerializationContext(ICspSerializationBuffer cspSerializationBuffer,
+                                                  CspProtocolVersion cspProtocolVersion,
+                                                  List<CspCommonFlags> cspCommonFlags)
     {
         this.cspSerializationBuffer = cspSerializationBuffer;
         this.cspProtocolVersion = cspProtocolVersion;
-        this.cspMessageType = cspMessageType;
         this.cspCommonFlags = cspCommonFlags;
     }
 
@@ -70,12 +62,6 @@ sealed abstract class AbstractCspSerializationMessageCommon
     public CspProtocolVersion getCspProtocolVersion()
     {
         return cspProtocolVersion;
-    }
-
-    @Override
-    public CspMessageType getCspMessageType()
-    {
-        return cspMessageType;
     }
 
     @Override

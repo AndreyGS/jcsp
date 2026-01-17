@@ -26,26 +26,16 @@
 package io.andreygs.jcsp.base.message;
 
 import io.andreygs.jcsp.base.types.CspCommonFlags;
-import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
+import io.andreygs.jcsp.base.types.CspMessageType;
+import io.andreygs.jcsp.base.types.CspProtocolVersion;
 
+import java.nio.ByteBuffer;
 import java.util.List;
 
-/**
- * TODO: place description here
- */
-public interface ICspSerializedGetSettingsMessageBuilder extends ICspSerializedMessageCommonBuilder
+public interface ICspMessage
 {
-    @Override
-    ICspSerializedGetSettingsMessageBuilder setBufferInitialCapacity(int initialBufferCapacity);
-
-    @Override
-    ICspSerializedGetSettingsMessageBuilder setDirectBuffer(boolean directBuffer);
-
-    @Override
-    ICspSerializedGetSettingsMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
-
-    @Override
-    ICspSerializedGetSettingsMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
-
-    ICspGetSettingsMessage serialize();
+    ByteBuffer getBinaryData();
+    CspProtocolVersion getCspProtocolVersion();
+    CspMessageType getCspMessageType();
+    List<CspCommonFlags> getCspCommonFlags();
 }

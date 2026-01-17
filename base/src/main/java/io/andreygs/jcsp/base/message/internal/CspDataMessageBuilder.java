@@ -26,7 +26,7 @@
 package io.andreygs.jcsp.base.message.internal;
 
 import io.andreygs.jcsp.base.message.ICspDataMessage;
-import io.andreygs.jcsp.base.message.ICspSerializedDataMessageBuilder;
+import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
 import io.andreygs.jcsp.base.processing.internal.Serializer;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspDataFlags;
@@ -41,56 +41,56 @@ import java.util.List;
 /**
  * TODO: place description here
  */
-class CspSerializedDataMessageBuilder extends AbstractCspSerializedMessageCommonBuilder
-    implements ICspSerializedDataMessageBuilder
+class CspDataMessageBuilder extends AbstractCspMessageBuilder
+    implements ICspDataMessageBuilder
 {
     private @Nullable ICspInterfaceVersion cspInterfaceVersion;
     private @Nullable List<CspDataFlags> cspDataFlags;
 
     @Override
-    public ICspSerializedDataMessageBuilder setBufferInitialCapacity(int initialBufferCapacity)
+    public ICspDataMessageBuilder setBufferInitialCapacity(int initialBufferCapacity)
     {
         super.setBufferInitialCapacity(initialBufferCapacity);
         return this;
     }
 
     @Override
-    public ICspSerializedDataMessageBuilder setDirectBuffer(boolean directBuffer)
+    public ICspDataMessageBuilder setDirectBuffer(boolean directBuffer)
     {
         super.setDirectBuffer(directBuffer);
         return this;
     }
 
     @Override
-    public ICspSerializedDataMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy)
+    public ICspDataMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy)
     {
         super.setBufferResizeStrategy(bufferResizeStrategy);
         return this;
     }
 
     @Override
-    public ICspSerializedDataMessageBuilder setCspProtocolVersion(CspProtocolVersion cspProtocolVersion)
+    public ICspDataMessageBuilder setCspProtocolVersion(CspProtocolVersion cspProtocolVersion)
     {
         super.setCspProtocolVersion(cspProtocolVersion);
         return this;
     }
 
     @Override
-    public ICspSerializedDataMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags)
+    public ICspDataMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags)
     {
         super.setCspCommonFlags(cspCommonFlags);
         return this;
     }
 
     @Override
-    public ICspSerializedDataMessageBuilder setInterfaceVersion(ICspInterfaceVersion cspInterfaceVersion)
+    public ICspDataMessageBuilder setInterfaceVersion(ICspInterfaceVersion cspInterfaceVersion)
     {
         this.cspInterfaceVersion = cspInterfaceVersion;
         return this;
     }
 
     @Override
-    public ICspSerializedDataMessageBuilder setCspDataFlags(List<CspDataFlags> cspDataFlags)
+    public ICspDataMessageBuilder setCspDataFlags(List<CspDataFlags> cspDataFlags)
     {
         this.cspDataFlags = cspDataFlags;
         return this;

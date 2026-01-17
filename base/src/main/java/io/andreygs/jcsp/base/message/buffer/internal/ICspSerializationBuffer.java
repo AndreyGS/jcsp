@@ -23,10 +23,7 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.buffer;
-
-import io.andreygs.jcsp.base.message.buffer.internal.CspSerializationBuffer;
-import io.andreygs.jcsp.base.message.buffer.internal.ICspBuffer;
+package io.andreygs.jcsp.base.message.buffer.internal;
 
 import java.nio.ByteBuffer;
 

@@ -23,16 +23,29 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
+package io.andreygs.jcsp.base.message;
 
-import io.andreygs.jcsp.base.message.ICspMessageCommon;
-import io.andreygs.jcsp.base.message.buffer.ICspDeserializationBuffer;
+import io.andreygs.jcsp.base.types.CspCommonFlags;
+import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
+
+import java.util.List;
 
 /**
  * TODO: place description here
  */
-public sealed interface ICspDeserializationMessageCommon extends ICspMessageCommon
-    permits AbstractCspDeserializationMessageCommon, ICspDeserializationDataMessage, ICspDeserializationStatusMessage
+public interface ICspGetSettingsMessageBuilder extends ICspMessageBuilder
 {
-    ICspDeserializationBuffer getCspDeserializationBuffer();
+    @Override
+    ICspGetSettingsMessageBuilder setBufferInitialCapacity(int initialBufferCapacity);
+
+    @Override
+    ICspGetSettingsMessageBuilder setDirectBuffer(boolean directBuffer);
+
+    @Override
+    ICspGetSettingsMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
+
+    @Override
+    ICspGetSettingsMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
+
+    ICspGetSettingsMessage serialize();
 }

@@ -23,39 +23,18 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
+package io.andreygs.jcsp.base.message.context.internal;
 
-import io.andreygs.jcsp.base.message.ICspStatusMessage;
-import io.andreygs.jcsp.base.message.buffer.ICspSerializationBuffer;
-import io.andreygs.jcsp.base.types.CspCommonFlags;
-import io.andreygs.jcsp.base.types.CspMessageType;
-import io.andreygs.jcsp.base.types.CspProtocolVersion;
-import io.andreygs.jcsp.base.types.CspStatus;
-import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
+import io.andreygs.jcsp.base.message.ICspMessage;
+import io.andreygs.jcsp.base.message.buffer.internal.ICspSerializationBuffer;
+import io.andreygs.jcsp.base.message.context.ICspDataMessageSerializationContext;
 
 /**
  * TODO: place description here
  */
-final class CspSerializationStatusMessage extends AbstractCspSerializationMessageCommon
-    implements ICspSerializationStatusMessage
+public sealed interface ICspMessageSerializationContext extends ICspMessage
+    permits AbstractCspMessageSerializationContext, ICspDataMessageSerializationContext,
+            ICspStatusMessageSerializationContext
 {
-    private final CspStatus cspStatus;
-
-    public CspSerializationStatusMessage(ICspSerializationBuffer cspSerializationBuffer,
-                                         CspProtocolVersion cspProtocolVersion,
-                                         List<CspCommonFlags> cspCommonFlags,
-                                         CspStatus cspStatus)
-    {
-        super(cspSerializationBuffer, cspProtocolVersion, CspMessageType.STATUS, cspCommonFlags);
-        this.cspStatus = cspStatus;
-    }
-
-    @Override
-    public CspStatus getStatus()
-    {
-        return cspStatus;
-    }
+    ICspSerializationBuffer getCspSerializationBuffer();
 }

@@ -25,7 +25,9 @@
 
 package io.andreygs.jcsp.base.message.internal;
 
-import io.andreygs.jcsp.base.message.buffer.ICspSerializationBuffer;
+import io.andreygs.jcsp.base.message.buffer.internal.ICspSerializationBuffer;
+import io.andreygs.jcsp.base.message.context.internal.CspDataMessageSerializationContext;
+import io.andreygs.jcsp.base.message.context.ICspDataMessageSerializationContext;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspDataFlags;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
@@ -38,14 +40,14 @@ import java.util.List;
  */
 public class CspSerializationMessagesFactory
 {
-    public static ICspSerializationDataMessage createCspSerializationDataMessage(ICspSerializationBuffer cspSerializationBuffer,
-                                                                          CspProtocolVersion cspProtocolVersion,
-                                                                          List<CspCommonFlags> cspCommonFlags,
-                                                                          Class<?> structClazz,
-                                                                          ICspInterfaceVersion cspInterfaceVersion,
-                                                                          List<CspDataFlags> cspDataFlags)
+    public static ICspDataMessageSerializationContext createCspSerializationDataMessage(ICspSerializationBuffer cspSerializationBuffer,
+                                                                                        CspProtocolVersion cspProtocolVersion,
+                                                                                        List<CspCommonFlags> cspCommonFlags,
+                                                                                        Class<?> structClazz,
+                                                                                        ICspInterfaceVersion cspInterfaceVersion,
+                                                                                        List<CspDataFlags> cspDataFlags)
     {
-        return new CspSerializationDataMessage(cspSerializationBuffer, cspProtocolVersion, cspCommonFlags,
-                                               structClazz, cspInterfaceVersion, cspDataFlags);
+        return new CspDataMessageSerializationContext(cspSerializationBuffer, cspProtocolVersion, cspCommonFlags,
+                                                      structClazz, cspInterfaceVersion, cspDataFlags);
     }
 }

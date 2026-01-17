@@ -29,6 +29,6 @@ package io.andreygs.jcsp.base.message;
  * TODO: place description here
  */
 public interface ICspGetSettingsMessage
-    extends ICspMessageCommon
+    extends ICspMessage
 {
 }

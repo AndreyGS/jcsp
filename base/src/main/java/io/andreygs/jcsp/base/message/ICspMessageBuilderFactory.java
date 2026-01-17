@@ -30,5 +30,5 @@ package io.andreygs.jcsp.base.message;
  */
 public interface ICspMessageBuilderFactory
 {
-    ICspSerializedDataMessageBuilder createCspSerializedDataMessageBuilder();
+    ICspDataMessageBuilder createCspDataMessageBuilder();
 }

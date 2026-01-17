@@ -25,9 +25,6 @@
 
 package io.andreygs.jcsp.base.message.buffer.internal;
 
-import io.andreygs.jcsp.base.message.buffer.ICspDeserializationBuffer;
-import io.andreygs.jcsp.base.message.buffer.ICspSerializationBuffer;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 

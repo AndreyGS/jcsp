@@ -31,7 +31,7 @@ import io.andreygs.jcsp.base.types.CspStatus;
  * TODO: place description here
  */
 public interface ICspStatusMessage
-    extends ICspMessageCommon
+    extends ICspMessage
 {
     CspStatus getStatus();
 }

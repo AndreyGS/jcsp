@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,7 +22,31 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-@NotNullByDefault
-package io.andreygs.jcsp.base.message.buffer;
 
-import org.jetbrains.annotations.NotNullByDefault;
+package io.andreygs.jcsp.base.message;
+
+import io.andreygs.jcsp.base.types.CspCommonFlags;
+import io.andreygs.jcsp.base.types.CspStatus;
+import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
+
+import java.util.List;
+
+/**
+ * TODO: place description here
+ */
+public interface ICspStatusMessageBuilder extends ICspMessageBuilder
+{
+    @Override
+    ICspStatusMessageBuilder setBufferInitialCapacity(int initialBufferCapacity);
+
+    @Override
+    ICspStatusMessageBuilder setDirectBuffer(boolean directBuffer);
+
+    @Override
+    ICspStatusMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
+
+    @Override
+    ICspStatusMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
+
+    ICspStatusMessage serialize(CspStatus cspStatus);
+}

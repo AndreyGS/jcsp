@@ -23,23 +23,40 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.buffer.internal;
+package io.andreygs.jcsp.base.message.context.internal;
 
-import java.nio.ByteBuffer;
+import io.andreygs.jcsp.base.message.buffer.internal.ICspDeserializationBuffer;
+import io.andreygs.jcsp.base.types.CspCommonFlags;
+import io.andreygs.jcsp.base.types.CspMessageType;
+import io.andreygs.jcsp.base.types.CspProtocolVersion;
+import io.andreygs.jcsp.base.types.CspStatus;
+
+import java.util.List;
 
 /**
- * Factory for creating instance of {@link ICspDeserializationBuffer}.
+ * TODO: place description here
  */
-public class CspDeserializationBufferFactory
+public final class CspStatusMessageDeserializationContext extends AbstractCspMessageDeserializationContext
+    implements ICspStatusMessageDeserializationContext
 {
-    /**
-     * Creates ICspDeserializationBuffer.
-     *
-     * @param byteBuffer Buffer that contains CSP serialized data.
-     * @return instance of CspDeserializationByteBuffer.
-     */
-    public static ICspDeserializationBuffer create(ByteBuffer byteBuffer)
+    private final CspStatus cspStatus;
+
+    public CspStatusMessageDeserializationContext(ICspDeserializationBuffer cspDeserializationBuffer, CspProtocolVersion cspProtocolVersion,
+                                                  List<CspCommonFlags> cspCommonFlags, CspStatus cspStatus)
     {
-        return new CspDeserializationBuffer(byteBuffer);
+        super(cspDeserializationBuffer, cspProtocolVersion, cspCommonFlags);
+        this.cspStatus = cspStatus;
+    }
+
+    @Override
+    public CspMessageType getCspMessageType()
+    {
+        return CspMessageType.STATUS;
+    }
+
+    @Override
+    public CspStatus getStatus()
+    {
+        return cspStatus;
     }
 }

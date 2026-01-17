@@ -25,19 +25,18 @@
 
 package io.andreygs.jcsp.base.message.internal;
 
-import io.andreygs.jcsp.base.message.ICspSerializedMessageCommonBuilder;
+import io.andreygs.jcsp.base.message.ICspMessageBuilder;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * TODO: place description here
  */
-abstract class AbstractCspSerializedMessageCommonBuilder implements ICspSerializedMessageCommonBuilder
+abstract class AbstractCspMessageBuilder implements ICspMessageBuilder
 {
     private @Nullable Integer initialBufferCapacity;
     private @Nullable Boolean directBuffer;
@@ -46,35 +45,35 @@ abstract class AbstractCspSerializedMessageCommonBuilder implements ICspSerializ
     private @Nullable List<CspCommonFlags> cspCommonFlags;
 
     @Override
-    public ICspSerializedMessageCommonBuilder setBufferInitialCapacity(int initialBufferCapacity)
+    public ICspMessageBuilder setBufferInitialCapacity(int initialBufferCapacity)
     {
         this.initialBufferCapacity = initialBufferCapacity;
         return this;
     }
 
     @Override
-    public ICspSerializedMessageCommonBuilder setDirectBuffer(boolean directBuffer)
+    public ICspMessageBuilder setDirectBuffer(boolean directBuffer)
     {
         this.directBuffer = directBuffer;
         return this;
     }
 
     @Override
-    public ICspSerializedMessageCommonBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy)
+    public ICspMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy)
     {
         this.bufferResizeStrategy = bufferResizeStrategy;
         return this;
     }
 
     @Override
-    public ICspSerializedMessageCommonBuilder setCspProtocolVersion(CspProtocolVersion cspProtocolVersion)
+    public ICspMessageBuilder setCspProtocolVersion(CspProtocolVersion cspProtocolVersion)
     {
         this.cspProtocolVersion = cspProtocolVersion;
         return this;
     }
 
     @Override
-    public ICspSerializedMessageCommonBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags)
+    public ICspMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags)
     {
         this.cspCommonFlags = cspCommonFlags;
         return this;

@@ -23,30 +23,18 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message;
+package io.andreygs.jcsp.base.message.context.internal;
 
-import io.andreygs.jcsp.base.types.CspCommonFlags;
-import io.andreygs.jcsp.base.types.CspStatus;
-import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
-
-import java.util.List;
+import io.andreygs.jcsp.base.message.ICspMessage;
+import io.andreygs.jcsp.base.message.buffer.internal.ICspDeserializationBuffer;
+import io.andreygs.jcsp.base.message.context.ICspDataMessageDeserializationContext;
 
 /**
  * TODO: place description here
  */
-public interface ICspSerializedStatusMessageBuilder extends ICspSerializedMessageCommonBuilder
+public sealed interface ICspMessageDeserializationContext extends ICspMessage
+    permits AbstractCspMessageDeserializationContext, ICspDataMessageDeserializationContext,
+            ICspStatusMessageDeserializationContext
 {
-    @Override
-    ICspSerializedStatusMessageBuilder setBufferInitialCapacity(int initialBufferCapacity);
-
-    @Override
-    ICspSerializedStatusMessageBuilder setDirectBuffer(boolean directBuffer);
-
-    @Override
-    ICspSerializedStatusMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
-
-    @Override
-    ICspSerializedStatusMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
-
-    ICspStatusMessage serialize(CspStatus cspStatus);
+    ICspDeserializationBuffer getCspDeserializationBuffer();
 }

@@ -23,23 +23,26 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.buffer.internal;
+package io.andreygs.jcsp.base.message;
 
-import java.nio.ByteBuffer;
+import io.andreygs.jcsp.base.types.CspCommonFlags;
+import io.andreygs.jcsp.base.types.CspProtocolVersion;
+import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
+
+import java.util.List;
 
 /**
- * Factory for creating instance of {@link ICspDeserializationBuffer}.
+ * TODO: place description here
  */
-public class CspDeserializationBufferFactory
+public interface ICspMessageBuilder
 {
-    /**
-     * Creates ICspDeserializationBuffer.
-     *
-     * @param byteBuffer Buffer that contains CSP serialized data.
-     * @return instance of CspDeserializationByteBuffer.
-     */
-    public static ICspDeserializationBuffer create(ByteBuffer byteBuffer)
-    {
-        return new CspDeserializationBuffer(byteBuffer);
-    }
+    ICspMessageBuilder setBufferInitialCapacity(int initialBufferCapacity);
+
+    ICspMessageBuilder setDirectBuffer(boolean directBuffer);
+
+    ICspMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
+
+    ICspMessageBuilder setCspProtocolVersion(CspProtocolVersion cspProtocolVersion);
+
+    ICspMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
 }

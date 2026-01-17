@@ -1,4 +1,6 @@
 /**
+ * TODO: place brief description here
+ *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -22,37 +24,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+@NotNullByDefault
+package io.andreygs.jcsp.base.message.context;
 
-package io.andreygs.jcsp.base.message;
-
-import io.andreygs.jcsp.base.types.CspCommonFlags;
-import io.andreygs.jcsp.base.types.CspDataFlags;
-import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
-import io.andreygs.jcsp.base.types.ICspSerializable;
-import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
-
-import java.util.List;
-
-/**
- * TODO: place description here
- */
-public interface ICspSerializedDataMessageBuilder extends ICspSerializedMessageCommonBuilder
-{
-    @Override
-    ICspSerializedDataMessageBuilder setBufferInitialCapacity(int initialBufferCapacity);
-
-    @Override
-    ICspSerializedDataMessageBuilder setDirectBuffer(boolean directBuffer);
-
-    @Override
-    ICspSerializedDataMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
-
-    @Override
-    ICspSerializedDataMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
-
-    ICspSerializedDataMessageBuilder setInterfaceVersion(ICspInterfaceVersion cspInterfaceVersion);
-
-    ICspSerializedDataMessageBuilder setCspDataFlags(List<CspDataFlags> cspDataFlags);
-
-    ICspDataMessage serialize(ICspSerializable cspSerializable);
-}
+import org.jetbrains.annotations.NotNullByDefault;

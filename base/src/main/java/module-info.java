@@ -26,13 +26,15 @@
  */
 module io.andreygs.jcsp.base {
     requires transitive org.jetbrains.annotations;
+    requires io.andreygs.jcsp.base;
 
     exports io.andreygs.jcsp.base.message;
+    exports io.andreygs.jcsp.base.message.context;
     exports io.andreygs.jcsp.base.types;
     exports io.andreygs.jcsp.base.utils;
 
-    exports io.andreygs.jcsp.base.message.buffer to io.andreygs.jcsp.base.test;
     exports io.andreygs.jcsp.base.message.buffer.internal to io.andreygs.jcsp.base.test;
+    exports io.andreygs.jcsp.base.message.context.internal to io.andreygs.jcsp.base.test;
     exports io.andreygs.jcsp.base.message.internal to io.andreygs.jcsp.base.test;
 
     opens io.andreygs.jcsp.base.message.buffer.internal to io.andreygs.jcsp.base.test;

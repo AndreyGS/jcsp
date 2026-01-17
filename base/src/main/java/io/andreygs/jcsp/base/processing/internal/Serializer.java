@@ -26,10 +26,10 @@
 package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.message.ICspDataMessage;
-import io.andreygs.jcsp.base.message.buffer.ICspSerializationBuffer;
+import io.andreygs.jcsp.base.message.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.message.buffer.internal.CspSerializationBufferFactory;
 import io.andreygs.jcsp.base.message.internal.CspSerializationMessagesFactory;
-import io.andreygs.jcsp.base.message.internal.ICspSerializationDataMessage;
+import io.andreygs.jcsp.base.message.context.ICspDataMessageSerializationContext;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspDataFlags;
 import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
@@ -66,7 +66,7 @@ public class Serializer
             CspSerializationBufferFactory.create(initialBufferCapacity, directBuffer, bufferResizeStrategy);
 
         // TODO construction of message should be made later (right before message body serialization).
-        ICspSerializationDataMessage cspSerializationDataMessage =
+        ICspDataMessageSerializationContext cspSerializationDataMessage =
             CspSerializationMessagesFactory.createCspSerializationDataMessage(cspSerializationBuffer,
                                                                               cspProtocolVersion == null ? DEFAULT_CSP_PROTOCOL_VERSION : cspProtocolVersion,
                                                                               cspCommonFlags == null ? DEFAULT_CSP_COMMON_FLAGS : cspCommonFlags,

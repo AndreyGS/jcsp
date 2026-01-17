@@ -23,19 +23,14 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message;
+package io.andreygs.jcsp.base.message.context.internal;
 
-import io.andreygs.jcsp.base.types.CspCommonFlags;
-import io.andreygs.jcsp.base.types.CspMessageType;
-import io.andreygs.jcsp.base.types.CspProtocolVersion;
+import io.andreygs.jcsp.base.message.ICspStatusMessage;
 
-import java.nio.ByteBuffer;
-import java.util.List;
-
-public interface ICspMessageCommon
+/**
+ * TODO: place description here
+ */
+public sealed interface ICspStatusMessageSerializationContext extends ICspStatusMessage, ICspMessageSerializationContext
+    permits CspStatusMessageSerializationContext
 {
-    ByteBuffer getBinaryData();
-    CspProtocolVersion getCspProtocolVersion();
-    CspMessageType getCspMessageType();
-    List<CspCommonFlags> getCspCommonFlags();
 }

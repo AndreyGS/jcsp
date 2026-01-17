@@ -26,15 +26,15 @@
 package io.andreygs.jcsp.base.message.internal;
 
 import io.andreygs.jcsp.base.message.ICspMessageBuilderFactory;
-import io.andreygs.jcsp.base.message.ICspSerializedDataMessageBuilder;
+import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
 
 /**
  * TODO: place description here
  */
 public class CspMessageBuilderFactory implements ICspMessageBuilderFactory
 {
-    public ICspSerializedDataMessageBuilder createCspSerializedDataMessageBuilder()
+    public ICspDataMessageBuilder createCspDataMessageBuilder()
     {
-        return new CspSerializedDataMessageBuilder();
+        return new CspDataMessageBuilder();
     }
 }
