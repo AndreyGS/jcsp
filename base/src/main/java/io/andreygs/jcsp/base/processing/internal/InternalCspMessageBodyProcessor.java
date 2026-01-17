@@ -35,6 +35,11 @@ import java.nio.charset.StandardCharsets;
  */
 public class InternalCspMessageBodyProcessor
 {
+    private InternalCspMessageBodyProcessor()
+    {
+
+    }
+
     public static void serialize(byte value, ICspDataMessageSerializationContext context)
     {
         context.getCspSerializationBuffer().write(value);
