@@ -35,7 +35,7 @@ public interface ICspSerializable
     UUID getId();
     ICspInterfaceVersion[] getPrivateVersions();
     ICspInterfaceVersion getInterfaceVersion();
-    String[] getSerializableFields();
+    String[] getCspFieldNames();
 
     default ICspInterfaceVersion getOriginPrivateVersion()
     {

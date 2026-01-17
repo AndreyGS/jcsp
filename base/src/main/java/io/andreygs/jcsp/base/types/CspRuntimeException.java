@@ -34,4 +34,9 @@ public class CspRuntimeException extends RuntimeException
     {
         super(status.toString());
     }
+
+    public CspRuntimeException(CspStatus status, String additionalInfo)
+    {
+        super(status.toString() + ' ' + additionalInfo);
+    }
 }

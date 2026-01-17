@@ -25,10 +25,13 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
-import io.andreygs.jcsp.base.message.context.ICspDataMessageSerializationContext;
+import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
+import io.andreygs.jcsp.base.types.ICspSerializable;
 
+import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 /**
  * TODO: place description here
@@ -38,6 +41,11 @@ public class InternalCspMessageBodyProcessor
     private InternalCspMessageBodyProcessor()
     {
 
+    }
+
+    public static void serialize(boolean value, ICspDataMessageSerializationContext context)
+    {
+        context.getCspSerializationBuffer().write((byte)(value ? 1 : 0));
     }
 
     public static void serialize(byte value, ICspDataMessageSerializationContext context)
@@ -120,5 +128,71 @@ public class InternalCspMessageBodyProcessor
     {
         context.getCspSerializationBuffer().write((long)value.length());
         context.getCspSerializationBuffer().write(value.getBytes(charset));
+    }
+
+    public static void serialize(ICspSerializable value, Class<?> clazz, ICspDataMessageSerializationContext context)
+    {
+        Class<?> parentClazz = clazz.getSuperclass();
+        if (ICspSerializable.class.isAssignableFrom(parentClazz))
+        {
+            serialize(value, clazz, context);
+        }
+
+        Arrays.stream(value.getCspFieldNames()).forEach(fieldName -> {
+            try
+            {
+                Field field = clazz.getDeclaredField(fieldName);
+                Class<?> fieldClazz = field.getDeclaringClass();
+                if (fieldClazz == boolean.class)
+                {
+                    serialize(field.getBoolean(value), context);
+                }
+                else if (fieldClazz == byte.class)
+                {
+                    serialize(field.getByte(value), context);
+                }
+                else if (fieldClazz == short.class)
+                {
+                    serialize(field.getShort(value), context);
+                }
+                else if (fieldClazz == int.class)
+                {
+                    serialize(field.getInt(value), context);
+                }
+                else if (fieldClazz == long.class)
+                {
+                    serialize(field.getLong(value), context);
+                }
+                else if (fieldClazz == char.class)
+                {
+                    serialize(field.getChar(value), context);
+                }
+                else if (fieldClazz == float.class)
+                {
+                    serialize(field.getFloat(value), context);
+                }
+                else if (fieldClazz == double.class)
+                {
+                    serialize(field.getDouble(value), context);
+                }
+                else if (fieldClazz == ICspSerializable.class)
+                {
+                    serialize((ICspSerializable)field.get(value), fieldClazz, context);
+                }
+                else
+                {
+                    serialize(field.get(value), context);
+                }
+            }
+            catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e)
+            {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    public static void serialize(Object value, ICspDataMessageSerializationContext context)
+    {
+
     }
 }

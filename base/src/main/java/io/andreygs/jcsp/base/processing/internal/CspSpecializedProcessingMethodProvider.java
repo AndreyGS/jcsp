@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,23 +22,36 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module io.andreygs.jcsp.base {
-    requires transitive org.jetbrains.annotations;
-    requires io.andreygs.jcsp.base;
 
-    exports io.andreygs.jcsp.base.message;
-    exports io.andreygs.jcsp.base.processing;
-    exports io.andreygs.jcsp.base.processing.context;
-    exports io.andreygs.jcsp.base.types;
-    exports io.andreygs.jcsp.base.utils;
+package io.andreygs.jcsp.base.processing.internal;
 
-    exports io.andreygs.jcsp.base.message.buffer.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.message.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.processing.context.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.processing.internal to io.andreygs.jcsp.base.test;
+import io.andreygs.jcsp.base.processing.context.ICspDataMessageDeserializationContext;
+import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
 
-    opens io.andreygs.jcsp.base.message.buffer.internal to io.andreygs.jcsp.base.test;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.function.BiConsumer;
 
-    uses io.andreygs.jcsp.base.message.ICspMessageBuilderFactory;
-    provides io.andreygs.jcsp.base.message.ICspMessageBuilderFactory with io.andreygs.jcsp.base.message.internal.CspMessageBuilderFactory;
+/**
+ * TODO: place description here
+ */
+public class CspSpecializedProcessingMethodProvider
+    implements ICspSpecializedProcessingMethodProvider
+{
+    private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
+    Map<Class<?>, BiConsumer<Object, ICspDataMessageSerializationContext>> serializationMethods = Map.of();
+
+    @Override
+    public BiConsumer<Object, ICspDataMessageSerializationContext> provideSerializationMethod(Class<?> clazz)
+    {
+        return null;
+    }
+
+    @Override
+    public BiConsumer<ICspDataMessageDeserializationContext, Object>  provideDeserializationMethod(Class<?> clazz)
+    {
+        return null;
+    }
 }

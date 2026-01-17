@@ -1,4 +1,6 @@
 /**
+ * TODO: place brief description here
+ *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -22,41 +24,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+@NotNullByDefault
+package io.andreygs.jcsp.base.processing.context.internal;
 
-package io.andreygs.jcsp.base.message.context.internal;
-
-import io.andreygs.jcsp.base.message.buffer.internal.ICspDeserializationBuffer;
-import io.andreygs.jcsp.base.types.CspCommonFlags;
-import io.andreygs.jcsp.base.types.CspMessageType;
-import io.andreygs.jcsp.base.types.CspProtocolVersion;
-import io.andreygs.jcsp.base.types.CspStatus;
-
-import java.util.List;
-
-/**
- * TODO: place description here
- */
-public final class CspStatusMessageDeserializationContext extends AbstractCspMessageDeserializationContext
-    implements ICspStatusMessageDeserializationContext
-{
-    private final CspStatus cspStatus;
-
-    public CspStatusMessageDeserializationContext(ICspDeserializationBuffer cspDeserializationBuffer, CspProtocolVersion cspProtocolVersion,
-                                                  List<CspCommonFlags> cspCommonFlags, CspStatus cspStatus)
-    {
-        super(cspDeserializationBuffer, cspProtocolVersion, cspCommonFlags);
-        this.cspStatus = cspStatus;
-    }
-
-    @Override
-    public CspMessageType getCspMessageType()
-    {
-        return CspMessageType.STATUS;
-    }
-
-    @Override
-    public CspStatus getStatus()
-    {
-        return cspStatus;
-    }
-}
+import org.jetbrains.annotations.NotNullByDefault;

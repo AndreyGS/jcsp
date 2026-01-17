@@ -23,18 +23,12 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.context.internal;
-
-import io.andreygs.jcsp.base.message.ICspMessage;
-import io.andreygs.jcsp.base.message.buffer.internal.ICspSerializationBuffer;
-import io.andreygs.jcsp.base.message.context.ICspDataMessageSerializationContext;
+package io.andreygs.jcsp.base.processing.internal;
 
 /**
  * TODO: place description here
  */
-public sealed interface ICspMessageSerializationContext extends ICspMessage
-    permits AbstractCspMessageSerializationContext, ICspDataMessageSerializationContext,
-            ICspStatusMessageSerializationContext
+public class CspSpecializedProcessorRegistrator
 {
-    ICspSerializationBuffer getCspSerializationBuffer();
+
 }

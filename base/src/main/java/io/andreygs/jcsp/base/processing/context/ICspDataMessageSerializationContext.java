@@ -23,11 +23,11 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.context;
+package io.andreygs.jcsp.base.processing.context;
 
 import io.andreygs.jcsp.base.message.ICspDataMessage;
-import io.andreygs.jcsp.base.message.context.internal.CspDataMessageSerializationContext;
-import io.andreygs.jcsp.base.message.context.internal.ICspMessageSerializationContext;
+import io.andreygs.jcsp.base.processing.context.internal.CspDataMessageSerializationContext;
+import io.andreygs.jcsp.base.processing.context.internal.ICspMessageSerializationContext;
 
 /**
  * TODO: place description here

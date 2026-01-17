@@ -25,13 +25,12 @@
 
 package io.andreygs.jcsp.base.types;
 
-import io.andreygs.jcsp.base.utils.AbstractResourceMessages;
+import io.andreygs.jcsp.base.utils.ResourceMessagesLoader;
 
 /**
  * TODO: place description here
  */
 final class Messages
-    extends AbstractResourceMessages
 {
     public static String CspCommonFlags_BigEndian;
     public static String CspCommonFlags_Bitness32;
@@ -61,9 +60,10 @@ final class Messages
     public static String CspStatus_No_Error;
     public static String CspStatus_No_Memory;
     public static String CspStatus_Type;
+    public static String CspStatus_No_Such_Handler;
 
     static
     {
-        loadMessages(Messages.class);
+        ResourceMessagesLoader.loadMessages(Messages.class);
     }
 }

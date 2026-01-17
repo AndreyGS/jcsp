@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.base.processing;
 
-import io.andreygs.jcsp.base.message.context.ICspDataMessageSerializationContext;
+import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
 import io.andreygs.jcsp.base.processing.internal.InternalCspMessageBodyProcessor;
 import io.andreygs.jcsp.base.types.ICspSerializable;
 
@@ -39,6 +39,11 @@ public class CspMessageBodyProcessor
     private CspMessageBodyProcessor()
     {
 
+    }
+
+    public static void serialize(boolean value, ICspDataMessageSerializationContext context)
+    {
+        InternalCspMessageBodyProcessor.serialize(value, context);
     }
 
     public static void serialize(byte value, ICspDataMessageSerializationContext context)
@@ -121,13 +126,13 @@ public class CspMessageBodyProcessor
         InternalCspMessageBodyProcessor.serialize(value, charset, context);
     }
 
-    public static void serialize(ICspSerializable value, ICspDataMessageSerializationContext context)
+    public static void serialize(ICspSerializable value, Class<?> clazz, ICspDataMessageSerializationContext context)
     {
-
+        InternalCspMessageBodyProcessor.serialize(value, clazz, context);
     }
 
     public static void serialize(Object value, ICspDataMessageSerializationContext context)
     {
-
+        InternalCspMessageBodyProcessor.serialize(value, context);
     }
 }

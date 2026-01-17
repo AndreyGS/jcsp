@@ -31,7 +31,8 @@ package io.andreygs.jcsp.base.types;
 public enum CspStatus
 {
     NO_ERROR(0, Messages.CspStatus_No_Error),
-    NO_MEMORY(-1, Messages.CspStatus_No_Memory);
+    NO_MEMORY(-1, Messages.CspStatus_No_Memory),
+    NO_SUCH_HANDLER(-10, Messages.CspStatus_No_Such_Handler);
 
     private final int code;
     private final String message;
