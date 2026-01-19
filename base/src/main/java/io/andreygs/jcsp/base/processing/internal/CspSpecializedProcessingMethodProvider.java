@@ -30,10 +30,12 @@ import io.andreygs.jcsp.base.processing.ICspSpecializedProcessor;
 import io.andreygs.jcsp.base.processing.ICspSpecializedProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageDeserializationContext;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
+import io.andreygs.jcsp.base.types.CspRuntimeException;
+import io.andreygs.jcsp.base.types.CspStatus;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.BiConsumer;
@@ -53,11 +55,19 @@ public class CspSpecializedProcessingMethodProvider
         cspSpecializedProcessorRegistrar.rwLock.readLock().lock();
         try
         {
-            return cspSpecializedProcessorRegistrar.serializationMethods.get(clazz);
+            BiConsumer<Object, ICspDataMessageSerializationContext> method =
+                cspSpecializedProcessorRegistrar.serializationMethods.get(clazz);
+            if (method == null)
+            {
+                throw CspRuntimeException.createCspRuntimeException(CspStatus.NO_SUCH_HANDLER,
+                                                              MessageFormat.format(Messages.CspStatus_No_Such_Handler_ext_No_specialized_processor_for__0__, clazz));
+            }
+
+            return method;
         }
         finally
         {
-            cspSpecializedProcessorRegistrar.rwLock.readLock().lock();
+            cspSpecializedProcessorRegistrar.rwLock.readLock().unlock();
         }
     }
 
@@ -67,11 +77,19 @@ public class CspSpecializedProcessingMethodProvider
         cspSpecializedProcessorRegistrar.rwLock.readLock().lock();
         try
         {
-            return cspSpecializedProcessorRegistrar.deserializationMethods.get(clazz);
+            BiConsumer<ICspDataMessageDeserializationContext, Object> method =
+                cspSpecializedProcessorRegistrar.deserializationMethods.get(clazz);
+            if (method == null)
+            {
+                throw CspRuntimeException.createCspRuntimeException(CspStatus.NO_SUCH_HANDLER,
+                                                                    MessageFormat.format(Messages.CspStatus_No_Such_Handler_ext_No_specialized_processor_for__0__, clazz));
+            }
+
+            return method;
         }
         finally
         {
-            cspSpecializedProcessorRegistrar.rwLock.readLock().lock();
+            cspSpecializedProcessorRegistrar.rwLock.readLock().unlock();
         }
     }
 
@@ -83,8 +101,6 @@ public class CspSpecializedProcessingMethodProvider
             = new HashMap<>();
         private final Map<Class<?>, BiConsumer<ICspDataMessageDeserializationContext, Object>> deserializationMethods
             = new HashMap<>();
-        private final ICspSpecializedProcessingMethodProvider cspSpecializedProcessingMethodProvider
-            = new CspSpecializedProcessingMethodProvider();
 
         @Override
         public void registerProcessor(Class<?> clazz, ICspSpecializedProcessor processor)
@@ -97,7 +113,7 @@ public class CspSpecializedProcessingMethodProvider
             }
             finally
             {
-                rwLock.writeLock().lock();
+                rwLock.writeLock().unlock();
             }
         }
 
@@ -112,7 +128,7 @@ public class CspSpecializedProcessingMethodProvider
             }
             finally
             {
-                rwLock.writeLock().lock();
+                rwLock.writeLock().unlock();
             }
         }
     }
