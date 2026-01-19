@@ -46,7 +46,7 @@ public interface ICspSpecializedProcessingMethodProvider
      * @param clazz Class which need of specialized serialization method.
      * @return specialized serialization method for the selected class.
      *
-     * @throws io.andreygs.jcsp.base.types.CspRuntimeException when there is no such method.
+     * @throws io.andreygs.jcsp.base.types.CspRuntimeException when there is no specialized serialization method.
      */
     BiConsumer<Object, ICspDataMessageSerializationContext> provideSerializationMethod(Class<?> clazz);
 
@@ -56,7 +56,7 @@ public interface ICspSpecializedProcessingMethodProvider
      * @param clazz Class which need of specialized deserialization method.
      * @return specialized deserialization method for the selected class.
      *
-     * @throws io.andreygs.jcsp.base.types.CspRuntimeException when there is no such method.
+     * @throws io.andreygs.jcsp.base.types.CspRuntimeException when there is no specialized deserialization  method.
      */
     BiConsumer<ICspDataMessageDeserializationContext, Object> provideDeserializationMethod(Class<?> clazz);
 }

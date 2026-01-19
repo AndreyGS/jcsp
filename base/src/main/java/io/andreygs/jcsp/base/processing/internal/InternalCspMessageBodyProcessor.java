@@ -28,16 +28,21 @@ package io.andreygs.jcsp.base.processing.internal;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
 import io.andreygs.jcsp.base.types.ICspSerializable;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.function.BiConsumer;
 
 /**
  * TODO: place description here
  */
 public class InternalCspMessageBodyProcessor
 {
+    private static final ICspSpecializedProcessingMethodProvider cspSpecializedProcessingMethodProvider =
+        CspSpecializedProcessingMethodProviderFactory.createCspSpecializedProcessingMethodProvider();
+
     private InternalCspMessageBodyProcessor()
     {
 
@@ -81,6 +86,14 @@ public class InternalCspMessageBodyProcessor
     public static void serialize(double value, ICspDataMessageSerializationContext context)
     {
         context.getCspSerializationBuffer().write(value);
+    }
+
+    public static void serialize(boolean[] value, ICspDataMessageSerializationContext context)
+    {
+        for (boolean item : value)
+        {
+            context.getCspSerializationBuffer().write((byte)(item ? 1 : 0));
+        }
     }
 
     public static void serialize(byte[] value, ICspDataMessageSerializationContext context)
@@ -135,7 +148,7 @@ public class InternalCspMessageBodyProcessor
         Class<?> parentClazz = clazz.getSuperclass();
         if (ICspSerializable.class.isAssignableFrom(parentClazz))
         {
-            serialize(value, clazz, context);
+            serialize(value, parentClazz, context);
         }
 
         Arrays.stream(value.getCspFieldNames()).forEach(fieldName -> {
@@ -179,6 +192,42 @@ public class InternalCspMessageBodyProcessor
                 {
                     serialize((ICspSerializable)field.get(value), fieldClazz, context);
                 }
+                else if (fieldClazz == boolean[].class)
+                {
+                    serialize((boolean[])field.get(value), context);
+                }
+                else if (fieldClazz == byte[].class)
+                {
+                    serialize((byte[])field.get(value), context);
+                }
+                else if (fieldClazz == short[].class)
+                {
+                    serialize((short[])field.get(value), context);
+                }
+                else if (fieldClazz == int[].class)
+                {
+                    serialize((int[])field.get(value), context);
+                }
+                else if (fieldClazz == long[].class)
+                {
+                    serialize((long[])field.get(value), context);
+                }
+                else if (fieldClazz == char[].class)
+                {
+                    serialize((char[])field.get(value), context);
+                }
+                else if (fieldClazz == float[].class)
+                {
+                    serialize((float[])field.get(value), context);
+                }
+                else if (fieldClazz == double[].class)
+                {
+                    serialize((double[])field.get(value), context);
+                }
+                else if (fieldClazz.isArray())
+                {
+                    serialize(field.get(value), fieldClazz.getComponentType(), context);
+                }
                 else
                 {
                     serialize(field.get(value), context);
@@ -191,8 +240,31 @@ public class InternalCspMessageBodyProcessor
         });
     }
 
+    /**
+     *
+     * @param value
+     * @param context
+     *
+     * @throws io.andreygs.jcsp.base.types.CspRuntimeException when there is no such method.
+     */
     public static void serialize(Object value, ICspDataMessageSerializationContext context)
     {
+        BiConsumer<Object, ICspDataMessageSerializationContext> serializationFunc =
+            cspSpecializedProcessingMethodProvider.provideSerializationMethod(value.getClass());
+        serializationFunc.accept(value, context);
+    }
 
+    public static void serialize(Object value, Class<?> elementsClazz, ICspDataMessageSerializationContext context)
+    {
+        BiConsumer<Object, ICspDataMessageSerializationContext> serializationFunc =
+            cspSpecializedProcessingMethodProvider.provideSerializationMethod(elementsClazz);
+
+        int elementsCount = Array.getLength(value);
+
+        for (int i = 0; i < elementsCount; i++)
+        {
+            Object element = Array.get(value, i);
+            serializationFunc.accept(element, context);
+        }
     }
 }

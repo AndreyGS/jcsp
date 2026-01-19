@@ -25,14 +25,28 @@
 
 package io.andreygs.jcsp.base.processing;
 
-import io.andreygs.jcsp.base.processing.context.ICspDataMessageDeserializationContext;
-import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
+import io.andreygs.jcsp.base.processing.internal.CspSpecializedProcessingMethodProvider;
+
+import java.util.Optional;
+import java.util.ServiceLoader;
 
 /**
  * TODO: place description here
  */
-public interface ICspSpecializedProcessor
+public class CspSpecializedProcessorRegistrarProvider
 {
-    void serialize(Object value, ICspDataMessageSerializationContext context);
-    void deserialize(ICspDataMessageDeserializationContext context, Object value);
+    private CspSpecializedProcessorRegistrarProvider()
+    {
+    }
+
+    public static ICspSpecializedProcessorRegistrar provideCspSpecializedProcessorRegistrar()
+    {
+        return RegistrarHolder.INSTANCE;
+    }
+
+    private static class RegistrarHolder
+    {
+        public static final ICspSpecializedProcessorRegistrar INSTANCE =
+            new CspSpecializedProcessingMethodProvider.CspSpecializedProcessorRegistrar();
+    }
 }

@@ -28,7 +28,10 @@ package io.andreygs.jcsp.base.processing.internal;
 /**
  * TODO: place description here
  */
-public class CspSpecializedProcessorRegistrator
+public class CspSpecializedProcessingMethodProviderFactory
 {
-
+    public static ICspSpecializedProcessingMethodProvider createCspSpecializedProcessingMethodProvider()
+    {
+        return new CspSpecializedProcessingMethodProvider();
+    }
 }

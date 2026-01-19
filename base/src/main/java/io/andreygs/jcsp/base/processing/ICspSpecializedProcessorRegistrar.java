@@ -25,11 +25,14 @@
 
 package io.andreygs.jcsp.base.processing;
 
+import io.andreygs.jcsp.base.processing.internal.CspSpecializedProcessingMethodProvider;
+
 /**
  * TODO: place description here
  */
-public interface ICspSpecializedProcessorRegistrator
+public sealed interface ICspSpecializedProcessorRegistrar
+    permits CspSpecializedProcessingMethodProvider.CspSpecializedProcessorRegistrar
 {
-    <T> void registerProcessor(ICspSpecializedProcessor<T> processor);
+    void registerProcessor(Class<?> clazz, ICspSpecializedProcessor processor);
     void unregisterProcessor(Class<?> clazz);
 }

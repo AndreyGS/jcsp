@@ -25,11 +25,15 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
+import io.andreygs.jcsp.base.processing.CspSpecializedProcessorRegistrarProvider;
+import io.andreygs.jcsp.base.processing.ICspSpecializedProcessor;
+import io.andreygs.jcsp.base.processing.ICspSpecializedProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageDeserializationContext;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.BiConsumer;
@@ -40,18 +44,76 @@ import java.util.function.BiConsumer;
 public class CspSpecializedProcessingMethodProvider
     implements ICspSpecializedProcessingMethodProvider
 {
-    private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
-    Map<Class<?>, BiConsumer<Object, ICspDataMessageSerializationContext>> serializationMethods = Map.of();
+    private final CspSpecializedProcessorRegistrar cspSpecializedProcessorRegistrar =
+        (CspSpecializedProcessorRegistrar)CspSpecializedProcessorRegistrarProvider.provideCspSpecializedProcessorRegistrar();
 
     @Override
     public BiConsumer<Object, ICspDataMessageSerializationContext> provideSerializationMethod(Class<?> clazz)
     {
-        return null;
+        cspSpecializedProcessorRegistrar.rwLock.readLock().lock();
+        try
+        {
+            return cspSpecializedProcessorRegistrar.serializationMethods.get(clazz);
+        }
+        finally
+        {
+            cspSpecializedProcessorRegistrar.rwLock.readLock().lock();
+        }
     }
 
     @Override
     public BiConsumer<ICspDataMessageDeserializationContext, Object>  provideDeserializationMethod(Class<?> clazz)
     {
-        return null;
+        cspSpecializedProcessorRegistrar.rwLock.readLock().lock();
+        try
+        {
+            return cspSpecializedProcessorRegistrar.deserializationMethods.get(clazz);
+        }
+        finally
+        {
+            cspSpecializedProcessorRegistrar.rwLock.readLock().lock();
+        }
+    }
+
+    public static final class CspSpecializedProcessorRegistrar
+        implements ICspSpecializedProcessorRegistrar
+    {
+        private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
+        private final Map<Class<?>, BiConsumer<Object, ICspDataMessageSerializationContext>> serializationMethods
+            = new HashMap<>();
+        private final Map<Class<?>, BiConsumer<ICspDataMessageDeserializationContext, Object>> deserializationMethods
+            = new HashMap<>();
+        private final ICspSpecializedProcessingMethodProvider cspSpecializedProcessingMethodProvider
+            = new CspSpecializedProcessingMethodProvider();
+
+        @Override
+        public void registerProcessor(Class<?> clazz, ICspSpecializedProcessor processor)
+        {
+            rwLock.writeLock().lock();
+            try
+            {
+                serializationMethods.put(clazz, processor::serialize);
+                deserializationMethods.put(clazz, processor::deserialize);
+            }
+            finally
+            {
+                rwLock.writeLock().lock();
+            }
+        }
+
+        @Override
+        public void unregisterProcessor(Class<?> clazz)
+        {
+            rwLock.writeLock().lock();
+            try
+            {
+                serializationMethods.remove(clazz);
+                deserializationMethods.remove(clazz);
+            }
+            finally
+            {
+                rwLock.writeLock().lock();
+            }
+        }
     }
 }
