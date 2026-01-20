@@ -25,9 +25,9 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
-import io.andreygs.jcsp.base.processing.CspSpecializedProcessorRegistrarProvider;
-import io.andreygs.jcsp.base.processing.ICspSpecializedProcessor;
-import io.andreygs.jcsp.base.processing.ICspSpecializedProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.CspProcessorRegistrarProvider;
+import io.andreygs.jcsp.base.processing.ICspProcessor;
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageDeserializationContext;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
 import io.andreygs.jcsp.base.types.CspRuntimeException;
@@ -43,11 +43,11 @@ import java.util.function.BiConsumer;
 /**
  * TODO: place description here
  */
-public class CspSpecializedProcessingMethodProvider
-    implements ICspSpecializedProcessingMethodProvider
+public class CspProcessingMethodProvider
+    implements ICspProcessingMethodProvider
 {
-    private final CspSpecializedProcessorRegistrar cspSpecializedProcessorRegistrar =
-        (CspSpecializedProcessorRegistrar)CspSpecializedProcessorRegistrarProvider.provideCspSpecializedProcessorRegistrar();
+    private final CspProcessorRegistrar cspSpecializedProcessorRegistrar =
+        (CspProcessorRegistrar) CspProcessorRegistrarProvider.provideCspProcessorRegistrar();
 
     @Override
     public BiConsumer<Object, ICspDataMessageSerializationContext> provideSerializationMethod(Class<?> clazz)
@@ -93,8 +93,8 @@ public class CspSpecializedProcessingMethodProvider
         }
     }
 
-    public static final class CspSpecializedProcessorRegistrar
-        implements ICspSpecializedProcessorRegistrar
+    public static final class CspProcessorRegistrar
+        implements ICspProcessorRegistrar
     {
         private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
         private final Map<Class<?>, BiConsumer<Object, ICspDataMessageSerializationContext>> serializationMethods
@@ -103,7 +103,7 @@ public class CspSpecializedProcessingMethodProvider
             = new HashMap<>();
 
         @Override
-        public void registerProcessor(Class<?> clazz, ICspSpecializedProcessor processor)
+        public void registerProcessor(Class<?> clazz, ICspProcessor processor)
         {
             rwLock.writeLock().lock();
             try

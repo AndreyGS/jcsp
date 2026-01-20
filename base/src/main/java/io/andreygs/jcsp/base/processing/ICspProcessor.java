@@ -23,15 +23,16 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.internal;
+package io.andreygs.jcsp.base.processing;
+
+import io.andreygs.jcsp.base.processing.context.ICspDataMessageDeserializationContext;
+import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
 
 /**
  * TODO: place description here
  */
-public class CspSpecializedProcessingMethodProviderFactory
+public interface ICspProcessor
 {
-    public static ICspSpecializedProcessingMethodProvider createCspSpecializedProcessingMethodProvider()
-    {
-        return new CspSpecializedProcessingMethodProvider();
-    }
+    void serialize(Object value, ICspDataMessageSerializationContext context);
+    void deserialize(ICspDataMessageDeserializationContext context, Object value);
 }

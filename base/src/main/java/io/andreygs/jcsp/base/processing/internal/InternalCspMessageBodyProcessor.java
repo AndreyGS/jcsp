@@ -40,8 +40,8 @@ import java.util.function.BiConsumer;
  */
 public class InternalCspMessageBodyProcessor
 {
-    private static final ICspSpecializedProcessingMethodProvider cspSpecializedProcessingMethodProvider =
-        CspSpecializedProcessingMethodProviderFactory.createCspSpecializedProcessingMethodProvider();
+    private static final ICspProcessingMethodProvider cspSpecializedProcessingMethodProvider =
+        CspProcessingMethodProviderFactory.createCspSpecializedProcessingMethodProvider();
 
     private InternalCspMessageBodyProcessor()
     {
@@ -179,10 +179,14 @@ public class InternalCspMessageBodyProcessor
         serializationFunc.accept(value, context);
     }
 
-    private static void serializationMethodExecutor(Object value, ICspDataMessageSerializationContext context,
+    private static void serializationMethodExecutor(ICspSerializable value, ICspDataMessageSerializationContext context,
                                   Class<?> fieldClazz, Field field) throws IllegalAccessException
     {
-        if (fieldClazz == boolean.class)
+        if (ICspSerializable.class.isAssignableFrom(fieldClazz))
+        {
+            serialize((ICspSerializable) field.get(value), fieldClazz, context);
+        }
+        else if (fieldClazz == boolean.class)
         {
             serialize(field.getBoolean(value), context);
         }
@@ -213,10 +217,6 @@ public class InternalCspMessageBodyProcessor
         else if (fieldClazz == double.class)
         {
             serialize(field.getDouble(value), context);
-        }
-        else if (ICspSerializable.class.isAssignableFrom(fieldClazz))
-        {
-            serialize((ICspSerializable) field.get(value), fieldClazz, context);
         }
         else if (fieldClazz == boolean[].class)
         {
@@ -257,18 +257,18 @@ public class InternalCspMessageBodyProcessor
 
             if (ICspSerializable.class.isAssignableFrom(fieldClazz.getComponentType()))
             {
-                for (int i = 0; i < elementsCount; i++)
+                for (int i = 0; i < elementsCount; ++i)
                 {
                     Object element = Array.get(value, i);
-                    serialize((ICspSerializable) field.get(value), elementsClazz, context);
+                    serialize((ICspSerializable) element, elementsClazz, context);
                 }
             }
             else
             {
-                for (int i = 0; i < elementsCount; i++)
+                for (int i = 0; i < elementsCount; ++i)
                 {
                     Object element = Array.get(value, i);
-                    serialize(field.get(value), context);
+                    serialize(element, context);
                 }
             }
         }

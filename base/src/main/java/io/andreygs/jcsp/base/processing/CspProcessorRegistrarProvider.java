@@ -25,28 +25,25 @@
 
 package io.andreygs.jcsp.base.processing;
 
-import io.andreygs.jcsp.base.processing.internal.CspSpecializedProcessingMethodProvider;
-
-import java.util.Optional;
-import java.util.ServiceLoader;
+import io.andreygs.jcsp.base.processing.internal.CspProcessingMethodProvider;
 
 /**
  * TODO: place description here
  */
-public class CspSpecializedProcessorRegistrarProvider
+public class CspProcessorRegistrarProvider
 {
-    private CspSpecializedProcessorRegistrarProvider()
+    private CspProcessorRegistrarProvider()
     {
     }
 
-    public static ICspSpecializedProcessorRegistrar provideCspSpecializedProcessorRegistrar()
+    public static ICspProcessorRegistrar provideCspProcessorRegistrar()
     {
         return RegistrarHolder.INSTANCE;
     }
 
     private static class RegistrarHolder
     {
-        public static final ICspSpecializedProcessorRegistrar INSTANCE =
-            new CspSpecializedProcessingMethodProvider.CspSpecializedProcessorRegistrar();
+        public static final ICspProcessorRegistrar INSTANCE =
+            new CspProcessingMethodProvider.CspProcessorRegistrar();
     }
 }

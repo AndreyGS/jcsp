@@ -23,16 +23,40 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing;
+package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageDeserializationContext;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
 
+import java.util.function.BiConsumer;
+
 /**
- * TODO: place description here
+ * Provider of specialized serialization and deserialization methods.
+ * <p>
+ * {@link io.andreygs.jcsp.base.processing.CspMessageBodyProcessor} has serialize and deserialize methods
+ * overloads for some base types. All other classes are processed by using methods from this provider.
+ * <p>
+ * Thread-safe.
  */
-public interface ICspSpecializedProcessor
+public interface ICspProcessingMethodProvider
 {
-    void serialize(Object value, ICspDataMessageSerializationContext context);
-    void deserialize(ICspDataMessageDeserializationContext context, Object value);
+    /**
+     * Provides specialized serialization method for selected class.
+     *
+     * @param clazz Class which need of specialized serialization method.
+     * @return specialized serialization method for the selected class.
+     *
+     * @throws io.andreygs.jcsp.base.types.CspRuntimeException when there is no specialized serialization method.
+     */
+    BiConsumer<Object, ICspDataMessageSerializationContext> provideSerializationMethod(Class<?> clazz);
+
+    /**
+     * Provides specialized deserialization method for the selected class.
+     *
+     * @param clazz Class which need of specialized deserialization method.
+     * @return specialized deserialization method for the selected class.
+     *
+     * @throws io.andreygs.jcsp.base.types.CspRuntimeException when there is no specialized deserialization  method.
+     */
+    BiConsumer<ICspDataMessageDeserializationContext, Object> provideDeserializationMethod(Class<?> clazz);
 }

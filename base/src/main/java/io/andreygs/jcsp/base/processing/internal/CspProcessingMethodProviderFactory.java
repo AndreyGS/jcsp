@@ -23,16 +23,15 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing;
-
-import io.andreygs.jcsp.base.processing.internal.CspSpecializedProcessingMethodProvider;
+package io.andreygs.jcsp.base.processing.internal;
 
 /**
  * TODO: place description here
  */
-public sealed interface ICspSpecializedProcessorRegistrar
-    permits CspSpecializedProcessingMethodProvider.CspSpecializedProcessorRegistrar
+public class CspProcessingMethodProviderFactory
 {
-    void registerProcessor(Class<?> clazz, ICspSpecializedProcessor processor);
-    void unregisterProcessor(Class<?> clazz);
+    public static ICspProcessingMethodProvider createCspSpecializedProcessingMethodProvider()
+    {
+        return new CspProcessingMethodProvider();
+    }
 }
