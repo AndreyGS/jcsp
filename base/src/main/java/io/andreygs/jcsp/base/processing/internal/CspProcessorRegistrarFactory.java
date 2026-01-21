@@ -25,13 +25,26 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
+import io.andreygs.jcsp.base.processing.ICspDeserializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrarFactory;
+import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
+
 /**
  * TODO: place description here
  */
-public class CspProcessingMethodProviderFactory
+public class CspProcessorRegistrarFactory
+    implements ICspProcessorRegistrarFactory
 {
-    public static ICspProcessingMethodProvider createCspSpecializedProcessingMethodProvider()
+    @Override
+    public ICspProcessorRegistrar<ICspSerializationProcessor> createSerializationCspProcessorRegistrar()
     {
-        return new CspProcessingMethodProvider();
+        return new CspProcessorRegistrar<>();
+    }
+
+    @Override
+    public ICspProcessorRegistrar<ICspDeserializationProcessor> createDeserializationCspProcessorRegistrar()
+    {
+        return new CspProcessorRegistrar<>();
     }
 }

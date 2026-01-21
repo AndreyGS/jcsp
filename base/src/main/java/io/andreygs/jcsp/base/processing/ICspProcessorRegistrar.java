@@ -25,7 +25,10 @@
 
 package io.andreygs.jcsp.base.processing;
 
-import io.andreygs.jcsp.base.processing.internal.CspProcessingMethodProvider;
+import io.andreygs.jcsp.base.processing.internal.CspProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.internal.ICspProcessor;
+
+import java.util.Optional;
 
 /**
  * Registrar of CSP serialization/deserialization processors for specific classes.
@@ -44,9 +47,9 @@ import io.andreygs.jcsp.base.processing.internal.CspProcessingMethodProvider;
  * <p>
  * Please note that arrays of any type must not have separate processors.
  */
-public sealed interface ICspProcessorRegistrar
-    permits CspProcessingMethodProvider.CspProcessorRegistrar
+public interface ICspProcessorRegistrar<T extends ICspProcessor>
 {
-    void registerProcessor(Class<?> clazz, ICspProcessor processor);
+    void registerProcessor(Class<?> clazz, T processor);
     void unregisterProcessor(Class<?> clazz);
+    Optional<T> findProcessor(Class<?> clazz);
 }

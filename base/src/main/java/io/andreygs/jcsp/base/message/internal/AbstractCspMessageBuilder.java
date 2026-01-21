@@ -26,6 +26,8 @@
 package io.andreygs.jcsp.base.message.internal;
 
 import io.andreygs.jcsp.base.message.ICspMessageBuilder;
+import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
+import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
@@ -38,11 +40,17 @@ import java.util.List;
  */
 abstract class AbstractCspMessageBuilder implements ICspMessageBuilder
 {
+    private final ICspProcessorProvider<ICspSerializationProcessor> cspProcessorProvider;
     private @Nullable Integer initialBufferCapacity;
     private @Nullable Boolean directBuffer;
     private @Nullable IBufferResizeStrategy bufferResizeStrategy;
     private @Nullable CspProtocolVersion cspProtocolVersion;
     private @Nullable List<CspCommonFlags> cspCommonFlags;
+
+    AbstractCspMessageBuilder(ICspProcessorProvider<ICspSerializationProcessor> cspProcessorProvider)
+    {
+        this.cspProcessorProvider = cspProcessorProvider;
+    }
 
     @Override
     public ICspMessageBuilder setBufferInitialCapacity(int initialBufferCapacity)

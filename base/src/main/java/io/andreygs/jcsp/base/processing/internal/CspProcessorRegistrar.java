@@ -23,46 +23,64 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message;
+package io.andreygs.jcsp.base.processing.internal;
 
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
-import java.util.ServiceLoader;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * TODO: place description here
  */
-public class CspMessageBuilderFactoryProvider
+public class CspProcessorRegistrar<T extends ICspProcessor>
+    implements ICspProcessorRegistrar<T>
 {
-    private CspMessageBuilderFactoryProvider()
-    {
-    }
+    private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
+    private final Map<Class<?>, T> processors = new HashMap<>();
 
-    public static ICspMessageBuilderFactory provideCspMessageBuilderFactory()
+    @Override
+    public void registerProcessor(Class<?> clazz, T processor)
     {
-        return FactoryHolder.INSTANCE;
-    }
-
-    private static class FactoryHolder
-    {
-        public static final ICspMessageBuilderFactory INSTANCE = initializeFactoryInstance();
-
-        public static ICspMessageBuilderFactory initializeFactoryInstance()
+        rwLock.writeLock().lock();
+        try
         {
-            Optional<ICspMessageBuilderFactory> cspMessageBuilderFactoryOpt  =
-                ServiceLoader.load(ICspMessageBuilderFactory.class)
-                                .stream()
-                                .map(ServiceLoader.Provider::get)
-                                .findFirst();
+            processors.put(clazz, processor);
+        }
+        finally
+        {
+            rwLock.writeLock().unlock();
+        }
+    }
 
-            if (cspMessageBuilderFactoryOpt.isPresent())
-            {
-                return cspMessageBuilderFactoryOpt.get();
-            }
-            else
-            {
-                throw new IllegalStateException("No ICspMessageBuilderFactory implementation found on on the "
-                                                    + "classpath/module path.");
-            }
+    @Override
+    public void unregisterProcessor(Class<?> clazz)
+    {
+        rwLock.writeLock().lock();
+        try
+        {
+            processors.remove(clazz);
+        }
+        finally
+        {
+            rwLock.writeLock().unlock();
+        }
+    }
+
+    @Override
+    public Optional<T> findProcessor(Class<?> clazz)
+    {
+        rwLock.readLock().lock();
+        try
+        {
+            return Optional.ofNullable(processors.get(clazz));
+        }
+        finally
+        {
+            rwLock.readLock().unlock();
         }
     }
 }

@@ -23,10 +23,11 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.internal;
+package io.andreygs.jcsp.base.processing;
 
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageDeserializationContext;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
+import io.andreygs.jcsp.base.processing.internal.ICspProcessor;
 
 import java.util.function.BiConsumer;
 
@@ -38,25 +39,22 @@ import java.util.function.BiConsumer;
  * <p>
  * Thread-safe.
  */
-public interface ICspProcessingMethodProvider
+public interface ICspProcessorProvider<T extends ICspProcessor>
 {
     /**
-     * Provides specialized serialization method for selected class.
+     * Provides specialized serialization or deserialization method for selected class.
      *
      * @param clazz Class which need of specialized serialization method.
-     * @return specialized serialization method for the selected class.
+     * @return specialized serialization mor deserialization method for the selected class.
      *
-     * @throws io.andreygs.jcsp.base.types.CspRuntimeException when there is no specialized serialization method.
+     * @throws io.andreygs.jcsp.base.types.CspRuntimeException when there is no specialized method.
      */
-    BiConsumer<Object, ICspDataMessageSerializationContext> provideSerializationMethod(Class<?> clazz);
+    T provideProcessor(Class<?> clazz);
 
     /**
-     * Provides specialized deserialization method for the selected class.
+     * Gets CSP processor registrar associated with this provider.
      *
-     * @param clazz Class which need of specialized deserialization method.
-     * @return specialized deserialization method for the selected class.
-     *
-     * @throws io.andreygs.jcsp.base.types.CspRuntimeException when there is no specialized deserialization  method.
+     * @return CSP processor registrar.
      */
-    BiConsumer<ICspDataMessageDeserializationContext, Object> provideDeserializationMethod(Class<?> clazz);
+    ICspProcessorRegistrar<T> getCspProcessorRegistrar();
 }

@@ -26,6 +26,7 @@
  */
 module io.andreygs.jcsp.base {
     requires transitive org.jetbrains.annotations;
+    requires io.andreygs.jcsp.base;
 
     exports io.andreygs.jcsp.base.message;
     exports io.andreygs.jcsp.base.processing;
@@ -39,7 +40,4 @@ module io.andreygs.jcsp.base {
     exports io.andreygs.jcsp.base.processing.internal to io.andreygs.jcsp.base.test;
 
     opens io.andreygs.jcsp.base.message.buffer.internal to io.andreygs.jcsp.base.test;
-
-    uses io.andreygs.jcsp.base.message.ICspMessageBuilderFactory;
-    provides io.andreygs.jcsp.base.message.ICspMessageBuilderFactory with io.andreygs.jcsp.base.message.internal.CspMessageBuilderFactory;
 }

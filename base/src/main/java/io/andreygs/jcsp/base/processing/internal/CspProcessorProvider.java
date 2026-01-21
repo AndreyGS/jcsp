@@ -23,27 +23,47 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
+package io.andreygs.jcsp.base.processing.internal;
 
-import io.andreygs.jcsp.base.message.ICspMessageBuilderFactory;
-import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
 import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
-import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
+import io.andreygs.jcsp.base.types.CspRuntimeException;
+import io.andreygs.jcsp.base.types.CspStatus;
+
+import java.text.MessageFormat;
+import java.util.Optional;
 
 /**
  * TODO: place description here
  */
-public class CspMessageBuilderFactory implements ICspMessageBuilderFactory
+public class CspProcessorProvider<T extends ICspProcessor>
+    implements ICspProcessorProvider<T>
 {
-    private final ICspProcessorProvider<ICspSerializationProcessor> cspProcessorProvider;
+    private final ICspProcessorRegistrar<T> cspProcessorRegistrar;
 
-    public CspMessageBuilderFactory(ICspProcessorProvider<ICspSerializationProcessor> cspProcessorProvider)
+    public CspProcessorProvider(ICspProcessorRegistrar<T> cspProcessorRegistrar)
     {
-        this.cspProcessorProvider = cspProcessorProvider;
+        this.cspProcessorRegistrar = cspProcessorRegistrar;
     }
 
-    public ICspDataMessageBuilder createCspDataMessageBuilder()
+    @Override
+    public T provideProcessor(Class<?> clazz)
     {
-        return new CspDataMessageBuilder(cspProcessorProvider);
+        Optional<T> processor = cspProcessorRegistrar.findProcessor(clazz);
+        if (processor.isEmpty())
+        {
+            throw CspRuntimeException.createCspRuntimeException(CspStatus.NO_SUCH_HANDLER,
+                                                                MessageFormat.format(
+                                                                    Messages.CspStatus_No_Such_Handler_ext_No_specialized_processor_for__0__,
+                                                                    clazz));
+        }
+
+        return processor.get();
+    }
+
+    @Override
+    public ICspProcessorRegistrar<T> getCspProcessorRegistrar()
+    {
+        return cspProcessorRegistrar;
     }
 }

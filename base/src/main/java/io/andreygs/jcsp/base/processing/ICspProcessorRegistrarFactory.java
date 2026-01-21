@@ -25,14 +25,14 @@
 
 package io.andreygs.jcsp.base.processing;
 
-import io.andreygs.jcsp.base.processing.context.ICspDataMessageDeserializationContext;
-import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
+import io.andreygs.jcsp.base.processing.internal.ICspProcessor;
 
 /**
  * TODO: place description here
  */
-public interface ICspProcessor
+public interface ICspProcessorRegistrarFactory
 {
-    void serialize(Object value, ICspDataMessageSerializationContext context);
-    void deserialize(ICspDataMessageDeserializationContext context, Object value);
+    ICspProcessorRegistrar<ICspSerializationProcessor> createSerializationCspProcessorRegistrar();
+
+    ICspProcessorRegistrar<ICspDeserializationProcessor> createDeserializationCspProcessorRegistrar();
 }

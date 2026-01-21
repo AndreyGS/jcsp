@@ -27,6 +27,8 @@ package io.andreygs.jcsp.base.message.internal;
 
 import io.andreygs.jcsp.base.message.ICspDataMessage;
 import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
+import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
+import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.processing.internal.Serializer;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspDataFlags;
@@ -46,6 +48,11 @@ class CspDataMessageBuilder extends AbstractCspMessageBuilder
 {
     private @Nullable ICspInterfaceVersion cspInterfaceVersion;
     private @Nullable List<CspDataFlags> cspDataFlags;
+
+    CspDataMessageBuilder(ICspProcessorProvider<ICspSerializationProcessor> cspProcessorProvider)
+    {
+        super(cspProcessorProvider);
+    }
 
     @Override
     public ICspDataMessageBuilder setBufferInitialCapacity(int initialBufferCapacity)

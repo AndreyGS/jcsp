@@ -23,27 +23,24 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing;
+package io.andreygs.jcsp.base.message;
 
-import io.andreygs.jcsp.base.processing.internal.CspProcessingMethodProvider;
+import io.andreygs.jcsp.base.message.internal.CspMessageBuilderFactory;
+import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
+import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 
 /**
  * TODO: place description here
  */
-public class CspProcessorRegistrarProvider
+public class CspMessageBuilderFactoryProducer
 {
-    private CspProcessorRegistrarProvider()
+    private CspMessageBuilderFactoryProducer()
     {
     }
 
-    public static ICspProcessorRegistrar provideCspProcessorRegistrar()
+    public static ICspMessageBuilderFactory produceCspMessageBuilderFactory(
+        ICspProcessorProvider<ICspSerializationProcessor> cspProcessorProvider)
     {
-        return RegistrarHolder.INSTANCE;
-    }
-
-    private static class RegistrarHolder
-    {
-        public static final ICspProcessorRegistrar INSTANCE =
-            new CspProcessingMethodProvider.CspProcessorRegistrar();
+        return new CspMessageBuilderFactory(cspProcessorProvider);
     }
 }

@@ -23,27 +23,15 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
+package io.andreygs.jcsp.base.processing.internal;
 
-import io.andreygs.jcsp.base.message.ICspMessageBuilderFactory;
-import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
-import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
+import io.andreygs.jcsp.base.processing.ICspDeserializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 
 /**
- * TODO: place description here
+ * Tagging interface to bound processor register and provider generic types.
  */
-public class CspMessageBuilderFactory implements ICspMessageBuilderFactory
+public sealed interface ICspProcessor
+    permits ICspSerializationProcessor, ICspDeserializationProcessor
 {
-    private final ICspProcessorProvider<ICspSerializationProcessor> cspProcessorProvider;
-
-    public CspMessageBuilderFactory(ICspProcessorProvider<ICspSerializationProcessor> cspProcessorProvider)
-    {
-        this.cspProcessorProvider = cspProcessorProvider;
-    }
-
-    public ICspDataMessageBuilder createCspDataMessageBuilder()
-    {
-        return new CspDataMessageBuilder(cspProcessorProvider);
-    }
 }

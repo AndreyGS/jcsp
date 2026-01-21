@@ -25,6 +25,7 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
+import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
 import io.andreygs.jcsp.base.types.ICspSerializable;
 
@@ -40,7 +41,7 @@ import java.util.function.BiConsumer;
  */
 public class InternalCspMessageBodyProcessor
 {
-    private static final ICspProcessingMethodProvider cspSpecializedProcessingMethodProvider =
+    private static final ICspProcessorProvider cspSpecializedProcessingMethodProvider =
         CspProcessingMethodProviderFactory.createCspSpecializedProcessingMethodProvider();
 
     private InternalCspMessageBodyProcessor()

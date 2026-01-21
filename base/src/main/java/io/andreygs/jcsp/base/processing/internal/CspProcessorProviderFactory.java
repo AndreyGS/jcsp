@@ -23,27 +23,31 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
+package io.andreygs.jcsp.base.processing.internal;
 
-import io.andreygs.jcsp.base.message.ICspMessageBuilderFactory;
-import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
+import io.andreygs.jcsp.base.processing.ICspDeserializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
+import io.andreygs.jcsp.base.processing.ICspProcessorProviderFactory;
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 
 /**
  * TODO: place description here
  */
-public class CspMessageBuilderFactory implements ICspMessageBuilderFactory
+public class CspProcessorProviderFactory
+    implements ICspProcessorProviderFactory
 {
-    private final ICspProcessorProvider<ICspSerializationProcessor> cspProcessorProvider;
-
-    public CspMessageBuilderFactory(ICspProcessorProvider<ICspSerializationProcessor> cspProcessorProvider)
+    @Override
+    public ICspProcessorProvider<ICspSerializationProcessor> createCspSerializationProcessorProvider(
+        ICspProcessorRegistrar<ICspSerializationProcessor> cspProcessorRegistrar)
     {
-        this.cspProcessorProvider = cspProcessorProvider;
+        return new CspProcessorProvider<>(cspProcessorRegistrar);
     }
 
-    public ICspDataMessageBuilder createCspDataMessageBuilder()
+    @Override
+    public ICspProcessorProvider<ICspDeserializationProcessor> createCspDeserializationProcessorProvider(
+        ICspProcessorRegistrar<ICspDeserializationProcessor> cspProcessorRegistrar)
     {
-        return new CspDataMessageBuilder(cspProcessorProvider);
+        return new CspProcessorProvider<>(cspProcessorRegistrar);
     }
 }
