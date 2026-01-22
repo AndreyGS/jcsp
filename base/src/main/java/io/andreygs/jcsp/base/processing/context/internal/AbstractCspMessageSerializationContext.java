@@ -26,6 +26,8 @@
 package io.andreygs.jcsp.base.processing.context.internal;
 
 import io.andreygs.jcsp.base.message.buffer.internal.ICspSerializationBuffer;
+import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
+import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 
@@ -39,17 +41,26 @@ sealed abstract class AbstractCspMessageSerializationContext
     implements ICspMessageSerializationContext
     permits CspDataMessageSerializationContext, CspStatusMessageSerializationContext
 {
+    private final ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider;
     private final ICspSerializationBuffer cspSerializationBuffer;
     private final CspProtocolVersion cspProtocolVersion;
     private final List<CspCommonFlags> cspCommonFlags;
 
-    public AbstractCspMessageSerializationContext(ICspSerializationBuffer cspSerializationBuffer,
+    public AbstractCspMessageSerializationContext(ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider,
+                                                  ICspSerializationBuffer cspSerializationBuffer,
                                                   CspProtocolVersion cspProtocolVersion,
                                                   List<CspCommonFlags> cspCommonFlags)
     {
+        this.cspSerializationProcessorProvider = cspSerializationProcessorProvider;
         this.cspSerializationBuffer = cspSerializationBuffer;
         this.cspProtocolVersion = cspProtocolVersion;
         this.cspCommonFlags = cspCommonFlags;
+    }
+
+    @Override
+    public ICspProcessorProvider<ICspSerializationProcessor> getCspSerializationProcessorProvider()
+    {
+        return cspSerializationProcessorProvider;
     }
 
     @Override

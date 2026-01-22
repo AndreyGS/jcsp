@@ -45,7 +45,7 @@ public interface ICspProcessorProvider<T extends ICspProcessor>
      * Provides specialized serialization or deserialization method for selected class.
      *
      * @param clazz Class which need of specialized serialization method.
-     * @return specialized serialization mor deserialization method for the selected class.
+     * @return specialized serialization or deserialization method for the selected class.
      *
      * @throws io.andreygs.jcsp.base.types.CspRuntimeException when there is no specialized method.
      */

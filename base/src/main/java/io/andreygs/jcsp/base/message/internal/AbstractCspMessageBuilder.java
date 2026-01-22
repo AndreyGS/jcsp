@@ -40,16 +40,16 @@ import java.util.List;
  */
 abstract class AbstractCspMessageBuilder implements ICspMessageBuilder
 {
-    private final ICspProcessorProvider<ICspSerializationProcessor> cspProcessorProvider;
+    private final ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider;
     private @Nullable Integer initialBufferCapacity;
     private @Nullable Boolean directBuffer;
     private @Nullable IBufferResizeStrategy bufferResizeStrategy;
     private @Nullable CspProtocolVersion cspProtocolVersion;
     private @Nullable List<CspCommonFlags> cspCommonFlags;
 
-    AbstractCspMessageBuilder(ICspProcessorProvider<ICspSerializationProcessor> cspProcessorProvider)
+    AbstractCspMessageBuilder(ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider)
     {
-        this.cspProcessorProvider = cspProcessorProvider;
+        this.cspSerializationProcessorProvider = cspSerializationProcessorProvider;
     }
 
     @Override
@@ -85,6 +85,11 @@ abstract class AbstractCspMessageBuilder implements ICspMessageBuilder
     {
         this.cspCommonFlags = cspCommonFlags;
         return this;
+    }
+
+    protected ICspProcessorProvider<ICspSerializationProcessor> getCspSerializationProcessorProvider()
+    {
+        return cspSerializationProcessorProvider;
     }
 
     protected @Nullable Integer getInitialBufferCapacity()

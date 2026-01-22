@@ -26,7 +26,6 @@
  */
 module io.andreygs.jcsp.base {
     requires transitive org.jetbrains.annotations;
-    requires io.andreygs.jcsp.base;
 
     exports io.andreygs.jcsp.base.message;
     exports io.andreygs.jcsp.base.processing;

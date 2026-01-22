@@ -49,9 +49,9 @@ class CspDataMessageBuilder extends AbstractCspMessageBuilder
     private @Nullable ICspInterfaceVersion cspInterfaceVersion;
     private @Nullable List<CspDataFlags> cspDataFlags;
 
-    CspDataMessageBuilder(ICspProcessorProvider<ICspSerializationProcessor> cspProcessorProvider)
+    CspDataMessageBuilder(ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider)
     {
-        super(cspProcessorProvider);
+        super(cspSerializationProcessorProvider);
     }
 
     @Override
@@ -106,7 +106,7 @@ class CspDataMessageBuilder extends AbstractCspMessageBuilder
     @Override
     public ICspDataMessage serialize(ICspSerializable cspSerializable)
     {
-        return Serializer.serializeDataMessage(getInitialBufferCapacity(), getDirectBuffer(),
+        return Serializer.serializeDataMessage(getCspSerializationProcessorProvider(), getInitialBufferCapacity(), getDirectBuffer(),
                                                getBufferResizeStrategy(), getCspProtocolVersion(),
                                                getCspCommonFlags(), cspInterfaceVersion, cspDataFlags,
                                                cspSerializable);

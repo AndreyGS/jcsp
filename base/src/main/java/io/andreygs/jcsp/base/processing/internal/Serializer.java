@@ -29,6 +29,8 @@ import io.andreygs.jcsp.base.message.ICspDataMessage;
 import io.andreygs.jcsp.base.message.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.message.buffer.internal.CspSerializationBufferFactory;
 import io.andreygs.jcsp.base.message.internal.CspSerializationMessagesFactory;
+import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
+import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspDataFlags;
@@ -53,21 +55,24 @@ public class Serializer
     {
     }
 
-    public static ICspDataMessage serializeDataMessage(@Nullable Integer initialBufferCapacity,
-                                                       @Nullable Boolean directBuffer,
-                                                       @Nullable IBufferResizeStrategy bufferResizeStrategy,
-                                                       @Nullable CspProtocolVersion cspProtocolVersion,
-                                                       @Nullable List<CspCommonFlags> cspCommonFlags,
-                                                       @Nullable ICspInterfaceVersion cspInterfaceVersion,
-                                                       @Nullable List<CspDataFlags> cspDataFlags,
-                                                       ICspSerializable cspSerializable)
+    public static ICspDataMessage serializeDataMessage(
+        ICspProcessorProvider<ICspSerializationProcessor> cspProcessorProvider,
+        @Nullable Integer initialBufferCapacity,
+        @Nullable Boolean directBuffer,
+        @Nullable IBufferResizeStrategy bufferResizeStrategy,
+        @Nullable CspProtocolVersion cspProtocolVersion,
+        @Nullable List<CspCommonFlags> cspCommonFlags,
+        @Nullable ICspInterfaceVersion cspInterfaceVersion,
+        @Nullable List<CspDataFlags> cspDataFlags,
+        ICspSerializable cspSerializable)
     {
         ICspSerializationBuffer cspSerializationBuffer =
             CspSerializationBufferFactory.create(initialBufferCapacity, directBuffer, bufferResizeStrategy);
 
         // TODO construction of message should be made later (right before message body serialization).
         ICspDataMessageSerializationContext cspSerializationDataMessage =
-            CspSerializationMessagesFactory.createCspSerializationDataMessage(cspSerializationBuffer,
+            CspSerializationMessagesFactory.createCspSerializationDataMessage(cspProcessorProvider,
+                                                                              cspSerializationBuffer,
                                                                               cspProtocolVersion == null ? DEFAULT_CSP_PROTOCOL_VERSION : cspProtocolVersion,
                                                                               cspCommonFlags == null ? DEFAULT_CSP_COMMON_FLAGS : cspCommonFlags,
                                                                               cspSerializable.getClass(),

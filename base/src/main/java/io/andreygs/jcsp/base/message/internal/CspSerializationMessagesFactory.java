@@ -26,6 +26,8 @@
 package io.andreygs.jcsp.base.message.internal;
 
 import io.andreygs.jcsp.base.message.buffer.internal.ICspSerializationBuffer;
+import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
+import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.processing.context.internal.CspDataMessageSerializationContext;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
@@ -40,14 +42,16 @@ import java.util.List;
  */
 public class CspSerializationMessagesFactory
 {
-    public static ICspDataMessageSerializationContext createCspSerializationDataMessage(ICspSerializationBuffer cspSerializationBuffer,
-                                                                                        CspProtocolVersion cspProtocolVersion,
-                                                                                        List<CspCommonFlags> cspCommonFlags,
-                                                                                        Class<?> structClazz,
-                                                                                        ICspInterfaceVersion cspInterfaceVersion,
-                                                                                        List<CspDataFlags> cspDataFlags)
+    public static ICspDataMessageSerializationContext createCspSerializationDataMessage(
+        ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider,
+        ICspSerializationBuffer cspSerializationBuffer,
+        CspProtocolVersion cspProtocolVersion,
+        List<CspCommonFlags> cspCommonFlags,
+        Class<?> structClazz,
+        ICspInterfaceVersion cspInterfaceVersion,
+        List<CspDataFlags> cspDataFlags)
     {
-        return new CspDataMessageSerializationContext(cspSerializationBuffer, cspProtocolVersion, cspCommonFlags,
+        return new CspDataMessageSerializationContext(cspSerializationProcessorProvider, cspSerializationBuffer, cspProtocolVersion, cspCommonFlags,
                                                       structClazz, cspInterfaceVersion, cspDataFlags);
     }
 }

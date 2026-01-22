@@ -26,6 +26,8 @@
 package io.andreygs.jcsp.base.processing.context.internal;
 
 import io.andreygs.jcsp.base.message.buffer.internal.ICspSerializationBuffer;
+import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
+import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspDataFlags;
@@ -45,14 +47,15 @@ public final class CspDataMessageSerializationContext extends AbstractCspMessage
     private final ICspInterfaceVersion cspInterfaceVersion;
     private final List<CspDataFlags> cspDataFlags;
 
-    public CspDataMessageSerializationContext(ICspSerializationBuffer cspSerializationBuffer,
+    public CspDataMessageSerializationContext(ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider,
+                                              ICspSerializationBuffer cspSerializationBuffer,
                                               CspProtocolVersion cspProtocolVersion,
                                               List<CspCommonFlags> cspCommonFlags,
                                               Class<?> structClazz,
                                               ICspInterfaceVersion cspInterfaceVersion,
                                               List<CspDataFlags> cspDataFlags)
     {
-        super(cspSerializationBuffer, cspProtocolVersion, cspCommonFlags);
+        super(cspSerializationProcessorProvider, cspSerializationBuffer, cspProtocolVersion, cspCommonFlags);
         this.structClazz = structClazz;
         this.cspInterfaceVersion = cspInterfaceVersion;
         this.cspDataFlags = cspDataFlags;

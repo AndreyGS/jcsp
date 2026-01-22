@@ -23,24 +23,20 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message;
+package io.andreygs.jcsp.base.test.processing.internal;
 
-import io.andreygs.jcsp.base.message.internal.CspMessageBuilderFactory;
-import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
-import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
+import org.junit.jupiter.api.Test;
+
+import java.util.Optional;
 
 /**
  * TODO: place description here
  */
-public class CspMessageBuilderFactoryProducer
+public class CspProcessorProviderTests
 {
-    private CspMessageBuilderFactoryProducer()
+    @Test
+    public void testProvideProcessor()
     {
-    }
 
-    public static ICspMessageBuilderFactory produceCspMessageBuilderFactory(
-        ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider)
-    {
-        return new CspMessageBuilderFactory(cspSerializationProcessorProvider);
     }
 }

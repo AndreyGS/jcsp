@@ -12,8 +12,9 @@ repositories {
 dependencies {
     implementation("org.jetbrains:annotations:26.0.2")
     testImplementation("org.apache.commons:commons-lang3:3.18.0")
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("org.mockito:mockito-junit-jupiter:5.21.0")
+    testImplementation(platform("org.junit:junit-bom:5.14.2"))
+    testImplementation("org.junit.jupiter:junit-jupiter:5.14.2")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 

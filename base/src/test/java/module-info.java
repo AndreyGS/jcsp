@@ -28,6 +28,7 @@ module io.andreygs.jcsp.base.test {
     requires io.andreygs.jcsp.base;
     requires org.apache.commons.lang3;
     requires org.junit.jupiter.api;
+    requires org.mockito;
     requires org.jetbrains.annotations;
 
     opens io.andreygs.jcsp.base.test.message.internal to org.junit.platform.commons;

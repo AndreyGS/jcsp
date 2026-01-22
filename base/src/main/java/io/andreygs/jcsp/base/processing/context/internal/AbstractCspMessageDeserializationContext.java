@@ -26,6 +26,8 @@
 package io.andreygs.jcsp.base.processing.context.internal;
 
 import io.andreygs.jcsp.base.message.buffer.internal.ICspDeserializationBuffer;
+import io.andreygs.jcsp.base.processing.ICspDeserializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 
@@ -39,17 +41,27 @@ sealed abstract class AbstractCspMessageDeserializationContext
     implements ICspMessageDeserializationContext
     permits CspDataMessageDeserializationContext, CspStatusMessageDeserializationContext
 {
+    private final ICspProcessorProvider<ICspDeserializationProcessor> cspDeserializationProcessorProvider;
     private final ICspDeserializationBuffer cspDeserializationBuffer;
     private final CspProtocolVersion cspProtocolVersion;
     private final List<CspCommonFlags> cspCommonFlags;
 
-    public AbstractCspMessageDeserializationContext(ICspDeserializationBuffer cspDeserializationBuffer,
-                                                    CspProtocolVersion cspProtocolVersion,
-                                                    List<CspCommonFlags> cspCommonFlags)
+    public AbstractCspMessageDeserializationContext(
+        ICspProcessorProvider<ICspDeserializationProcessor> cspDeserializationProcessorProvider,
+        ICspDeserializationBuffer cspDeserializationBuffer,
+        CspProtocolVersion cspProtocolVersion,
+        List<CspCommonFlags> cspCommonFlags)
     {
+        this.cspDeserializationProcessorProvider = cspDeserializationProcessorProvider;
         this.cspDeserializationBuffer = cspDeserializationBuffer;
         this.cspProtocolVersion = cspProtocolVersion;
         this.cspCommonFlags = cspCommonFlags;
+    }
+
+    @Override
+    public ICspProcessorProvider<ICspDeserializationProcessor> getCspDeserializationProcessorProvider()
+    {
+        return cspDeserializationProcessorProvider;
     }
 
     @Override

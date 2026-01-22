@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
-import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
+import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
 import io.andreygs.jcsp.base.types.ICspSerializable;
 
@@ -34,16 +34,12 @@ import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.function.BiConsumer;
 
 /**
  * TODO: place description here
  */
 public class InternalCspMessageBodyProcessor
 {
-    private static final ICspProcessorProvider cspSpecializedProcessingMethodProvider =
-        CspProcessingMethodProviderFactory.createCspSpecializedProcessingMethodProvider();
-
     private InternalCspMessageBodyProcessor()
     {
 
@@ -175,9 +171,9 @@ public class InternalCspMessageBodyProcessor
      */
     public static void serialize(Object value, ICspDataMessageSerializationContext context)
     {
-        BiConsumer<Object, ICspDataMessageSerializationContext> serializationFunc =
-            cspSpecializedProcessingMethodProvider.provideSerializationMethod(value.getClass());
-        serializationFunc.accept(value, context);
+        ICspSerializationProcessor cspSerializationProcessor =
+            context.getCspSerializationProcessorProvider().provideProcessor(value.getClass());
+        cspSerializationProcessor.serialize(value, context);
     }
 
     private static void serializationMethodExecutor(ICspSerializable value, ICspDataMessageSerializationContext context,
