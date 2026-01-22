@@ -25,8 +25,8 @@
 
 package io.andreygs.jcsp.base.message.buffer.internal;
 
+import io.andreygs.jcsp.base.utils.BufferResizeStrategyFactoryProducer;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
-import io.andreygs.jcsp.base.utils.internal.BufferDoublingResizeStrategy;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.ByteBuffer;
@@ -72,7 +72,7 @@ public final class CspSerializationBuffer
      *                     convert make additionally copy to byte[] from direct buffer manually.
      *                     If it equals null, then direct buffer will be used.
      * @param bufferResizeStrategy Strategy of buffer resizing.
-     *                             If it equals null, then {@link BufferDoublingResizeStrategy} will be used.
+     *                             If it equals null, then doubling resize strategy will be used.
      * @see ByteBuffer
      */
     CspSerializationBuffer(@Nullable Integer initialBufferCapacity, @Nullable Boolean directBuffer,
@@ -80,7 +80,9 @@ public final class CspSerializationBuffer
     {
         this.directBuffer = directBuffer != null ? directBuffer : true;
         setByteBuffer(initialBufferCapacity != null ? initialBufferCapacity : DEFAULT_CAPACITY_SIZE);
-        this.bufferResizeStrategy = bufferResizeStrategy != null ? bufferResizeStrategy : BufferDoublingResizeStrategy.INSTANCE;
+        this.bufferResizeStrategy = bufferResizeStrategy != null
+                                    ? bufferResizeStrategy
+                                    : BufferResizeStrategyFactoryProducer.produceBufferResizeStrategyFactory().createBufferDoublingSizeStrategy();
     }
 
     @Override
@@ -249,7 +251,7 @@ public final class CspSerializationBuffer
         if (minimumRequiredSize > byteBuffer.capacity())
         {
             ByteBuffer oldByteBuffer = byteBuffer;
-            int newCapacity = bufferResizeStrategy.calculateResize(byteBuffer.capacity(), minimumRequiredSize);
+            int newCapacity = bufferResizeStrategy.calculateNewSize(byteBuffer.capacity(), minimumRequiredSize);
             setByteBuffer(newCapacity);
             oldByteBuffer.flip();
             byteBuffer.put(oldByteBuffer);

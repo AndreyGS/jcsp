@@ -23,12 +23,11 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
+package io.andreygs.jcsp.base.processing.context.internal;
 
 import io.andreygs.jcsp.base.message.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
-import io.andreygs.jcsp.base.processing.context.internal.CspDataMessageSerializationContext;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspDataFlags;
@@ -40,9 +39,9 @@ import java.util.List;
 /**
  * TODO: place description here
  */
-public class CspSerializationMessagesFactory
+public class CspMessageSerializationContextsFactory
 {
-    public static ICspDataMessageSerializationContext createCspSerializationDataMessage(
+    public static ICspDataMessageSerializationContext createCspDataMessageSerializationContext(
         ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider,
         ICspSerializationBuffer cspSerializationBuffer,
         CspProtocolVersion cspProtocolVersion,

@@ -26,7 +26,6 @@
 package io.andreygs.jcsp.base.message.buffer.internal;
 
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
-import io.andreygs.jcsp.base.utils.internal.BufferDoublingResizeStrategy;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.ByteBuffer;
@@ -51,7 +50,7 @@ public class CspSerializationBufferFactory
      *                     convert make additionally copy to byte[] from direct buffer manually.
      *                     If it equals null, then direct buffer will be used.
      * @param bufferResizeStrategy Strategy of buffer resizing.
-     *                             If it equals null, then {@link BufferDoublingResizeStrategy} will be used.
+     *                             If it equals null, then doubling resize strategy will be used.
      * @see ByteBuffer
      */
     public static ICspSerializationBuffer create(@Nullable Integer initialBufferCapacity, @Nullable Boolean directBuffer,

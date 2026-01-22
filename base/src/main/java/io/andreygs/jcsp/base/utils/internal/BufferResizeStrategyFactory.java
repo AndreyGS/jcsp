@@ -23,9 +23,20 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.utils;
+package io.andreygs.jcsp.base.utils.internal;
 
-public interface IBufferResizeStrategy
+import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
+import io.andreygs.jcsp.base.utils.IBufferResizeStrategyFactory;
+
+/**
+ * TODO: place description here
+ */
+public class BufferResizeStrategyFactory
+    implements IBufferResizeStrategyFactory
 {
-    int calculateNewSize(int currentCapacity, int minimumRequiredSize);
+    @Override
+    public IBufferResizeStrategy createBufferDoublingSizeStrategy()
+    {
+        return new BufferDoublingSizeStrategy();
+    }
 }

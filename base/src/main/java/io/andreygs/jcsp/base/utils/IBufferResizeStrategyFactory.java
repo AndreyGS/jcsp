@@ -23,18 +23,17 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.utils.internal;
+package io.andreygs.jcsp.base.utils;
 
-import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
-
-public enum BufferDoublingResizeStrategy
-    implements IBufferResizeStrategy
+/**
+ * Factory for creating instances of IBufferResizeStrategy.
+ */
+public interface IBufferResizeStrategyFactory
 {
-    INSTANCE;
-
-    @Override
-    public int calculateResize(int currentCapacity, int minimumRequiredSize)
-    {
-        return currentCapacity * 2;
-    }
+    /**
+     * Creates an instance of a strategy that calculates a buffer size which is twice as big as the current one.
+     *
+     * @return new instance of strategy of doubling buffer size.
+     */
+    IBufferResizeStrategy createBufferDoublingSizeStrategy();
 }

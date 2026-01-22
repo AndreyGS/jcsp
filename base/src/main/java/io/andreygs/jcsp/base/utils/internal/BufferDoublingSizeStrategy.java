@@ -23,16 +23,16 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.utils;
+package io.andreygs.jcsp.base.utils.internal;
 
-import io.andreygs.jcsp.base.utils.internal.BufferDoublingResizeStrategy;
+import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 
-public class BufferResizeStrategyProvider
-    implements IBufferResizeStrategyProvider
+class BufferDoublingSizeStrategy
+    implements IBufferResizeStrategy
 {
     @Override
-    public IBufferResizeStrategy provideDoublingStrategy()
+    public int calculateNewSize(int currentCapacity, int minimumRequiredSize)
     {
-        return BufferDoublingResizeStrategy.INSTANCE;
+        return currentCapacity * 2;
     }
 }

@@ -25,15 +25,17 @@
 
 package io.andreygs.jcsp.base.utils;
 
-/**
- * Factory for creating instances of IBufferResizeStrategy
- */
-public interface IBufferResizeStrategyProvider
+import io.andreygs.jcsp.base.processing.ICspProcessorProviderFactory;
+import io.andreygs.jcsp.base.utils.internal.BufferResizeStrategyFactory;
+
+public class BufferResizeStrategyFactoryProducer
 {
-    /**
-     * Creates instance of strategy that doubles buffer size.
-     *
-     * @return new instance of IBufferResizeStrategy.
-     */
-    IBufferResizeStrategy provideDoublingStrategy();
+    private BufferResizeStrategyFactoryProducer()
+    {
+    }
+
+    public static IBufferResizeStrategyFactory produceBufferResizeStrategyFactory()
+    {
+        return new BufferResizeStrategyFactory();
+    }
 }
