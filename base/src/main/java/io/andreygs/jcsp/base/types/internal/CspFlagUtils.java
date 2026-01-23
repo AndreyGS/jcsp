@@ -38,8 +38,7 @@ public class CspFlagUtils
     public static <T extends ICspFlag> int calcFlagMask(List<T> setFlags)
     {
         int[] flagsSum = new int[1];
-        flagsSum[0] = 0;
-        setFlags.stream().forEach(flag -> flagsSum[0] |= flag.getValue() );
+        setFlags.forEach(flag -> flagsSum[0] |= flag.getValue() );
         return flagsSum[0];
     }
 

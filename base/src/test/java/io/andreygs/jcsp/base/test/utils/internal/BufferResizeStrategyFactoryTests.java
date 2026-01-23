@@ -39,7 +39,7 @@ public class BufferResizeStrategyFactoryTests
      * Unit-tests for {@link IBufferResizeStrategy} instance returned from {@link BufferResizeStrategyFactory#createBufferDoublingSizeStrategy()} method.
      */
     @Nested
-    public class CreateBufferDoublingSizeStrategyTests extends AbstractIBufferResizeStrategyTests
+    public class CreateBufferDoublingSizeStrategyResultTests extends AbstractIBufferResizeStrategyTests
     {
         @Override
         protected IBufferResizeStrategy createBufferResizeStrategy()

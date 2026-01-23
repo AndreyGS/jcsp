@@ -26,7 +26,7 @@
 package io.andreygs.jcsp.base.types;
 
 /**
- * Version of CSP compatible interface.
+ * Version of CSP compatible interface (CSP Interface).
  * <p>
  * As CSP states: it must be present in raw form of 4-octet length integer.
  * However, internal form can be any.
@@ -36,9 +36,49 @@ package io.andreygs.jcsp.base.types;
  *     <li>1 octet - Major | 1 octet Minor | 2 octet Patch</li>
  *     <li>1 octet - Major | 1 octet Minor | 1 octet Patch | 1 octet Build</li>
  * </ul>
- * In any implementor must exist compareTo() override.
  */
-public interface ICspInterfaceVersion extends Comparable<ICspInterfaceVersion>
+public interface ICspInterfaceVersion
 {
+    /**
+     * Gets raw version of CSP Interface value.
+     *
+     * @return raw version of CSP Interface value.
+     */
     int getRawVersion();
+
+    /**
+     * Calculates positive value of octets from which CSP Version consists.
+     * <p>
+     * Because Java doesn't have unsigned integer CSP Version raw value can be negative,
+     * but this is not what we want in some cases (in raw compare, for example).
+     * So here we got CSP Version (in raw view) with positive, non-overflowed value.
+     *
+     * @param cspInterfaceVersion Instance which version needs to be processed.
+     * @return CSP Version raw positive value.
+     */
+    static long calculatePositiveRawVersion(ICspInterfaceVersion cspInterfaceVersion)
+    {
+        return (long)cspInterfaceVersion.getRawVersion() & 0xffffffffL;
+    }
+
+    /**
+     * Compares versions by their positive raw CSP Versions representations similar to compareTo() method.
+     * <p>
+     * It's only legal to compare instances of the same class.
+     *
+     * @param left Left comparing instance.
+     * @param right Right comparing instance.
+     * @return result of left value minus right value equation, where values presented as positive raw version representation.
+     * If result > 0, left version is higher, if result == 0, versions are equal.
+     * @throws IllegalArgumentException if instances has different classes.
+     */
+    static int compareVersions(ICspInterfaceVersion left, ICspInterfaceVersion right)
+    {
+        if (left.getClass() != right.getClass())
+        {
+            throw new IllegalArgumentException("Comparing ICspInterfaceVersion instances must have equal class!");
+        }
+
+        return (int)(calculatePositiveRawVersion(left) - calculatePositiveRawVersion(right));
+    }
 }

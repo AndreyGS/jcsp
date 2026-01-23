@@ -52,7 +52,7 @@ public class CspDeserializationBufferFactoryTests
      * {@link CspDeserializationBufferFactory#createCspDeserializationBuffer(ByteBuffer)}.
      */
     @Nested
-    public class CreateCspDeserializationBufferTests extends AbstractICspDeserializationBufferTests
+    public class CreateCspDeserializationBufferResultTests extends AbstractICspDeserializationBufferTests
     {
         @Override
         protected ICspDeserializationBuffer createCspDeserializationBuffer(ByteBuffer byteBuffer)

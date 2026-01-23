@@ -30,7 +30,7 @@ import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 /**
  * Strategy that calculates new size of random buffer by at least doubling its current size.
  */
-class BufferSizeDoublingStrategy
+class BufferResizeDoublingStrategy
     implements IBufferResizeStrategy
 {
     @Override

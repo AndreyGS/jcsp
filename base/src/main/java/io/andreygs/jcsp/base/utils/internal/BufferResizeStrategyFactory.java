@@ -37,6 +37,6 @@ public class BufferResizeStrategyFactory
     @Override
     public IBufferResizeStrategy createBufferDoublingSizeStrategy()
     {
-        return new BufferSizeDoublingStrategy();
+        return new BufferResizeDoublingStrategy();
     }
 }

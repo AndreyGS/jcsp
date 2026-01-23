@@ -70,7 +70,7 @@ public class CspSerializationBufferFactoryTests
      * {@link CspSerializationBufferFactory#createCspSerializationBuffer(Integer, Boolean, IBufferResizeStrategy)}.
      */
     @Nested
-    public class CreateCspSerializationBufferTests extends AbstractICspSerializationBufferTests
+    public class CreateCspSerializationBufferResultTests extends AbstractICspSerializationBufferTests
     {
         @Override
         protected ICspSerializationBuffer createCspSerializationBuffer(Integer initialBufferCapacity, Boolean directBuffer)

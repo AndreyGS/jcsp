@@ -25,10 +25,6 @@
 
 package io.andreygs.jcsp.base.test.processing.internal;
 
-import org.junit.jupiter.api.Test;
-
-import java.util.Optional;
-
 /**
  * TODO: place description here
  */

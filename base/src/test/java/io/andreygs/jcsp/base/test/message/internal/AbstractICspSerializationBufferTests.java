@@ -25,7 +25,6 @@
 
 package io.andreygs.jcsp.base.test.message.internal;
 
-import io.andreygs.jcsp.base.message.buffer.internal.ICspDeserializationBuffer;
 import io.andreygs.jcsp.base.message.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.test.CommonUtils;
 import org.junit.jupiter.api.Assertions;
