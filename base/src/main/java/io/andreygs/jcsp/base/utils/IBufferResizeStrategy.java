@@ -25,7 +25,20 @@
 
 package io.andreygs.jcsp.base.utils;
 
+/**
+ * Strategy for determining size of random buffer when it needs to be expanded (to hold new data, for example).
+ */
 public interface IBufferResizeStrategy
 {
+    /**
+     * Calculates new size for random buffer with respect to it current capacity and minimum expected size.
+     *
+     * @param currentCapacity The current capacity of buffer. Must not be negative.
+     * @param minimumRequiredSize Minimum required size of buffer. Must be not less than currentCapacity.
+     * @return new size that buffer need. Always at least as big as minimumRequiredSize.
+     * @throws IllegalArgumentException if currentCapacity is a negative number or bigger than minimumRequiredSize.
+     * less than .
+     * @throws ArithmeticException if calculated size will overflow an int.
+     */
     int calculateNewSize(int currentCapacity, int minimumRequiredSize);
 }

@@ -37,7 +37,7 @@ import java.nio.ByteOrder;
  * <p>
  * It is a wrapper over {@link ByteBuffer} optimized for use in CSP serialization process.
  */
-public final class CspSerializationBuffer
+final class CspSerializationBuffer
     implements ICspSerializationBuffer
 {
     /**
@@ -61,7 +61,6 @@ public final class CspSerializationBuffer
      * Constructs CspSerializationByteBuffer.
      *
      * @param initialBufferCapacity Initial capacity of buffer. Must not be negative.
-     *                              If it equals null, then {@link #DEFAULT_CAPACITY_SIZE default capacity} value will be used.
      * @param directBuffer Is buffer direct or not.
      *                     You should consider that direct buffer may not have underlying array that can be retrieved.
      *                     Non-direct buffer, otherwise will always have underlying array, and it can be used in all
@@ -70,19 +69,14 @@ public final class CspSerializationBuffer
      *                     So if you want to pass data by net buffer should be direct. But many cryptographic libraries,
      *                     on the other hand, are using byte[], and you must either use non-direct buffer or
      *                     convert make additionally copy to byte[] from direct buffer manually.
-     *                     If it equals null, then direct buffer will be used.
      * @param bufferResizeStrategy Strategy of buffer resizing.
-     *                             If it equals null, then doubling resize strategy will be used.
      * @see ByteBuffer
      */
-    CspSerializationBuffer(@Nullable Integer initialBufferCapacity, @Nullable Boolean directBuffer,
-                           @Nullable IBufferResizeStrategy bufferResizeStrategy)
+    CspSerializationBuffer(int initialBufferCapacity, boolean directBuffer, IBufferResizeStrategy bufferResizeStrategy)
     {
-        this.directBuffer = directBuffer != null ? directBuffer : true;
-        setByteBuffer(initialBufferCapacity != null ? initialBufferCapacity : DEFAULT_CAPACITY_SIZE);
-        this.bufferResizeStrategy = bufferResizeStrategy != null
-                                    ? bufferResizeStrategy
-                                    : BufferResizeStrategyFactoryProducer.produceBufferResizeStrategyFactory().createBufferDoublingSizeStrategy();
+        this.directBuffer = directBuffer;
+        setByteBuffer(initialBufferCapacity);
+        this.bufferResizeStrategy = bufferResizeStrategy;
     }
 
     @Override
@@ -225,8 +219,14 @@ public final class CspSerializationBuffer
 
     /**
      * Allocates and sets new ByteBuffer with the giving capacity.
+     * <p>
+     * It is expected that this method is only called from {@link @expandBufferIfNeed}
+     * and Constructor (which in turn called from Factory, that filters not applicable values)
+     * where precalculated capacity is a positive number.
+     * So no {@link IllegalArgumentException} is awaiting here.
      *
-     * @param capacity Capacity of new ByteBuffer.
+     * @param capacity Capacity of new ByteBuffer. Must be positive.
+     * @throws IllegalArgumentException if capacity turned out to be negative somehow.
      */
     private void setByteBuffer(int capacity)
     {
@@ -243,11 +243,12 @@ public final class CspSerializationBuffer
     /**
      * Expands buffer if current allocated size is not enough to write {@code addingDataSize}.
      *
-     * @param addingDataSize Size of data that should be added to buffer.
+     * @param addingDataSize Size of data that should be written to buffer. Must be positive.
+     * @throws ArithmeticException if new buffer capacity size will overflow an int.
      */
     private void expandBufferIfNeed(int addingDataSize)
     {
-        int minimumRequiredSize = byteBuffer.position() + addingDataSize;
+        int minimumRequiredSize = Math.addExact(byteBuffer.position(), addingDataSize);
         if (minimumRequiredSize > byteBuffer.capacity())
         {
             ByteBuffer oldByteBuffer = byteBuffer;

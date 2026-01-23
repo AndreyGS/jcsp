@@ -25,7 +25,9 @@
 
 package io.andreygs.jcsp.base.message.buffer.internal;
 
+import io.andreygs.jcsp.base.utils.BufferResizeStrategyFactoryProducer;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
+import io.andreygs.jcsp.base.utils.internal.BufferResizeStrategyFactory;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.ByteBuffer;
@@ -36,10 +38,16 @@ import java.nio.ByteBuffer;
 public class CspSerializationBufferFactory
 {
     /**
+     * Default capacity of {@link ByteBuffer} of ICspSerializationBuffer when it is created, if no explicit value was
+     * provided.
+     */
+    public static final int DEFAULT_CAPACITY_SIZE = 256;
+
+    /**
      * Creates ICspSerializationBuffer instance.
      *
      * @param initialBufferCapacity Initial capacity of buffer. Must not be negative.
-     *                              If it equals null, then {@link ICspSerializationBuffer#DEFAULT_CAPACITY_SIZE default capacity} value will be used.
+     *                              If it equals null, then {@link #DEFAULT_CAPACITY_SIZE default capacity} value will be used.
      * @param directBuffer Is buffer direct or not.
      *                     You should consider that direct buffer may not have underlying array that can be retrieved.
      *                     Non-direct buffer, otherwise will always have underlying array, and it can be used in all
@@ -50,12 +58,24 @@ public class CspSerializationBufferFactory
      *                     convert make additionally copy to byte[] from direct buffer manually.
      *                     If it equals null, then direct buffer will be used.
      * @param bufferResizeStrategy Strategy of buffer resizing.
-     *                             If it equals null, then doubling resize strategy will be used.
+     *                             If it equals null, then doubling resize strategy will be used -
+     *                             {@link BufferResizeStrategyFactory#createBufferDoublingSizeStrategy()}
+     * @throws IllegalArgumentException if initialBufferCapacity is a negative number.
      * @see ByteBuffer
      */
-    public static ICspSerializationBuffer create(@Nullable Integer initialBufferCapacity, @Nullable Boolean directBuffer,
-                                                 @Nullable IBufferResizeStrategy bufferResizeStrategy)
+    public static ICspSerializationBuffer createCspSerializationBuffer(@Nullable Integer initialBufferCapacity, @Nullable Boolean directBuffer,
+                                                                       @Nullable IBufferResizeStrategy bufferResizeStrategy)
     {
-        return new CspSerializationBuffer(initialBufferCapacity, directBuffer, bufferResizeStrategy);
+        int initialBufferCapacityLocal = initialBufferCapacity != null ? initialBufferCapacity : DEFAULT_CAPACITY_SIZE;
+        boolean directBufferLocal = directBuffer != null ? directBuffer : true;
+        IBufferResizeStrategy bufferResizeStrategyLocal = bufferResizeStrategy != null ? bufferResizeStrategy
+            : BufferResizeStrategyFactoryProducer.produceBufferResizeStrategyFactory().createBufferDoublingSizeStrategy();
+
+        if (initialBufferCapacityLocal < 0)
+        {
+            throw new IllegalArgumentException("Buffer capacity shall not be negative!");
+        }
+
+        return new CspSerializationBuffer(initialBufferCapacityLocal, directBufferLocal, bufferResizeStrategyLocal);
     }
 }

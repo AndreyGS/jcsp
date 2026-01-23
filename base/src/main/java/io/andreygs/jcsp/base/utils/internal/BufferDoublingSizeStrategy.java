@@ -33,6 +33,20 @@ class BufferDoublingSizeStrategy
     @Override
     public int calculateNewSize(int currentCapacity, int minimumRequiredSize)
     {
-        return currentCapacity * 2;
+        if (currentCapacity < 0 || currentCapacity > minimumRequiredSize)
+        {
+            throw new IllegalArgumentException("Current capacity shall not be negative or bigger than minimum "
+                                                   + "required size!");
+        }
+
+        int result = currentCapacity;
+
+        do
+        {
+            result = Math.multiplyExact(result, 2);
+        }
+        while (result  < minimumRequiredSize);
+
+        return result;
     }
 }

@@ -25,8 +25,6 @@
 
 package io.andreygs.jcsp.base.message.buffer.internal;
 
-import java.nio.ByteBuffer;
-
 /**
  * Extension of {@link ICspBuffer} to be used in CSP serialization process.
  * <p>
@@ -36,11 +34,6 @@ public sealed interface ICspSerializationBuffer
     extends ICspBuffer
     permits CspSerializationBuffer
 {
-    /**
-     * Default capacity of {@link ByteBuffer} when it is created, if no explicit value is provided.
-     */
-    int DEFAULT_CAPACITY_SIZE = 256;
-
     /**
      * Gets whether underlying storage has direct buffer or not.
      *
@@ -52,6 +45,7 @@ public sealed interface ICspSerializationBuffer
      * Writes single byte value to buffer.
      *
      * @param value Value to write.
+     * @throws ArithmeticException if buffer capacity needs to be expanded and new size will overflow an int.
      */
     void write(byte value);
 
@@ -59,6 +53,7 @@ public sealed interface ICspSerializationBuffer
      * Writes single short value to buffer.
      *
      * @param value Value to write.
+     * @throws ArithmeticException if buffer capacity needs to be expanded and new size will overflow an int.
      */
     void write(short value);
 
@@ -66,6 +61,7 @@ public sealed interface ICspSerializationBuffer
      * Writes single int value to buffer.
      *
      * @param value Value to write.
+     * @throws ArithmeticException if buffer capacity needs to be expanded and new size will overflow an int.
      */
     void write(int value);
 
@@ -73,6 +69,7 @@ public sealed interface ICspSerializationBuffer
      * Writes single long value to buffer.
      *
      * @param value Value to write.
+     * @throws ArithmeticException if buffer capacity needs to be expanded and new size will overflow an int.
      */
     void write(long value);
 
@@ -80,6 +77,7 @@ public sealed interface ICspSerializationBuffer
      * Writes single char value to buffer.
      *
      * @param value Value to write.
+     * @throws ArithmeticException if buffer capacity needs to be expanded and new size will overflow an int.
      */
     void write(char value);
 
@@ -87,6 +85,7 @@ public sealed interface ICspSerializationBuffer
      * Writes single float value to buffer.
      *
      * @param value Value to write.
+     * @throws ArithmeticException if buffer capacity needs to be expanded and new size will overflow an int.
      */
     void write(float value);
 
@@ -94,6 +93,7 @@ public sealed interface ICspSerializationBuffer
      * Writes single double value to buffer.
      *
      * @param value Value to write.
+     * @throws ArithmeticException if buffer capacity needs to be expanded and new size will overflow an int.
      */
     void write(double value);
 
@@ -101,6 +101,7 @@ public sealed interface ICspSerializationBuffer
      * Writes byte array value to buffer.
      *
      * @param value Value to write.
+     * @throws ArithmeticException if buffer capacity needs to be expanded and new size will overflow an int.
      */
     void write(byte[] value);
 
@@ -108,6 +109,7 @@ public sealed interface ICspSerializationBuffer
      * Writes short array value to buffer.
      *
      * @param value Value to write.
+     * @throws ArithmeticException if buffer capacity needs to be expanded and new size will overflow an int.
      */
     void write(short[] value);
 
@@ -115,6 +117,7 @@ public sealed interface ICspSerializationBuffer
      * Writes int array value to buffer.
      *
      * @param value Value to write.
+     * @throws ArithmeticException if buffer capacity needs to be expanded and new size will overflow an int.
      */
     void write(int[] value);
 
@@ -122,6 +125,7 @@ public sealed interface ICspSerializationBuffer
      * Writes long array value to buffer.
      *
      * @param value Value to write.
+     * @throws ArithmeticException if buffer capacity needs to be expanded and new size will overflow an int.
      */
     void write(long[] value);
 
@@ -129,6 +133,7 @@ public sealed interface ICspSerializationBuffer
      * Writes char array value to buffer.
      *
      * @param value Value to write.
+     * @throws ArithmeticException if buffer capacity needs to be expanded and new size will overflow an int.
      */
     void write(char[] value);
 
@@ -136,6 +141,7 @@ public sealed interface ICspSerializationBuffer
      * Writes float array value to buffer.
      *
      * @param value Value to write.
+     * @throws ArithmeticException if buffer capacity needs to be expanded and new size will overflow an int.
      */
     void write(float[] value);
 
@@ -143,6 +149,7 @@ public sealed interface ICspSerializationBuffer
      * Writes double array value to buffer.
      *
      * @param value Value to write.
+     * @throws ArithmeticException if buffer capacity needs to be expanded and new size will overflow an int.
      */
     void write(double[] value);
 

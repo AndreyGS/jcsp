@@ -67,7 +67,7 @@ public class Serializer
         ICspSerializable cspSerializable)
     {
         ICspSerializationBuffer cspSerializationBuffer =
-            CspSerializationBufferFactory.create(initialBufferCapacity, directBuffer, bufferResizeStrategy);
+            CspSerializationBufferFactory.createCspSerializationBuffer(initialBufferCapacity, directBuffer, bufferResizeStrategy);
 
         // TODO construction of message should be made later (right before message body serialization).
         ICspDataMessageSerializationContext cspSerializationDataMessage =
