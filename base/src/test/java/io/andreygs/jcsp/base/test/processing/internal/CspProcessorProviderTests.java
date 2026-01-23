@@ -34,9 +34,5 @@ import java.util.Optional;
  */
 public class CspProcessorProviderTests
 {
-    @Test
-    public void testProvideProcessor()
-    {
 
-    }
 }

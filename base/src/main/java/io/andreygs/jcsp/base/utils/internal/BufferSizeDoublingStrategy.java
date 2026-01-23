@@ -23,23 +23,38 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.buffer.internal;
+package io.andreygs.jcsp.base.utils.internal;
 
-import java.nio.ByteBuffer;
+import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 
 /**
- * Factory for creating instance of {@link ICspDeserializationBuffer}.
+ * Strategy that calculates new size of random buffer by at least doubling its current size.
  */
-public class CspDeserializationBufferFactory
+class BufferSizeDoublingStrategy
+    implements IBufferResizeStrategy
 {
-    /**
-     * Creates ICspDeserializationBuffer.
-     *
-     * @param byteBuffer Buffer that contains CSP serialized data.
-     * @return instance of CspDeserializationByteBuffer.
-     */
-    public static ICspDeserializationBuffer createCspDeserializationBuffer(ByteBuffer byteBuffer)
+    @Override
+    public int calculateNewSize(int currentCapacity, int minimumRequiredSize)
     {
-        return new CspDeserializationBuffer(byteBuffer);
+        if (currentCapacity < 0 || currentCapacity > minimumRequiredSize)
+        {
+            throw new IllegalArgumentException("Current capacity shall not be negative or bigger than minimum "
+                                                   + "required size!");
+        }
+
+        int result = currentCapacity;
+        while (result  < minimumRequiredSize)
+        {
+            try
+            {
+                result = Math.multiplyExact(result, 2);
+            }
+            catch (ArithmeticException e)
+            {
+                result = Integer.MAX_VALUE;
+            }
+        }
+
+        return result;
     }
 }

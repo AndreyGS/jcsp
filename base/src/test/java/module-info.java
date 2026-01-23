@@ -31,5 +31,7 @@ module io.andreygs.jcsp.base.test {
     requires org.mockito;
     requires org.jetbrains.annotations;
 
-    opens io.andreygs.jcsp.base.test.message.internal to org.junit.platform.commons;
+    exports io.andreygs.jcsp.base.test.message.internal to org.junit.platform.commons;
+    exports io.andreygs.jcsp.base.test.utils to org.junit.platform.commons;
+    exports io.andreygs.jcsp.base.test.utils.internal to org.junit.platform.commons;
 }

@@ -25,17 +25,39 @@
 
 package io.andreygs.jcsp.base.test.message.internal;
 
-import io.andreygs.jcsp.base.message.buffer.internal.CspSerializationBufferFactory;
-import io.andreygs.jcsp.base.message.buffer.internal.ICspSerializationBuffer;
+import io.andreygs.jcsp.base.message.buffer.internal.CspDeserializationBufferFactory;
+import io.andreygs.jcsp.base.message.buffer.internal.ICspDeserializationBuffer;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
+import java.nio.ByteBuffer;
 
 /**
- * Tests for io.andreygs.jcsp.base.message.buffer.internal.CspSerializationBuffer class.
+ * Unit-tests for {@link CspDeserializationBufferFactory}.
  */
-public class CspSerializationBufferTests extends AbstractICspSerializationBufferTests
+public class CspDeserializationBufferFactoryTests
 {
-    @Override
-    protected ICspSerializationBuffer createCspSerializationBuffer(Integer initialBufferCapacity, Boolean directBuffer)
+    @Test
+    public void createCspDeserializationBufferTest()
     {
-        return CspSerializationBufferFactory.createCspSerializationBuffer(initialBufferCapacity, directBuffer, null);
+        ByteBuffer byteBuffer = ByteBuffer.allocate(0);
+        ICspDeserializationBuffer cspDeserializationBuffer = CspDeserializationBufferFactory.createCspDeserializationBuffer(byteBuffer);
+
+        Assertions.assertEquals(byteBuffer, cspDeserializationBuffer.getByteBuffer());
+    }
+
+    /**
+     * Unit-tests for {@link ICspDeserializationBuffer} instance that is getting from
+     * {@link CspDeserializationBufferFactory#createCspDeserializationBuffer(ByteBuffer)}.
+     */
+    @Nested
+    public class CreateCspDeserializationBufferTests extends AbstractICspDeserializationBufferTests
+    {
+        @Override
+        protected ICspDeserializationBuffer createCspDeserializationBuffer(ByteBuffer byteBuffer)
+        {
+            return CspDeserializationBufferFactory.createCspDeserializationBuffer(byteBuffer);
+        }
     }
 }

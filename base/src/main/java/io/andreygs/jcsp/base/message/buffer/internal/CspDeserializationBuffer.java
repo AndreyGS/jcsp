@@ -33,7 +33,7 @@ import java.nio.ByteOrder;
  * <p>
  * It is a wrapper over {@link ByteBuffer} optimized for use in CSP deserialization process.
  */
-public final class CspDeserializationBuffer
+final class CspDeserializationBuffer
     implements ICspDeserializationBuffer
 {
     /**

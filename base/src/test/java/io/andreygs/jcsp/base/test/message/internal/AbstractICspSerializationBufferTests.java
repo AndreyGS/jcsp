@@ -25,6 +25,7 @@
 
 package io.andreygs.jcsp.base.test.message.internal;
 
+import io.andreygs.jcsp.base.message.buffer.internal.ICspDeserializationBuffer;
 import io.andreygs.jcsp.base.message.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.test.CommonUtils;
 import org.junit.jupiter.api.Assertions;
@@ -42,13 +43,10 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 /**
- * TODO: place description here
+ * Unit-tests for {@link ICspSerializationBuffer} contract.
  */
 public abstract class AbstractICspSerializationBufferTests
 {
-    abstract protected ICspSerializationBuffer createCspSerializationBuffer(Integer initialBufferCapacity,
-                                                                     Boolean directBuffer);
-
     @Test
     public void getByteBufferTest()
     {
@@ -299,6 +297,9 @@ public abstract class AbstractICspSerializationBufferTests
         Assertions.assertEquals(CommonUtils.getPrimitiveSize(i), byteBuffer.limit());
         Assertions.assertEquals(0, byteBuffer.position());
     }
+
+    protected abstract ICspSerializationBuffer createCspSerializationBuffer(Integer initialBufferCapacity,
+                                                                            Boolean directBuffer);
 
     private <T> void writePrimitive(T value1, T value2, BiConsumer<ICspSerializationBuffer, T> writeFunction,
                                     Function<ByteBuffer, T> readValueFunction)

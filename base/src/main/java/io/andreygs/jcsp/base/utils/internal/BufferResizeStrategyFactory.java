@@ -29,7 +29,7 @@ import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategyFactory;
 
 /**
- * TODO: place description here
+ * Factory for creating instances of {@link IBufferResizeStrategy buffer resize strategies}.
  */
 public class BufferResizeStrategyFactory
     implements IBufferResizeStrategyFactory
@@ -37,6 +37,6 @@ public class BufferResizeStrategyFactory
     @Override
     public IBufferResizeStrategy createBufferDoublingSizeStrategy()
     {
-        return new BufferDoublingSizeStrategy();
+        return new BufferSizeDoublingStrategy();
     }
 }

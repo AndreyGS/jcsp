@@ -29,17 +29,16 @@ import io.andreygs.jcsp.base.message.buffer.internal.CspSerializationBufferFacto
 import io.andreygs.jcsp.base.message.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.nio.ByteBuffer;
-
 /**
- * TODO: place description here
+ * Unit-tests for {@link CspSerializationBufferFactory}.
  */
 public class CspSerializationBufferFactoryTests
 {
     @Test
-    public void constructorTest()
+    public void createCspSerializationBufferTest()
     {
         int capacitySize = 0;
         boolean directBuffer = false;
@@ -58,11 +57,25 @@ public class CspSerializationBufferFactoryTests
     }
 
     @Test
-    public void constructorWithDefaultParamsTest()
+    public void createCspSerializationBufferWithDefaultParamsTest()
     {
         ICspSerializationBuffer cspSerializationBuffer = CspSerializationBufferFactory.createCspSerializationBuffer(null, null, null);
         Assertions.assertEquals(CspSerializationBufferFactory.DEFAULT_CAPACITY_SIZE,
                                 cspSerializationBuffer.getByteBuffer().capacity());
         Assertions.assertTrue(cspSerializationBuffer.isDirectBuffer());
+    }
+
+    /**
+     * Unit-tests for {@link ICspSerializationBuffer} instance that is getting from
+     * {@link CspSerializationBufferFactory#createCspSerializationBuffer(Integer, Boolean, IBufferResizeStrategy)}.
+     */
+    @Nested
+    public class CreateCspSerializationBufferTests extends AbstractICspSerializationBufferTests
+    {
+        @Override
+        protected ICspSerializationBuffer createCspSerializationBuffer(Integer initialBufferCapacity, Boolean directBuffer)
+        {
+            return CspSerializationBufferFactory.createCspSerializationBuffer(initialBufferCapacity, directBuffer, null);
+        }
     }
 }

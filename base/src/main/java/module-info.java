@@ -37,6 +37,5 @@ module io.andreygs.jcsp.base {
     exports io.andreygs.jcsp.base.message.internal to io.andreygs.jcsp.base.test;
     exports io.andreygs.jcsp.base.processing.context.internal to io.andreygs.jcsp.base.test;
     exports io.andreygs.jcsp.base.processing.internal to io.andreygs.jcsp.base.test;
-
-    opens io.andreygs.jcsp.base.message.buffer.internal to io.andreygs.jcsp.base.test;
+    exports io.andreygs.jcsp.base.utils.internal to io.andreygs.jcsp.base.test;
 }

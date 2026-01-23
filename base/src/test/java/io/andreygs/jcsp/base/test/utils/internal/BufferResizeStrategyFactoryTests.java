@@ -23,30 +23,28 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.utils.internal;
+package io.andreygs.jcsp.base.test.utils.internal;
 
+import io.andreygs.jcsp.base.test.utils.AbstractIBufferResizeStrategyTests;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
+import io.andreygs.jcsp.base.utils.internal.BufferResizeStrategyFactory;
+import org.junit.jupiter.api.Nested;
 
-class BufferDoublingSizeStrategy
-    implements IBufferResizeStrategy
+/**
+ * Unit-tests for {@link BufferResizeStrategyFactory}.
+ */
+public class BufferResizeStrategyFactoryTests
 {
-    @Override
-    public int calculateNewSize(int currentCapacity, int minimumRequiredSize)
+    /**
+     * Unit-tests for {@link IBufferResizeStrategy} instance returned from {@link BufferResizeStrategyFactory#createBufferDoublingSizeStrategy()} method.
+     */
+    @Nested
+    public class CreateBufferDoublingSizeStrategyTests extends AbstractIBufferResizeStrategyTests
     {
-        if (currentCapacity < 0 || currentCapacity > minimumRequiredSize)
+        @Override
+        protected IBufferResizeStrategy createBufferResizeStrategy()
         {
-            throw new IllegalArgumentException("Current capacity shall not be negative or bigger than minimum "
-                                                   + "required size!");
+            return new BufferResizeStrategyFactory().createBufferDoublingSizeStrategy();
         }
-
-        int result = currentCapacity;
-
-        do
-        {
-            result = Math.multiplyExact(result, 2);
-        }
-        while (result  < minimumRequiredSize);
-
-        return result;
     }
 }

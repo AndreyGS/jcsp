@@ -25,13 +25,11 @@
 
 package io.andreygs.jcsp.base.test.message.internal;
 
-import io.andreygs.jcsp.base.message.buffer.internal.CspDeserializationBuffer;
+import io.andreygs.jcsp.base.message.buffer.internal.ICspDeserializationBuffer;
 import io.andreygs.jcsp.base.test.CommonUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.CharBuffer;
@@ -44,72 +42,63 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 /**
- * Tests for {@link CspDeserializationBuffer} class.
+ * Unit-tests for {@link ICspDeserializationBuffer} contract.
  */
-public class CspDeserializationBufferTests
+public abstract class AbstractICspDeserializationBufferTests
 {
     @Test
-    public void testConstructor()
+    public void getByteBufferTest()
     {
         ByteBuffer byteBuffer = ByteBuffer.allocate(0);
-        CspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
+        ICspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
 
         Assertions.assertEquals(byteBuffer, cspDeserializationBuffer.getByteBuffer());
     }
 
     @Test
-    public void testGetByteBuffer()
+    public void readByteTest()
     {
-        ByteBuffer byteBuffer = ByteBuffer.allocate(0);
-        CspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
-
-        Assertions.assertEquals(byteBuffer, cspDeserializationBuffer.getByteBuffer());
+        readPrimitive((byte)1, (byte)105, ByteBuffer::put, ICspDeserializationBuffer::readByte);
     }
 
     @Test
-    public void testReadByte()
+    public void readShortTest()
     {
-        readPrimitive((byte)1, (byte)105, ByteBuffer::put, CspDeserializationBuffer::readByte);
+        readPrimitive((short)11, (short)1050, ByteBuffer::putShort, ICspDeserializationBuffer::readShort);
     }
 
     @Test
-    public void testReadShort()
+    public void readIntTest()
     {
-        readPrimitive((short)11, (short)1050, ByteBuffer::putShort, CspDeserializationBuffer::readShort);
+        readPrimitive(111, 105000, ByteBuffer::putInt, ICspDeserializationBuffer::readInt);
     }
 
     @Test
-    public void testReadInt()
+    public void readLongTest()
     {
-        readPrimitive(111, 105000, ByteBuffer::putInt, CspDeserializationBuffer::readInt);
+        readPrimitive((long)1111, 105000000000L, ByteBuffer::putLong, ICspDeserializationBuffer::readLong);
     }
 
     @Test
-    public void testReadLong()
+    public void readCharTest()
     {
-        readPrimitive((long)1111, 105000000000L, ByteBuffer::putLong, CspDeserializationBuffer::readLong);
+        readPrimitive((char)11, (char)1050, ByteBuffer::putChar, ICspDeserializationBuffer::readChar);
     }
 
     @Test
-    public void testReadChar()
+    public void readFloatTest()
     {
-        readPrimitive((char)11, (char)1050, ByteBuffer::putChar, CspDeserializationBuffer::readChar);
+        readPrimitive(11.1F, 1050.0F, ByteBuffer::putFloat, ICspDeserializationBuffer::readFloat);
     }
 
     @Test
-    public void testReadFloat()
+    public void readDoubleTest()
     {
-        readPrimitive(11.1F, 1050.0F, ByteBuffer::putFloat, CspDeserializationBuffer::readFloat);
+        readPrimitive(11.1D, 1050.01D, ByteBuffer::putDouble, ICspDeserializationBuffer::readDouble);
     }
 
     @Test
-    public void testReadDouble()
-    {
-        readPrimitive(11.1D, 1050.01D, ByteBuffer::putDouble, CspDeserializationBuffer::readDouble);
-    }
-
-    @Test
-    public void testReadByteArray()
+    public void readByteArrayTest()
     {
         ByteBuffer byteBuffer = ByteBuffer.allocate(128);
 
@@ -122,7 +111,7 @@ public class CspDeserializationBufferTests
         byte[] readValue1 = new byte[3];
         byte[] readValue2 = new byte[4];
 
-        CspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
+        ICspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
         cspDeserializationBuffer.read(readValue1);
         cspDeserializationBuffer.read(readValue2);
 
@@ -131,7 +120,7 @@ public class CspDeserializationBufferTests
     }
 
     @Test
-    public void testReadShortArray()
+    public void readShortArrayTest()
     {
         ByteBuffer byteBuffer = ByteBuffer.allocate(128);
         ShortBuffer shortBuffer = byteBuffer.asShortBuffer();
@@ -148,7 +137,7 @@ public class CspDeserializationBufferTests
         short[] readValue1 = new short[3];
         short[] readValue2 = new short[4];
 
-        CspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
+        ICspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
 
         cspDeserializationBuffer.read(readValue1);
         cspDeserializationBuffer.read(readValue2);
@@ -158,7 +147,7 @@ public class CspDeserializationBufferTests
     }
 
     @Test
-    public void testReadIntArray()
+    public void readIntArrayTest()
     {
         ByteBuffer byteBuffer = ByteBuffer.allocate(128);
         IntBuffer shortBuffer = byteBuffer.asIntBuffer();
@@ -175,7 +164,7 @@ public class CspDeserializationBufferTests
         int[] readValue1 = new int[3];
         int[] readValue2 = new int[4];
 
-        CspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
+        ICspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
 
         cspDeserializationBuffer.read(readValue1);
         cspDeserializationBuffer.read(readValue2);
@@ -185,7 +174,7 @@ public class CspDeserializationBufferTests
     }
 
     @Test
-    public void testReadLongArray()
+    public void readLongArrayTest()
     {
         ByteBuffer byteBuffer = ByteBuffer.allocate(128);
         LongBuffer shortBuffer = byteBuffer.asLongBuffer();
@@ -202,7 +191,7 @@ public class CspDeserializationBufferTests
         long[] readValue1 = new long[3];
         long[] readValue2 = new long[4];
 
-        CspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
+        ICspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
 
         cspDeserializationBuffer.read(readValue1);
         cspDeserializationBuffer.read(readValue2);
@@ -212,7 +201,7 @@ public class CspDeserializationBufferTests
     }
 
     @Test
-    public void testReadCharArray()
+    public void readCharArrayTest()
     {
         ByteBuffer byteBuffer = ByteBuffer.allocate(128);
         CharBuffer shortBuffer = byteBuffer.asCharBuffer();
@@ -229,7 +218,7 @@ public class CspDeserializationBufferTests
         char[] readValue1 = new char[3];
         char[] readValue2 = new char[4];
 
-        CspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
+        ICspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
 
         cspDeserializationBuffer.read(readValue1);
         cspDeserializationBuffer.read(readValue2);
@@ -239,7 +228,7 @@ public class CspDeserializationBufferTests
     }
 
     @Test
-    public void testReadFloatArray()
+    public void readFloatArrayTest()
     {
         ByteBuffer byteBuffer = ByteBuffer.allocate(128);
         FloatBuffer shortBuffer = byteBuffer.asFloatBuffer();
@@ -256,7 +245,7 @@ public class CspDeserializationBufferTests
         float[] readValue1 = new float[3];
         float[] readValue2 = new float[4];
 
-        CspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
+        ICspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
 
         cspDeserializationBuffer.read(readValue1);
         cspDeserializationBuffer.read(readValue2);
@@ -266,7 +255,7 @@ public class CspDeserializationBufferTests
     }
 
     @Test
-    public void testReadDoubleArray()
+    public void readDoubleArrayTest()
     {
         ByteBuffer byteBuffer = ByteBuffer.allocate(128);
         DoubleBuffer shortBuffer = byteBuffer.asDoubleBuffer();
@@ -283,7 +272,7 @@ public class CspDeserializationBufferTests
         double[] readValue1 = new double[3];
         double[] readValue2 = new double[4];
 
-        CspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
+        ICspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
 
         cspDeserializationBuffer.read(readValue1);
         cspDeserializationBuffer.read(readValue2);
@@ -293,10 +282,10 @@ public class CspDeserializationBufferTests
     }
 
     @Test
-    public void testApplyEndianness()
+    public void applyEndiannessTest()
     {
         ByteBuffer byteBuffer = ByteBuffer.allocate(32);
-        CspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
+        ICspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
         cspDeserializationBuffer.applyEndianness(ByteOrder.BIG_ENDIAN);
 
         Assertions.assertEquals(ByteOrder.BIG_ENDIAN, cspDeserializationBuffer.getByteBuffer().order());
@@ -306,32 +295,18 @@ public class CspDeserializationBufferTests
     }
 
     private <T> void readPrimitive(T value1, T value2, BiConsumer<ByteBuffer, T> writeFunction,
-                                    Function<CspDeserializationBuffer, T> readValueFunction)
+                                   Function<ICspDeserializationBuffer, T> readValueFunction)
     {
         ByteBuffer byteBuffer = ByteBuffer.allocate(32);
         writeFunction.accept(byteBuffer, value1);
         writeFunction.accept(byteBuffer, value2);
         byteBuffer.flip();
 
-        CspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
+        ICspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
 
         Assertions.assertEquals(value1, readValueFunction.apply(cspDeserializationBuffer));
         Assertions.assertEquals(value2, readValueFunction.apply(cspDeserializationBuffer));
     }
 
-    private CspDeserializationBuffer createCspDeserializationBuffer(ByteBuffer byteBuffer)
-    {
-        try
-        {
-            Constructor<CspDeserializationBuffer> constructor =
-                CspDeserializationBuffer.class.getDeclaredConstructor(ByteBuffer.class);
-            constructor.setAccessible(true);
-            return constructor.newInstance(byteBuffer);
-        }
-        catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e)
-        {
-            throw new RuntimeException(e instanceof InvocationTargetException invocationTargetException ?
-                                       invocationTargetException.getCause() : e);
-        }
-    }
+    protected abstract ICspDeserializationBuffer createCspDeserializationBuffer(ByteBuffer byteBuffer);
 }
