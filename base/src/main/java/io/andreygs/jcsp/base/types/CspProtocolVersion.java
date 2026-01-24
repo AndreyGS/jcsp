@@ -26,7 +26,7 @@
 package io.andreygs.jcsp.base.types;
 
 /**
- * TODO: place description here
+ * CSP protocol version.
  */
 public enum CspProtocolVersion
 {

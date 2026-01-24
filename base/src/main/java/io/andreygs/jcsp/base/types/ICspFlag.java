@@ -26,12 +26,36 @@
 package io.andreygs.jcsp.base.types;
 
 /**
- * TODO: place description here
+ * Common interface for different CSP flags.
  */
 public sealed interface ICspFlag
     permits CspCommonFlags, CspDataFlags
 {
+    /**
+     * Gets flag value according to CSP reference.
+     *
+     * @return flag value.
+     */
     int getValue();
+
+    /**
+     * Gets user-friendly description of flag when it set according to CSP reference.
+     *
+     * @return user-friendly name when set.
+     */
     String getNameWhenSet();
+
+    /**
+     * Gets user-friendly description of flag when it unsetted according to CSP reference.
+     *
+     * @return user-friendly name when unset.
+     */
     String getNameWhenUnset();
+
+    /**
+     * Gets flag type name according to CSP reference.
+     *
+     * @return flag type name.
+     */
+    String getFlagTypeName();
 }

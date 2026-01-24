@@ -26,12 +26,23 @@
 package io.andreygs.jcsp.base.types;
 
 /**
- * TODO: place description here
+ * CSP Status according to CSP reference.
  */
 public enum CspStatus
 {
+    /**
+     * Operation is successes.
+     */
     NO_ERROR(0, Messages.CspStatus_No_Error),
+
+    /**
+     * There was not enough memory to complete the operation.
+     */
     NO_MEMORY(-1, Messages.CspStatus_No_Memory),
+
+    /**
+     * There is no procedure or server that can handle the request.
+     */
     NO_SUCH_HANDLER(-10, Messages.CspStatus_No_Such_Handler);
 
     private final int code;

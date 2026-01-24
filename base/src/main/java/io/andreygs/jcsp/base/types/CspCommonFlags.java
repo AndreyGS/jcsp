@@ -25,27 +25,40 @@
 
 package io.andreygs.jcsp.base.types;
 
-import io.andreygs.jcsp.base.types.internal.CspFlagUtils;
-
-import java.util.Arrays;
 import java.util.List;
 
 /**
- * TODO: place description here
+ * CSP Common flags according to CSP reference.
  */
 public enum CspCommonFlags implements ICspFlag
 {
-    BIG_ENDIAN(0x1, Messages.CspCommonFlags_BigEndian, Messages.CspCommonFlags_LittleEndian),
-    BITNESS_32(0x2, Messages.CspCommonFlags_Bitness32, Messages.CspCommonFlags_Bitness64),
+    /**
+     * Bitness of system on which serialization is performed is 32 bit.
+     * <p>
+     * Because Java specification states that JVM is always 64-bit, this flag is always unset on serialization (but not
+     * deserialization!) process.
+     */
+    BITNESS_32(0x1, Messages.CspCommonFlags_Bitness32, Messages.CspCommonFlags_Bitness64),
+
+    /**
+     * Indicates that serialization be doing (or done) with big-endian format.
+     * <p>
+     * Java specification states that JVM works natively with big-endian format, so this should be a preferable option
+     * in most scenarios.
+     */
+    BIG_ENDIAN(0x2, Messages.CspCommonFlags_BigEndian, Messages.CspCommonFlags_LittleEndian),
+
+    /**
+     * There (is) was endianness difference of "using big endian format" flag and execution environment where
+     * serialization is (or was) performed.
+     * <p>
+     * The state of this flag is set automatically during serialization and affects both
+     * the serialization process itself and deserialization.
+     */
     ENDIANNESS_DIFFERENCE(0x4, Messages.CspCommonFlags_EndiannessDifference,
                           Messages.CspCommonFlags_No_EndiannessDifference);
 
-    private static int validFlagsMask = 0;
-
-    static
-    {
-        Arrays.stream(values()).forEach(flag -> validFlagsMask |= flag.value);
-    }
+    public static final int VALID_FLAGS_MASK = CspFlagUtils.calculateFlagMask(values());
 
     private final int value;
     private final String name;
@@ -58,23 +71,6 @@ public enum CspCommonFlags implements ICspFlag
         this.name = Messages.CspCommonFlags_Type + ": " + nameWhenSet;
         this.nameWhenSet = nameWhenSet;
         this.nameWhenUnset = nameWhenUnset;
-    }
-
-    public static int groupValidFlagsMask()
-    {
-        return validFlagsMask;
-    }
-
-    public static String stringDescription(List<CspCommonFlags> setFlags)
-    {
-        return stringDescription(setFlags, true, true);
-    }
-
-    public static String stringDescription(List<CspCommonFlags> setFlags, boolean onlySetFlagsShouldBePrinted,
-                                           boolean printEmptyHeaderIfNoFlagIsSet)
-    {
-        return CspFlagUtils.stringDescription(values(), setFlags, Messages.CspCommonFlags_Type,
-                                              onlySetFlagsShouldBePrinted, printEmptyHeaderIfNoFlagIsSet);
     }
 
     @Override
@@ -93,6 +89,12 @@ public enum CspCommonFlags implements ICspFlag
     public String getNameWhenUnset()
     {
         return nameWhenUnset;
+    }
+
+    @Override
+    public String getFlagTypeName()
+    {
+        return Messages.CspCommonFlags_Type;
     }
 
     @Override

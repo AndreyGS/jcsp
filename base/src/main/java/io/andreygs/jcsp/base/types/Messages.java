@@ -43,8 +43,10 @@ final class Messages
     public static String CspDataFlags_AlignmentsAreEqual;
     public static String CspDataFlags_AllowUnmanagedPointers;
     public static String CspDataFlags_CheckRecursivePointers;
+    public static String CspDataFlags_CheckRecursivePointersWithMaintainingLinkStructure;
     public static String CspDataFlags_DoNotAllowUnmanagedPointers;
     public static String CspDataFlags_DoNotCheckRecursivePointers;
+    public static String CspDataFlags_DoNotCheckRecursivePointersWithMaintainingLinkStructure;
     public static String CspDataFlags_SimplyAssignableTagsOptimizationsAreAvailable;
     public static String CspDataFlags_SimplyAssignableTagsOptimizationsAreOff;
     public static String CspDataFlags_SizeOfIntegersMayBeNotEqual;

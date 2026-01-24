@@ -42,13 +42,6 @@ final class CspDeserializationBuffer
     private final ByteBuffer byteBuffer;
 
     /**
-     * Is {@link ByteBuffer} a direct buffer.
-     *
-     * @see ByteBuffer
-     */
-    private boolean directBuffer;
-
-    /**
      * Constructs CspDeserializationByteBuffer.
      *
      * @param byteBuffer Buffer that contains CSP serialized message.

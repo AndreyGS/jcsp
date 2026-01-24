@@ -26,12 +26,25 @@
 package io.andreygs.jcsp.base.types;
 
 /**
- * TODO: place description here
+ * CSP Message type according to CSP reference.
  */
 public enum CspMessageType
 {
+    /**
+     * Message which return status of operation, with optional (depending on status value) context.
+     * <p>
+     * Using in CSP Messaging process.
+     */
     STATUS((short)0, Messages.CspMessageType_Status),
+
+    /**
+     * Message with serialized data.
+     */
     DATA((short)1, Messages.CspMessageType_Data),
+
+    /**
+     * Message with query from CSP Server to get its capabilities/settings.
+     */
     GET_SETTINGS((short)2, Messages.CspMessageType_GetSettings);
 
     private final short value;
