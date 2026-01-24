@@ -38,59 +38,14 @@ public class CommonUtils
     public static <T> int getPrimitiveSize(T value)
     {
         Class<?> clazz = value.getClass();
-        Field field;
-        int sizeOfValue;
         try
         {
-            field = clazz.getDeclaredField("BYTES");
+            Field field = clazz.getDeclaredField("BYTES");
             return (int) field.get(null);
         }
         catch (NoSuchFieldException | IllegalAccessException e)
         {
             throw new RuntimeException(e);
         }
-    }
-
-    public static <T> byte[] getByteArrayFromOtherPrimitiveArray(T[] otherPrimitiveArray)
-    {
-        if (otherPrimitiveArray instanceof Byte[] byteArray)
-        {
-            return ArrayUtils.toPrimitive(byteArray);
-        }
-
-        ByteBuffer byteBuffer = ByteBuffer.allocate(otherPrimitiveArray.length * getPrimitiveSize(otherPrimitiveArray[0]));
-        for (T value : otherPrimitiveArray)
-        {
-            if (value instanceof Short shortValue)
-            {
-                byteBuffer.putShort(shortValue);
-            }
-            else  if (value instanceof Integer intValue)
-            {
-                byteBuffer.putInt(intValue);
-            }
-            else  if (value instanceof Long longValue)
-            {
-                byteBuffer.putLong(longValue);
-            }
-            else  if (value instanceof Character charValue)
-            {
-                byteBuffer.putChar(charValue);
-            }
-            else  if (value instanceof Float floatValue)
-            {
-                byteBuffer.putFloat(floatValue);
-            }
-            else  if (value instanceof Double doubleValue)
-            {
-                byteBuffer.putDouble(doubleValue);
-            }
-            else
-            {
-                throw new RuntimeException("Invalid T type");
-            }
-        }
-
-        return byteBuffer.array();
     }
 }

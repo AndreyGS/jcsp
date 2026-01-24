@@ -23,23 +23,38 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.buffer.internal;
+package io.andreygs.jcsp.base.test.message.internal;
 
-import java.nio.ByteBuffer;
+import io.andreygs.jcsp.base.message.buffer.internal.ICspBuffer;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import java.nio.ByteOrder;
 
 /**
- * Factory for creating instance of {@link ICspDeserializationBuffer}.
+ * Unit-tests for {@link ICspBuffer} contract.
  */
-public class CspDeserializationBufferFactory
+public abstract class AbstractICspBufferTests
 {
-    /**
-     * Creates {@link ICspDeserializationBuffer} with provided ByteBuffer as source of CSP serialized message.
-     *
-     * @param byteBuffer Buffer that contains CSP serialized message.
-     * @return created instance of ICspDeserializationByteBuffer.
-     */
-    public static ICspDeserializationBuffer createCspDeserializationBuffer(ByteBuffer byteBuffer)
+    @Test
+    public void getByteBufferTest()
     {
-        return new CspDeserializationBuffer(byteBuffer);
+        ICspBuffer cspBuffer = createCspBuffer();
+        Assertions.assertNotNull(cspBuffer.getByteBuffer(), "ByteBuffer should not be null");
     }
+
+    @Test
+    public void applyEndiannessTest()
+    {
+        ICspBuffer cspBuffer = createCspBuffer();
+        cspBuffer.applyEndianness(ByteOrder.BIG_ENDIAN);
+
+        String applyEndiannessTestFailed = "Endianness applying to buffer was failed!";
+        Assertions.assertEquals(ByteOrder.BIG_ENDIAN, cspBuffer.getByteBuffer().order(), applyEndiannessTestFailed);
+
+        cspBuffer.applyEndianness(ByteOrder.LITTLE_ENDIAN);
+        Assertions.assertEquals(ByteOrder.LITTLE_ENDIAN, cspBuffer.getByteBuffer().order(), applyEndiannessTestFailed);
+    }
+
+    protected abstract ICspBuffer createCspBuffer();
 }

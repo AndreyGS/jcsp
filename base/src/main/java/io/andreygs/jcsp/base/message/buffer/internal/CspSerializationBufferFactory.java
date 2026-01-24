@@ -44,7 +44,7 @@ public class CspSerializationBufferFactory
     public static final int DEFAULT_CAPACITY_SIZE = 256;
 
     /**
-     * Creates ICspSerializationBuffer instance.
+     * Creates {@link ICspSerializationBuffer} instance.
      *
      * @param initialBufferCapacity Initial capacity of buffer. Must not be negative.
      *                              If it equals null, then {@link #DEFAULT_CAPACITY_SIZE default capacity} value will be used.
@@ -60,6 +60,7 @@ public class CspSerializationBufferFactory
      * @param bufferResizeStrategy Strategy of buffer resizing.
      *                             If it equals null, then doubling resize strategy will be used -
      *                             {@link BufferResizeStrategyFactory#createBufferDoublingSizeStrategy()}
+     * @return created ICspSerializationBuffer instance.
      * @throws IllegalArgumentException if initialBufferCapacity is a negative number.
      * @see ByteBuffer
      */

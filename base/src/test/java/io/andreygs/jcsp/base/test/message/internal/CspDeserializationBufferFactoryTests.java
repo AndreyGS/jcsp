@@ -26,6 +26,7 @@
 package io.andreygs.jcsp.base.test.message.internal;
 
 import io.andreygs.jcsp.base.message.buffer.internal.CspDeserializationBufferFactory;
+import io.andreygs.jcsp.base.message.buffer.internal.ICspBuffer;
 import io.andreygs.jcsp.base.message.buffer.internal.ICspDeserializationBuffer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
@@ -44,7 +45,8 @@ public class CspDeserializationBufferFactoryTests
         ByteBuffer byteBuffer = ByteBuffer.allocate(0);
         ICspDeserializationBuffer cspDeserializationBuffer = CspDeserializationBufferFactory.createCspDeserializationBuffer(byteBuffer);
 
-        Assertions.assertEquals(byteBuffer, cspDeserializationBuffer.getByteBuffer());
+        Assertions.assertEquals(byteBuffer, cspDeserializationBuffer.getByteBuffer(),
+                                "ByteBuffer passed to factory is not equal to instance in ICspDeserializationBuffer");
     }
 
     /**
@@ -54,6 +56,12 @@ public class CspDeserializationBufferFactoryTests
     @Nested
     public class CreateCspDeserializationBufferResultTests extends AbstractICspDeserializationBufferTests
     {
+        @Override
+        protected ICspBuffer createCspBuffer()
+        {
+            return CspDeserializationBufferFactory.createCspDeserializationBuffer(ByteBuffer.allocate(0));
+        }
+
         @Override
         protected ICspDeserializationBuffer createCspDeserializationBuffer(ByteBuffer byteBuffer)
         {

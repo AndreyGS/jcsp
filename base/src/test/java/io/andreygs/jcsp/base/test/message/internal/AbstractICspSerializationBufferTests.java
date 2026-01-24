@@ -44,26 +44,9 @@ import java.util.function.Function;
 /**
  * Unit-tests for {@link ICspSerializationBuffer} contract.
  */
-public abstract class AbstractICspSerializationBufferTests
+public abstract class AbstractICspSerializationBufferTests extends AbstractICspBufferTests
 {
-    @Test
-    public void getByteBufferTest()
-    {
-        ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(null, null);
-        Assertions.assertNotNull(cspSerializationBuffer.getByteBuffer());
-    }
-
-    @Test
-    public void applyEndiannessTest()
-    {
-        ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(null, null);
-        cspSerializationBuffer.applyEndianness(ByteOrder.BIG_ENDIAN);
-
-        Assertions.assertEquals(ByteOrder.BIG_ENDIAN, cspSerializationBuffer.getByteBuffer().order());
-
-        cspSerializationBuffer.applyEndianness(ByteOrder.LITTLE_ENDIAN);
-        Assertions.assertEquals(ByteOrder.LITTLE_ENDIAN, cspSerializationBuffer.getByteBuffer().order());
-    }
+    private final String ARRAYS_NOT_EQUAL_FAIL = "Serialized and read arrays are not equal!";
 
     @Test
     public void isDirectBufferTest()
@@ -71,9 +54,9 @@ public abstract class AbstractICspSerializationBufferTests
         ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(null,
                                                                                      true);
 
-        Assertions.assertTrue(cspSerializationBuffer.isDirectBuffer());
+        Assertions.assertTrue(cspSerializationBuffer.isDirectBuffer(), "Buffer is not direct!");
         ICspSerializationBuffer cspSerializationBuffer2 = createCspSerializationBuffer(0, false);
-        Assertions.assertFalse(cspSerializationBuffer2.isDirectBuffer());
+        Assertions.assertFalse(cspSerializationBuffer2.isDirectBuffer(), "Buffer is direct!");
     }
 
     @Test
@@ -136,8 +119,8 @@ public abstract class AbstractICspSerializationBufferTests
         byte[] writtenValue2 = new byte[4];
         cspSerializationBuffer.getByteBuffer().get(writtenValue1);
         cspSerializationBuffer.getByteBuffer().get(writtenValue2);
-        Assertions.assertArrayEquals(value1, writtenValue1);
-        Assertions.assertArrayEquals(value2, writtenValue2);
+        Assertions.assertArrayEquals(value1, writtenValue1, ARRAYS_NOT_EQUAL_FAIL);
+        Assertions.assertArrayEquals(value2, writtenValue2, ARRAYS_NOT_EQUAL_FAIL);
     }
 
     @Test
@@ -159,8 +142,8 @@ public abstract class AbstractICspSerializationBufferTests
         ShortBuffer shortBuffer = cspSerializationBuffer.getByteBuffer().asShortBuffer();
         shortBuffer.get(writtenValue1);
         shortBuffer.get(writtenValue2);
-        Assertions.assertArrayEquals(value1, writtenValue1);
-        Assertions.assertArrayEquals(value2, writtenValue2);
+        Assertions.assertArrayEquals(value1, writtenValue1, ARRAYS_NOT_EQUAL_FAIL);
+        Assertions.assertArrayEquals(value2, writtenValue2, ARRAYS_NOT_EQUAL_FAIL);
     }
 
     @Test
@@ -182,8 +165,8 @@ public abstract class AbstractICspSerializationBufferTests
         IntBuffer intBuffer = cspSerializationBuffer.getByteBuffer().asIntBuffer();
         intBuffer.get(writtenValue1);
         intBuffer.get(writtenValue2);
-        Assertions.assertArrayEquals(value1, writtenValue1);
-        Assertions.assertArrayEquals(value2, writtenValue2);
+        Assertions.assertArrayEquals(value1, writtenValue1, ARRAYS_NOT_EQUAL_FAIL);
+        Assertions.assertArrayEquals(value2, writtenValue2, ARRAYS_NOT_EQUAL_FAIL);
     }
 
 
@@ -206,8 +189,8 @@ public abstract class AbstractICspSerializationBufferTests
         LongBuffer longBuffer = cspSerializationBuffer.getByteBuffer().asLongBuffer();
         longBuffer.get(writtenValue1);
         longBuffer.get(writtenValue2);
-        Assertions.assertArrayEquals(value1, writtenValue1);
-        Assertions.assertArrayEquals(value2, writtenValue2);
+        Assertions.assertArrayEquals(value1, writtenValue1, ARRAYS_NOT_EQUAL_FAIL);
+        Assertions.assertArrayEquals(value2, writtenValue2, ARRAYS_NOT_EQUAL_FAIL);
     }
 
     @Test
@@ -229,8 +212,8 @@ public abstract class AbstractICspSerializationBufferTests
         CharBuffer charBuffer = cspSerializationBuffer.getByteBuffer().asCharBuffer();
         charBuffer.get(writtenValue1);
         charBuffer.get(writtenValue2);
-        Assertions.assertArrayEquals(value1, writtenValue1);
-        Assertions.assertArrayEquals(value2, writtenValue2);
+        Assertions.assertArrayEquals(value1, writtenValue1, ARRAYS_NOT_EQUAL_FAIL);
+        Assertions.assertArrayEquals(value2, writtenValue2, ARRAYS_NOT_EQUAL_FAIL);
     }
 
     @Test
@@ -252,8 +235,8 @@ public abstract class AbstractICspSerializationBufferTests
         FloatBuffer floatBuffer = cspSerializationBuffer.getByteBuffer().asFloatBuffer();
         floatBuffer.get(writtenValue1);
         floatBuffer.get(writtenValue2);
-        Assertions.assertArrayEquals(value1, writtenValue1);
-        Assertions.assertArrayEquals(value2, writtenValue2);
+        Assertions.assertArrayEquals(value1, writtenValue1, ARRAYS_NOT_EQUAL_FAIL);
+        Assertions.assertArrayEquals(value2, writtenValue2, ARRAYS_NOT_EQUAL_FAIL);
     }
 
     @Test
@@ -275,8 +258,8 @@ public abstract class AbstractICspSerializationBufferTests
         DoubleBuffer doubleBuffer = cspSerializationBuffer.getByteBuffer().asDoubleBuffer();
         doubleBuffer.get(writtenValue1);
         doubleBuffer.get(writtenValue2);
-        Assertions.assertArrayEquals(value1, writtenValue1);
-        Assertions.assertArrayEquals(value2, writtenValue2);
+        Assertions.assertArrayEquals(value1, writtenValue1, ARRAYS_NOT_EQUAL_FAIL);
+        Assertions.assertArrayEquals(value2, writtenValue2, ARRAYS_NOT_EQUAL_FAIL);
     }
 
     @Test
@@ -289,12 +272,13 @@ public abstract class AbstractICspSerializationBufferTests
         cspSerializationBuffer.write(i);
 
         ByteBuffer byteBuffer = cspSerializationBuffer.getByteBuffer();
-        Assertions.assertEquals(capacitySize, byteBuffer.limit());
-        Assertions.assertEquals(CommonUtils.getPrimitiveSize(i), byteBuffer.position());
+        Assertions.assertEquals(CommonUtils.getPrimitiveSize(i), byteBuffer.position(),
+                                "Buffer position is not equal to serialized data size!");
 
         cspSerializationBuffer.commitBuffer();
-        Assertions.assertEquals(CommonUtils.getPrimitiveSize(i), byteBuffer.limit());
-        Assertions.assertEquals(0, byteBuffer.position());
+        Assertions.assertEquals(CommonUtils.getPrimitiveSize(i), byteBuffer.limit(),
+                                "Buffer limit is not equal to serialized data size!");
+        Assertions.assertEquals(0, byteBuffer.position(), "Buffer position is not equal to buffer start!");
     }
 
     protected abstract ICspSerializationBuffer createCspSerializationBuffer(Integer initialBufferCapacity,
@@ -310,9 +294,11 @@ public abstract class AbstractICspSerializationBufferTests
         cspSerializationBuffer.commitBuffer();
 
         ByteBuffer byteBuffer = cspSerializationBuffer.getByteBuffer();
-        Assertions.assertEquals(CommonUtils.getPrimitiveSize(value1) * 2, byteBuffer.limit());
+        Assertions.assertEquals(CommonUtils.getPrimitiveSize(value1) * 2, byteBuffer.limit(),
+                                "Serialized data size is no equal to sum of primitives!");
 
-        Assertions.assertEquals(value1, readValueFunction.apply(byteBuffer));
-        Assertions.assertEquals(value2, readValueFunction.apply(byteBuffer));
+        String primitivesNotEqualFail = "Serialized and read primitives are not equal!";
+        Assertions.assertEquals(value1, readValueFunction.apply(byteBuffer), primitivesNotEqualFail);
+        Assertions.assertEquals(value2, readValueFunction.apply(byteBuffer), primitivesNotEqualFail);
     }
 }

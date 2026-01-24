@@ -51,7 +51,7 @@ final class CspDeserializationBuffer
     /**
      * Constructs CspDeserializationByteBuffer.
      *
-     * @param byteBuffer Buffer that contains CSP serialized data.
+     * @param byteBuffer Buffer that contains CSP serialized message.
      */
     CspDeserializationBuffer(ByteBuffer byteBuffer)
     {

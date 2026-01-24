@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
- * TODO: place description here
+ * Unit-tests for {@link IBufferResizeStrategy} contract.
  */
 public abstract class AbstractIBufferResizeStrategyTests
 {
@@ -55,8 +55,8 @@ public abstract class AbstractIBufferResizeStrategyTests
         IBufferResizeStrategy bufferResizeStrategy = createBufferResizeStrategy();
         int result = bufferResizeStrategy.calculateNewSize(currentCapacity, minimumRequiredSize);
 
-        Assertions.assertEquals(currentCapacity, result, "Calculated size is not equal to current capacity when "
-                                                             + "currentCapacity == minimumRequiredSize!");
+        Assertions.assertEquals(currentCapacity, result,
+                                "Calculated size is not equal to current capacity when currentCapacity == minimumRequiredSize!");
     }
 
     @Test

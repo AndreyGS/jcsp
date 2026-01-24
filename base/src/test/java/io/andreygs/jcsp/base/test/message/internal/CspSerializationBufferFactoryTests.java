@@ -26,6 +26,7 @@
 package io.andreygs.jcsp.base.test.message.internal;
 
 import io.andreygs.jcsp.base.message.buffer.internal.CspSerializationBufferFactory;
+import io.andreygs.jcsp.base.message.buffer.internal.ICspBuffer;
 import io.andreygs.jcsp.base.message.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 import org.junit.jupiter.api.Assertions;
@@ -49,11 +50,13 @@ public class CspSerializationBufferFactoryTests
         ICspSerializationBuffer cspSerializationByteBuffer =
             CspSerializationBufferFactory.createCspSerializationBuffer(capacitySize, directBuffer, customBufferResizeStrategy);
 
-        Assertions.assertEquals(capacitySize, cspSerializationByteBuffer.getByteBuffer().capacity());
-        Assertions.assertFalse(cspSerializationByteBuffer.isDirectBuffer());
+        Assertions.assertEquals(capacitySize, cspSerializationByteBuffer.getByteBuffer().capacity(),
+                                "ByteBuffer passed capacity size is not equal to actual one!");
+        Assertions.assertFalse(cspSerializationByteBuffer.isDirectBuffer(), "ByteBuffer is direct!");
 
         cspSerializationByteBuffer.write((byte)5);
-        Assertions.assertEquals(expandRatio, cspSerializationByteBuffer.getByteBuffer().capacity());
+        Assertions.assertEquals(expandRatio, cspSerializationByteBuffer.getByteBuffer().capacity(),
+                                "Buffer resizing not using passed strategy");
     }
 
     @Test
@@ -61,8 +64,10 @@ public class CspSerializationBufferFactoryTests
     {
         ICspSerializationBuffer cspSerializationBuffer = CspSerializationBufferFactory.createCspSerializationBuffer(null, null, null);
         Assertions.assertEquals(CspSerializationBufferFactory.DEFAULT_CAPACITY_SIZE,
-                                cspSerializationBuffer.getByteBuffer().capacity());
-        Assertions.assertTrue(cspSerializationBuffer.isDirectBuffer());
+                                cspSerializationBuffer.getByteBuffer().capacity(),
+                                "ByteBuffer passed capacity size is not CspSerializationBufferFactory.DEFAULT_CAPACITY_SIZE!");
+        Assertions.assertTrue(cspSerializationBuffer.isDirectBuffer(),
+                              "ByteBuffer is not direct!");
     }
 
     /**
@@ -72,6 +77,12 @@ public class CspSerializationBufferFactoryTests
     @Nested
     public class CreateCspSerializationBufferResultTests extends AbstractICspSerializationBufferTests
     {
+        @Override
+        protected ICspBuffer createCspBuffer()
+        {
+            return CspSerializationBufferFactory.createCspSerializationBuffer(null, null, null);
+        }
+
         @Override
         protected ICspSerializationBuffer createCspSerializationBuffer(Integer initialBufferCapacity, Boolean directBuffer)
         {
