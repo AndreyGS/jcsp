@@ -30,7 +30,5 @@ package io.andreygs.jcsp.base.processing;
  */
 public interface ICspProcessorProviderFactory
 {
-    ICspProcessorProvider<ICspSerializationProcessor> createCspSerializationProcessorProvider(ICspProcessorRegistrar<ICspSerializationProcessor> cspProcessorRegistrar);
-
-    ICspProcessorProvider<ICspDeserializationProcessor> createCspDeserializationProcessorProvider(ICspProcessorRegistrar<ICspDeserializationProcessor> cspProcessorRegistrar);
+    <T extends ICspProcessor> ICspProcessorProvider<T> createCspProcessorProvider(ICspProcessorRegistrar<T> cspProcessorRegistrar);
 }

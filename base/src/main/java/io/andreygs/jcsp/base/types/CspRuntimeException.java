@@ -30,14 +30,23 @@ package io.andreygs.jcsp.base.types;
  */
 public class CspRuntimeException extends RuntimeException
 {
-    private CspRuntimeException(CspStatus status)
+    private final CspStatus cspStatus;
+
+    private CspRuntimeException(CspStatus cspStatus)
     {
-        super(status.toString());
+        super(cspStatus.toString());
+        this.cspStatus = cspStatus;
     }
 
-    private CspRuntimeException(CspStatus status, String additionalInfo)
+    private CspRuntimeException(CspStatus cspStatus, String additionalInfo)
     {
-        super(status.toString() + ' ' + additionalInfo);
+        super(cspStatus.toString() + ' ' + additionalInfo);
+        this.cspStatus = cspStatus;
+    }
+
+    public CspStatus getCspStatus()
+    {
+        return cspStatus;
     }
 
     /**

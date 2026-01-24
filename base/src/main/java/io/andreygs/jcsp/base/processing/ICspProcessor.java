@@ -23,12 +23,12 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.test.processing.internal;
+package io.andreygs.jcsp.base.processing;
 
 /**
- * TODO: place description here
+ * Tagging interface to bound processor register and provider generic types.
  */
-public class CspProcessorProviderTests
+public sealed interface ICspProcessor
+    permits ICspSerializationProcessor, ICspDeserializationProcessor
 {
-
 }

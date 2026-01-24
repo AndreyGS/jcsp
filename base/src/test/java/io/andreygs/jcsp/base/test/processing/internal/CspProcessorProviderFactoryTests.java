@@ -23,48 +23,36 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.internal;
+package io.andreygs.jcsp.base.test.processing.internal;
 
+import io.andreygs.jcsp.base.processing.CspProcessorProviderFactoryProducer;
 import io.andreygs.jcsp.base.processing.ICspProcessor;
 import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
+import io.andreygs.jcsp.base.processing.ICspProcessorProviderFactory;
 import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
-import io.andreygs.jcsp.base.types.CspRuntimeException;
-import io.andreygs.jcsp.base.types.CspStatus;
-
-import java.text.MessageFormat;
-import java.util.Optional;
+import io.andreygs.jcsp.base.test.processing.AbstractICspProcessorProviderFactoryTests;
+import io.andreygs.jcsp.base.test.processing.AbstractICspProcessorProviderTests;
+import org.junit.jupiter.api.Nested;
 
 /**
  * TODO: place description here
  */
-public class CspProcessorProvider<T extends ICspProcessor>
-    implements ICspProcessorProvider<T>
+public class CspProcessorProviderFactoryTests extends AbstractICspProcessorProviderFactoryTests
 {
-    private final ICspProcessorRegistrar<T> cspProcessorRegistrar;
-
-    public CspProcessorProvider(ICspProcessorRegistrar<T> cspProcessorRegistrar)
+    @Override
+    protected ICspProcessorProviderFactory produceCspProcessorProviderFactory()
     {
-        this.cspProcessorRegistrar = cspProcessorRegistrar;
+        return CspProcessorProviderFactoryProducer.produceCspProcessorProviderFactory();
     }
 
-    @Override
-    public T provideProcessor(Class<?> clazz)
+    @Nested
+    public class CreateCspProcessorProviderTests extends AbstractICspProcessorProviderTests
     {
-        Optional<T> processor = cspProcessorRegistrar.findProcessor(clazz);
-        if (processor.isEmpty())
+        @Override
+        protected <T extends ICspProcessor> ICspProcessorProvider<T> createICspProcessorProvider(
+            ICspProcessorRegistrar<T> cspProcessorRegistrar)
         {
-            throw CspRuntimeException.createCspRuntimeException(CspStatus.NO_SUCH_HANDLER,
-                                                                MessageFormat.format(
-                                                                    Messages.CspStatus_No_Such_Handler_ext_No_specialized_processor_for__0__,
-                                                                    clazz));
+            return produceCspProcessorProviderFactory().createCspProcessorProvider(cspProcessorRegistrar);
         }
-
-        return processor.get();
-    }
-
-    @Override
-    public ICspProcessorRegistrar<T> getCspProcessorRegistrar()
-    {
-        return cspProcessorRegistrar;
     }
 }

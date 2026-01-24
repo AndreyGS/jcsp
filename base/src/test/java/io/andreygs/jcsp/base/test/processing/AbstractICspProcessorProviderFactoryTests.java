@@ -23,25 +23,45 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.internal;
+package io.andreygs.jcsp.base.test.processing;
 
 import io.andreygs.jcsp.base.processing.ICspDeserializationProcessor;
-import io.andreygs.jcsp.base.processing.ICspProcessor;
 import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
 import io.andreygs.jcsp.base.processing.ICspProcessorProviderFactory;
 import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 /**
- * TODO: place description here
+ * Unit-tests for {@link ICspProcessorProviderFactory} contract.
  */
-public class CspProcessorProviderFactory
-    implements ICspProcessorProviderFactory
+public abstract class AbstractICspProcessorProviderFactoryTests
 {
-    @Override
-    public <T extends ICspProcessor> ICspProcessorProvider<T> createCspProcessorProvider(
-        ICspProcessorRegistrar<T> cspProcessorRegistrar)
+    @Test
+    public void createCspSerializationProcessorProviderTest()
     {
-        return new CspProcessorProvider<T>(cspProcessorRegistrar);
+        ICspProcessorProviderFactory cspProcessorProviderFactory = produceCspProcessorProviderFactory();
+        ICspProcessorRegistrar<ICspSerializationProcessor> cspProcessorRegistrar = Mockito.mock();
+
+        ICspProcessorProvider<ICspSerializationProcessor> cspProcessorProvider =
+            cspProcessorProviderFactory.createCspProcessorProvider(cspProcessorRegistrar);
+
+        Assertions.assertNotNull(cspProcessorProvider, "Factory returned null instance");
     }
+
+    @Test
+    public void createCspDeserializationProcessorProviderTest()
+    {
+        ICspProcessorProviderFactory cspProcessorProviderFactory = produceCspProcessorProviderFactory();
+        ICspProcessorRegistrar<ICspDeserializationProcessor> cspProcessorRegistrar = Mockito.mock();
+
+        ICspProcessorProvider<ICspDeserializationProcessor> cspProcessorProvider =
+            cspProcessorProviderFactory.createCspProcessorProvider(cspProcessorRegistrar);
+
+        Assertions.assertNotNull(cspProcessorProvider, "Factory returned null instance");
+    }
+
+    protected abstract ICspProcessorProviderFactory produceCspProcessorProviderFactory();
 }

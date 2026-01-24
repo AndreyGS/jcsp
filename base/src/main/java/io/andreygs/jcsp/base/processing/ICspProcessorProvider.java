@@ -25,12 +25,6 @@
 
 package io.andreygs.jcsp.base.processing;
 
-import io.andreygs.jcsp.base.processing.context.ICspDataMessageDeserializationContext;
-import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
-import io.andreygs.jcsp.base.processing.internal.ICspProcessor;
-
-import java.util.function.BiConsumer;
-
 /**
  * Provider of specialized serialization and deserialization methods.
  * <p>
@@ -43,6 +37,8 @@ public interface ICspProcessorProvider<T extends ICspProcessor>
 {
     /**
      * Provides specialized serialization or deserialization method for selected class.
+     * <p>
+     * Uses {@link ICspProcessorRegistrar#findProcessor(Class)} as source of processors.
      *
      * @param clazz Class which need of specialized serialization method.
      * @return specialized serialization or deserialization method for the selected class.

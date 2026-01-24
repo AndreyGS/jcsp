@@ -26,7 +26,6 @@
 package io.andreygs.jcsp.base.processing;
 
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageDeserializationContext;
-import io.andreygs.jcsp.base.processing.internal.ICspProcessor;
 
 /**
  * TODO: place description here
