@@ -31,7 +31,10 @@ package io.andreygs.jcsp.base.processing;
  * {@link io.andreygs.jcsp.base.processing.CspMessageBodyProcessor} has serialize and deserialize methods
  * overloads for some base types. All other classes are processed by using methods from this provider.
  * <p>
- * Thread-safe.
+ * Provider adds CSP logic by throwing exception on absent processor case. And because of this it
+ * must be used only in internal serialization/deserialization processes.
+ * <p>
+ * Thread-safe as long as {@link ICspProcessorRegistrar} is thread-safe (it must be thread-safe by its contract).
  */
 public interface ICspProcessorProvider<T extends ICspProcessor>
 {

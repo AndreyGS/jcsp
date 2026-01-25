@@ -26,24 +26,22 @@
 package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.ICspDeserializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspProcessor;
+import io.andreygs.jcsp.base.processing.ICspProcessorProviderFactory;
 import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.ICspProcessorRegistrarFactory;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 
 /**
- * TODO: place description here
+ * Internal implementation of {@link ICspProcessorRegistrarFactory}.
+ * <p>
+ * Creates default CSP processor registrar.
  */
 public class CspProcessorRegistrarFactory
     implements ICspProcessorRegistrarFactory
 {
     @Override
-    public ICspProcessorRegistrar<ICspSerializationProcessor> createSerializationCspProcessorRegistrar()
-    {
-        return new CspProcessorRegistrar<>();
-    }
-
-    @Override
-    public ICspProcessorRegistrar<ICspDeserializationProcessor> createDeserializationCspProcessorRegistrar()
+    public <T extends ICspProcessor> ICspProcessorRegistrar<T> createProcessorRegistrar()
     {
         return new CspProcessorRegistrar<>();
     }

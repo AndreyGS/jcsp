@@ -23,67 +23,34 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.internal;
+package io.andreygs.jcsp.base.test.processing.internal;
 
 import io.andreygs.jcsp.base.processing.ICspProcessor;
 import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrarFactory;
+import io.andreygs.jcsp.base.processing.internal.CspProcessorRegistrarFactory;
+import io.andreygs.jcsp.base.test.processing.AbstractICspProcessorRegistrarFactory;
+import io.andreygs.jcsp.base.test.processing.AbstractICspProcessorRegistrarTests;
+import org.junit.jupiter.api.Nested;
 
 /**
- * Internal implementation of {@link ICspProcessorRegistrar}.
- * <p>
- * Uses RW lock to access to HashMap of classes with processors.
+ *  Unit-tests for {@link CspProcessorRegistrarFactory}.
  */
-class CspProcessorRegistrar<T extends ICspProcessor>
-    implements ICspProcessorRegistrar<T>
+public class CspProcessorRegistrarFactoryTests extends AbstractICspProcessorRegistrarFactory
 {
-    private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
-    private final Map<Class<?>, T> processors = new HashMap<>();
-
     @Override
-    public void registerProcessor(Class<?> clazz, T processor)
+    protected ICspProcessorRegistrarFactory produceCspProcessorRegistrarFactory()
     {
-        rwLock.writeLock().lock();
-        try
-        {
-            processors.put(clazz, processor);
-        }
-        finally
-        {
-            rwLock.writeLock().unlock();
-        }
+        return new CspProcessorRegistrarFactory();
     }
 
-    @Override
-    public void unregisterProcessor(Class<?> clazz)
+    @Nested
+    public class CreateProcessorRegistrarTests extends AbstractICspProcessorRegistrarTests
     {
-        rwLock.writeLock().lock();
-        try
+        @Override
+        protected <T extends ICspProcessor> ICspProcessorRegistrar<T> getCspProcessorRegistrar()
         {
-            processors.remove(clazz);
-        }
-        finally
-        {
-            rwLock.writeLock().unlock();
-        }
-    }
-
-    @Override
-    public Optional<T> findProcessor(Class<?> clazz)
-    {
-        rwLock.readLock().lock();
-        try
-        {
-            return Optional.ofNullable(processors.get(clazz));
-        }
-        finally
-        {
-            rwLock.readLock().unlock();
+            return produceCspProcessorRegistrarFactory().createProcessorRegistrar();
         }
     }
 }

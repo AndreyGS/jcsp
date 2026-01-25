@@ -35,9 +35,9 @@ import java.text.MessageFormat;
 import java.util.Optional;
 
 /**
- * TODO: place description here
+ * Internal implementation of {@link ICspProcessorProvider}.
  */
-public class CspProcessorProvider<T extends ICspProcessor>
+class CspProcessorProvider<T extends ICspProcessor>
     implements ICspProcessorProvider<T>
 {
     private final ICspProcessorRegistrar<T> cspProcessorRegistrar;

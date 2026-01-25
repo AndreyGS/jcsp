@@ -25,24 +25,24 @@
 
 package io.andreygs.jcsp.base.test.processing.internal;
 
-import io.andreygs.jcsp.base.processing.CspProcessorProviderFactoryProducer;
 import io.andreygs.jcsp.base.processing.ICspProcessor;
 import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
 import io.andreygs.jcsp.base.processing.ICspProcessorProviderFactory;
 import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.internal.CspProcessorProviderFactory;
 import io.andreygs.jcsp.base.test.processing.AbstractICspProcessorProviderFactoryTests;
 import io.andreygs.jcsp.base.test.processing.AbstractICspProcessorProviderTests;
 import org.junit.jupiter.api.Nested;
 
 /**
- * TODO: place description here
+ * Unit-tests for {@link CspProcessorProviderFactory}.
  */
 public class CspProcessorProviderFactoryTests extends AbstractICspProcessorProviderFactoryTests
 {
     @Override
     protected ICspProcessorProviderFactory produceCspProcessorProviderFactory()
     {
-        return CspProcessorProviderFactoryProducer.produceCspProcessorProviderFactory();
+        return new CspProcessorProviderFactory();
     }
 
     @Nested

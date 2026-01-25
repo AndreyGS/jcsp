@@ -23,27 +23,39 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.internal;
+package io.andreygs.jcsp.base.test.processing;
 
 import io.andreygs.jcsp.base.processing.ICspDeserializationProcessor;
-import io.andreygs.jcsp.base.processing.ICspProcessor;
-import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
-import io.andreygs.jcsp.base.processing.ICspProcessorProviderFactory;
 import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrarFactory;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
- * Internal implementation of {@link ICspProcessorProviderFactory}.
- * <p>
- * Creates default CSP processor provider.
+ * Unit-tests for {@link ICspProcessorRegistrarFactory} contract.
  */
-public class CspProcessorProviderFactory
-    implements ICspProcessorProviderFactory
+public abstract class AbstractICspProcessorRegistrarFactory
 {
-    @Override
-    public <T extends ICspProcessor> ICspProcessorProvider<T> createCspProcessorProvider(
-        ICspProcessorRegistrar<T> cspProcessorRegistrar)
+    @Test
+    public void createSerializationProcessorRegistrar()
     {
-        return new CspProcessorProvider<T>(cspProcessorRegistrar);
+        ICspProcessorRegistrarFactory cspProcessorRegistrarFactory = produceCspProcessorRegistrarFactory();
+        ICspProcessorRegistrar<ICspSerializationProcessor> cspProcessorRegistrar =
+            cspProcessorRegistrarFactory.createProcessorRegistrar();
+
+        Assertions.assertNotNull(cspProcessorRegistrar);
     }
+
+    @Test
+    public void createDeserializationProcessorRegistrar()
+    {
+        ICspProcessorRegistrarFactory cspProcessorRegistrarFactory = produceCspProcessorRegistrarFactory();
+        ICspProcessorRegistrar<ICspDeserializationProcessor> cspProcessorRegistrar =
+            cspProcessorRegistrarFactory.createProcessorRegistrar();
+
+        Assertions.assertNotNull(cspProcessorRegistrar);
+    }
+
+    protected abstract ICspProcessorRegistrarFactory produceCspProcessorRegistrarFactory();
 }
