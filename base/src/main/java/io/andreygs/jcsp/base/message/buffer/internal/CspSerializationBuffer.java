@@ -25,9 +25,7 @@
 
 package io.andreygs.jcsp.base.message.buffer.internal;
 
-import io.andreygs.jcsp.base.utils.BufferResizeStrategyFactoryProducer;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
-import org.jetbrains.annotations.Nullable;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

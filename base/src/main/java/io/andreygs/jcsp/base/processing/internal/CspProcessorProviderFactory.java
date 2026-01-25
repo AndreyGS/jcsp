@@ -25,12 +25,10 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
-import io.andreygs.jcsp.base.processing.ICspDeserializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspProcessor;
 import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
 import io.andreygs.jcsp.base.processing.ICspProcessorProviderFactory;
 import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
-import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 
 /**
  * Internal implementation of {@link ICspProcessorProviderFactory}.
@@ -44,6 +42,6 @@ public class CspProcessorProviderFactory
     public <T extends ICspProcessor> ICspProcessorProvider<T> createCspProcessorProvider(
         ICspProcessorRegistrar<T> cspProcessorRegistrar)
     {
-        return new CspProcessorProvider<T>(cspProcessorRegistrar);
+        return new CspProcessorProvider<>(cspProcessorRegistrar);
     }
 }
