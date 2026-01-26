@@ -23,7 +23,7 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.buffer.internal;
+package io.andreygs.jcsp.base.processing.buffer.internal;
 
 import io.andreygs.jcsp.base.utils.BufferResizeStrategyFactoryProducer;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
@@ -35,7 +35,7 @@ import java.nio.ByteBuffer;
 /**
  * Factory for creating instance of {@link ICspSerializationBuffer}.
  */
-public class CspSerializationBufferFactory
+public final class CspSerializationBufferFactory
 {
     /**
      * Default capacity of {@link ByteBuffer} of ICspSerializationBuffer when it is created, if no explicit value was

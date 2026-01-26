@@ -39,7 +39,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * <p>
  * Uses RW lock to access to HashMap of classes with processors.
  */
-class CspProcessorRegistrar<T extends ICspProcessor>
+final class CspProcessorRegistrar<T extends ICspProcessor>
     implements ICspProcessorRegistrar<T>
 {
     private final ReadWriteLock rwLock = new ReentrantReadWriteLock();

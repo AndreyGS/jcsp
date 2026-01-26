@@ -25,7 +25,8 @@
 
 package io.andreygs.jcsp.base.processing.context.internal;
 
-import io.andreygs.jcsp.base.message.buffer.internal.ICspSerializationBuffer;
+import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
+import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
@@ -39,9 +40,10 @@ import java.util.List;
 /**
  * TODO: place description here
  */
-public class CspMessageSerializationContextsFactory
+public final class CspMessageSerializationContextsFactory
 {
     public static ICspDataMessageSerializationContext createCspDataMessageSerializationContext(
+        ICspGeneralSerializationProcessor cspGeneralSerializationProcessor,
         ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider,
         ICspSerializationBuffer cspSerializationBuffer,
         CspProtocolVersion cspProtocolVersion,
@@ -50,7 +52,13 @@ public class CspMessageSerializationContextsFactory
         ICspInterfaceVersion cspInterfaceVersion,
         List<CspDataFlags> cspDataFlags)
     {
-        return new CspDataMessageSerializationContext(cspSerializationProcessorProvider, cspSerializationBuffer, cspProtocolVersion, cspCommonFlags,
-                                                      structClazz, cspInterfaceVersion, cspDataFlags);
+        return new CspDataMessageSerializationContext(cspGeneralSerializationProcessor,
+                                                      cspSerializationProcessorProvider,
+                                                      cspSerializationBuffer,
+                                                      cspProtocolVersion,
+                                                      cspCommonFlags,
+                                                      structClazz,
+                                                      cspInterfaceVersion,
+                                                      cspDataFlags);
     }
 }

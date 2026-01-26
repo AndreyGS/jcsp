@@ -23,31 +23,38 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.buffer.internal;
+package io.andreygs.jcsp.base.test.processing.buffer.internal;
 
-import java.nio.ByteBuffer;
+import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import java.nio.ByteOrder;
 
 /**
- *  Buffer for data that is using in CSP serialization/deserialization processes.
- *  <p>
- *  Current interface holds common for both (serialization and deserialization) operations.
- *  It is the wrapper of {@link ByteBuffer} optimized for use in CSP operations.
+ * Unit-tests for {@link ICspBuffer} contract.
  */
-public sealed interface ICspBuffer permits ICspSerializationBuffer, ICspDeserializationBuffer
+public abstract class AbstractICspBufferTests
 {
-    /**
-     * Gets underlying buffer.
-     *
-     * @return underlying buffer.
-     */
-    ByteBuffer getByteBuffer();
+    @Test
+    public void getByteBufferTest()
+    {
+        ICspBuffer cspBuffer = createCspBuffer();
+        Assertions.assertNotNull(cspBuffer.getByteBuffer(), "ByteBuffer should not be null");
+    }
 
-    /**
-     * Applies endianness to underlying ByteBuffer operations.
-     *
-     * @param byteOrder Endianness byte order.
-     * @see ByteBuffer#order()
-     */
-    void applyEndianness(ByteOrder byteOrder);
+    @Test
+    public void applyEndiannessTest()
+    {
+        ICspBuffer cspBuffer = createCspBuffer();
+        cspBuffer.applyEndianness(ByteOrder.BIG_ENDIAN);
+
+        String applyEndiannessTestFailed = "Endianness applying to buffer was failed!";
+        Assertions.assertEquals(ByteOrder.BIG_ENDIAN, cspBuffer.getByteBuffer().order(), applyEndiannessTestFailed);
+
+        cspBuffer.applyEndianness(ByteOrder.LITTLE_ENDIAN);
+        Assertions.assertEquals(ByteOrder.LITTLE_ENDIAN, cspBuffer.getByteBuffer().order(), applyEndiannessTestFailed);
+    }
+
+    protected abstract ICspBuffer createCspBuffer();
 }

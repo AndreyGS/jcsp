@@ -34,7 +34,7 @@ public interface ICspProcessorRegistrarFactory
      * Creates {@link ICspProcessorRegistrar}.
      *
      * @return created CSP processor registrar.
-     * @param <T> one of ICspSerializationProcessor or ICspDeserializationProcessor, depending on what kind of registrar should be created.
+     * @param <T> one of {@link ICspSerializationProcessor} or {@link ICspDeserializationProcessor}, depending on what kind of registrar should be created.
      */
     <T extends ICspProcessor> ICspProcessorRegistrar<T> createProcessorRegistrar();
 }

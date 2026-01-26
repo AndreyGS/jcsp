@@ -25,7 +25,8 @@
 
 package io.andreygs.jcsp.base.processing.context.internal;
 
-import io.andreygs.jcsp.base.message.buffer.internal.ICspSerializationBuffer;
+import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
+import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
@@ -41,20 +42,29 @@ sealed abstract class AbstractCspMessageSerializationContext
     implements ICspMessageSerializationContext
     permits CspDataMessageSerializationContext, CspStatusMessageSerializationContext
 {
+    private final ICspGeneralSerializationProcessor cspGeneralSerializationProcessor;
     private final ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider;
     private final ICspSerializationBuffer cspSerializationBuffer;
     private final CspProtocolVersion cspProtocolVersion;
     private final List<CspCommonFlags> cspCommonFlags;
 
-    public AbstractCspMessageSerializationContext(ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider,
+    public AbstractCspMessageSerializationContext(ICspGeneralSerializationProcessor cspGeneralSerializationProcessor,
+                                                  ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider,
                                                   ICspSerializationBuffer cspSerializationBuffer,
                                                   CspProtocolVersion cspProtocolVersion,
                                                   List<CspCommonFlags> cspCommonFlags)
     {
+        this.cspGeneralSerializationProcessor = cspGeneralSerializationProcessor;
         this.cspSerializationProcessorProvider = cspSerializationProcessorProvider;
         this.cspSerializationBuffer = cspSerializationBuffer;
         this.cspProtocolVersion = cspProtocolVersion;
         this.cspCommonFlags = cspCommonFlags;
+    }
+
+    @Override
+    public ICspGeneralSerializationProcessor getCspGeneralSerializationProcessor()
+    {
+        return cspGeneralSerializationProcessor;
     }
 
     @Override

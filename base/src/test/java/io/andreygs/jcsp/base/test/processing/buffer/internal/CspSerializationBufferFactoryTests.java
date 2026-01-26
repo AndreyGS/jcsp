@@ -23,11 +23,11 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.test.message.internal;
+package io.andreygs.jcsp.base.test.processing.buffer.internal;
 
-import io.andreygs.jcsp.base.message.buffer.internal.CspSerializationBufferFactory;
-import io.andreygs.jcsp.base.message.buffer.internal.ICspBuffer;
-import io.andreygs.jcsp.base.message.buffer.internal.ICspSerializationBuffer;
+import io.andreygs.jcsp.base.processing.buffer.internal.CspSerializationBufferFactory;
+import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
+import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;

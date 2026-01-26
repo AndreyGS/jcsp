@@ -35,7 +35,7 @@ public interface ICspProcessorProviderFactory
      *
      * @param cspProcessorRegistrar Registrar which will be source of data to provider.
      * @return created provider.
-     * @param <T> one of ICspSerializationProcessor or ICspDeserializationProcessor, depending on type of registrar.
+     * @param <T> one of {@link ICspSerializationProcessor} or {@link ICspDeserializationProcessor}, depending on type of registrar.
      */
     <T extends ICspProcessor> ICspProcessorProvider<T> createCspProcessorProvider(ICspProcessorRegistrar<T> cspProcessorRegistrar);
 }

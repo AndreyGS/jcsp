@@ -26,10 +26,11 @@
 package io.andreygs.jcsp.base.processing;
 
 /**
- * Provider of specialized serialization and deserialization methods.
+ * Provider of specialized serialization and deserialization CSP Data Message Body methods.
  * <p>
- * {@link io.andreygs.jcsp.base.processing.CspMessageBodyProcessor} has serialize and deserialize methods
- * overloads for some base types. All other classes are processed by using methods from this provider.
+ * {@link ICspGeneralSerializationProcessor} qnd {@link ICspGeneralDeserializationProcessor} has serialization and
+ * deserialization methods overloads for some base types. All other classes are processed by using methods from this
+ * provider.
  * <p>
  * Provider adds CSP logic by throwing exception on absent processor case. And because of this it
  * must be used only in internal serialization/deserialization processes.

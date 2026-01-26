@@ -37,7 +37,7 @@ import java.util.Optional;
 /**
  * Internal implementation of {@link ICspProcessorProvider}.
  */
-class CspProcessorProvider<T extends ICspProcessor>
+final class CspProcessorProvider<T extends ICspProcessor>
     implements ICspProcessorProvider<T>
 {
     private final ICspProcessorRegistrar<T> cspProcessorRegistrar;

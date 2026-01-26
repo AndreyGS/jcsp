@@ -33,7 +33,7 @@ import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 /**
  * TODO: place description here
  */
-public class CspMessageBuilderFactory implements ICspMessageBuilderFactory
+final public class CspMessageBuilderFactory implements ICspMessageBuilderFactory
 {
     private final ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider;
 

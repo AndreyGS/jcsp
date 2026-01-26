@@ -32,8 +32,8 @@ module io.andreygs.jcsp.base.test {
     requires org.jetbrains.annotations;
     requires org.mockito.junit.jupiter;
 
-    exports io.andreygs.jcsp.base.test.message.internal to org.junit.platform.commons;
     exports io.andreygs.jcsp.base.test.processing to org.junit.platform.commons;
+    exports io.andreygs.jcsp.base.test.processing.buffer.internal to org.junit.platform.commons;
     exports io.andreygs.jcsp.base.test.processing.internal to org.junit.platform.commons;
     exports io.andreygs.jcsp.base.test.types to org.junit.platform.commons;
     exports io.andreygs.jcsp.base.test.utils to org.junit.platform.commons;

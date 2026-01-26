@@ -35,7 +35,7 @@ import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
  * <p>
  * Creates default CSP processor provider.
  */
-public class CspProcessorProviderFactory
+public final class CspProcessorProviderFactory
     implements ICspProcessorProviderFactory
 {
     @Override

@@ -23,7 +23,7 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.buffer.internal;
+package io.andreygs.jcsp.base.processing.buffer.internal;
 
 /**
  * Extension of {@link ICspBuffer} to be used in CSP deserialization process.

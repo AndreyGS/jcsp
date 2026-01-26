@@ -68,7 +68,8 @@ public abstract class AbstractICspProcessorRegistrarTests
         ICspProcessorRegistrar<ICspSerializationProcessor> cspProcessorRegistrar = getCspProcessorRegistrar();
         cspProcessorRegistrar.registerProcessor(List.class, cspSerializationProcessor);
 
-        ICspSerializationProcessor cspSerializationProcessorNew = Mockito.mock(ICspSerializationProcessor.class);
+        ICspSerializationProcessor cspSerializationProcessorNew = Mockito.mock(
+            ICspSerializationProcessor.class);
         cspProcessorRegistrar.registerProcessor(List.class, cspSerializationProcessorNew);
 
         Assertions.assertEquals(cspSerializationProcessorNew, cspProcessorRegistrar.findProcessor(List.class).orElse(null),

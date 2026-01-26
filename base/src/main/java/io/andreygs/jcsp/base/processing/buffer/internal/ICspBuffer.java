@@ -23,23 +23,31 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.buffer.internal;
+package io.andreygs.jcsp.base.processing.buffer.internal;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 /**
- * Factory for creating instance of {@link ICspDeserializationBuffer}.
+ *  Buffer for data that is using in CSP serialization/deserialization processes.
+ *  <p>
+ *  Current interface holds common for both (serialization and deserialization) operations.
+ *  It is the wrapper of {@link ByteBuffer} optimized for use in CSP operations.
  */
-public class CspDeserializationBufferFactory
+public sealed interface ICspBuffer permits ICspSerializationBuffer, ICspDeserializationBuffer
 {
     /**
-     * Creates {@link ICspDeserializationBuffer} with provided ByteBuffer as source of CSP serialized message.
+     * Gets underlying buffer.
      *
-     * @param byteBuffer Buffer that contains CSP serialized message.
-     * @return created instance of ICspDeserializationByteBuffer.
+     * @return underlying buffer.
      */
-    public static ICspDeserializationBuffer createCspDeserializationBuffer(ByteBuffer byteBuffer)
-    {
-        return new CspDeserializationBuffer(byteBuffer);
-    }
+    ByteBuffer getByteBuffer();
+
+    /**
+     * Applies endianness to underlying ByteBuffer operations.
+     *
+     * @param byteOrder Endianness byte order.
+     * @see ByteBuffer#order()
+     */
+    void applyEndianness(ByteOrder byteOrder);
 }

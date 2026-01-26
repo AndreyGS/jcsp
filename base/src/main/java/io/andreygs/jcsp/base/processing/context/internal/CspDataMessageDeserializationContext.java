@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.base.processing.context.internal;
 
-import io.andreygs.jcsp.base.message.buffer.internal.ICspDeserializationBuffer;
+import io.andreygs.jcsp.base.processing.buffer.internal.ICspDeserializationBuffer;
 import io.andreygs.jcsp.base.processing.ICspDeserializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageDeserializationContext;

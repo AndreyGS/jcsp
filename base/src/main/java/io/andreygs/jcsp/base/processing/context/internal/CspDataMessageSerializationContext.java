@@ -25,7 +25,8 @@
 
 package io.andreygs.jcsp.base.processing.context.internal;
 
-import io.andreygs.jcsp.base.message.buffer.internal.ICspSerializationBuffer;
+import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
+import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
@@ -47,7 +48,8 @@ public final class CspDataMessageSerializationContext extends AbstractCspMessage
     private final ICspInterfaceVersion cspInterfaceVersion;
     private final List<CspDataFlags> cspDataFlags;
 
-    public CspDataMessageSerializationContext(ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider,
+    public CspDataMessageSerializationContext(ICspGeneralSerializationProcessor cspGeneralSerializationProcessor,
+                                              ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider,
                                               ICspSerializationBuffer cspSerializationBuffer,
                                               CspProtocolVersion cspProtocolVersion,
                                               List<CspCommonFlags> cspCommonFlags,
@@ -55,7 +57,8 @@ public final class CspDataMessageSerializationContext extends AbstractCspMessage
                                               ICspInterfaceVersion cspInterfaceVersion,
                                               List<CspDataFlags> cspDataFlags)
     {
-        super(cspSerializationProcessorProvider, cspSerializationBuffer, cspProtocolVersion, cspCommonFlags);
+        super(cspGeneralSerializationProcessor, cspSerializationProcessorProvider, cspSerializationBuffer,
+              cspProtocolVersion, cspCommonFlags);
         this.structClazz = structClazz;
         this.cspInterfaceVersion = cspInterfaceVersion;
         this.cspDataFlags = cspDataFlags;

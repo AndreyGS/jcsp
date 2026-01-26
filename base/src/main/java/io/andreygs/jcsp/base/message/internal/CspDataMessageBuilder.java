@@ -43,7 +43,7 @@ import java.util.List;
 /**
  * TODO: place description here
  */
-class CspDataMessageBuilder extends AbstractCspMessageBuilder
+final class CspDataMessageBuilder extends AbstractCspMessageBuilder
     implements ICspDataMessageBuilder
 {
     private @Nullable ICspInterfaceVersion cspInterfaceVersion;
