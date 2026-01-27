@@ -56,9 +56,6 @@ public enum CspDataFlags implements ICspFlag
      * <p>
      * This flag removes this restriction and allow Serialization of pointers on generic order, but adds some
      * memory and processing overhead.
-     * <p>
-     * In Java CSP realization almost always is set, because this is a standard way to work with references with help
-     * of GC. Notable exception is when there is no references at all or all references are arrays of primitives.
      */
     ALLOW_UNMANAGED_POINTERS(0x4, Messages.CspDataFlags_AllowUnmanagedPointers,
                              Messages.CspDataFlags_DoNotAllowUnmanagedPointers),

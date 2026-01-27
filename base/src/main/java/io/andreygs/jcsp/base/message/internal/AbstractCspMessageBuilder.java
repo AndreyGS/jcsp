@@ -32,8 +32,10 @@ import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * TODO: place description here
@@ -45,7 +47,7 @@ abstract class AbstractCspMessageBuilder implements ICspMessageBuilder
     private @Nullable Boolean directBuffer;
     private @Nullable IBufferResizeStrategy bufferResizeStrategy;
     private @Nullable CspProtocolVersion cspProtocolVersion;
-    private @Nullable List<CspCommonFlags> cspCommonFlags;
+    private @Nullable Set<CspCommonFlags> cspCommonFlags;
 
     AbstractCspMessageBuilder(ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider)
     {
@@ -81,7 +83,7 @@ abstract class AbstractCspMessageBuilder implements ICspMessageBuilder
     }
 
     @Override
-    public ICspMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags)
+    public ICspMessageBuilder setCspCommonFlags(Set<CspCommonFlags> cspCommonFlags)
     {
         this.cspCommonFlags = cspCommonFlags;
         return this;
@@ -112,7 +114,7 @@ abstract class AbstractCspMessageBuilder implements ICspMessageBuilder
         return cspProtocolVersion;
     }
 
-    protected @Nullable List<CspCommonFlags> getCspCommonFlags()
+    protected @Nullable Set<CspCommonFlags> getCspCommonFlags()
     {
         return cspCommonFlags;
     }

@@ -29,7 +29,7 @@ import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * TODO: place description here
@@ -44,5 +44,5 @@ public interface ICspMessageBuilder
 
     ICspMessageBuilder setCspProtocolVersion(CspProtocolVersion cspProtocolVersion);
 
-    ICspMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
+    ICspMessageBuilder setCspCommonFlags(Set<CspCommonFlags> cspCommonFlags);
 }

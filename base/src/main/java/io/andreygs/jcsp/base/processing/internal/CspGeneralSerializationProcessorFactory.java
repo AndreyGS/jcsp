@@ -23,14 +23,22 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing;
+package io.andreygs.jcsp.base.processing.internal;
+
+import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
 
 /**
- * Tagging interface to bound processor register and provider generic types.
- * <p>
- * Please note, that this is shorthand to ICspDataBodyProcessor.
+ * TODO: place description here
  */
-public sealed interface ICspProcessor
-    permits ICspSerializationProcessor, ICspDeserializationProcessor
+public class CspGeneralSerializationProcessorFactory
 {
+    private CspGeneralSerializationProcessorFactory()
+    {
+
+    }
+
+    public static ICspGeneralSerializationProcessor createCspGeneralSerializationProcessor()
+    {
+        return new CspGeneralSerializationProcessor();
+    }
 }

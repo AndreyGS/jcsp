@@ -38,7 +38,7 @@ import io.andreygs.jcsp.base.types.ICspSerializable;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * TODO: place description here
@@ -47,7 +47,7 @@ final class CspDataMessageBuilder extends AbstractCspMessageBuilder
     implements ICspDataMessageBuilder
 {
     private @Nullable ICspInterfaceVersion cspInterfaceVersion;
-    private @Nullable List<CspDataFlags> cspDataFlags;
+    private @Nullable Set<CspDataFlags> cspDataFlags;
 
     CspDataMessageBuilder(ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider)
     {
@@ -83,7 +83,7 @@ final class CspDataMessageBuilder extends AbstractCspMessageBuilder
     }
 
     @Override
-    public ICspDataMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags)
+    public ICspDataMessageBuilder setCspCommonFlags(Set<CspCommonFlags> cspCommonFlags)
     {
         super.setCspCommonFlags(cspCommonFlags);
         return this;
@@ -97,7 +97,7 @@ final class CspDataMessageBuilder extends AbstractCspMessageBuilder
     }
 
     @Override
-    public ICspDataMessageBuilder setCspDataFlags(List<CspDataFlags> cspDataFlags)
+    public ICspDataMessageBuilder setCspDataFlags(Set<CspDataFlags> cspDataFlags)
     {
         this.cspDataFlags = cspDataFlags;
         return this;

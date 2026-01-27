@@ -41,6 +41,7 @@ import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * TODO: place description here
@@ -48,8 +49,8 @@ import java.util.List;
 public class Serializer
 {
     private static final CspProtocolVersion DEFAULT_CSP_PROTOCOL_VERSION = CspProtocolVersion.latestVersion();
-    private static final List<CspCommonFlags> DEFAULT_CSP_COMMON_FLAGS = List.of(CspCommonFlags.BIG_ENDIAN);
-    private static final List<CspDataFlags> DEFAULT_CSP_DATA_FLAGS = List.of(CspDataFlags.ALLOW_UNMANAGED_POINTERS);
+    private static final Set<CspCommonFlags> DEFAULT_CSP_COMMON_FLAGS = Set.of(CspCommonFlags.BIG_ENDIAN);
+    private static final Set<CspDataFlags> DEFAULT_CSP_DATA_FLAGS = Set.of(CspDataFlags.ALLOW_UNMANAGED_POINTERS);
 
     private Serializer()
     {
@@ -61,9 +62,9 @@ public class Serializer
         @Nullable Boolean directBuffer,
         @Nullable IBufferResizeStrategy bufferResizeStrategy,
         @Nullable CspProtocolVersion cspProtocolVersion,
-        @Nullable List<CspCommonFlags> cspCommonFlags,
+        @Nullable Set<CspCommonFlags> cspCommonFlags,
         @Nullable ICspInterfaceVersion cspInterfaceVersion,
-        @Nullable List<CspDataFlags> cspDataFlags,
+        @Nullable Set<CspDataFlags> cspDataFlags,
         ICspSerializable cspSerializable)
     {
         ICspSerializationBuffer cspSerializationBuffer =
@@ -71,7 +72,8 @@ public class Serializer
 
         // TODO construction of message should be made later (right before message body serialization).
         ICspDataMessageSerializationContext cspSerializationDataMessage =
-            CspMessageSerializationContextsFactory.createCspDataMessageSerializationContext(cspProcessorProvider,
+            CspMessageSerializationContextsFactory.createCspDataMessageSerializationContext(CspGeneralSerializationProcessorFactory.createCspGeneralSerializationProcessor(),
+                                                                                            cspProcessorProvider,
                                                                                             cspSerializationBuffer,
                                                                               cspProtocolVersion == null ? DEFAULT_CSP_PROTOCOL_VERSION : cspProtocolVersion,
                                                                               cspCommonFlags == null ? DEFAULT_CSP_COMMON_FLAGS : cspCommonFlags,

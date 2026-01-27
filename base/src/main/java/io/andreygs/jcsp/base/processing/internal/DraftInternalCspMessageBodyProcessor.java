@@ -38,9 +38,9 @@ import java.util.Arrays;
 /**
  * TODO: place description here
  */
-public class InternalCspMessageBodyProcessor
+public class DraftInternalCspMessageBodyProcessor
 {
-    private InternalCspMessageBodyProcessor()
+    private DraftInternalCspMessageBodyProcessor()
     {
 
     }

@@ -32,6 +32,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 /**
@@ -67,7 +68,7 @@ public class CspFlagUtilsTests
         int expected = CspDataFlags.ALLOW_UNMANAGED_POINTERS.getValue()
                            | CspDataFlags.ALIGNMENT_MAY_BE_NOT_EQUAL.getValue();
         int result = CspFlagUtils.calculateFlagMask(
-            List.of(CspDataFlags.ALLOW_UNMANAGED_POINTERS, CspDataFlags.ALIGNMENT_MAY_BE_NOT_EQUAL));
+            Set.of(CspDataFlags.ALLOW_UNMANAGED_POINTERS, CspDataFlags.ALIGNMENT_MAY_BE_NOT_EQUAL));
 
         Assertions.assertEquals(expected, result, "Masks do not match!");
     }

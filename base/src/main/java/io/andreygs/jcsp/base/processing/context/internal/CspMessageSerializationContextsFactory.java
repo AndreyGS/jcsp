@@ -35,7 +35,7 @@ import io.andreygs.jcsp.base.types.CspDataFlags;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * TODO: place description here
@@ -47,10 +47,10 @@ public final class CspMessageSerializationContextsFactory
         ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider,
         ICspSerializationBuffer cspSerializationBuffer,
         CspProtocolVersion cspProtocolVersion,
-        List<CspCommonFlags> cspCommonFlags,
+        Set<CspCommonFlags> cspCommonFlags,
         Class<?> structClazz,
         ICspInterfaceVersion cspInterfaceVersion,
-        List<CspDataFlags> cspDataFlags)
+        Set<CspDataFlags> cspDataFlags)
     {
         return new CspDataMessageSerializationContext(cspGeneralSerializationProcessor,
                                                       cspSerializationProcessorProvider,

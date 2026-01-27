@@ -43,7 +43,12 @@ public enum CspStatus
     /**
      * There is no procedure or server that can handle the request.
      */
-    NO_SUCH_HANDLER(-10, Messages.CspStatus_No_Such_Handler);
+    NO_SUCH_HANDLER(-10, Messages.CspStatus_No_Such_Handler),
+
+    /**
+     * Error in attempting to serialize a pointer when the CSP Data flag "Allow unmanaged pointers" is not set.
+     */
+    POINTER_WHEN_NO_ALLOW_UNMANAGED_POINTERS_SET(-23, Messages.CspStatus_Pointer_When_No_Allow_Unmanaged_Pointers_Set);
 
     private final int code;
     private final String message;

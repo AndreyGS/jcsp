@@ -29,7 +29,7 @@ import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspStatus;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * TODO: place description here
@@ -46,7 +46,7 @@ public interface ICspStatusMessageBuilder extends ICspMessageBuilder
     ICspStatusMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
 
     @Override
-    ICspStatusMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
+    ICspStatusMessageBuilder setCspCommonFlags(Set<CspCommonFlags> cspCommonFlags);
 
     ICspStatusMessage serialize(CspStatus cspStatus);
 }

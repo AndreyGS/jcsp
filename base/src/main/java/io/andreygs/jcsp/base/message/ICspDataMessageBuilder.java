@@ -31,7 +31,7 @@ import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
 import io.andreygs.jcsp.base.types.ICspSerializable;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * TODO: place description here
@@ -48,11 +48,11 @@ public interface ICspDataMessageBuilder extends ICspMessageBuilder
     ICspDataMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
 
     @Override
-    ICspDataMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
+    ICspDataMessageBuilder setCspCommonFlags(Set<CspCommonFlags> cspCommonFlags);
 
     ICspDataMessageBuilder setInterfaceVersion(ICspInterfaceVersion cspInterfaceVersion);
 
-    ICspDataMessageBuilder setCspDataFlags(List<CspDataFlags> cspDataFlags);
+    ICspDataMessageBuilder setCspDataFlags(Set<CspDataFlags> cspDataFlags);
 
     ICspDataMessage serialize(ICspSerializable cspSerializable);
 }

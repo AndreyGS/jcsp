@@ -32,7 +32,8 @@ import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 
 import java.nio.ByteBuffer;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * TODO: place description here
@@ -44,46 +45,83 @@ sealed abstract class AbstractCspMessageDeserializationContext
     private final ICspProcessorProvider<ICspDeserializationProcessor> cspDeserializationProcessorProvider;
     private final ICspDeserializationBuffer cspDeserializationBuffer;
     private final CspProtocolVersion cspProtocolVersion;
-    private final List<CspCommonFlags> cspCommonFlags;
+    private final boolean bitness32;
+    private final boolean bigEndian;
+    private final boolean endiannessDifference;
 
     public AbstractCspMessageDeserializationContext(
         ICspProcessorProvider<ICspDeserializationProcessor> cspDeserializationProcessorProvider,
         ICspDeserializationBuffer cspDeserializationBuffer,
         CspProtocolVersion cspProtocolVersion,
-        List<CspCommonFlags> cspCommonFlags)
+        Set<CspCommonFlags> cspCommonFlags)
     {
         this.cspDeserializationProcessorProvider = cspDeserializationProcessorProvider;
         this.cspDeserializationBuffer = cspDeserializationBuffer;
         this.cspProtocolVersion = cspProtocolVersion;
-        this.cspCommonFlags = cspCommonFlags;
+        this.bitness32 = cspCommonFlags.contains(CspCommonFlags.BITNESS_32);
+        this.bigEndian = cspCommonFlags.contains(CspCommonFlags.BIG_ENDIAN);
+        this.endiannessDifference =cspCommonFlags.contains(CspCommonFlags.ENDIANNESS_DIFFERENCE);
     }
 
     @Override
-    public ICspProcessorProvider<ICspDeserializationProcessor> getCspDeserializationProcessorProvider()
+    public final ICspProcessorProvider<ICspDeserializationProcessor> getCspDeserializationProcessorProvider()
     {
         return cspDeserializationProcessorProvider;
     }
 
     @Override
-    final public ByteBuffer getBinaryData()
+    public final ByteBuffer getBinaryData()
     {
         return cspDeserializationBuffer.getByteBuffer();
     }
 
     @Override
-    final public CspProtocolVersion getCspProtocolVersion()
+    public final CspProtocolVersion getCspProtocolVersion()
     {
         return cspProtocolVersion;
     }
 
     @Override
-    final public List<CspCommonFlags> getCspCommonFlags()
+    public final Set<CspCommonFlags> getCspCommonFlags()
     {
+        Set<CspCommonFlags> cspCommonFlags = new HashSet<>();
+
+        if (bitness32)
+        {
+            cspCommonFlags.add(CspCommonFlags.BITNESS_32);
+        }
+        if (bigEndian)
+        {
+            cspCommonFlags.add(CspCommonFlags.BIG_ENDIAN);
+        }
+        if (endiannessDifference)
+        {
+            cspCommonFlags.add(CspCommonFlags.ENDIANNESS_DIFFERENCE);
+        }
+
         return cspCommonFlags;
     }
 
     @Override
-    final public ICspDeserializationBuffer getCspDeserializationBuffer()
+    public final boolean isBitness32()
+    {
+        return bitness32;
+    }
+
+    @Override
+    public final boolean isBigEndian()
+    {
+        return bigEndian;
+    }
+
+    @Override
+    public final boolean isEndiannessDifference()
+    {
+        return endiannessDifference;
+    }
+
+    @Override
+    public final ICspDeserializationBuffer getCspDeserializationBuffer()
     {
         return cspDeserializationBuffer;
     }

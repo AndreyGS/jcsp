@@ -35,7 +35,8 @@ import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
 import io.andreygs.jcsp.base.types.CspMessageType;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * TODO: place description here
@@ -45,19 +46,31 @@ public final class CspDataMessageDeserializationContext extends AbstractCspMessa
 {
     private final Class<?> structClazz;
     private final ICspInterfaceVersion cspInterfaceVersion;
-    private final List<CspDataFlags> cspDataFlags;
+    private final boolean alignmentMayBeNotEqual;
+    private final boolean sizeOfIntegersMayBeNotEqual;
+    private final boolean allowUnmanagedPointers;
+    private final boolean checkRecursivePointers;
+    private final boolean simplyAssignableTagsOptimizationsAreTurnedOff;
+    private final boolean checkRecursivePointersWhileMaintainingLinkStructure;
 
     public CspDataMessageDeserializationContext(ICspProcessorProvider<ICspDeserializationProcessor> cspDeserializationProcessorProvider,
                                                 ICspDeserializationBuffer cspDeserializationBuffer,
                                                 CspProtocolVersion cspProtocolVersion,
-                                                List<CspCommonFlags> cspCommonFlags,
+                                                Set<CspCommonFlags> cspCommonFlags,
                                                 Class<?> structClazz, ICspInterfaceVersion cspInterfaceVersion,
-                                                List<CspDataFlags> cspDataFlags)
+                                                Set<CspDataFlags> cspDataFlags)
     {
         super(cspDeserializationProcessorProvider, cspDeserializationBuffer, cspProtocolVersion, cspCommonFlags);
         this.structClazz = structClazz;
         this.cspInterfaceVersion = cspInterfaceVersion;
-        this.cspDataFlags = cspDataFlags;
+        this.alignmentMayBeNotEqual = cspDataFlags.contains(CspDataFlags.ALIGNMENT_MAY_BE_NOT_EQUAL);
+        this.sizeOfIntegersMayBeNotEqual = cspDataFlags.contains(CspDataFlags.SIZE_OF_INTEGERS_MAY_BE_NOT_EQUAL);
+        this.allowUnmanagedPointers = cspDataFlags.contains(CspDataFlags.ALLOW_UNMANAGED_POINTERS);
+        this.checkRecursivePointers = cspDataFlags.contains(CspDataFlags.CHECK_RECURSIVE_POINTERS);
+        this.simplyAssignableTagsOptimizationsAreTurnedOff =
+            cspDataFlags.contains(CspDataFlags.SIMPLY_ASSIGNABLE_TAGS_OPTIMIZATIONS_ARE_TURNED_OFF);
+        this.checkRecursivePointersWhileMaintainingLinkStructure =
+            cspDataFlags.contains(CspDataFlags.CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE);
     }
 
     @Override
@@ -79,8 +92,71 @@ public final class CspDataMessageDeserializationContext extends AbstractCspMessa
     }
 
     @Override
-    public List<CspDataFlags> getCspDataFlags()
+    public Set<CspDataFlags> getCspDataFlags()
     {
+        Set<CspDataFlags> cspDataFlags = new HashSet<>();
+
+        if (alignmentMayBeNotEqual)
+        {
+            cspDataFlags.add(CspDataFlags.ALIGNMENT_MAY_BE_NOT_EQUAL);
+        }
+        if (sizeOfIntegersMayBeNotEqual)
+        {
+            cspDataFlags.add(CspDataFlags.SIZE_OF_INTEGERS_MAY_BE_NOT_EQUAL);
+        }
+        if (allowUnmanagedPointers)
+        {
+            cspDataFlags.add(CspDataFlags.ALLOW_UNMANAGED_POINTERS);
+        }
+        if (checkRecursivePointers)
+        {
+            cspDataFlags.add(CspDataFlags.CHECK_RECURSIVE_POINTERS);
+        }
+        if (simplyAssignableTagsOptimizationsAreTurnedOff)
+        {
+            cspDataFlags.add(CspDataFlags.SIMPLY_ASSIGNABLE_TAGS_OPTIMIZATIONS_ARE_TURNED_OFF);
+        }
+        if (checkRecursivePointersWhileMaintainingLinkStructure)
+        {
+            cspDataFlags.add(CspDataFlags.CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE);
+        }
+
         return cspDataFlags;
+    }
+
+    @Override
+    public boolean isAlignmentMayBeNotEqual()
+    {
+        return alignmentMayBeNotEqual;
+    }
+
+    @Override
+    public boolean isSizeOfIntegersMayBeNotEqual()
+    {
+        return sizeOfIntegersMayBeNotEqual;
+    }
+
+    @Override
+    public boolean isAllowUnmanagedPointers()
+    {
+        return allowUnmanagedPointers;
+    }
+
+    @Override
+    public boolean isCheckRecursivePointers()
+    {
+        return checkRecursivePointers;
+    }
+
+    @Override
+    public boolean isSimplyAssignableTagsOptimizationsAreTurnedOff()
+    {
+        return simplyAssignableTagsOptimizationsAreTurnedOff;
+    }
+
+    @Override
+    public boolean isCheckRecursivePointersWhileMaintainingLinkStructure()
+    {
+        return checkRecursivePointersWhileMaintainingLinkStructure;
     }
 }

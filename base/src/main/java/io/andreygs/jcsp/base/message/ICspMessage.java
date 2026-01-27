@@ -30,12 +30,21 @@ import io.andreygs.jcsp.base.types.CspMessageType;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 
 import java.nio.ByteBuffer;
-import java.util.List;
+import java.util.Set;
 
 public interface ICspMessage
 {
     ByteBuffer getBinaryData();
+
     CspProtocolVersion getCspProtocolVersion();
+
     CspMessageType getCspMessageType();
-    List<CspCommonFlags> getCspCommonFlags();
+
+    Set<CspCommonFlags> getCspCommonFlags();
+
+    boolean isBitness32();
+
+    boolean isBigEndian();
+
+    boolean isEndiannessDifference();
 }

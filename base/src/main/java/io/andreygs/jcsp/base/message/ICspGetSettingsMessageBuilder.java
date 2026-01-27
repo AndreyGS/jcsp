@@ -28,7 +28,7 @@ package io.andreygs.jcsp.base.message;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * TODO: place description here
@@ -45,7 +45,7 @@ public interface ICspGetSettingsMessageBuilder extends ICspMessageBuilder
     ICspGetSettingsMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
 
     @Override
-    ICspGetSettingsMessageBuilder setCspCommonFlags(List<CspCommonFlags> cspCommonFlags);
+    ICspGetSettingsMessageBuilder setCspCommonFlags(Set<CspCommonFlags> cspCommonFlags);
 
     ICspGetSettingsMessage serialize();
 }

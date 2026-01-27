@@ -61,8 +61,9 @@ final class Messages
     public static String CspProtocolVersion_Type;
     public static String CspStatus_No_Error;
     public static String CspStatus_No_Memory;
-    public static String CspStatus_Type;
     public static String CspStatus_No_Such_Handler;
+    public static String CspStatus_Pointer_When_No_Allow_Unmanaged_Pointers_Set;
+    public static String CspStatus_Type;
 
     static
     {

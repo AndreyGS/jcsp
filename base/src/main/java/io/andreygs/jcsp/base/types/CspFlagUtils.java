@@ -27,6 +27,7 @@ package io.andreygs.jcsp.base.types;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 /**
@@ -53,11 +54,11 @@ public class CspFlagUtils
     /**
      * Calculates mask of flags as integer.
      *
-     * @param flags List of flags.
+     * @param flags Set of flags.
      * @return calculated mask.
      * @param <T> enum implemented {@link ICspFlag}.
      */
-    public static <T extends ICspFlag> int calculateFlagMask(List<T> flags)
+    public static <T extends ICspFlag> int calculateFlagMask(Set<T> flags)
     {
         return calculateFlagMask(flags.stream());
     }
