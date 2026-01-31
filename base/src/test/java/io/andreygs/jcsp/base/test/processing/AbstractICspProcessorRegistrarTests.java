@@ -90,7 +90,10 @@ public abstract class AbstractICspProcessorRegistrarTests
     @Test
     public void findProcessorTest()
     {
+        // Test find() when there is registered processor.
         registerProcessorTest();
+
+        // Test find() when there absent registered processor.
         unregisterProcessorTest();
     }
 

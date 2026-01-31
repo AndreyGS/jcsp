@@ -25,9 +25,9 @@
 
 package io.andreygs.jcsp.base.processing.context.internal;
 
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspDeserializationBuffer;
-import io.andreygs.jcsp.base.processing.ICspDeserializationProcessor;
-import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 
@@ -42,7 +42,7 @@ sealed abstract class AbstractCspMessageDeserializationContext
     implements ICspMessageDeserializationContext
     permits CspDataMessageDeserializationContext, CspStatusMessageDeserializationContext
 {
-    private final ICspProcessorProvider<ICspDeserializationProcessor> cspDeserializationProcessorProvider;
+    private final ICspProcessorRegistrar<ICspSerializationProcessor> cspDeserializationProcessorRegistrar;
     private final ICspDeserializationBuffer cspDeserializationBuffer;
     private final CspProtocolVersion cspProtocolVersion;
     private final boolean bitness32;
@@ -50,12 +50,12 @@ sealed abstract class AbstractCspMessageDeserializationContext
     private final boolean endiannessDifference;
 
     public AbstractCspMessageDeserializationContext(
-        ICspProcessorProvider<ICspDeserializationProcessor> cspDeserializationProcessorProvider,
+        ICspProcessorRegistrar<ICspSerializationProcessor> cspDeserializationProcessorRegistrar,
         ICspDeserializationBuffer cspDeserializationBuffer,
         CspProtocolVersion cspProtocolVersion,
         Set<CspCommonFlags> cspCommonFlags)
     {
-        this.cspDeserializationProcessorProvider = cspDeserializationProcessorProvider;
+        this.cspDeserializationProcessorRegistrar = cspDeserializationProcessorRegistrar;
         this.cspDeserializationBuffer = cspDeserializationBuffer;
         this.cspProtocolVersion = cspProtocolVersion;
         this.bitness32 = cspCommonFlags.contains(CspCommonFlags.BITNESS_32);
@@ -64,9 +64,9 @@ sealed abstract class AbstractCspMessageDeserializationContext
     }
 
     @Override
-    public final ICspProcessorProvider<ICspDeserializationProcessor> getCspDeserializationProcessorProvider()
+    public final ICspProcessorRegistrar<ICspSerializationProcessor> getCspDeserializationProcessorRegistrar()
     {
-        return cspDeserializationProcessorProvider;
+        return cspDeserializationProcessorRegistrar;
     }
 
     @Override

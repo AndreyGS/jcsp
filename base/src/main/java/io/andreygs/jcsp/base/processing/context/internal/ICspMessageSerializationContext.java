@@ -27,8 +27,8 @@ package io.andreygs.jcsp.base.processing.context.internal;
 
 import io.andreygs.jcsp.base.message.ICspMessage;
 import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
-import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
 
@@ -40,6 +40,6 @@ public sealed interface ICspMessageSerializationContext extends ICspMessage
             ICspStatusMessageSerializationContext
 {
     ICspGeneralSerializationProcessor getCspGeneralSerializationProcessor();
-    ICspProcessorProvider<ICspSerializationProcessor> getCspSerializationProcessorProvider();
+    ICspProcessorRegistrar<ICspSerializationProcessor> getCspSerializationProcessorRegistrar();
     ICspSerializationBuffer getCspSerializationBuffer();
 }

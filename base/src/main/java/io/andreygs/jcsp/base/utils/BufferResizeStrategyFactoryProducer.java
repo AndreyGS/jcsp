@@ -25,7 +25,6 @@
 
 package io.andreygs.jcsp.base.utils;
 
-import io.andreygs.jcsp.base.processing.ICspProcessorProviderFactory;
 import io.andreygs.jcsp.base.utils.internal.BufferResizeStrategyFactory;
 
 public class BufferResizeStrategyFactoryProducer

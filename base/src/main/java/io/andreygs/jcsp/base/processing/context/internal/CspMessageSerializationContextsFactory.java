@@ -26,8 +26,8 @@
 package io.andreygs.jcsp.base.processing.context.internal;
 
 import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
-import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
@@ -44,7 +44,7 @@ public final class CspMessageSerializationContextsFactory
 {
     public static ICspDataMessageSerializationContext createCspDataMessageSerializationContext(
         ICspGeneralSerializationProcessor cspGeneralSerializationProcessor,
-        ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider,
+        ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar,
         ICspSerializationBuffer cspSerializationBuffer,
         CspProtocolVersion cspProtocolVersion,
         Set<CspCommonFlags> cspCommonFlags,
@@ -53,7 +53,7 @@ public final class CspMessageSerializationContextsFactory
         Set<CspDataFlags> cspDataFlags)
     {
         return new CspDataMessageSerializationContext(cspGeneralSerializationProcessor,
-                                                      cspSerializationProcessorProvider,
+                                                      cspSerializationProcessorRegistrar,
                                                       cspSerializationBuffer,
                                                       cspProtocolVersion,
                                                       cspCommonFlags,

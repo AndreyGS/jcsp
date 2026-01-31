@@ -87,7 +87,7 @@ public class CspFlagUtilsTests
     @Test
     public void evaluateFlagsStringDescriptionDefaultWithFlagTest()
     {
-        List<CspCommonFlags> flags = List.of(CspCommonFlags.BITNESS_32);
+        Set<CspCommonFlags> flags = Set.of(CspCommonFlags.BITNESS_32);
         StringBuilder descriptionBuilder = CspFlagUtils.evaluateFlagsStringDescription(CspCommonFlags.class, flags);
 
         Assertions.assertTrue(descriptionBuilder.toString().contains(CspCommonFlags.BITNESS_32.getNameWhenSet()), "No flag info in description!");
@@ -97,7 +97,7 @@ public class CspFlagUtilsTests
     @Test
     public void evaluateFlagsStringDescriptionDefaultWithoutFlagTest()
     {
-        List<CspCommonFlags> flags = List.of();
+        Set<CspCommonFlags> flags = Set.of();
         StringBuilder descriptionBuilder = CspFlagUtils.evaluateFlagsStringDescription(CspCommonFlags.class, flags);
 
         Assertions.assertFalse(descriptionBuilder.toString().contains(CspCommonFlags.BITNESS_32.getNameWhenSet()), "flag info in description!");
@@ -107,7 +107,7 @@ public class CspFlagUtilsTests
     @Test
     public void evaluateFlagsStringDescriptionDefaultWithAllFlagsTest()
     {
-        List<CspCommonFlags> flags = List.of(CspCommonFlags.BITNESS_32);
+        Set<CspCommonFlags> flags = Set.of(CspCommonFlags.BITNESS_32);
         StringBuilder descriptionBuilder = CspFlagUtils.evaluateFlagsStringDescription(CspCommonFlags.class, flags, false, true);
 
         Assertions.assertTrue(descriptionBuilder.toString().contains(CspCommonFlags.BITNESS_32.getNameWhenSet()), "No flag info in description!");
@@ -119,7 +119,7 @@ public class CspFlagUtilsTests
     @Test
     public void evaluateFlagsStringDescriptionWitNoFlagsAndNoHeaderTest()
     {
-        List<CspCommonFlags> flags = List.of();
+        Set<CspCommonFlags> flags = Set.of();
         StringBuilder descriptionBuilder = CspFlagUtils.evaluateFlagsStringDescription(CspCommonFlags.class, flags, true, false);
 
         Assertions.assertTrue(descriptionBuilder.isEmpty(), "Description is not empty!");

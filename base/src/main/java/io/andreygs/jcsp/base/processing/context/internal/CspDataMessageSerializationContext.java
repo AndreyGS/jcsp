@@ -26,8 +26,8 @@
 package io.andreygs.jcsp.base.processing.context.internal;
 
 import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
-import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
@@ -37,7 +37,6 @@ import io.andreygs.jcsp.base.types.CspMessageType;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -56,7 +55,7 @@ public final class CspDataMessageSerializationContext extends AbstractCspMessage
     private final boolean checkRecursivePointersWhileMaintainingLinkStructure;
 
     public CspDataMessageSerializationContext(ICspGeneralSerializationProcessor cspGeneralSerializationProcessor,
-                                              ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider,
+                                              ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar,
                                               ICspSerializationBuffer cspSerializationBuffer,
                                               CspProtocolVersion cspProtocolVersion,
                                               Set<CspCommonFlags> cspCommonFlags,
@@ -64,7 +63,7 @@ public final class CspDataMessageSerializationContext extends AbstractCspMessage
                                               ICspInterfaceVersion cspInterfaceVersion,
                                               Set<CspDataFlags> cspDataFlags)
     {
-        super(cspGeneralSerializationProcessor, cspSerializationProcessorProvider, cspSerializationBuffer,
+        super(cspGeneralSerializationProcessor, cspSerializationProcessorRegistrar, cspSerializationBuffer,
               cspProtocolVersion, cspCommonFlags);
         this.structClazz = structClazz;
         this.cspInterfaceVersion = cspInterfaceVersion;

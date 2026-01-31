@@ -26,15 +26,13 @@
 package io.andreygs.jcsp.base.message.internal;
 
 import io.andreygs.jcsp.base.message.ICspMessageBuilder;
-import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.annotations.UnknownNullability;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -42,16 +40,16 @@ import java.util.Set;
  */
 abstract class AbstractCspMessageBuilder implements ICspMessageBuilder
 {
-    private final ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider;
+    private final ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar;
     private @Nullable Integer initialBufferCapacity;
     private @Nullable Boolean directBuffer;
     private @Nullable IBufferResizeStrategy bufferResizeStrategy;
     private @Nullable CspProtocolVersion cspProtocolVersion;
     private @Nullable Set<CspCommonFlags> cspCommonFlags;
 
-    AbstractCspMessageBuilder(ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider)
+    AbstractCspMessageBuilder(ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar)
     {
-        this.cspSerializationProcessorProvider = cspSerializationProcessorProvider;
+        this.cspSerializationProcessorRegistrar = cspSerializationProcessorRegistrar;
     }
 
     @Override
@@ -89,9 +87,9 @@ abstract class AbstractCspMessageBuilder implements ICspMessageBuilder
         return this;
     }
 
-    protected ICspProcessorProvider<ICspSerializationProcessor> getCspSerializationProcessorProvider()
+    protected ICspProcessorRegistrar<ICspSerializationProcessor> getCspSerializationProcessorRegistrar()
     {
-        return cspSerializationProcessorProvider;
+        return cspSerializationProcessorRegistrar;
     }
 
     protected @Nullable Integer getInitialBufferCapacity()

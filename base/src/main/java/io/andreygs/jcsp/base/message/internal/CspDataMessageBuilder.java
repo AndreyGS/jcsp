@@ -27,7 +27,7 @@ package io.andreygs.jcsp.base.message.internal;
 
 import io.andreygs.jcsp.base.message.ICspDataMessage;
 import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
-import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.processing.internal.Serializer;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
@@ -49,9 +49,9 @@ final class CspDataMessageBuilder extends AbstractCspMessageBuilder
     private @Nullable ICspInterfaceVersion cspInterfaceVersion;
     private @Nullable Set<CspDataFlags> cspDataFlags;
 
-    CspDataMessageBuilder(ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider)
+    CspDataMessageBuilder(ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar)
     {
-        super(cspSerializationProcessorProvider);
+        super(cspSerializationProcessorRegistrar);
     }
 
     @Override
@@ -106,7 +106,7 @@ final class CspDataMessageBuilder extends AbstractCspMessageBuilder
     @Override
     public ICspDataMessage serialize(ICspSerializable cspSerializable)
     {
-        return Serializer.serializeDataMessage(getCspSerializationProcessorProvider(), getInitialBufferCapacity(), getDirectBuffer(),
+        return Serializer.serializeDataMessage(getCspSerializationProcessorRegistrar(), getInitialBufferCapacity(), getDirectBuffer(),
                                                getBufferResizeStrategy(), getCspProtocolVersion(),
                                                getCspCommonFlags(), cspInterfaceVersion, cspDataFlags,
                                                cspSerializable);

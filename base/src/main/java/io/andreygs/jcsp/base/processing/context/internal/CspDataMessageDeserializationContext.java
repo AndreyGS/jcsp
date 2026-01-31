@@ -25,9 +25,9 @@
 
 package io.andreygs.jcsp.base.processing.context.internal;
 
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspDeserializationBuffer;
-import io.andreygs.jcsp.base.processing.ICspDeserializationProcessor;
-import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageDeserializationContext;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspDataFlags;
@@ -53,14 +53,15 @@ public final class CspDataMessageDeserializationContext extends AbstractCspMessa
     private final boolean simplyAssignableTagsOptimizationsAreTurnedOff;
     private final boolean checkRecursivePointersWhileMaintainingLinkStructure;
 
-    public CspDataMessageDeserializationContext(ICspProcessorProvider<ICspDeserializationProcessor> cspDeserializationProcessorProvider,
-                                                ICspDeserializationBuffer cspDeserializationBuffer,
-                                                CspProtocolVersion cspProtocolVersion,
-                                                Set<CspCommonFlags> cspCommonFlags,
-                                                Class<?> structClazz, ICspInterfaceVersion cspInterfaceVersion,
-                                                Set<CspDataFlags> cspDataFlags)
+    public CspDataMessageDeserializationContext(
+        ICspProcessorRegistrar<ICspSerializationProcessor> cspDeserializationProcessorRegistrar,
+        ICspDeserializationBuffer cspDeserializationBuffer,
+        CspProtocolVersion cspProtocolVersion,
+        Set<CspCommonFlags> cspCommonFlags,
+        Class<?> structClazz, ICspInterfaceVersion cspInterfaceVersion,
+        Set<CspDataFlags> cspDataFlags)
     {
-        super(cspDeserializationProcessorProvider, cspDeserializationBuffer, cspProtocolVersion, cspCommonFlags);
+        super(cspDeserializationProcessorRegistrar, cspDeserializationBuffer, cspProtocolVersion, cspCommonFlags);
         this.structClazz = structClazz;
         this.cspInterfaceVersion = cspInterfaceVersion;
         this.alignmentMayBeNotEqual = cspDataFlags.contains(CspDataFlags.ALIGNMENT_MAY_BE_NOT_EQUAL);

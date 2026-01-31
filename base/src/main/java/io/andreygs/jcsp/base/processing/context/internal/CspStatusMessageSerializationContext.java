@@ -26,15 +26,15 @@
 package io.andreygs.jcsp.base.processing.context.internal;
 
 import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
-import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspMessageType;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 import io.andreygs.jcsp.base.types.CspStatus;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * TODO: place description here
@@ -45,13 +45,13 @@ public final class CspStatusMessageSerializationContext extends AbstractCspMessa
     private final CspStatus cspStatus;
 
     public CspStatusMessageSerializationContext(ICspGeneralSerializationProcessor cspGeneralSerializationProcessor,
-                                                ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider,
+                                                ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar,
                                                 ICspSerializationBuffer cspSerializationBuffer,
                                                 CspProtocolVersion cspProtocolVersion,
-                                                List<CspCommonFlags> cspCommonFlags,
+                                                Set<CspCommonFlags> cspCommonFlags,
                                                 CspStatus cspStatus)
     {
-        super(cspGeneralSerializationProcessor, cspSerializationProcessorProvider, cspSerializationBuffer,
+        super(cspGeneralSerializationProcessor, cspSerializationProcessorRegistrar, cspSerializationBuffer,
               cspProtocolVersion, cspCommonFlags);
         this.cspStatus = cspStatus;
     }

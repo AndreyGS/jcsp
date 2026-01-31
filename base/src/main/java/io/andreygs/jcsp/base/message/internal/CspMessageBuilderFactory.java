@@ -27,7 +27,7 @@ package io.andreygs.jcsp.base.message.internal;
 
 import io.andreygs.jcsp.base.message.ICspMessageBuilderFactory;
 import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
-import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 
 /**
@@ -35,15 +35,16 @@ import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
  */
 final public class CspMessageBuilderFactory implements ICspMessageBuilderFactory
 {
-    private final ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider;
+    private final ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar;
 
-    public CspMessageBuilderFactory(ICspProcessorProvider<ICspSerializationProcessor> cspSerializationProcessorProvider)
+    public CspMessageBuilderFactory(
+        ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar)
     {
-        this.cspSerializationProcessorProvider = cspSerializationProcessorProvider;
+        this.cspSerializationProcessorRegistrar = cspSerializationProcessorRegistrar;
     }
 
     public ICspDataMessageBuilder createCspDataMessageBuilder()
     {
-        return new CspDataMessageBuilder(cspSerializationProcessorProvider);
+        return new CspDataMessageBuilder(cspSerializationProcessorRegistrar);
     }
 }

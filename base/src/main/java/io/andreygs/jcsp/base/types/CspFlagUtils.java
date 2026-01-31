@@ -104,7 +104,7 @@ public class CspFlagUtils
      * @param <T> enum implemented {@link ICspFlag}.
      */
     public static <T extends ICspFlag> StringBuilder evaluateFlagsStringDescription(Class<? extends ICspFlag> flagsEnum,
-                                                                             List<T> setFlags)
+                                                                             Set<T> setFlags)
     {
         return evaluateFlagsStringDescription(flagsEnum, setFlags, true, true);
     }
@@ -121,7 +121,7 @@ public class CspFlagUtils
      * @param <T> enum implemented {@link ICspFlag}.
      */
     public static <T extends ICspFlag> StringBuilder evaluateFlagsStringDescription(Class<? extends ICspFlag> flagsEnum,
-                                                                             List<T> setFlags,
+                                                                             Set<T> setFlags,
                                                                              boolean onlySetFlagsShouldBeIncluded,
                                                                              boolean includeEmptyHeader)
     {

@@ -25,15 +25,15 @@
 
 package io.andreygs.jcsp.base.processing.context.internal;
 
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspDeserializationBuffer;
-import io.andreygs.jcsp.base.processing.ICspDeserializationProcessor;
-import io.andreygs.jcsp.base.processing.ICspProcessorProvider;
 import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspMessageType;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 import io.andreygs.jcsp.base.types.CspStatus;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * TODO: place description here
@@ -44,13 +44,13 @@ public final class CspStatusMessageDeserializationContext extends AbstractCspMes
     private final CspStatus cspStatus;
 
     public CspStatusMessageDeserializationContext(
-        ICspProcessorProvider<ICspDeserializationProcessor> cspDeserializationProcessorProvider,
+        ICspProcessorRegistrar<ICspSerializationProcessor> cspDeserializationProcessorRegistrar,
         ICspDeserializationBuffer cspDeserializationBuffer,
         CspProtocolVersion cspProtocolVersion,
-        List<CspCommonFlags> cspCommonFlags,
+        Set<CspCommonFlags> cspCommonFlags,
         CspStatus cspStatus)
     {
-        super(cspDeserializationProcessorProvider, cspDeserializationBuffer, cspProtocolVersion, cspCommonFlags);
+        super(cspDeserializationProcessorRegistrar, cspDeserializationBuffer, cspProtocolVersion, cspCommonFlags);
         this.cspStatus = cspStatus;
     }
 

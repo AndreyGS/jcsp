@@ -34,6 +34,7 @@ import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Optional;
 
 /**
  * TODO: place description here
@@ -171,9 +172,9 @@ public class DraftInternalCspMessageBodyProcessor
      */
     public static void serialize(Object value, ICspDataMessageSerializationContext context)
     {
-        ICspSerializationProcessor cspSerializationProcessor =
-            context.getCspSerializationProcessorProvider().provideProcessor(value.getClass());
-        cspSerializationProcessor.serialize(value, context);
+        Optional<ICspSerializationProcessor> cspSerializationProcessor =
+            context.getCspSerializationProcessorRegistrar().findProcessor(value.getClass());
+        //cspSerializationProcessor.serialize(value, context);
     }
 
     private static void serializationMethodExecutor(ICspSerializable value, ICspDataMessageSerializationContext context,
