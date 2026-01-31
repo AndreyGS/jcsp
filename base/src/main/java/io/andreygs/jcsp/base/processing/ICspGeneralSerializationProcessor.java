@@ -30,6 +30,7 @@ import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationCont
 import io.andreygs.jcsp.base.types.CspDataFlags;
 import io.andreygs.jcsp.base.types.CspRuntimeException;
 import io.andreygs.jcsp.base.types.ICspSerializable;
+import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
 
@@ -252,7 +253,7 @@ public interface ICspGeneralSerializationProcessor
      * @throws CspRuntimeException if asReference equal true and
      * {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(boolean[] value, boolean asReference, boolean fixedSize,
+    void serialize(boolean @Nullable [] value, boolean asReference, boolean fixedSize,
                    ICspDataMessageSerializationContext context);
 
     /**
@@ -330,7 +331,7 @@ public interface ICspGeneralSerializationProcessor
      * @throws CspRuntimeException if asReference equal true and
      * {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(byte[] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
+    void serialize(byte @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
 
     /**
      * Serializes short[] field, not as a reference, but as an embedded structure with fixed size dictated
@@ -407,7 +408,7 @@ public interface ICspGeneralSerializationProcessor
      * @throws CspRuntimeException if asReference equal true and
      * {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(short[] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
+    void serialize(short @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
 
     /**
      * Serializes int[] field, not as a reference, but as an embedded structure with fixed size dictated
@@ -484,7 +485,7 @@ public interface ICspGeneralSerializationProcessor
      * @throws CspRuntimeException if asReference equal true and
      * {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(int[] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
+    void serialize(int @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
 
     /**
      * Serializes long[] field, not as a reference, but as an embedded structure with fixed size dictated
@@ -561,7 +562,7 @@ public interface ICspGeneralSerializationProcessor
      * @throws CspRuntimeException if asReference equal true and
      * {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(long[] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
+    void serialize(long @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
 
     /**
      * Serializes char[] field, not as a reference, but as an embedded structure with fixed size dictated
@@ -637,7 +638,7 @@ public interface ICspGeneralSerializationProcessor
      * @throws CspRuntimeException if asReference equal true and
      * {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(char[] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
+    void serialize(char @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
 
     /**
      * Serializes float[] field, not as a reference, but as an embedded structure with fixed size dictated
@@ -706,7 +707,7 @@ public interface ICspGeneralSerializationProcessor
      * @throws CspRuntimeException if asReference equal true and
      * {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(float[] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
+    void serialize(float @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
 
     /**
      * Serializes double[] field, not as a reference, but as an embedded structure with fixed size dictated
@@ -775,7 +776,7 @@ public interface ICspGeneralSerializationProcessor
      * @throws CspRuntimeException if asReference equal true and
      * {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(double[] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
+    void serialize(double @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
 
     /**
      * Serializes String not as a reference, but as an embedded structure.
@@ -839,7 +840,7 @@ public interface ICspGeneralSerializationProcessor
      * @throws CspRuntimeException if asReference equal true and
      * {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(String value, boolean asReference, Charset charset, ICspDataMessageSerializationContext context);
+    void serialize(@Nullable String value, boolean asReference, Charset charset, ICspDataMessageSerializationContext context);
 
     /**
      * Serializes Object not as a reference, but as an embedded structure.
@@ -923,5 +924,5 @@ public interface ICspGeneralSerializationProcessor
      * @throws CspRuntimeException if asReference equal true and
      * {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(Object value, boolean asReference, Class<?> clazz, ICspDataMessageSerializationContext context);
+    void serialize(@Nullable Object value, boolean asReference, Class<?> clazz, ICspDataMessageSerializationContext context);
 }

@@ -27,6 +27,7 @@ package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.ICspProcessor;
 import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
+import io.andreygs.jcsp.base.utils.ArgumentChecker;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,6 +49,9 @@ final class CspProcessorRegistrar<T extends ICspProcessor>
     @Override
     public void registerProcessor(Class<?> clazz, T processor)
     {
+        ArgumentChecker.nonNull(clazz);
+        ArgumentChecker.nonNull(processor);
+
         rwLock.writeLock().lock();
         try
         {
@@ -62,6 +66,8 @@ final class CspProcessorRegistrar<T extends ICspProcessor>
     @Override
     public void unregisterProcessor(Class<?> clazz)
     {
+        ArgumentChecker.nonNull(clazz);
+
         rwLock.writeLock().lock();
         try
         {
@@ -76,6 +82,8 @@ final class CspProcessorRegistrar<T extends ICspProcessor>
     @Override
     public Optional<T> findProcessor(Class<?> clazz)
     {
+        ArgumentChecker.nonNull(clazz);
+
         rwLock.readLock().lock();
         try
         {

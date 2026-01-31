@@ -23,27 +23,25 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message;
+package io.andreygs.jcsp.base.utils;
 
-import io.andreygs.jcsp.base.message.internal.CspMessageBuilderFactory;
-import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
-import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
-import io.andreygs.jcsp.base.utils.ArgumentChecker;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * TODO: place description here
  */
-public class CspMessageBuilderFactoryProducer
+public class ArgumentChecker
 {
-    private CspMessageBuilderFactoryProducer()
+    private ArgumentChecker()
     {
+
     }
 
-    public static ICspMessageBuilderFactory produceCspMessageBuilderFactory(
-        ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar)
+    public static void nonNull(@Nullable Object obj)
     {
-        ArgumentChecker.nonNull(cspSerializationProcessorRegistrar);
-
-        return new CspMessageBuilderFactory(cspSerializationProcessorRegistrar);
+        if (obj == null)
+        {
+            throw new IllegalArgumentException();
+        }
     }
 }

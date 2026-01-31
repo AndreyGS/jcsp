@@ -53,13 +53,33 @@ public abstract class AbstractICspProcessorRegistrarTests
     public void registerProcessorTest()
     {
         ICspProcessorRegistrar<ICspSerializationProcessor> cspProcessorRegistrar = getCspProcessorRegistrar();
-        Assertions.assertFalse(cspProcessorRegistrar.findProcessor(List.class).isPresent(),
+        Assertions.assertTrue(cspProcessorRegistrar.findProcessor(List.class).isEmpty(),
                               "Processor registered for " + List.class.getName() + "!");
 
         cspProcessorRegistrar.registerProcessor(List.class, cspSerializationProcessor);
 
         Assertions.assertTrue(cspProcessorRegistrar.findProcessor(List.class).isPresent(),
                               "No processor registered for " + List.class.getName() + "!");
+    }
+
+    @Test
+    @SuppressWarnings("DataFlowIssue")
+    public void registerProcessorNullClassTest()
+    {
+        ICspProcessorRegistrar<ICspSerializationProcessor> cspProcessorRegistrar = getCspProcessorRegistrar();
+
+        Assertions.assertThrows(IllegalArgumentException.class,
+                                () -> cspProcessorRegistrar.registerProcessor(null, cspSerializationProcessor));
+    }
+
+    @Test
+    @SuppressWarnings("DataFlowIssue")
+    public void registerProcessorNullProcessorTest()
+    {
+        ICspProcessorRegistrar<ICspSerializationProcessor> cspProcessorRegistrar = getCspProcessorRegistrar();
+
+        Assertions.assertThrows(IllegalArgumentException.class,
+                                () -> cspProcessorRegistrar.registerProcessor(List.class, null));
     }
 
     @Test
@@ -88,13 +108,29 @@ public abstract class AbstractICspProcessorRegistrarTests
     }
 
     @Test
+    @SuppressWarnings("DataFlowIssue")
+    public void unregisterProcessorNullClassTest()
+    {
+        ICspProcessorRegistrar<ICspSerializationProcessor> cspProcessorRegistrar = getCspProcessorRegistrar();
+
+        Assertions.assertThrows(IllegalArgumentException.class,
+                                () -> cspProcessorRegistrar.unregisterProcessor(null));
+    }
+
+    @Test
     public void findProcessorTest()
     {
-        // Test find() when there is registered processor.
         registerProcessorTest();
+    }
 
-        // Test find() when there absent registered processor.
-        unregisterProcessorTest();
+    @Test
+    @SuppressWarnings("DataFlowIssue")
+    public void findProcessorNullClassTest()
+    {
+        ICspProcessorRegistrar<ICspSerializationProcessor> cspProcessorRegistrar = getCspProcessorRegistrar();
+
+        Assertions.assertThrows(IllegalArgumentException.class,
+                                () -> cspProcessorRegistrar.findProcessor(null));
     }
 
     protected abstract <T extends ICspProcessor> ICspProcessorRegistrar<T> getCspProcessorRegistrar();
