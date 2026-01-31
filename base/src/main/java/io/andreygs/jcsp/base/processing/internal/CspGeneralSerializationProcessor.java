@@ -36,15 +36,17 @@ import java.nio.charset.Charset;
  */
 final class CspGeneralSerializationProcessor implements ICspGeneralSerializationProcessor
 {
+
     @Override
     public void serialize(boolean value, ICspDataMessageSerializationContext context)
     {
-        context.getCspSerializationBuffer().write((byte)(value ? 1 : 0));
+
     }
 
     @Override
     public void serialize(byte value, ICspDataMessageSerializationContext context)
     {
+
     }
 
     @Override
@@ -84,8 +86,20 @@ final class CspGeneralSerializationProcessor implements ICspGeneralSerialization
     }
 
     @Override
+    public void serialize(boolean[] value, ICspDataMessageSerializationContext context)
+    {
+
+    }
+
+    @Override
     public void serialize(boolean[] value, boolean asReference, boolean fixedSize,
                           ICspDataMessageSerializationContext context)
+    {
+
+    }
+
+    @Override
+    public void serialize(byte[] value, ICspDataMessageSerializationContext context)
     {
 
     }
@@ -98,8 +112,20 @@ final class CspGeneralSerializationProcessor implements ICspGeneralSerialization
     }
 
     @Override
+    public void serialize(short[] value, ICspDataMessageSerializationContext context)
+    {
+
+    }
+
+    @Override
     public void serialize(short[] value, boolean asReference, boolean fixedSize,
                           ICspDataMessageSerializationContext context)
+    {
+
+    }
+
+    @Override
+    public void serialize(int[] value, ICspDataMessageSerializationContext context)
     {
 
     }
@@ -112,8 +138,20 @@ final class CspGeneralSerializationProcessor implements ICspGeneralSerialization
     }
 
     @Override
+    public void serialize(long[] value, ICspDataMessageSerializationContext context)
+    {
+
+    }
+
+    @Override
     public void serialize(long[] value, boolean asReference, boolean fixedSize,
                           ICspDataMessageSerializationContext context)
+    {
+
+    }
+
+    @Override
+    public void serialize(char[] value, ICspDataMessageSerializationContext context)
     {
 
     }
@@ -126,8 +164,20 @@ final class CspGeneralSerializationProcessor implements ICspGeneralSerialization
     }
 
     @Override
+    public void serialize(float[] value, ICspDataMessageSerializationContext context)
+    {
+
+    }
+
+    @Override
     public void serialize(float[] value, boolean asReference, boolean fixedSize,
                           ICspDataMessageSerializationContext context)
+    {
+
+    }
+
+    @Override
+    public void serialize(double[] value, ICspDataMessageSerializationContext context)
     {
 
     }
@@ -140,6 +190,12 @@ final class CspGeneralSerializationProcessor implements ICspGeneralSerialization
     }
 
     @Override
+    public void serialize(String value, Charset charset, ICspDataMessageSerializationContext context)
+    {
+
+    }
+
+    @Override
     public void serialize(String value, boolean asReference, Charset charset,
                           ICspDataMessageSerializationContext context)
     {
@@ -147,13 +203,14 @@ final class CspGeneralSerializationProcessor implements ICspGeneralSerialization
     }
 
     @Override
-    public void serialize(ICspSerializable value, boolean asReference, ICspDataMessageSerializationContext context)
+    public void serialize(Object value, Class<?> clazz, ICspDataMessageSerializationContext context)
     {
 
     }
 
     @Override
-    public void serialize(Object value, boolean asReference, ICspDataMessageSerializationContext context)
+    public void serialize(Object value, boolean asReference, Class<?> clazz,
+                          ICspDataMessageSerializationContext context)
     {
 
     }
