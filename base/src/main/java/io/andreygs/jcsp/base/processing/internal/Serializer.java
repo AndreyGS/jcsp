@@ -36,7 +36,7 @@ import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspDataFlags;
 import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
-import io.andreygs.jcsp.base.types.ICspSerializable;
+import io.andreygs.jcsp.base.types.ICspVersionable;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 import org.jetbrains.annotations.Nullable;
 
@@ -64,7 +64,7 @@ public class Serializer
         @Nullable Set<CspCommonFlags> cspCommonFlags,
         @Nullable ICspInterfaceVersion cspInterfaceVersion,
         @Nullable Set<CspDataFlags> cspDataFlags,
-        ICspSerializable cspSerializable)
+        ICspVersionable cspSerializable)
     {
         ICspSerializationBuffer cspSerializationBuffer =
             CspSerializationBufferFactory.createCspSerializationBuffer(initialBufferCapacity, directBuffer, bufferResizeStrategy);

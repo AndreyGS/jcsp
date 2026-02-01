@@ -49,8 +49,7 @@ final class CspProcessorRegistrar<T extends ICspProcessor>
     @Override
     public void registerProcessor(Class<?> clazz, T processor)
     {
-        ArgumentChecker.nonNull(clazz);
-        ArgumentChecker.nonNull(processor);
+        ArgumentChecker.nonNull(clazz, processor);
 
         rwLock.writeLock().lock();
         try

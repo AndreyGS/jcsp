@@ -40,7 +40,7 @@ public class CspRuntimeException extends RuntimeException
 
     private CspRuntimeException(CspStatus cspStatus, String additionalInfo)
     {
-        super(cspStatus.toString() + ' ' + additionalInfo);
+        super(cspStatus.toString() + ": " + additionalInfo);
         this.cspStatus = cspStatus;
     }
 

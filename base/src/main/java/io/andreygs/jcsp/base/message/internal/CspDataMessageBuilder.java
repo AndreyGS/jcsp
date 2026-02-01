@@ -34,7 +34,7 @@ import io.andreygs.jcsp.base.types.CspCommonFlags;
 import io.andreygs.jcsp.base.types.CspDataFlags;
 import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
-import io.andreygs.jcsp.base.types.ICspSerializable;
+import io.andreygs.jcsp.base.types.ICspVersionable;
 import io.andreygs.jcsp.base.utils.ArgumentChecker;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 import org.jetbrains.annotations.Nullable;
@@ -105,7 +105,7 @@ final class CspDataMessageBuilder extends AbstractCspMessageBuilder
     }
 
     @Override
-    public ICspDataMessage serialize(ICspSerializable cspSerializable)
+    public ICspDataMessage serialize(ICspVersionable cspSerializable)
     {
         ArgumentChecker.nonNull(cspSerializable);
 

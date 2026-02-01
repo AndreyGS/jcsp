@@ -23,28 +23,22 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.utils;
+package io.andreygs.jcsp.base.types;
 
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.UUID;
 
 /**
  * TODO: place description here
  */
-public class ArgumentChecker
+public interface ICspVersionable
 {
-    private ArgumentChecker()
-    {
+    UUID getId();
+    ICspInterfaceVersion[] getPrivateVersions();
+    ICspInterfaceVersion getInterfaceVersion();
+    String[] getCspFieldNames();
 
-    }
-
-    public static void nonNull(@Nullable Object... obj)
+    default ICspInterfaceVersion getOriginPrivateVersion()
     {
-        if (Arrays.stream(obj).anyMatch(Objects::isNull))
-        {
-            throw new IllegalArgumentException();
-        }
+        return getPrivateVersions()[getPrivateVersions().length - 1];
     }
 }

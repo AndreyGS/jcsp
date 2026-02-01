@@ -27,15 +27,12 @@ package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
-import io.andreygs.jcsp.base.types.CspRuntimeException;
-import io.andreygs.jcsp.base.types.CspStatus;
-import io.andreygs.jcsp.base.types.ICspSerializable;
+import io.andreygs.jcsp.base.types.ICspVersionable;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -144,10 +141,10 @@ public class DraftInternalCspMessageBodyProcessor
         context.getCspSerializationBuffer().write(value.getBytes(charset));
     }
 
-    public static void serialize(ICspSerializable value, Class<?> clazz, ICspDataMessageSerializationContext context)
+    public static void serialize(ICspVersionable value, Class<?> clazz, ICspDataMessageSerializationContext context)
     {
         Class<?> parentClazz = clazz.getSuperclass();
-        if (ICspSerializable.class.isAssignableFrom(parentClazz))
+        if (ICspVersionable.class.isAssignableFrom(parentClazz))
         {
             serialize(value, parentClazz, context);
         }
@@ -188,12 +185,12 @@ public class DraftInternalCspMessageBodyProcessor
         }*/
     }
 
-    private static void serializationMethodExecutor(ICspSerializable value, ICspDataMessageSerializationContext context,
-                                  Class<?> fieldClazz, Field field) throws IllegalAccessException
+    private static void serializationMethodExecutor(ICspVersionable value, ICspDataMessageSerializationContext context,
+                                                    Class<?> fieldClazz, Field field) throws IllegalAccessException
     {
-        if (ICspSerializable.class.isAssignableFrom(fieldClazz))
+        if (ICspVersionable.class.isAssignableFrom(fieldClazz))
         {
-            serialize((ICspSerializable) field.get(value), fieldClazz, context);
+            serialize((ICspVersionable) field.get(value), fieldClazz, context);
         }
         else if (fieldClazz == boolean.class)
         {
@@ -264,12 +261,12 @@ public class DraftInternalCspMessageBodyProcessor
             int elementsCount = Array.getLength(value);
             Class<?> elementsClazz = fieldClazz.getComponentType();
 
-            if (ICspSerializable.class.isAssignableFrom(fieldClazz.getComponentType()))
+            if (ICspVersionable.class.isAssignableFrom(fieldClazz.getComponentType()))
             {
                 for (int i = 0; i < elementsCount; ++i)
                 {
                     Object element = Array.get(value, i);
-                    serialize((ICspSerializable) element, elementsClazz, context);
+                    serialize((ICspVersionable) element, elementsClazz, context);
                 }
             }
             else

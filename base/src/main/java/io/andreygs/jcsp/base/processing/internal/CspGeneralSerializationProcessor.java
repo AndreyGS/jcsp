@@ -27,7 +27,6 @@ package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
-import io.andreygs.jcsp.base.types.ICspSerializable;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;

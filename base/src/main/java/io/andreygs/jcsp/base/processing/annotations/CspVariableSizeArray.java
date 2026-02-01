@@ -23,28 +23,21 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.utils;
+package io.andreygs.jcsp.base.processing.annotations;
 
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Arrays;
-import java.util.Objects;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * TODO: place description here
+ * Tag that array field has variable size according to CSP interface.
+ * Make sense only for array types.
  */
-public class ArgumentChecker
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD, ElementType.TYPE_PARAMETER})
+public @interface CspVariableSizeArray
 {
-    private ArgumentChecker()
-    {
-
-    }
-
-    public static void nonNull(@Nullable Object... obj)
-    {
-        if (Arrays.stream(obj).anyMatch(Objects::isNull))
-        {
-            throw new IllegalArgumentException();
-        }
-    }
 }

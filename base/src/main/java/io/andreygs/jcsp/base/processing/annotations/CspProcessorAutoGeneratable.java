@@ -23,28 +23,24 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.utils;
+package io.andreygs.jcsp.base.processing.annotations;
 
-import org.jetbrains.annotations.Nullable;
+import io.andreygs.jcsp.base.processing.ICspDeserializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 
-import java.util.Arrays;
-import java.util.Objects;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * TODO: place description here
+ * Tagging annotation, telling that {@link ICspSerializationProcessor} and {@link ICspDeserializationProcessor}
+ * can be auto generated using CSP annotations of class fields.
  */
-public class ArgumentChecker
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE})
+public @interface CspProcessorAutoGeneratable
 {
-    private ArgumentChecker()
-    {
-
-    }
-
-    public static void nonNull(@Nullable Object... obj)
-    {
-        if (Arrays.stream(obj).anyMatch(Objects::isNull))
-        {
-            throw new IllegalArgumentException();
-        }
-    }
 }

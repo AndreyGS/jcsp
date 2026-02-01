@@ -23,28 +23,26 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.utils;
+package io.andreygs.jcsp.base.processing.annotations;
 
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Arrays;
-import java.util.Objects;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * TODO: place description here
+ * Annotation indicates that this field is involved in the serialization process in the specified order starting with 0.
  */
-public class ArgumentChecker
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD})
+public @interface CspSerializable
 {
-    private ArgumentChecker()
-    {
-
-    }
-
-    public static void nonNull(@Nullable Object... obj)
-    {
-        if (Arrays.stream(obj).anyMatch(Objects::isNull))
-        {
-            throw new IllegalArgumentException();
-        }
-    }
+    /**
+     * Order for field in class serialization/deserialization according to CSP Interface.
+     *
+     * @return order of field in class serialization/deserialization. Must not be negative.
+     */
+    int order();
 }

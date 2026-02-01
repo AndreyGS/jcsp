@@ -29,7 +29,7 @@ import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
 import io.andreygs.jcsp.base.types.CspDataFlags;
 import io.andreygs.jcsp.base.types.CspRuntimeException;
-import io.andreygs.jcsp.base.types.ICspSerializable;
+import io.andreygs.jcsp.base.types.ICspVersionable;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
@@ -785,7 +785,7 @@ public interface ICspGeneralSerializationProcessor
      * with false asReference argument.
      *
      * @param value Object to serialize.
-     * @param charset Charset according {@link ICspSerializable} struct specification.
+     * @param charset Charset according to CSP Interface specification.
      * @param context Current serialization message context.
      */
     void serialize(String value, Charset charset, ICspDataMessageSerializationContext context);
@@ -835,7 +835,7 @@ public interface ICspGeneralSerializationProcessor
      *                    be serialized.
      *                    <p>
      *                    It can be set true only if {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} is set.
-     * @param charset Charset according {@link ICspSerializable} struct specification.
+     * @param charset Charset according to CSP Interface specification.
      * @param context Current serialization message context.
      * @throws CspRuntimeException if asReference equal true and
      * {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.

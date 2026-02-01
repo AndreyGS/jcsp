@@ -23,22 +23,37 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.types;
+package io.andreygs.jcsp.base.processing.annotations;
 
-import java.util.UUID;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * TODO: place description here
+ * Indicates {@link String} charset according to CSP Interface.
+ * Make sense only for fields (or array types, or generic types) which has type {@link String}.
  */
-public interface ICspSerializable
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD, ElementType.TYPE_PARAMETER, ElementType.TYPE_USE})
+public @interface CspStringCharset
 {
-    UUID getId();
-    ICspInterfaceVersion[] getPrivateVersions();
-    ICspInterfaceVersion getInterfaceVersion();
-    String[] getCspFieldNames();
+    /**
+     * Which charset should be used in serialization according to CSP Interface.
+     * <p>
+     * By default, {@link String} will be serialized with {@link CharsetType#UTF_16BE}.
+     *
+     * @return charset according to CSP Interface.
+     */
+    CharsetType charset();
 
-    default ICspInterfaceVersion getOriginPrivateVersion()
+    /**
+     * Standard java charsets
+     */
+    public enum CharsetType
     {
-        return getPrivateVersions()[getPrivateVersions().length - 1];
+        UTF_8, UTF_16BE, UTF_16LE, UTF_16, UTF_32BE, UTF_32LE, UTF_32, US_ASCII, ISO_8859_1, ISO_8859_2, WINDOWS_1251
     }
 }

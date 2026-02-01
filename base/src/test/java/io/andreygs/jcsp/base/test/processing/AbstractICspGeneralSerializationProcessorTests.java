@@ -204,6 +204,7 @@ public abstract class AbstractICspGeneralSerializationProcessorTests
     }
 
     @Test
+    @SuppressWarnings("DataFlowIssue")
     public void serializeBooleanArrayNullTest()
     {
         Assertions.assertThrows(IllegalArgumentException.class, () ->
@@ -211,6 +212,7 @@ public abstract class AbstractICspGeneralSerializationProcessorTests
     }
 
     @Test
+    @SuppressWarnings("DataFlowIssue")
     public void serializeBooleanArrayContextNullTest()
     {
         boolean[] value = new boolean[] { true, false };
@@ -226,7 +228,7 @@ public abstract class AbstractICspGeneralSerializationProcessorTests
 
         Mockito.when(context.isAllowUnmanagedPointers()).thenReturn(true);
 
-        cspGeneralSerializationProcessor.serialize(value, true, false, context);
+        cspGeneralSerializationProcessor.serialize(value, true, true, context);
         Mockito.verify(buffer).write((byte) 1);
         Mockito.verify(buffer).write((byte) 1);
         Mockito.verify(buffer).write((byte) 0);
@@ -239,6 +241,30 @@ public abstract class AbstractICspGeneralSerializationProcessorTests
 
         cspGeneralSerializationProcessor.serialize((boolean[]) null, true, false, context);
         Mockito.verify(buffer, Mockito.never()).write(1);
+        Mockito.verify(buffer).write((byte) 0);
+    }
+
+    @Test
+    public void serializeBooleanArrayNotFixedTest()
+    {
+        boolean[] value = new boolean[] { true, false };
+
+        Mockito.when(context.isAllowUnmanagedPointers()).thenReturn(true);
+
+        cspGeneralSerializationProcessor.serialize(value, false, false, context);
+        Mockito.verify(buffer).write((byte) 2);
+        Mockito.verify(buffer, Mockito.calls(1)).write((byte) 1);
+        Mockito.verify(buffer).write((byte) 0);
+    }
+
+    @Test
+    public void serializeBooleanArrayAsReferenceNotFixedTest()
+    {
+        Mockito.when(context.isAllowUnmanagedPointers()).thenReturn(true);
+
+        cspGeneralSerializationProcessor.serialize((boolean[]) null, true, false, context);
+        Mockito.verify(buffer, Mockito.calls(2)).write((byte) 1);
+        Mockito.verify(buffer).write((byte) 2);
         Mockito.verify(buffer).write((byte) 0);
     }
 
