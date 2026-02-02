@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,20 +22,38 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module io.andreygs.jcsp.base {
-    requires transitive org.jetbrains.annotations;
 
-    exports io.andreygs.jcsp.base.message;
-    exports io.andreygs.jcsp.base.processing;
-    exports io.andreygs.jcsp.base.processing.context;
-    exports io.andreygs.jcsp.base.types;
-    exports io.andreygs.jcsp.base.utils;
+package io.andreygs.jcsp.base.processing.typetraits.annotations;
 
-    exports io.andreygs.jcsp.base.message.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.processing.buffer.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.processing.context.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.processing.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.utils.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.processing.typetraits.annotations;
-    exports io.andreygs.jcsp.base.processing.typetraits;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/**
+ * Indicates {@link String} charset according to CSP Interface.
+ * Make sense only for fields (or array types, or generic types) which has type {@link String}.
+ */
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD, ElementType.TYPE_PARAMETER, ElementType.TYPE_USE})
+public @interface CspStringCharset
+{
+    /**
+     * Which charset should be used in serialization according to CSP Interface.
+     * <p>
+     * By default, {@link String} will be serialized with {@link CharsetType#UTF_16BE}.
+     *
+     * @return charset according to CSP Interface.
+     */
+    CharsetType charset();
+
+    /**
+     * Standard java charsets
+     */
+    public enum CharsetType
+    {
+        UTF_8, UTF_16BE, UTF_16LE, UTF_16, UTF_32BE, UTF_32LE, UTF_32, US_ASCII, ISO_8859_1, ISO_8859_2, WINDOWS_1251
+    }
 }

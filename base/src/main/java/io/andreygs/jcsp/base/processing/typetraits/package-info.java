@@ -24,20 +24,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module io.andreygs.jcsp.base {
-    requires transitive org.jetbrains.annotations;
+@NotNullByDefault
+package io.andreygs.jcsp.base.processing.typetraits;
 
-    exports io.andreygs.jcsp.base.message;
-    exports io.andreygs.jcsp.base.processing;
-    exports io.andreygs.jcsp.base.processing.context;
-    exports io.andreygs.jcsp.base.types;
-    exports io.andreygs.jcsp.base.utils;
-
-    exports io.andreygs.jcsp.base.message.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.processing.buffer.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.processing.context.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.processing.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.utils.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.processing.typetraits.annotations;
-    exports io.andreygs.jcsp.base.processing.typetraits;
-}
+import org.jetbrains.annotations.NotNullByDefault;

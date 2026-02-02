@@ -23,24 +23,14 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.annotations;
+package io.andreygs.jcsp.base.processing.typetraits;
 
-import io.andreygs.jcsp.base.processing.ICspDeserializationProcessor;
-import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
-
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.nio.charset.Charset;
 
 /**
- * Tagging annotation, telling that {@link ICspSerializationProcessor} and {@link ICspDeserializationProcessor}
- * can be auto generated using CSP annotations of class fields.
+ * TODO: place description here
  */
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE})
-public @interface CspProcessorAutoGeneratable
+public interface ICspStringTypeTraits extends ICspReferenceTypeTraits
 {
+    Charset getCharset();
 }

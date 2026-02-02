@@ -27,12 +27,16 @@ package io.andreygs.jcsp.base.processing;
 
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
+import io.andreygs.jcsp.base.processing.typetraits.ICspArrayTypeTraits;
+import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
 import io.andreygs.jcsp.base.types.CspDataFlags;
 import io.andreygs.jcsp.base.types.CspRuntimeException;
 import io.andreygs.jcsp.base.types.ICspVersionable;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * General-purpose CSP serialization processor for Data Message Body.
@@ -250,8 +254,7 @@ public interface ICspGeneralSerializationProcessor
      * @param fixedSize If true, then it counts that this array has fixed size by its CSP Interface definition. So no
      *                  array length should be written and false otherwise.
      * @param context Current serialization message context.
-     * @throws CspRuntimeException if asReference equal true and
-     * {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
+     * @throws CspRuntimeException if asReference equal true and {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
      */
     void serialize(boolean @Nullable [] value, boolean asReference, boolean fixedSize,
                    ICspDataMessageSerializationContext context);
@@ -328,8 +331,7 @@ public interface ICspGeneralSerializationProcessor
      * @param fixedSize If true, then it counts that this array has fixed size by its CSP Interface definition. So no
      *                  array length should be written and false otherwise.
      * @param context Current serialization message context.
-     * @throws CspRuntimeException if asReference equal true and
-     * {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
+     * @throws CspRuntimeException if asReference equal true and {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
      */
     void serialize(byte @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
 
@@ -405,8 +407,7 @@ public interface ICspGeneralSerializationProcessor
      * @param fixedSize If true, then it counts that this array has fixed size by its CSP Interface definition. So no
      *                  array length should be written and false otherwise.
      * @param context Current serialization message context.
-     * @throws CspRuntimeException if asReference equal true and
-     * {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
+     * @throws CspRuntimeException if asReference equal true and {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
      */
     void serialize(short @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
 
@@ -482,8 +483,7 @@ public interface ICspGeneralSerializationProcessor
      * @param fixedSize If true, then it counts that this array has fixed size by its CSP Interface definition. So no
      *                  array length should be written and false otherwise.
      * @param context Current serialization message context.
-     * @throws CspRuntimeException if asReference equal true and
-     * {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
+     * @throws CspRuntimeException if asReference equal true and {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
      */
     void serialize(int @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
 
@@ -559,8 +559,7 @@ public interface ICspGeneralSerializationProcessor
      * @param fixedSize If true, then it counts that this array has fixed size by its CSP Interface definition. So no
      *                  array length should be written and false otherwise.
      * @param context Current serialization message context.
-     * @throws CspRuntimeException if asReference equal true and
-     * {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
+     * @throws CspRuntimeException if asReference equal true and {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
      */
     void serialize(long @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
 
@@ -635,8 +634,7 @@ public interface ICspGeneralSerializationProcessor
      * @param fixedSize If true, then it counts that this array has fixed size by its CSP Interface definition. So no
      *                  array length should be written and false otherwise.
      * @param context Current serialization message context.
-     * @throws CspRuntimeException if asReference equal true and
-     * {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
+     * @throws CspRuntimeException if asReference equal true and {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
      */
     void serialize(char @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
 
@@ -704,8 +702,7 @@ public interface ICspGeneralSerializationProcessor
      * @param fixedSize If true, then it counts that this array has fixed size by its CSP Interface definition. So no
      *                  array length should be written and false otherwise.
      * @param context Current serialization message context.
-     * @throws CspRuntimeException if asReference equal true and
-     * {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
+     * @throws CspRuntimeException if asReference equal true and {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
      */
     void serialize(float @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
 
@@ -773,8 +770,7 @@ public interface ICspGeneralSerializationProcessor
      * @param fixedSize If true, then it counts that this array has fixed size by its CSP Interface definition. So no
      *                  array length should be written and false otherwise.
      * @param context Current serialization message context.
-     * @throws CspRuntimeException if asReference equal true and
-     * {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
+     * @throws CspRuntimeException if asReference equal true and {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
      */
     void serialize(double @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
 
@@ -837,16 +833,14 @@ public interface ICspGeneralSerializationProcessor
      *                    It can be set true only if {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} is set.
      * @param charset Charset according to CSP Interface specification.
      * @param context Current serialization message context.
-     * @throws CspRuntimeException if asReference equal true and
-     * {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
+     * @throws CspRuntimeException if asReference equal true and {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
      */
     void serialize(@Nullable String value, boolean asReference, Charset charset, ICspDataMessageSerializationContext context);
 
     /**
-     * Serializes Object not as a reference, but as an embedded structure.
+     * Serializes Object as an embedded structure.
      * <p>
-     * Does the same thing as a call {@link #serialize(Object, boolean, Class, ICspDataMessageSerializationContext)}
-     * with false asReference argument.
+     * Object should not be any of: array, {@link String}, {@link Collection}, {@link Map}.
      *
      * @param value Object to serialize.
      * @param clazz The class that will be serialized. It is for choice which {@link ICspSerializationProcessor}
@@ -867,7 +861,7 @@ public interface ICspGeneralSerializationProcessor
      * <p>
      *    Conditions:
      *    <ul>
-     *        <li>asReference is set.</li>
+     *        <li>{@link ICspReferenceTypeTraits#isReference()} of cspObjectTypeTraits evals to true.</li>
      *    </ul>
      * <p>
      *    Notes:
@@ -885,11 +879,21 @@ public interface ICspGeneralSerializationProcessor
      *    </ul>
      *    </li>
      *
+     *    <li>Serializing of container/array.
+     * <p>
+     *    Conditions (one of):
+     *    <ul>
+     *        <li>{@link ICspReferenceTypeTraits#getDeclaredClazz()} is implementing {@link java.util.Collection} or {@link java.util.Map}</li>
+     *        <li>cspObjectTypeTraits has type {@link ICspArrayTypeTraits}.</li>
+     *    </ul>
+     * <p>
+     *    Note: next steps will be done only if this is not container/array.
+     *
      *    <li>Converting to temporary object for serialization using version convertor.
      * <p>
      *    Conditions:
      *    <ol>
-     *        <li>Value instance type is implementing ICspSerializable.</li>
+     *        <li>Value instance type is implementing {@link ICspVersionable}.</li>
      *        <li>Value private version is differing from target interface version (from context).</li>
      *    </ol>
      *    </li>
@@ -907,22 +911,10 @@ public interface ICspGeneralSerializationProcessor
      * </ol>
      *
      * @param value Object to serialize.
-     * @param asReference Should field value be threatened as reference (CSP Pointer).
-     *                    If true, then pointer mark will be added to serialized data, and if
-     *                    {@link CspDataFlags#CHECK_RECURSIVE_POINTERS} or
-     *                    {@link CspDataFlags#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE}
-     *                    are set then only first occurrence of this object with the same option value
-     *                    will be serialized fully, all others would be referenced to the first one.
-     *                    If false, then no pointer mark to serialized data will be added, only size and elements will
-     *                    be serialized.
-     *                    <p>
-     *                    It can be set true only if {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} is set.
-     * @param clazz The class that will be serialized. It is for choice which {@link ICspSerializationProcessor}
-     *              shall be used, as long as value can implement different interfaces and inherits different classes
-     *              (and some of them may be not part of CSP interface),
+     * @param cspObjectTypeTraits Traits of value type according to CSP reference.
      * @param context Current serialization message context.
-     * @throws CspRuntimeException if asReference equal true and
-     * {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
+     * @throws CspRuntimeException if asReference equal true and {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(@Nullable Object value, boolean asReference, Class<?> clazz, ICspDataMessageSerializationContext context);
+    void serialize(@Nullable Object value, ICspReferenceTypeTraits cspObjectTypeTraits, ICspDataMessageSerializationContext context);
 }
+

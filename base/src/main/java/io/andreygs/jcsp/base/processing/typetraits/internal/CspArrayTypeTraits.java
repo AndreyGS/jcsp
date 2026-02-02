@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,20 +22,33 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module io.andreygs.jcsp.base {
-    requires transitive org.jetbrains.annotations;
 
-    exports io.andreygs.jcsp.base.message;
-    exports io.andreygs.jcsp.base.processing;
-    exports io.andreygs.jcsp.base.processing.context;
-    exports io.andreygs.jcsp.base.types;
-    exports io.andreygs.jcsp.base.utils;
+package io.andreygs.jcsp.base.processing.typetraits.internal;
 
-    exports io.andreygs.jcsp.base.message.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.processing.buffer.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.processing.context.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.processing.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.utils.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.processing.typetraits.annotations;
-    exports io.andreygs.jcsp.base.processing.typetraits;
+import io.andreygs.jcsp.base.processing.typetraits.ICspArrayTypeTraits;
+import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
+
+/**
+ * TODO: place description here
+ */
+public class CspArrayTypeTraits extends CspReferenceTypeTraits
+    implements ICspArrayTypeTraits
+{
+
+    public CspArrayTypeTraits(boolean reference, Class<?> declaredClazz)
+    {
+        super(reference, declaredClazz);
+    }
+
+    @Override
+    public boolean isFixedSize()
+    {
+        return false;
+    }
+
+    @Override
+    public ICspReferenceTypeTraits getElementCspObjectTypeTraits()
+    {
+        return null;
+    }
 }

@@ -1,4 +1,6 @@
 /**
+ * TODO: place brief description here
+ *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -22,27 +24,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+@NotNullByDefault
+package io.andreygs.jcsp.base.processing.typetraits.internal;
 
-package io.andreygs.jcsp.base.processing.annotations;
-
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-/**
- * Annotation indicates that this field is involved in the serialization process in the specified order starting with 0.
- */
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD})
-public @interface CspSerializable
-{
-    /**
-     * Order for field in class serialization/deserialization according to CSP Interface.
-     *
-     * @return order of field in class serialization/deserialization. Must not be negative.
-     */
-    int order();
-}
+import org.jetbrains.annotations.NotNullByDefault;

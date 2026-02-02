@@ -23,7 +23,7 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.annotations;
+package io.andreygs.jcsp.base.processing.typetraits.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -32,28 +32,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Indicates {@link String} charset according to CSP Interface.
- * Make sense only for fields (or array types, or generic types) which has type {@link String}.
+ * Annotation indicates that this field is involved in the serialization process in the specified order starting with 0.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.TYPE_PARAMETER, ElementType.TYPE_USE})
-public @interface CspStringCharset
+@Target({ElementType.FIELD})
+public @interface CspSerializable
 {
     /**
-     * Which charset should be used in serialization according to CSP Interface.
-     * <p>
-     * By default, {@link String} will be serialized with {@link CharsetType#UTF_16BE}.
+     * Order for field in class serialization/deserialization according to CSP Interface.
      *
-     * @return charset according to CSP Interface.
+     * @return order of field in class serialization/deserialization. Must not be negative.
      */
-    CharsetType charset();
-
-    /**
-     * Standard java charsets
-     */
-    public enum CharsetType
-    {
-        UTF_8, UTF_16BE, UTF_16LE, UTF_16, UTF_32BE, UTF_32LE, UTF_32, US_ASCII, ISO_8859_1, ISO_8859_2, WINDOWS_1251
-    }
+    int order();
 }

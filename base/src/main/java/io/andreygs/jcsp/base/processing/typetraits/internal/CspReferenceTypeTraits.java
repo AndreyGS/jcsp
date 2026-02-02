@@ -23,21 +23,33 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.annotations;
+package io.andreygs.jcsp.base.processing.typetraits.internal;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
 
 /**
- * Tag that array field has variable size according to CSP interface.
- * Make sense only for array types.
+ * TODO: place description here
  */
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.TYPE_PARAMETER})
-public @interface CspVariableSizeArray
+class CspReferenceTypeTraits implements ICspReferenceTypeTraits
 {
+    private final boolean reference;
+    private final Class<?> declaredClazz;
+
+    public CspReferenceTypeTraits(boolean reference, Class<?> declaredClazz)
+    {
+        this.reference = reference;
+        this.declaredClazz = declaredClazz;
+    }
+
+    @Override
+    public boolean isReference()
+    {
+        return reference;
+    }
+
+    @Override
+    public Class<?> getDeclaredClazz()
+    {
+        return declaredClazz;
+    }
 }

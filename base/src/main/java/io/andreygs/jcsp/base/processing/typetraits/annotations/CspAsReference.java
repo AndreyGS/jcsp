@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,20 +22,22 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module io.andreygs.jcsp.base {
-    requires transitive org.jetbrains.annotations;
 
-    exports io.andreygs.jcsp.base.message;
-    exports io.andreygs.jcsp.base.processing;
-    exports io.andreygs.jcsp.base.processing.context;
-    exports io.andreygs.jcsp.base.types;
-    exports io.andreygs.jcsp.base.utils;
+package io.andreygs.jcsp.base.processing.typetraits.annotations;
 
-    exports io.andreygs.jcsp.base.message.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.processing.buffer.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.processing.context.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.processing.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.utils.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.processing.typetraits.annotations;
-    exports io.andreygs.jcsp.base.processing.typetraits;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/**
+ * Tag that field should be threatened as CSP pointer (Java reference) and not as embedded instance.
+ * Make sense only for object types, not for primitives.
+ */
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD, ElementType.TYPE_PARAMETER, ElementType.TYPE_USE})
+public @interface CspAsReference
+{
 }

@@ -27,6 +27,7 @@ package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
+import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
@@ -209,7 +210,7 @@ final class CspGeneralSerializationProcessor implements ICspGeneralSerialization
     }
 
     @Override
-    public void serialize(@Nullable Object value, boolean asReference, Class<?> clazz,
+    public void serialize(@Nullable Object value, ICspReferenceTypeTraits cspObjectTypeTraits,
                           ICspDataMessageSerializationContext context)
     {
 

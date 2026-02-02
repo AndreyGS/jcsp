@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.base.processing;
 
-import io.andreygs.jcsp.base.processing.annotations.CspProcessorAutoGeneratable;
+import io.andreygs.jcsp.base.processing.typetraits.annotations.CspProcessorAutoGeneratable;
 
 import java.util.Optional;
 
