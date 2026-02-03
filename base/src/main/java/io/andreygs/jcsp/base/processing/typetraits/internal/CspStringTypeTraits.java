@@ -23,12 +23,30 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.typetraits;
+package io.andreygs.jcsp.base.processing.typetraits.internal;
+
+import io.andreygs.jcsp.base.processing.typetraits.ICspStringTypeTraits;
+import org.jetbrains.annotations.Nullable;
+
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * TODO: place description here
  */
-public interface ICspCollectionTypeTraits extends ICspReferenceTypeTraits
+public class CspStringTypeTraits extends CspReferenceTypeTraits
+    implements ICspStringTypeTraits
 {
-   ICspReferenceTypeTraits getElementCspReferenceTypeTraits();
+    private Charset charset = StandardCharsets.UTF_16BE;
+
+    @Override
+    public Charset getCharset()
+    {
+        return charset;
+    }
+
+    public void setCharset(Charset charset)
+    {
+        this.charset = charset;
+    }
 }

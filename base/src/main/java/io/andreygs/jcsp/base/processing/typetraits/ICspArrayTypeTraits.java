@@ -32,5 +32,5 @@ public interface ICspArrayTypeTraits extends ICspReferenceTypeTraits
 {
     boolean isFixedSize();
 
-    ICspReferenceTypeTraits getElementCspObjectTypeTraits();
+    ICspTypeTraits getElementCspTypeTraits();
 }

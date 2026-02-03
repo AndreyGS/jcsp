@@ -23,16 +23,14 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.typetraits.internal;
+package io.andreygs.jcsp.base.processing.typetraits;
 
 /**
- * TODO: place description here
+ * Common type traits for any type, including primitive.
+ * <p>
+ * If this interface is only *TypeTraits interface that instance implementing,
+ * then this is type traits of primitive.
  */
-class CspObjectTypeTraitsBuilder
+public interface ICspTypeTraits
 {
-    //private final ICspObjectTypeTraits cspObjectTypeTraits;
-
-    CspObjectTypeTraitsBuilder()
-    {
-    }
 }

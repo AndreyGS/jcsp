@@ -23,12 +23,34 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.typetraits;
+package io.andreygs.jcsp.base.processing.typetraits.internal;
+
+import io.andreygs.jcsp.base.processing.typetraits.ICspCollectionTypeTraits;
+import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * TODO: place description here
  */
-public interface ICspCollectionTypeTraits extends ICspReferenceTypeTraits
+public class CspCollectionTypeTraits extends CspReferenceTypeTraits
+    implements ICspCollectionTypeTraits
 {
-   ICspReferenceTypeTraits getElementCspReferenceTypeTraits();
+    private @Nullable ICspReferenceTypeTraits elementCspReferenceTypeTraits;
+
+    @Override
+    public ICspReferenceTypeTraits getElementCspReferenceTypeTraits()
+    {
+        // This should never be happened (guarded by ICspTypeTraitsBuilder).
+        if (elementCspReferenceTypeTraits == null)
+        {
+            throw new IllegalStateException("Element type trait of ICspCollectionTypeTraits has not been initialized");
+        }
+
+        return elementCspReferenceTypeTraits;
+    }
+
+    public void setElementCspReferenceTypeTraits(ICspReferenceTypeTraits elementCspReferenceTypeTraits)
+    {
+        this.elementCspReferenceTypeTraits = elementCspReferenceTypeTraits;
+    }
 }

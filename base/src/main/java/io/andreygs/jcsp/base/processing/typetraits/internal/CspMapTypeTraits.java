@@ -25,44 +25,51 @@
 
 package io.andreygs.jcsp.base.processing.typetraits.internal;
 
-import io.andreygs.jcsp.base.processing.typetraits.ICspArrayTypeTraits;
-import io.andreygs.jcsp.base.processing.typetraits.ICspTypeTraits;
+import io.andreygs.jcsp.base.processing.typetraits.ICspMapTypeTraits;
+import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * TODO: place description here
  */
-class CspArrayTypeTraits extends CspReferenceTypeTraits
-    implements ICspArrayTypeTraits
+public class CspMapTypeTraits extends CspReferenceTypeTraits
+    implements ICspMapTypeTraits
 {
-    private boolean fixedSize;
-    private @Nullable ICspTypeTraits elementCspTypeTraits;
+    private @Nullable ICspReferenceTypeTraits kayCspReferenceTypeTraits;
+
+    private @Nullable ICspReferenceTypeTraits valueCspReferenceTypeTraits;
 
     @Override
-    public boolean isFixedSize()
-    {
-        return fixedSize;
-    }
-
-    @Override
-    public ICspTypeTraits getElementCspTypeTraits()
+    public ICspReferenceTypeTraits getKayCspReferenceTypeTraits()
     {
         // This should never be happened (guarded by ICspTypeTraitsBuilder).
-        if (elementCspTypeTraits == null)
+        if (kayCspReferenceTypeTraits == null)
         {
-            throw new IllegalStateException("Element type trait of ICspArrayTypeTraits has not been initialized");
+            throw new IllegalStateException("Key type trait of ICspMapTypeTraits has not been initialized");
         }
 
-        return elementCspTypeTraits;
+        return kayCspReferenceTypeTraits;
     }
 
-    public void setFixedSize(boolean fixedSize)
+    @Override
+    public ICspReferenceTypeTraits getValueCspReferenceTypeTraits()
     {
-        this.fixedSize = fixedSize;
+        // This should never be happened (guarded by ICspTypeTraitsBuilder).
+        if (valueCspReferenceTypeTraits == null)
+        {
+            throw new IllegalStateException("Value type trait of ICspMapTypeTraits has not been initialized");
+        }
+
+        return valueCspReferenceTypeTraits;
     }
 
-    public void setElementCspTypeTraits(ICspTypeTraits elementCspTypeTraits)
+    public void setKayCspReferenceTypeTraits(ICspReferenceTypeTraits kayCspReferenceTypeTraits)
     {
-        this.elementCspTypeTraits = elementCspTypeTraits;
+        this.kayCspReferenceTypeTraits = kayCspReferenceTypeTraits;
+    }
+
+    public void setValueCspReferenceTypeTraits(ICspReferenceTypeTraits valueCspReferenceTypeTraits)
+    {
+        this.valueCspReferenceTypeTraits = valueCspReferenceTypeTraits;
     }
 }

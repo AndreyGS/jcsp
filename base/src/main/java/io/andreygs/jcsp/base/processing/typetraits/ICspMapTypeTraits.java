@@ -30,7 +30,7 @@ package io.andreygs.jcsp.base.processing.typetraits;
  */
 public interface ICspMapTypeTraits extends ICspReferenceTypeTraits
 {
-    ICspReferenceTypeTraits getKayCspObjectTypeTraits();
+    ICspReferenceTypeTraits getKayCspReferenceTypeTraits();
 
-    ICspReferenceTypeTraits getValueCspObjectTypeTraits();
+    ICspReferenceTypeTraits getValueCspReferenceTypeTraits();
 }

@@ -25,6 +25,8 @@
 
 package io.andreygs.jcsp.base.types;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Runtime exceptions with CSP statuses according to CSP references.
  */
@@ -32,15 +34,15 @@ public class CspRuntimeException extends RuntimeException
 {
     private final CspStatus cspStatus;
 
-    private CspRuntimeException(CspStatus cspStatus)
+    private CspRuntimeException(CspStatus cspStatus, @Nullable Throwable cause)
     {
-        super(cspStatus.toString());
+        super(cspStatus.toString(), cause);
         this.cspStatus = cspStatus;
     }
 
-    private CspRuntimeException(CspStatus cspStatus, String additionalInfo)
+    private CspRuntimeException(CspStatus cspStatus, String additionalInfo, @Nullable Throwable cause)
     {
-        super(cspStatus.toString() + ": " + additionalInfo);
+        super(cspStatus.toString() + ": " + additionalInfo, cause);
         this.cspStatus = cspStatus;
     }
 
@@ -74,13 +76,13 @@ public class CspRuntimeException extends RuntimeException
      * @return created exception.
      * @throws IllegalArgumentException when status passed is not error status.
      */
-    public static CspRuntimeException createCspRuntimeException(CspStatus status, String additionalInfo)
+    public static CspRuntimeException createCspRuntimeException(CspStatus status, String additionalInfo, @Nullable Throwable cause)
     {
         if (!status.isErrorStatus())
         {
             throw new IllegalArgumentException("CSP Status is not error status");
         }
 
-        return new CspRuntimeException(status, additionalInfo);
+        return new CspRuntimeException(status, additionalInfo, cause);
     }
 }

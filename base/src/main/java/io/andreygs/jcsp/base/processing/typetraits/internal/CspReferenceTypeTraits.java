@@ -32,14 +32,7 @@ import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
  */
 class CspReferenceTypeTraits implements ICspReferenceTypeTraits
 {
-    private final boolean reference;
-    private final Class<?> declaredClazz;
-
-    public CspReferenceTypeTraits(boolean reference, Class<?> declaredClazz)
-    {
-        this.reference = reference;
-        this.declaredClazz = declaredClazz;
-    }
+    private boolean reference;
 
     @Override
     public boolean isReference()
@@ -47,9 +40,8 @@ class CspReferenceTypeTraits implements ICspReferenceTypeTraits
         return reference;
     }
 
-    @Override
-    public Class<?> getDeclaredClazz()
+    public void setReference(boolean reference)
     {
-        return declaredClazz;
+        this.reference = reference;
     }
 }

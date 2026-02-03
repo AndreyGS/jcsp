@@ -40,14 +40,17 @@ import java.util.Map;
  * <p>
  * Suppose we have such declared type {@link CspAsReference @CspAsReference} {@link List}<
  * {@link Map}<{@link CspStringCharset @CspStringCharset(CspStringCharset.CharsetType.UTF_8)}
- * {@link String}, BmpImage> [] {@link CspFixedSizeArray @CspVariableSizeArray} []>.
+ * {@link String}, {@link Map}&lt;BmpImage, byte[]>> [] {@link CspFixedSizeArray @CspVariableSizeArray} []>.
  * <p>
- * builder.addNode({@link ICspCollectionTypeTraits}.class, true);<br>
- * builder.addNode({@link ICspArrayTypeTraits}.class, false);<br>
- * builder.addNode({@link ICspArrayTypeTraits}.class, false).setFixedSize();<br>
- * builder.addNode({@link ICspMapTypeTraits}.class, false);<br>
- * builder.addNode({@link ICspStringTypeTraits}.class, false).setCharset(CspStringCharset.CharsetType.UTF_8);<br>
- * builder.addNode({@link ICspObjectTypeTraits}.class, false).setProcessorClazz(Image.class);<br>
+ * builder.addNode({@link ICspCollectionTypeTraits}.class).setReference();<br>
+ * builder.addNode({@link ICspArrayTypeTraits}.class);<br>
+ * builder.addNode({@link ICspArrayTypeTraits}.class).setFixedSize();<br>
+ * builder.addNode({@link ICspMapTypeTraits}.class);<br>
+ * builder.addNode({@link ICspStringTypeTraits}.class).setCharset(CspStringCharset.CharsetType.UTF_8);<br>
+ * builder.addNode({@link ICspMapTypeTraits}.class)<br>
+ * builder.addNode({@link ICspObjectTypeTraits}.class).setProcessorClazz(Image.class);<br>
+ * builder.addNode({@link ICspArrayTypeTraits}.class)<br>
+ * builder.addNode({@link ICspTypeTraits}.class)
  * ICspReferenceTypeTraits cspReferenceTypeTraits = builder.build();
  * <p>
  * First, we add node List, which should be serialized as reference.
@@ -56,12 +59,14 @@ import java.util.Map;
  * CSP Interface).
  * Next, we add the array element type, which is a Map.
  * Next, we add the Map key type, which is String, and set its Charset to UTF-8 (according to CSP Interface).
- * Next, we add the Map value type, which is BmpImage and set its processor class to Image (it must be registered
+ * Next, we add the Map key type, which is BmpImage and set its processor class to Image (it must be registered
  * in respective serialization/deserialization CSP processor registrar).
+ * Next, we add the second Map value type, which is an array.
+ * Next, we add element type of previously added array as simply {@link ICspTypeTraits} to mark it as primitive.
  * Finally, we build complete type traits which will help to correctly process type according to CSP Interface.
  * <p>
  * Note, that after adding node all properties excluding those implementing {@link ICspReferenceTypeTraits} must
- * be set before next call to {@link #addNode(Class, boolean)}. Next call will start recursively element or key, or
+ * be set before next call to {@link #addNode(Class)}. Next call will start recursively element or key, or
  * value type node (value always going after key).
  * <p>
  * So, if root Map key, for example, itself a Map, then, after processing root Map node, next add node call will add
@@ -72,15 +77,17 @@ import java.util.Map;
  * Setting not applicable properties including adding node when not applicable, to currently processing node is
  * considered as an error.
  */
-public interface ICspTypeTraitsBuilder
+public interface ICspReferenceTypeTraitsBuilder
 {
-    ICspTypeTraitsBuilder addNode(Class<? extends ICspReferenceTypeTraits> traitsClazz, boolean reference);
+    ICspReferenceTypeTraitsBuilder addNode(Class<? extends ICspTypeTraits> traitsClazz);
 
-    ICspTypeTraitsBuilder setProcessorClazz(Class<?> processorClazz);
+    ICspReferenceTypeTraitsBuilder setReference();
 
-    ICspTypeTraitsBuilder setFixedSize();
+    ICspReferenceTypeTraitsBuilder setProcessorClazz(Class<?> processorClazz);
 
-    ICspTypeTraitsBuilder setCharset(Charset charset);
+    ICspReferenceTypeTraitsBuilder setFixedSize();
+
+    ICspReferenceTypeTraitsBuilder setCharset(Charset charset);
 
     ICspReferenceTypeTraits build();
 }

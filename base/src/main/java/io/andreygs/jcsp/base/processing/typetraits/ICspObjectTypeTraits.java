@@ -30,5 +30,5 @@ package io.andreygs.jcsp.base.processing.typetraits;
  */
 public interface ICspObjectTypeTraits extends ICspReferenceTypeTraits
 {
-    Class<?> getDeclaredClazz();
+    Class<?> getProcessorClazz();
 }
