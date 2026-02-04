@@ -48,7 +48,7 @@ import java.util.Map;
  * builder.addNode({@link ICspMapTypeTraits}.class);<br>
  * builder.addNode({@link ICspStringTypeTraits}.class).setCharset(CspStringCharset.CharsetType.UTF_8);<br>
  * builder.addNode({@link ICspMapTypeTraits}.class)<br>
- * builder.addNode({@link ICspObjectTypeTraits}.class).setProcessorClazz(Image.class);<br>
+ * builder.addNode({@link ICspNotGenericTypeTraits}.class).setProcessorClazz(Image.class);<br>
  * builder.addNode({@link ICspArrayTypeTraits}.class)<br>
  * builder.addNode({@link ICspTypeTraits}.class)
  * ICspReferenceTypeTraits cspReferenceTypeTraits = builder.build();
@@ -79,15 +79,15 @@ import java.util.Map;
  */
 public interface ICspReferenceTypeTraitsBuilder
 {
-    ICspReferenceTypeTraitsBuilder addNode(Class<? extends ICspTypeTraits> traitsClazz);
+    ICspReferenceTypeTraitsBuilder addReference(Class<?> clazz, boolean reference);
 
-    ICspReferenceTypeTraitsBuilder setReference();
+    ICspReferenceTypeTraitsBuilder addString(boolean reference, Charset charset);
 
-    ICspReferenceTypeTraitsBuilder setProcessorClazz(Class<?> processorClazz);
+    ICspReferenceTypeTraitsBuilder addGeneric(Class<?> clazz, boolean reference, int genericsNumber);
 
-    ICspReferenceTypeTraitsBuilder setFixedSize();
+    ICspReferenceTypeTraitsBuilder addArray(boolean reference, boolean fixedSizeArray);
 
-    ICspReferenceTypeTraitsBuilder setCharset(Charset charset);
+    ICspReferenceTypeTraitsBuilder addArrayDimension(boolean reference, boolean fixedSizeArray);
 
     ICspReferenceTypeTraits build();
 }

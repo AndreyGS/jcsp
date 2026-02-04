@@ -23,14 +23,27 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.typetraits;
+package io.andreygs.jcsp.base.processing.typetraits.internal;
+
+import io.andreygs.jcsp.base.processing.typetraits.ICspArrayDimensionTypeTraits;
 
 /**
- * Common type traits for any type, including primitive.
- * <p>
- * If this interface is only *TypeTraits interface that instance implementing,
- * then this is type traits of primitive.
+ * TODO: place description here
  */
-public interface ICspTypeTraits
+public class CspArrayDimensionTypeTraits extends CspReferenceTypeTraits
+    implements ICspArrayDimensionTypeTraits
 {
+    private final boolean fixedSize;
+
+    public CspArrayDimensionTypeTraits(boolean reference, boolean fixedSize)
+    {
+        super(Object.class, reference);
+        this.fixedSize = fixedSize;
+    }
+
+    @Override
+    public boolean isFixedSize()
+    {
+        return fixedSize;
+    }
 }

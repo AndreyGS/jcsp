@@ -28,9 +28,7 @@ package io.andreygs.jcsp.base.processing.typetraits;
 /**
  * TODO: place description here
  */
-public interface ICspArrayTypeTraits extends ICspReferenceTypeTraits
+public interface ICspArrayTypeTraits extends ICspGenericTypeTraits
 {
     boolean isFixedSize();
-
-    ICspTypeTraits getElementCspTypeTraits();
 }

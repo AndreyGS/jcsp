@@ -23,14 +23,36 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.typetraits;
+package io.andreygs.jcsp.base.processing.typetraits.internal;
+
+import io.andreygs.jcsp.base.processing.typetraits.ICspGenericTypeTraits;
+import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * TODO: place description here
  */
-public interface ICspMapTypeTraits extends ICspReferenceTypeTraits
+public class CspGenericTypeTraits extends CspReferenceTypeTraits
+    implements ICspGenericTypeTraits
 {
-    ICspReferenceTypeTraits getKayCspReferenceTypeTraits();
+    private final Collection<ICspReferenceTypeTraits> genericTypeCollectionTypeTraits;
 
-    ICspReferenceTypeTraits getValueCspReferenceTypeTraits();
+    public CspGenericTypeTraits(Class<?> typeClazz, boolean reference, int genericsNumber)
+    {
+        super(typeClazz, reference);
+        this.genericTypeCollectionTypeTraits = new ArrayList<>(genericsNumber);
+    }
+
+    @Override
+    public Collection<? extends ICspReferenceTypeTraits> getGenericTypeCollectionTypeTraits()
+    {
+        return genericTypeCollectionTypeTraits;
+    }
+
+    public void addGenericTypeTypeTraits(ICspReferenceTypeTraits cspTypeTraits)
+    {
+        genericTypeCollectionTypeTraits.add(cspTypeTraits);
+    }
 }

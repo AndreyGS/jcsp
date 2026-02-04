@@ -26,11 +26,9 @@
 package io.andreygs.jcsp.base.processing.typetraits.internal;
 
 import io.andreygs.jcsp.base.processing.typetraits.ICspArrayTypeTraits;
-import io.andreygs.jcsp.base.processing.typetraits.ICspCollectionTypeTraits;
-import io.andreygs.jcsp.base.processing.typetraits.ICspMapTypeTraits;
+import io.andreygs.jcsp.base.processing.typetraits.ICspGenericTypeTraits;
 import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
 import io.andreygs.jcsp.base.processing.typetraits.ICspStringTypeTraits;
-import io.andreygs.jcsp.base.processing.typetraits.ICspTypeTraits;
 import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraitsBuilder;
 import org.jetbrains.annotations.Nullable;
 
@@ -42,26 +40,16 @@ import java.util.Stack;
  */
 class CspReferenceTypeTraitsBuilder implements ICspReferenceTypeTraitsBuilder
 {
-    private final Stack<State> states =  new Stack<>();
-
+    private final Stack<ICspReferenceTypeTraits> cspTypeTraitsStack =  new Stack<>();
     private @Nullable ICspReferenceTypeTraits rootCspReferenceTypeTraits;
-
-    private @Nullable ICspTypeTraits tempCspTypeTraits;
-
-    private boolean fixedSize;
-    private @Nullable Charset charset;
-
-    CspReferenceTypeTraitsBuilder()
-    {
-        states.push(State.Ready);
-    }
+    private boolean done = false;
 
     @Override
     public ICspReferenceTypeTraitsBuilder addNode(Class<? extends ICspTypeTraits> traitsClazz)
     {
         testStateNotDone();
 
-        if (states.peek() != State.Ready)
+        if (!cspTypeTraitsStack.empty())
         {
             createNextCspTypeTraits(traitsClazz);
         }
@@ -84,30 +72,32 @@ class CspReferenceTypeTraitsBuilder implements ICspReferenceTypeTraitsBuilder
     }
 
     @Override
-    public ICspReferenceTypeTraitsBuilder setReference()
+    public ICspReferenceTypeTraitsBuilder addReference(Class<?> clazz, boolean reference)
     {
-        testStateNotDone();
         return null;
     }
 
     @Override
-    public ICspReferenceTypeTraitsBuilder setProcessorClazz(Class<?> processorClazz)
+    public ICspReferenceTypeTraitsBuilder addString(boolean reference, Charset charset)
     {
-        testStateNotDone();
         return null;
     }
 
     @Override
-    public ICspReferenceTypeTraitsBuilder setFixedSize()
+    public ICspReferenceTypeTraitsBuilder addGeneric(Class<?> clazz, boolean reference, int genericsNumber)
     {
-        testStateNotDone();
         return null;
     }
 
     @Override
-    public ICspReferenceTypeTraitsBuilder setCharset(Charset charset)
+    public ICspReferenceTypeTraitsBuilder addArray(boolean reference, boolean fixedSizeArray)
     {
-        testStateNotDone();
+        return null;
+    }
+
+    @Override
+    public ICspReferenceTypeTraitsBuilder addArrayDimension(boolean reference, boolean fixedSizeArray)
+    {
         return null;
     }
 
@@ -123,7 +113,7 @@ class CspReferenceTypeTraitsBuilder implements ICspReferenceTypeTraitsBuilder
 
         commitNode();
 
-        if (states.peek() != State.Done)
+        if (!done)
         {
             throw new IllegalStateException("Cannot build csp type traits because its was not built to the end!");
         }
@@ -133,35 +123,41 @@ class CspReferenceTypeTraitsBuilder implements ICspReferenceTypeTraitsBuilder
 
     private void commitNode()
     {
-        switch (states.peek())
+        if (cspTypeTraitsStack.peek() instanceof CspNotGenericTypeTraits cspProcessorObjectTypeTraits
+                && cspProcessorObjectTypeTraits.getProcessorClazz() == Object.class)
         {
-        case Value:
-            states.pop();
-            states.pop();
-            states.pop();
-            break;
-        case Element:
-            states.pop();
-            states.pop();
-            break;
-        case Reference:
-            states.pop();
-            states.push(State.Done);
-            break;
-        case Array, Collection, Map, Key:
-            break;
-        case Ready:
-            states.push(State.Done);
-            break;
-        case Done:
-            testStateNotDone();
-            break;
+            throw new IllegalStateException("Its illegal to add new node until class of processor object is not set!");
+        }
+
+        while (!cspTypeTraitsStack.empty())
+        {
+            if (ICspGenericTypeTraits.class.isAssignableFrom(cspTypeTraitsStack.peek().getClass()))
+            {
+                CspGenericTypeTraits cspGenericTypeTraits = (CspGenericTypeTraits) cspTypeTraitsStack.peek();
+                if (cspGenericTypeTraits.getGenericsNumber() == cspGenericTypeTraits.getGenericTypeCollectionTypeTraits().size())
+                {
+                    cspTypeTraitsStack.pop();
+                }
+                else
+                {
+                    break;
+                }
+            }
+            else
+            {
+                cspTypeTraitsStack.pop();
+            }
+        }
+
+        if (cspTypeTraitsStack.empty())
+        {
+            done = true;
         }
     }
 
     private void testStateNotDone()
     {
-        if (states.peek() == State.Done)
+        if (done)
         {
             throw new IllegalStateException("Csp type traits already committed!");
         }
@@ -169,14 +165,10 @@ class CspReferenceTypeTraitsBuilder implements ICspReferenceTypeTraitsBuilder
 
     private void createRootCspReferenceTypeTraits(Class<? extends ICspReferenceTypeTraits> referenceTraitsClazz)
     {
-        if (rootCspReferenceTypeTraits != null)
-        {
-            throw new IllegalStateException("Root csp type traits already added!");
-        }
-
         ICspTypeTraits cspTypeTraits = createCspTypeTraits(referenceTraitsClazz);
         if (cspTypeTraits instanceof ICspReferenceTypeTraits cspReferenceTypeTraits)
         {
+            cspTypeTraitsStack.add(cspReferenceTypeTraits);
             rootCspReferenceTypeTraits = cspReferenceTypeTraits;
         }
         else
@@ -189,12 +181,26 @@ class CspReferenceTypeTraitsBuilder implements ICspReferenceTypeTraitsBuilder
     private void createNextCspTypeTraits(Class<? extends ICspTypeTraits> referenceTraitsClazz)
     {
         commitNode();
-        
+
+        ICspTypeTraits cspTypeTraits = createCspTypeTraits(referenceTraitsClazz);
+        // Should always evaluate to true (look on commitNode()).
+        if (ICspGenericTypeTraits.class.isAssignableFrom(cspTypeTraitsStack.peek().getClass()))
+        {
+            CspGenericTypeTraits cspGenericTypeTraits = (CspGenericTypeTraits) cspTypeTraitsStack.peek();
+            if (!cspGenericTypeTraits.areGenericPrimitivesAllowed() && referenceTraitsClazz == ICspTypeTraits.class)
+            {
+                throw new IllegalArgumentException("Primitive cannot be as generic type anywhere except arrays!");
+            }
+
+            cspGenericTypeTraits.addGenericTypeTypeTraits(cspTypeTraits);
+        }
+
+        cspTypeTraitsStack.add(cspTypeTraits);
     }
 
     private ICspTypeTraits createCspTypeTraits(Class<? extends ICspTypeTraits> traitsClazz)
     {
-        if (traitsClazz == ICspReferenceTypeTraits.class)
+        if (traitsClazz == CspReferenceTypeTraits.class)
         {
             return new CspReferenceTypeTraits();
         }
@@ -214,15 +220,13 @@ class CspReferenceTypeTraitsBuilder implements ICspReferenceTypeTraitsBuilder
         {
             return new CspArrayTypeTraits();
         }
+        else if (traitsClazz == ICspGenericTypeTraits.class)
+        {
+            return new CspGenericTypeTraits();
+        }
         else
         {
             return new ICspTypeTraits(){};
         }
     }
-
-    private enum State
-    {
-        Ready, Array, Collection, Map, Element, Key, Value, Reference, Done
-    }
-
 }

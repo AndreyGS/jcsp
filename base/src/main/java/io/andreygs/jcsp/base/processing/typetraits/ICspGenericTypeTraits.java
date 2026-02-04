@@ -25,10 +25,12 @@
 
 package io.andreygs.jcsp.base.processing.typetraits;
 
+import java.util.Collection;
+
 /**
  * TODO: place description here
  */
-public interface ICspObjectTypeTraits extends ICspReferenceTypeTraits
+public interface ICspGenericTypeTraits extends ICspReferenceTypeTraits
 {
-    Class<?> getProcessorClazz();
+    Collection<? extends ICspReferenceTypeTraits> getGenericTypeCollectionTypeTraits();
 }

@@ -30,18 +30,28 @@ import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
 /**
  * TODO: place description here
  */
-class CspReferenceTypeTraits implements ICspReferenceTypeTraits
+class CspReferenceTypeTraits
+    implements ICspReferenceTypeTraits
 {
-    private boolean reference;
+    private final Class<?> typeClazz;
+
+    private final boolean reference;
+
+    public CspReferenceTypeTraits(Class<?> typeClazz, boolean reference)
+    {
+        this.typeClazz = typeClazz;
+        this.reference = reference;
+    }
+
+    @Override
+    public Class<?> getClazz()
+    {
+        return typeClazz;
+    }
 
     @Override
     public boolean isReference()
     {
         return reference;
-    }
-
-    public void setReference(boolean reference)
-    {
-        this.reference = reference;
     }
 }

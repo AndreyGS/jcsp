@@ -26,17 +26,20 @@
 package io.andreygs.jcsp.base.processing.typetraits.internal;
 
 import io.andreygs.jcsp.base.processing.typetraits.ICspArrayTypeTraits;
-import io.andreygs.jcsp.base.processing.typetraits.ICspTypeTraits;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * TODO: place description here
  */
-class CspArrayTypeTraits extends CspReferenceTypeTraits
+class CspArrayTypeTraits extends CspGenericTypeTraits
     implements ICspArrayTypeTraits
 {
-    private boolean fixedSize;
-    private @Nullable ICspTypeTraits elementCspTypeTraits;
+    private final boolean fixedSize;
+
+    CspArrayTypeTraits(Class<?> arrayClazz, boolean reference, boolean fixedSize)
+    {
+        super(arrayClazz, fixedSize, evalGenericsNumber(arrayClazz));
+        this.fixedSize = fixedSize;
+    }
 
     @Override
     public boolean isFixedSize()
@@ -44,25 +47,17 @@ class CspArrayTypeTraits extends CspReferenceTypeTraits
         return fixedSize;
     }
 
-    @Override
-    public ICspTypeTraits getElementCspTypeTraits()
+    private static int evalGenericsNumber(Class<?> arrayClazz)
     {
-        // This should never be happened (guarded by ICspTypeTraitsBuilder).
-        if (elementCspTypeTraits == null)
+        Class<?> arrayType = arrayClazz;
+
+        int dimensions = 0;
+        while (arrayType.isArray())
         {
-            throw new IllegalStateException("Element type trait of ICspArrayTypeTraits has not been initialized");
+            ++dimensions;
+            arrayType = arrayType.getComponentType();
         }
 
-        return elementCspTypeTraits;
-    }
-
-    public void setFixedSize(boolean fixedSize)
-    {
-        this.fixedSize = fixedSize;
-    }
-
-    public void setElementCspTypeTraits(ICspTypeTraits elementCspTypeTraits)
-    {
-        this.elementCspTypeTraits = elementCspTypeTraits;
+        return arrayType.isPrimitive() ? dimensions : dimensions + 1;
     }
 }

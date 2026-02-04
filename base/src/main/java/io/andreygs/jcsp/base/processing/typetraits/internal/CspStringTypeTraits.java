@@ -26,10 +26,8 @@
 package io.andreygs.jcsp.base.processing.typetraits.internal;
 
 import io.andreygs.jcsp.base.processing.typetraits.ICspStringTypeTraits;
-import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
 /**
  * TODO: place description here
@@ -37,16 +35,17 @@ import java.nio.charset.StandardCharsets;
 public class CspStringTypeTraits extends CspReferenceTypeTraits
     implements ICspStringTypeTraits
 {
-    private Charset charset = StandardCharsets.UTF_16BE;
+    private final Charset charset;
+
+    public CspStringTypeTraits(boolean reference, Charset charset)
+    {
+        super(String.class, reference);
+        this.charset = charset;
+    }
 
     @Override
     public Charset getCharset()
     {
         return charset;
-    }
-
-    public void setCharset(Charset charset)
-    {
-        this.charset = charset;
     }
 }

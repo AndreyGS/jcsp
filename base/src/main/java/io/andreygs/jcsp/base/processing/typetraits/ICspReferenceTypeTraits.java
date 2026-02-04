@@ -28,7 +28,9 @@ package io.andreygs.jcsp.base.processing.typetraits;
 /**
  * TODO: place description here
  */
-public interface ICspReferenceTypeTraits extends ICspTypeTraits
+public interface ICspReferenceTypeTraits
 {
+    Class<?> getClazz();
+
     boolean isReference();
 }
