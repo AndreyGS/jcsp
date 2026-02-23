@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.base.message;
 
-import io.andreygs.jcsp.base.types.CspCommonFlags;
+import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspMessageType;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 
@@ -40,7 +40,7 @@ public interface ICspMessage
 
     CspMessageType getCspMessageType();
 
-    Set<CspCommonFlags> getCspCommonFlags();
+    Set<CspCommonFlag> getCspCommonFlags();
 
     boolean isBitness32();
 

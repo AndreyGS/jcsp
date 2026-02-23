@@ -31,4 +31,6 @@ package io.andreygs.jcsp.base.processing.typetraits;
 public interface ICspArrayTypeTraits extends ICspGenericTypeTraits
 {
     boolean isFixedSize();
+
+    boolean hasPrimitiveTypeParameter();
 }

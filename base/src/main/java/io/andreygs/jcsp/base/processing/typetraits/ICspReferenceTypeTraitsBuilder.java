@@ -83,9 +83,9 @@ public interface ICspReferenceTypeTraitsBuilder
 
     ICspReferenceTypeTraitsBuilder addString(boolean reference, Charset charset);
 
-    ICspReferenceTypeTraitsBuilder addGeneric(Class<?> clazz, boolean reference, int genericsNumber);
+    ICspReferenceTypeTraitsBuilder addGeneric(Class<?> clazz, boolean reference);
 
-    ICspReferenceTypeTraitsBuilder addArray(boolean reference, boolean fixedSizeArray);
+    ICspReferenceTypeTraitsBuilder addArray(Class<?> clazz, boolean reference, boolean fixedSizeArray);
 
     ICspReferenceTypeTraitsBuilder addArrayDimension(boolean reference, boolean fixedSizeArray);
 

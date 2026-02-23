@@ -28,7 +28,7 @@ package io.andreygs.jcsp.base.types;
 /**
  * CSP Data flags according to CSP reference.
  */
-public enum CspDataFlags implements ICspFlag
+public enum CspDataFlag implements ICspFlag
 {
     /**
      * Alignment of structs that take a part in CSP Data Body in modules that serialize and deserialize CSP Message, may
@@ -36,8 +36,8 @@ public enum CspDataFlags implements ICspFlag
      * <p>
      * In Java CSP realization must always be set, because class object instance raw memory copy is not allowed.
      */
-    ALIGNMENT_MAY_BE_NOT_EQUAL(0x1, Messages.CspDataFlags_AlignmentMayBeNotEqual,
-                               Messages.CspDataFlags_AlignmentsAreEqual),
+    ALIGNMENT_MAY_BE_NOT_EQUAL(0x1, Messages.CspDataFlag_AlignmentMayBeNotEqual,
+                               Messages.CspDataFlag_AlignmentsAreEqual),
 
     /**
      * Indicated that there is possibility of that the compilers that built modules that take a part in CSP
@@ -46,8 +46,8 @@ public enum CspDataFlags implements ICspFlag
      * and 64 bits long on Linux. If current structs are serializing care should be taken in determining
      * real size of struct field on either end of Serialization process.
      */
-    SIZE_OF_INTEGERS_MAY_BE_NOT_EQUAL(0x2, Messages.CspDataFlags_SizeOfIntegersMayBeNotEqual,
-                                      Messages.CspDataFlags_SizeOfIntegersAreEqual),
+    SIZE_OF_INTEGERS_MAY_BE_NOT_EQUAL(0x2, Messages.CspDataFlag_SizeOfIntegersMayBeNotEqual,
+                                      Messages.CspDataFlag_SizeOfIntegersAreEqual),
 
     /**
      * In C/C++ processing any pointer that is a part of some serialized struct must be managed by it and
@@ -57,15 +57,15 @@ public enum CspDataFlags implements ICspFlag
      * This flag removes this restriction and allow Serialization of pointers on generic order, but adds some
      * memory and processing overhead.
      */
-    ALLOW_UNMANAGED_POINTERS(0x4, Messages.CspDataFlags_AllowUnmanagedPointers,
-                             Messages.CspDataFlags_DoNotAllowUnmanagedPointers),
+    ALLOW_UNMANAGED_POINTERS(0x4, Messages.CspDataFlag_AllowUnmanagedPointers,
+                             Messages.CspDataFlag_DoNotAllowUnmanagedPointers),
 
     /**
      * Indicates whether there can be recursively pointed references and if so processing will include appropriate
      * precautions.
      */
-    CHECK_RECURSIVE_POINTERS(0x8, Messages.CspDataFlags_CheckRecursivePointers,
-                             Messages.CspDataFlags_DoNotCheckRecursivePointers),
+    CHECK_RECURSIVE_POINTERS(0x8, Messages.CspDataFlag_CheckRecursivePointers,
+                             Messages.CspDataFlag_DoNotCheckRecursivePointers),
 
     /**
      * Turns of all optimizations of "simply assignable" tags. See CSP reference.
@@ -73,19 +73,19 @@ public enum CspDataFlags implements ICspFlag
      * In Java CSP realization must always be set.
      */
     SIMPLY_ASSIGNABLE_TAGS_OPTIMIZATIONS_ARE_TURNED_OFF(0x10,
-                                                        Messages.CspDataFlags_SimplyAssignableTagsOptimizationsAreOff,
-                                                        Messages.CspDataFlags_SimplyAssignableTagsOptimizationsAreAvailable),
+                                                        Messages.CspDataFlag_SimplyAssignableTagsOptimizationsAreOff,
+                                                        Messages.CspDataFlag_SimplyAssignableTagsOptimizationsAreAvailable),
 
     /**
      * A flag indicating that the structure should be processed taking into account the original cross-references
      * of the top structure and its components.
      * <p>
      * In Java there is no such problem of links structure, so using it leads to the same result as
-     * using of {@link CspDataFlags#ALLOW_UNMANAGED_POINTERS}.
+     * using of {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS}.
      */
     CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE(0x20,
-                                                                 Messages.CspDataFlags_CheckRecursivePointersWithMaintainingLinkStructure,
-                                                                 Messages.CspDataFlags_DoNotCheckRecursivePointersWithMaintainingLinkStructure);
+                                                                 Messages.CspDataFlag_CheckRecursivePointersWithMaintainingLinkStructure,
+                                                                 Messages.CspDataFlag_DoNotCheckRecursivePointersWithMaintainingLinkStructure);
 
     public static final int VALID_FLAGS_MASK = CspFlagUtils.calculateFlagMask(values());
 
@@ -94,10 +94,10 @@ public enum CspDataFlags implements ICspFlag
     private final String nameWhenSet;
     private final String nameWhenUnset;
 
-    CspDataFlags(int value, String nameWhenSet, String nameWhenUnset)
+    CspDataFlag(int value, String nameWhenSet, String nameWhenUnset)
     {
         this.value = value;
-        this.name = Messages.CspDataFlags_Type + ": " + nameWhenSet;
+        this.name = Messages.CspDataFlag_Type + ": " + nameWhenSet;
         this.nameWhenSet = nameWhenSet;
         this.nameWhenUnset = nameWhenUnset;
     }
@@ -123,7 +123,7 @@ public enum CspDataFlags implements ICspFlag
     @Override
     public String getFlagTypeName()
     {
-        return Messages.CspDataFlags_Type;
+        return Messages.CspDataFlag_Type;
     }
 
     @Override

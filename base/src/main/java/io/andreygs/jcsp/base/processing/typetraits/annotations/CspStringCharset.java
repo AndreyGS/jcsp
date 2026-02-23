@@ -43,17 +43,10 @@ public @interface CspStringCharset
     /**
      * Which charset should be used in serialization according to CSP Interface.
      * <p>
-     * By default, {@link String} will be serialized with {@link CharsetType#UTF_16BE}.
+     * By default, {@link String} is serializing with this UTF-16BE charset.
      *
-     * @return charset according to CSP Interface.
+     * @return charset according to CSP Interface. It will be used to build
+     * {@link java.nio.charset.Charset} instance, so it must be valid canonical name of the charset.
      */
-    CharsetType charset();
-
-    /**
-     * Standard java charsets
-     */
-    public enum CharsetType
-    {
-        UTF_8, UTF_16BE, UTF_16LE, UTF_16, UTF_32BE, UTF_32LE, UTF_32, US_ASCII, ISO_8859_1, ISO_8859_2, WINDOWS_1251
-    }
+    String charset();
 }

@@ -29,7 +29,7 @@ package io.andreygs.jcsp.base.types;
  * Common interface for different CSP flags.
  */
 public sealed interface ICspFlag
-    permits CspCommonFlags, CspDataFlags
+    permits CspCommonFlag, CspDataFlag
 {
     /**
      * Gets flag value according to CSP reference.

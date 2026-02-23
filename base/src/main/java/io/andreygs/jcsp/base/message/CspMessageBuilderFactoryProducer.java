@@ -35,15 +35,14 @@ import io.andreygs.jcsp.base.utils.ArgumentChecker;
  */
 public class CspMessageBuilderFactoryProducer
 {
-    private CspMessageBuilderFactoryProducer()
-    {
-    }
-
     public static ICspMessageBuilderFactory produceCspMessageBuilderFactory(
         ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar)
     {
         ArgumentChecker.nonNull(cspSerializationProcessorRegistrar);
-
         return new CspMessageBuilderFactory(cspSerializationProcessorRegistrar);
+    }
+
+    private CspMessageBuilderFactoryProducer()
+    {
     }
 }

@@ -25,7 +25,9 @@
 
 package io.andreygs.jcsp.base.processing.typetraits.internal;
 
+import io.andreygs.jcsp.base.processing.typetraits.ICspArrayDimensionTypeTraits;
 import io.andreygs.jcsp.base.processing.typetraits.ICspArrayTypeTraits;
+import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
 
 /**
  * TODO: place description here
@@ -34,17 +36,50 @@ class CspArrayTypeTraits extends CspGenericTypeTraits
     implements ICspArrayTypeTraits
 {
     private final boolean fixedSize;
+    private final boolean primitiveTypeParameter;
 
     CspArrayTypeTraits(Class<?> arrayClazz, boolean reference, boolean fixedSize)
     {
         super(arrayClazz, fixedSize, evalGenericsNumber(arrayClazz));
         this.fixedSize = fixedSize;
+        this.primitiveTypeParameter = evalHasPrimitiveTypeParameter();
     }
 
     @Override
     public boolean isFixedSize()
     {
         return fixedSize;
+    }
+
+    @Override
+    public boolean hasPrimitiveTypeParameter()
+    {
+        return primitiveTypeParameter;
+    }
+
+    @Override
+    public boolean addGenericTypeParametersTypeTraits(ICspReferenceTypeTraits cspReferenceTypeTraits)
+    {
+        if ((primitiveTypeParameter || getTypeParametersNumberToAdd() > 1)
+                & !(cspReferenceTypeTraits  instanceof ICspArrayDimensionTypeTraits))
+        {
+            throw new IllegalArgumentException("cspReferenceTypeTraits must implement "
+                + "ICspArrayDimensionTypeTraits to add an array dimension!");
+        }
+
+        return super.addGenericTypeParametersTypeTraits(cspReferenceTypeTraits);
+    }
+
+    private boolean evalHasPrimitiveTypeParameter()
+    {
+        Class<?> arrayType = getClazz();
+
+        while (arrayType.isArray())
+        {
+            arrayType = arrayType.getComponentType();
+        }
+
+        return arrayType.isPrimitive();
     }
 
     private static int evalGenericsNumber(Class<?> arrayClazz)

@@ -23,14 +23,19 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.typetraits;
+package io.andreygs.jcsp.base.processing.typetraits.internal;
 
-import java.util.Collection;
+import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
 
 /**
  * TODO: place description here
  */
-public interface ICspGenericTypeTraits extends ICspReferenceTypeTraits
+public interface ICspGenericTypeTraitsParameterAdder
 {
-    Collection<? extends ICspReferenceTypeTraits> getGenericTypeParametersTypeTraits();
+    /**
+     *
+     * @param cspReferenceTypeTraits
+     * @return true if all type parameters are added, false otherwise.
+     */
+    boolean addGenericTypeParametersTypeTraits(ICspReferenceTypeTraits cspReferenceTypeTraits);
 }

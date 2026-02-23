@@ -29,7 +29,7 @@ import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
-import io.andreygs.jcsp.base.types.CspCommonFlags;
+import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspMessageType;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 import io.andreygs.jcsp.base.types.CspStatus;
@@ -48,7 +48,7 @@ public final class CspStatusMessageSerializationContext extends AbstractCspMessa
                                                 ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar,
                                                 ICspSerializationBuffer cspSerializationBuffer,
                                                 CspProtocolVersion cspProtocolVersion,
-                                                Set<CspCommonFlags> cspCommonFlags,
+                                                Set<CspCommonFlag> cspCommonFlags,
                                                 CspStatus cspStatus)
     {
         super(cspGeneralSerializationProcessor, cspSerializationProcessorRegistrar, cspSerializationBuffer,

@@ -29,7 +29,7 @@ import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
-import io.andreygs.jcsp.base.types.CspCommonFlags;
+import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 
 import java.nio.ByteBuffer;
@@ -55,15 +55,15 @@ sealed abstract class AbstractCspMessageSerializationContext
                                                   ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar,
                                                   ICspSerializationBuffer cspSerializationBuffer,
                                                   CspProtocolVersion cspProtocolVersion,
-                                                  Set<CspCommonFlags> cspCommonFlags)
+                                                  Set<CspCommonFlag> cspCommonFlags)
     {
         this.cspGeneralSerializationProcessor = cspGeneralSerializationProcessor;
         this.cspSerializationProcessorRegistrar = cspSerializationProcessorRegistrar;
         this.cspSerializationBuffer = cspSerializationBuffer;
         this.cspProtocolVersion = cspProtocolVersion;
-        this.bitness32 = cspCommonFlags.contains(CspCommonFlags.BITNESS_32);
-        this.bigEndian = cspCommonFlags.contains(CspCommonFlags.BIG_ENDIAN);
-        this.endiannessDifference =cspCommonFlags.contains(CspCommonFlags.ENDIANNESS_DIFFERENCE);
+        this.bitness32 = cspCommonFlags.contains(CspCommonFlag.BITNESS_32);
+        this.bigEndian = cspCommonFlags.contains(CspCommonFlag.BIG_ENDIAN);
+        this.endiannessDifference =cspCommonFlags.contains(CspCommonFlag.ENDIANNESS_DIFFERENCE);
     }
 
     @Override
@@ -91,21 +91,21 @@ sealed abstract class AbstractCspMessageSerializationContext
     }
 
     @Override
-    public final Set<CspCommonFlags> getCspCommonFlags()
+    public final Set<CspCommonFlag> getCspCommonFlags()
     {
-        Set<CspCommonFlags> cspCommonFlags = new HashSet<>();
+        Set<CspCommonFlag> cspCommonFlags = new HashSet<>();
 
         if (bitness32)
         {
-            cspCommonFlags.add(CspCommonFlags.BITNESS_32);
+            cspCommonFlags.add(CspCommonFlag.BITNESS_32);
         }
         if (bigEndian)
         {
-            cspCommonFlags.add(CspCommonFlags.BIG_ENDIAN);
+            cspCommonFlags.add(CspCommonFlag.BIG_ENDIAN);
         }
         if (endiannessDifference)
         {
-            cspCommonFlags.add(CspCommonFlags.ENDIANNESS_DIFFERENCE);
+            cspCommonFlags.add(CspCommonFlag.ENDIANNESS_DIFFERENCE);
         }
 
         return cspCommonFlags;

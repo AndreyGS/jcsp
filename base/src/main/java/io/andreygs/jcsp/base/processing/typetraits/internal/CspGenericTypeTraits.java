@@ -35,24 +35,38 @@ import java.util.Collection;
  * TODO: place description here
  */
 public class CspGenericTypeTraits extends CspReferenceTypeTraits
-    implements ICspGenericTypeTraits
+    implements ICspGenericTypeTraits, ICspGenericTypeTraitsParameterAdder
 {
-    private final Collection<ICspReferenceTypeTraits> genericTypeCollectionTypeTraits;
+    private final Collection<ICspReferenceTypeTraits> genericTypeParametersTypeTraits;
+    private final int typeParametersNumber;
 
-    public CspGenericTypeTraits(Class<?> typeClazz, boolean reference, int genericsNumber)
+    public CspGenericTypeTraits(Class<?> typeClazz, boolean reference, int typeParametersNumber)
     {
         super(typeClazz, reference);
-        this.genericTypeCollectionTypeTraits = new ArrayList<>(genericsNumber);
+        this.genericTypeParametersTypeTraits = new ArrayList<>(typeParametersNumber);
+        this.typeParametersNumber = typeParametersNumber;
     }
 
     @Override
-    public Collection<? extends ICspReferenceTypeTraits> getGenericTypeCollectionTypeTraits()
+    public Collection<? extends ICspReferenceTypeTraits> getGenericTypeParametersTypeTraits()
     {
-        return genericTypeCollectionTypeTraits;
+        return genericTypeParametersTypeTraits;
     }
 
-    public void addGenericTypeTypeTraits(ICspReferenceTypeTraits cspTypeTraits)
+    @Override
+    public boolean addGenericTypeParametersTypeTraits(ICspReferenceTypeTraits cspReferenceTypeTraits)
     {
-        genericTypeCollectionTypeTraits.add(cspTypeTraits);
+        if (typeParametersNumber == genericTypeParametersTypeTraits.size())
+        {
+            throw new IllegalStateException("All generic type parameters have been added earlier!");
+        }
+
+        genericTypeParametersTypeTraits.add(cspReferenceTypeTraits);
+        return typeParametersNumber == genericTypeParametersTypeTraits.size();
+    }
+
+    protected int getTypeParametersNumberToAdd()
+    {
+        return typeParametersNumber - genericTypeParametersTypeTraits.size();
     }
 }

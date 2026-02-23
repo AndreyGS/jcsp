@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.base.message;
 
-import io.andreygs.jcsp.base.types.CspDataFlags;
+import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
 
 import java.util.Set;
@@ -38,7 +38,7 @@ public interface ICspDataMessage
 {
     Class<?> getStructClazz();
     ICspInterfaceVersion getInterfaceVersion();
-    Set<CspDataFlags> getCspDataFlags();
+    Set<CspDataFlag> getCspDataFlags();
     boolean isAlignmentMayBeNotEqual();
     boolean isSizeOfIntegersMayBeNotEqual();
     boolean isAllowUnmanagedPointers();

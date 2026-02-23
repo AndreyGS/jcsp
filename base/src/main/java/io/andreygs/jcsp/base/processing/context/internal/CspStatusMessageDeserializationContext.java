@@ -28,7 +28,7 @@ package io.andreygs.jcsp.base.processing.context.internal;
 import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspDeserializationBuffer;
-import io.andreygs.jcsp.base.types.CspCommonFlags;
+import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspMessageType;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 import io.andreygs.jcsp.base.types.CspStatus;
@@ -47,7 +47,7 @@ public final class CspStatusMessageDeserializationContext extends AbstractCspMes
         ICspProcessorRegistrar<ICspSerializationProcessor> cspDeserializationProcessorRegistrar,
         ICspDeserializationBuffer cspDeserializationBuffer,
         CspProtocolVersion cspProtocolVersion,
-        Set<CspCommonFlags> cspCommonFlags,
+        Set<CspCommonFlag> cspCommonFlags,
         CspStatus cspStatus)
     {
         super(cspDeserializationProcessorRegistrar, cspDeserializationBuffer, cspProtocolVersion, cspCommonFlags);

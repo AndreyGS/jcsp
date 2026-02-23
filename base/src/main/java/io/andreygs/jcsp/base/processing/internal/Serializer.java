@@ -32,8 +32,8 @@ import io.andreygs.jcsp.base.processing.buffer.internal.CspSerializationBufferFa
 import io.andreygs.jcsp.base.processing.context.internal.CspMessageSerializationContextsFactory;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
-import io.andreygs.jcsp.base.types.CspCommonFlags;
-import io.andreygs.jcsp.base.types.CspDataFlags;
+import io.andreygs.jcsp.base.types.CspCommonFlag;
+import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 import io.andreygs.jcsp.base.types.ICspVersionable;
@@ -48,8 +48,8 @@ import java.util.Set;
 public class Serializer
 {
     private static final CspProtocolVersion DEFAULT_CSP_PROTOCOL_VERSION = CspProtocolVersion.latestVersion();
-    private static final Set<CspCommonFlags> DEFAULT_CSP_COMMON_FLAGS = Set.of(CspCommonFlags.BIG_ENDIAN);
-    private static final Set<CspDataFlags> DEFAULT_CSP_DATA_FLAGS = Set.of(CspDataFlags.ALLOW_UNMANAGED_POINTERS);
+    private static final Set<CspCommonFlag> DEFAULT_CSP_COMMON_FLAGS = Set.of(CspCommonFlag.BIG_ENDIAN);
+    private static final Set<CspDataFlag> DEFAULT_CSP_DATA_FLAGS = Set.of(CspDataFlag.ALLOW_UNMANAGED_POINTERS);
 
     private Serializer()
     {
@@ -61,9 +61,9 @@ public class Serializer
         @Nullable Boolean directBuffer,
         @Nullable IBufferResizeStrategy bufferResizeStrategy,
         @Nullable CspProtocolVersion cspProtocolVersion,
-        @Nullable Set<CspCommonFlags> cspCommonFlags,
+        @Nullable Set<CspCommonFlag> cspCommonFlags,
         @Nullable ICspInterfaceVersion cspInterfaceVersion,
-        @Nullable Set<CspDataFlags> cspDataFlags,
+        @Nullable Set<CspDataFlag> cspDataFlags,
         ICspVersionable cspSerializable)
     {
         ICspSerializationBuffer cspSerializationBuffer =

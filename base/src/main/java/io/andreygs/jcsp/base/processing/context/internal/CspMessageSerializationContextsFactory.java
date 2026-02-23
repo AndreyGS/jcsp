@@ -30,8 +30,8 @@ import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
-import io.andreygs.jcsp.base.types.CspCommonFlags;
-import io.andreygs.jcsp.base.types.CspDataFlags;
+import io.andreygs.jcsp.base.types.CspCommonFlag;
+import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
 
@@ -47,10 +47,10 @@ public final class CspMessageSerializationContextsFactory
         ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar,
         ICspSerializationBuffer cspSerializationBuffer,
         CspProtocolVersion cspProtocolVersion,
-        Set<CspCommonFlags> cspCommonFlags,
+        Set<CspCommonFlag> cspCommonFlags,
         Class<?> structClazz,
         ICspInterfaceVersion cspInterfaceVersion,
-        Set<CspDataFlags> cspDataFlags)
+        Set<CspDataFlag> cspDataFlags)
     {
         return new CspDataMessageSerializationContext(cspGeneralSerializationProcessor,
                                                       cspSerializationProcessorRegistrar,

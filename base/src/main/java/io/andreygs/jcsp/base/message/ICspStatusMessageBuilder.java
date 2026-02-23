@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.base.message;
 
-import io.andreygs.jcsp.base.types.CspCommonFlags;
+import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspStatus;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 
@@ -46,7 +46,7 @@ public interface ICspStatusMessageBuilder extends ICspMessageBuilder
     ICspStatusMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
 
     @Override
-    ICspStatusMessageBuilder setCspCommonFlags(Set<CspCommonFlags> cspCommonFlags);
+    ICspStatusMessageBuilder setCspCommonFlags(Set<CspCommonFlag> cspCommonFlags);
 
     ICspStatusMessage serialize(CspStatus cspStatus);
 }

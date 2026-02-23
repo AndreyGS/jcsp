@@ -25,6 +25,7 @@
 
 package io.andreygs.jcsp.base.processing.typetraits.internal;
 
+import io.andreygs.jcsp.base.processing.typetraits.ICspArrayDimensionTypeTraits;
 import io.andreygs.jcsp.base.processing.typetraits.ICspArrayTypeTraits;
 import io.andreygs.jcsp.base.processing.typetraits.ICspGenericTypeTraits;
 import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
@@ -40,80 +41,83 @@ import java.util.Stack;
  */
 class CspReferenceTypeTraitsBuilder implements ICspReferenceTypeTraitsBuilder
 {
-    private final Stack<ICspReferenceTypeTraits> cspTypeTraitsStack =  new Stack<>();
+    private final Stack<ICspGenericTypeTraitsParameterAdder> cspGenericTypeTraitsParameterAdderStack =  new Stack<>();
     private @Nullable ICspReferenceTypeTraits rootCspReferenceTypeTraits;
-    private boolean done = false;
 
     @Override
-    public ICspReferenceTypeTraitsBuilder addNode(Class<? extends ICspTypeTraits> traitsClazz)
+    public ICspReferenceTypeTraitsBuilder addReference(Class<?> clazz, boolean reference)
     {
         testStateNotDone();
 
-        if (!cspTypeTraitsStack.empty())
+        if (clazz.getTypeParameters().length > 0)
         {
-            createNextCspTypeTraits(traitsClazz);
+            throw new IllegalArgumentException("Class is generic and it should be added using another methods!");
         }
-        else
-        {
-            if (ICspReferenceTypeTraits.class.isAssignableFrom(traitsClazz))
-            {
-                @SuppressWarnings("unchecked")
-                Class<? extends ICspReferenceTypeTraits> referenceTraitsClazz =
-                    (Class<? extends ICspReferenceTypeTraits>) traitsClazz;
-                createRootCspReferenceTypeTraits(referenceTraitsClazz);
-            }
-            else
-            {
-                throw new IllegalArgumentException("Primitive cannot be root type of csp type traits!");
-            }
-        }
+
+        ICspReferenceTypeTraits newNode = new CspReferenceTypeTraits(clazz, reference);
+        commitNode(newNode);
 
         return this;
     }
 
     @Override
-    public ICspReferenceTypeTraitsBuilder addReference(Class<?> clazz, boolean reference)
-    {
-        return null;
-    }
-
-    @Override
     public ICspReferenceTypeTraitsBuilder addString(boolean reference, Charset charset)
     {
-        return null;
+        testStateNotDone();
+
+        ICspStringTypeTraits newNode = new CspStringTypeTraits(reference, charset);
+        commitNode(newNode);
+
+        return this;
     }
 
     @Override
-    public ICspReferenceTypeTraitsBuilder addGeneric(Class<?> clazz, boolean reference, int genericsNumber)
+    public ICspReferenceTypeTraitsBuilder addGeneric(Class<?> clazz, boolean reference)
     {
-        return null;
+        testStateNotDone();
+
+        if (clazz.getTypeParameters().length < 1)
+        {
+            throw new IllegalArgumentException("Class is not generic and it should be added using another methods!.");
+        }
+
+        ICspGenericTypeTraits newNode = new CspGenericTypeTraits(clazz, reference, clazz.getTypeParameters().length);
+        commitNode(newNode);
+
+        return this;
     }
 
     @Override
-    public ICspReferenceTypeTraitsBuilder addArray(boolean reference, boolean fixedSizeArray)
+    public ICspReferenceTypeTraitsBuilder addArray(Class<?> clazz, boolean reference, boolean fixedSizeArray)
     {
-        return null;
+        testStateNotDone();
+
+        if (!clazz.isArray())
+        {
+            throw new IllegalArgumentException(clazz.getName() + " is not an array");
+        }
+
+        ICspArrayTypeTraits newNode = new CspArrayTypeTraits(clazz, reference, fixedSizeArray);
+        commitNode(newNode);
+
+        return this;
     }
 
     @Override
     public ICspReferenceTypeTraitsBuilder addArrayDimension(boolean reference, boolean fixedSizeArray)
     {
-        return null;
+        testStateNotDone();
+
+        ICspArrayDimensionTypeTraits newNode = new CspArrayDimensionTypeTraits(reference, fixedSizeArray);
+        commitNode(newNode);
+
+        return this;
     }
 
     @Override
     public ICspReferenceTypeTraits build()
     {
-        testStateNotDone();
-
-        if (rootCspReferenceTypeTraits == null)
-        {
-            throw new IllegalStateException("Build of root csp type traits cannot be null!");
-        }
-
-        commitNode();
-
-        if (!done)
+        if (!cspGenericTypeTraitsParameterAdderStack.empty() || rootCspReferenceTypeTraits == null)
         {
             throw new IllegalStateException("Cannot build csp type traits because its was not built to the end!");
         }
@@ -121,112 +125,35 @@ class CspReferenceTypeTraitsBuilder implements ICspReferenceTypeTraitsBuilder
         return rootCspReferenceTypeTraits;
     }
 
-    private void commitNode()
+    private void commitNode(ICspReferenceTypeTraits newNode)
     {
-        if (cspTypeTraitsStack.peek() instanceof CspNotGenericTypeTraits cspProcessorObjectTypeTraits
-                && cspProcessorObjectTypeTraits.getProcessorClazz() == Object.class)
+        if (rootCspReferenceTypeTraits == null)
         {
-            throw new IllegalStateException("Its illegal to add new node until class of processor object is not set!");
+            rootCspReferenceTypeTraits = newNode;
         }
 
-        while (!cspTypeTraitsStack.empty())
+        if (!cspGenericTypeTraitsParameterAdderStack.empty())
         {
-            if (ICspGenericTypeTraits.class.isAssignableFrom(cspTypeTraitsStack.peek().getClass()))
+            ICspGenericTypeTraitsParameterAdder cspGenericTypeTraitsParameterAdder =
+                cspGenericTypeTraitsParameterAdderStack.peek();
+
+            if (cspGenericTypeTraitsParameterAdder.addGenericTypeParametersTypeTraits(newNode))
             {
-                CspGenericTypeTraits cspGenericTypeTraits = (CspGenericTypeTraits) cspTypeTraitsStack.peek();
-                if (cspGenericTypeTraits.getGenericsNumber() == cspGenericTypeTraits.getGenericTypeCollectionTypeTraits().size())
-                {
-                    cspTypeTraitsStack.pop();
-                }
-                else
-                {
-                    break;
-                }
-            }
-            else
-            {
-                cspTypeTraitsStack.pop();
+                cspGenericTypeTraitsParameterAdderStack.pop();
             }
         }
 
-        if (cspTypeTraitsStack.empty())
+        if (newNode instanceof ICspGenericTypeTraitsParameterAdder cspGenericTypeTraitsParameterAdder)
         {
-            done = true;
+            cspGenericTypeTraitsParameterAdderStack.push(cspGenericTypeTraitsParameterAdder);
         }
     }
 
     private void testStateNotDone()
     {
-        if (done)
+        if (cspGenericTypeTraitsParameterAdderStack.empty() && rootCspReferenceTypeTraits != null)
         {
             throw new IllegalStateException("Csp type traits already committed!");
-        }
-    }
-
-    private void createRootCspReferenceTypeTraits(Class<? extends ICspReferenceTypeTraits> referenceTraitsClazz)
-    {
-        ICspTypeTraits cspTypeTraits = createCspTypeTraits(referenceTraitsClazz);
-        if (cspTypeTraits instanceof ICspReferenceTypeTraits cspReferenceTypeTraits)
-        {
-            cspTypeTraitsStack.add(cspReferenceTypeTraits);
-            rootCspReferenceTypeTraits = cspReferenceTypeTraits;
-        }
-        else
-        {
-            throw new AssertionError("createCspTypeTraits() returned primitive type traits on query that "
-                                         + "could not lead to such a result");
-        }
-    }
-
-    private void createNextCspTypeTraits(Class<? extends ICspTypeTraits> referenceTraitsClazz)
-    {
-        commitNode();
-
-        ICspTypeTraits cspTypeTraits = createCspTypeTraits(referenceTraitsClazz);
-        // Should always evaluate to true (look on commitNode()).
-        if (ICspGenericTypeTraits.class.isAssignableFrom(cspTypeTraitsStack.peek().getClass()))
-        {
-            CspGenericTypeTraits cspGenericTypeTraits = (CspGenericTypeTraits) cspTypeTraitsStack.peek();
-            if (!cspGenericTypeTraits.areGenericPrimitivesAllowed() && referenceTraitsClazz == ICspTypeTraits.class)
-            {
-                throw new IllegalArgumentException("Primitive cannot be as generic type anywhere except arrays!");
-            }
-
-            cspGenericTypeTraits.addGenericTypeTypeTraits(cspTypeTraits);
-        }
-
-        cspTypeTraitsStack.add(cspTypeTraits);
-    }
-
-    private ICspTypeTraits createCspTypeTraits(Class<? extends ICspTypeTraits> traitsClazz)
-    {
-        if (traitsClazz == CspReferenceTypeTraits.class)
-        {
-            return new CspReferenceTypeTraits();
-        }
-        else if (traitsClazz == ICspCollectionTypeTraits.class)
-        {
-            return new CspCollectionTypeTraits();
-        }
-        else if (traitsClazz == ICspMapTypeTraits.class)
-        {
-            return new CspMapTypeTraits();
-        }
-        else if (traitsClazz == ICspStringTypeTraits.class)
-        {
-            return new CspStringTypeTraits();
-        }
-        else if (traitsClazz == ICspArrayTypeTraits.class)
-        {
-            return new CspArrayTypeTraits();
-        }
-        else if (traitsClazz == ICspGenericTypeTraits.class)
-        {
-            return new CspGenericTypeTraits();
-        }
-        else
-        {
-            return new ICspTypeTraits(){};
         }
     }
 }

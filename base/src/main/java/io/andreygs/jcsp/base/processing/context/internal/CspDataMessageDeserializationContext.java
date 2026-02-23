@@ -29,8 +29,8 @@ import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspDeserializationBuffer;
 import io.andreygs.jcsp.base.processing.context.ICspDataMessageDeserializationContext;
-import io.andreygs.jcsp.base.types.CspCommonFlags;
-import io.andreygs.jcsp.base.types.CspDataFlags;
+import io.andreygs.jcsp.base.types.CspCommonFlag;
+import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
 import io.andreygs.jcsp.base.types.CspMessageType;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
@@ -57,21 +57,21 @@ public final class CspDataMessageDeserializationContext extends AbstractCspMessa
         ICspProcessorRegistrar<ICspSerializationProcessor> cspDeserializationProcessorRegistrar,
         ICspDeserializationBuffer cspDeserializationBuffer,
         CspProtocolVersion cspProtocolVersion,
-        Set<CspCommonFlags> cspCommonFlags,
+        Set<CspCommonFlag> cspCommonFlags,
         Class<?> structClazz, ICspInterfaceVersion cspInterfaceVersion,
-        Set<CspDataFlags> cspDataFlags)
+        Set<CspDataFlag> cspDataFlags)
     {
         super(cspDeserializationProcessorRegistrar, cspDeserializationBuffer, cspProtocolVersion, cspCommonFlags);
         this.structClazz = structClazz;
         this.cspInterfaceVersion = cspInterfaceVersion;
-        this.alignmentMayBeNotEqual = cspDataFlags.contains(CspDataFlags.ALIGNMENT_MAY_BE_NOT_EQUAL);
-        this.sizeOfIntegersMayBeNotEqual = cspDataFlags.contains(CspDataFlags.SIZE_OF_INTEGERS_MAY_BE_NOT_EQUAL);
-        this.allowUnmanagedPointers = cspDataFlags.contains(CspDataFlags.ALLOW_UNMANAGED_POINTERS);
-        this.checkRecursivePointers = cspDataFlags.contains(CspDataFlags.CHECK_RECURSIVE_POINTERS);
+        this.alignmentMayBeNotEqual = cspDataFlags.contains(CspDataFlag.ALIGNMENT_MAY_BE_NOT_EQUAL);
+        this.sizeOfIntegersMayBeNotEqual = cspDataFlags.contains(CspDataFlag.SIZE_OF_INTEGERS_MAY_BE_NOT_EQUAL);
+        this.allowUnmanagedPointers = cspDataFlags.contains(CspDataFlag.ALLOW_UNMANAGED_POINTERS);
+        this.checkRecursivePointers = cspDataFlags.contains(CspDataFlag.CHECK_RECURSIVE_POINTERS);
         this.simplyAssignableTagsOptimizationsAreTurnedOff =
-            cspDataFlags.contains(CspDataFlags.SIMPLY_ASSIGNABLE_TAGS_OPTIMIZATIONS_ARE_TURNED_OFF);
+            cspDataFlags.contains(CspDataFlag.SIMPLY_ASSIGNABLE_TAGS_OPTIMIZATIONS_ARE_TURNED_OFF);
         this.checkRecursivePointersWhileMaintainingLinkStructure =
-            cspDataFlags.contains(CspDataFlags.CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE);
+            cspDataFlags.contains(CspDataFlag.CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE);
     }
 
     @Override
@@ -93,33 +93,33 @@ public final class CspDataMessageDeserializationContext extends AbstractCspMessa
     }
 
     @Override
-    public Set<CspDataFlags> getCspDataFlags()
+    public Set<CspDataFlag> getCspDataFlags()
     {
-        Set<CspDataFlags> cspDataFlags = new HashSet<>();
+        Set<CspDataFlag> cspDataFlags = new HashSet<>();
 
         if (alignmentMayBeNotEqual)
         {
-            cspDataFlags.add(CspDataFlags.ALIGNMENT_MAY_BE_NOT_EQUAL);
+            cspDataFlags.add(CspDataFlag.ALIGNMENT_MAY_BE_NOT_EQUAL);
         }
         if (sizeOfIntegersMayBeNotEqual)
         {
-            cspDataFlags.add(CspDataFlags.SIZE_OF_INTEGERS_MAY_BE_NOT_EQUAL);
+            cspDataFlags.add(CspDataFlag.SIZE_OF_INTEGERS_MAY_BE_NOT_EQUAL);
         }
         if (allowUnmanagedPointers)
         {
-            cspDataFlags.add(CspDataFlags.ALLOW_UNMANAGED_POINTERS);
+            cspDataFlags.add(CspDataFlag.ALLOW_UNMANAGED_POINTERS);
         }
         if (checkRecursivePointers)
         {
-            cspDataFlags.add(CspDataFlags.CHECK_RECURSIVE_POINTERS);
+            cspDataFlags.add(CspDataFlag.CHECK_RECURSIVE_POINTERS);
         }
         if (simplyAssignableTagsOptimizationsAreTurnedOff)
         {
-            cspDataFlags.add(CspDataFlags.SIMPLY_ASSIGNABLE_TAGS_OPTIMIZATIONS_ARE_TURNED_OFF);
+            cspDataFlags.add(CspDataFlag.SIMPLY_ASSIGNABLE_TAGS_OPTIMIZATIONS_ARE_TURNED_OFF);
         }
         if (checkRecursivePointersWhileMaintainingLinkStructure)
         {
-            cspDataFlags.add(CspDataFlags.CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE);
+            cspDataFlags.add(CspDataFlag.CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE);
         }
 
         return cspDataFlags;

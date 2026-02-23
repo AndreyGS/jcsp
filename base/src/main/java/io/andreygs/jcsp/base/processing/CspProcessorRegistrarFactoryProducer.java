@@ -32,12 +32,12 @@ import io.andreygs.jcsp.base.processing.internal.CspProcessorRegistrarFactory;
  */
 public class CspProcessorRegistrarFactoryProducer
 {
-    private CspProcessorRegistrarFactoryProducer()
-    {
-    }
-
     public static ICspProcessorRegistrarFactory produceCspProcessorRegistrarFactory()
     {
         return new CspProcessorRegistrarFactory();
+    }
+
+    private CspProcessorRegistrarFactoryProducer()
+    {
     }
 }

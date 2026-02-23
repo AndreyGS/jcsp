@@ -30,8 +30,8 @@ import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
 import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.processing.internal.Serializer;
-import io.andreygs.jcsp.base.types.CspCommonFlags;
-import io.andreygs.jcsp.base.types.CspDataFlags;
+import io.andreygs.jcsp.base.types.CspCommonFlag;
+import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 import io.andreygs.jcsp.base.types.ICspVersionable;
@@ -48,7 +48,7 @@ final class CspDataMessageBuilder extends AbstractCspMessageBuilder
     implements ICspDataMessageBuilder
 {
     private @Nullable ICspInterfaceVersion cspInterfaceVersion;
-    private @Nullable Set<CspDataFlags> cspDataFlags;
+    private @Nullable Set<CspDataFlag> cspDataFlags;
 
     CspDataMessageBuilder(ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar)
     {
@@ -84,7 +84,7 @@ final class CspDataMessageBuilder extends AbstractCspMessageBuilder
     }
 
     @Override
-    public ICspDataMessageBuilder setCspCommonFlags(Set<CspCommonFlags> cspCommonFlags)
+    public ICspDataMessageBuilder setCspCommonFlags(Set<CspCommonFlag> cspCommonFlags)
     {
         super.setCspCommonFlags(cspCommonFlags);
         return this;
@@ -98,7 +98,7 @@ final class CspDataMessageBuilder extends AbstractCspMessageBuilder
     }
 
     @Override
-    public ICspDataMessageBuilder setCspDataFlags(Set<CspDataFlags> cspDataFlags)
+    public ICspDataMessageBuilder setCspDataFlags(Set<CspDataFlag> cspDataFlags)
     {
         this.cspDataFlags = cspDataFlags;
         return this;

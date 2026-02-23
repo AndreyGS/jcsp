@@ -25,12 +25,10 @@
 
 package io.andreygs.jcsp.base.types;
 
-import java.util.List;
-
 /**
  * CSP Common flags according to CSP reference.
  */
-public enum CspCommonFlags implements ICspFlag
+public enum CspCommonFlag implements ICspFlag
 {
     /**
      * Bitness of system on which serialization is performed is 32 bit.
@@ -38,7 +36,7 @@ public enum CspCommonFlags implements ICspFlag
      * Because Java specification states that JVM is always 64-bit, this flag is always unset on serialization (but not
      * deserialization!) process.
      */
-    BITNESS_32(0x1, Messages.CspCommonFlags_Bitness32, Messages.CspCommonFlags_Bitness64),
+    BITNESS_32(0x1, Messages.CspCommonFlag_Bitness32, Messages.CspCommonFlag_Bitness64),
 
     /**
      * Indicates that serialization be doing (or done) with big-endian format.
@@ -46,7 +44,7 @@ public enum CspCommonFlags implements ICspFlag
      * Java specification states that JVM works natively with big-endian format, so this should be a preferable option
      * in most scenarios.
      */
-    BIG_ENDIAN(0x2, Messages.CspCommonFlags_BigEndian, Messages.CspCommonFlags_LittleEndian),
+    BIG_ENDIAN(0x2, Messages.CspCommonFlag_BigEndian, Messages.CspCommonFlag_LittleEndian),
 
     /**
      * There (is) was endianness difference of "using big endian format" flag and execution environment where
@@ -55,8 +53,8 @@ public enum CspCommonFlags implements ICspFlag
      * The state of this flag is set automatically during serialization and affects both
      * the serialization process itself and deserialization.
      */
-    ENDIANNESS_DIFFERENCE(0x4, Messages.CspCommonFlags_EndiannessDifference,
-                          Messages.CspCommonFlags_No_EndiannessDifference);
+    ENDIANNESS_DIFFERENCE(0x4, Messages.CspCommonFlag_EndiannessDifference,
+                          Messages.CspCommonFlag_No_EndiannessDifference);
 
     public static final int VALID_FLAGS_MASK = CspFlagUtils.calculateFlagMask(values());
 
@@ -65,10 +63,10 @@ public enum CspCommonFlags implements ICspFlag
     private final String nameWhenSet;
     private final String nameWhenUnset;
 
-    CspCommonFlags(int value, String nameWhenSet, String nameWhenUnset)
+    CspCommonFlag(int value, String nameWhenSet, String nameWhenUnset)
     {
         this.value = value;
-        this.name = Messages.CspCommonFlags_Type + ": " + nameWhenSet;
+        this.name = Messages.CspCommonFlag_Type + ": " + nameWhenSet;
         this.nameWhenSet = nameWhenSet;
         this.nameWhenUnset = nameWhenUnset;
     }
@@ -94,7 +92,7 @@ public enum CspCommonFlags implements ICspFlag
     @Override
     public String getFlagTypeName()
     {
-        return Messages.CspCommonFlags_Type;
+        return Messages.CspCommonFlag_Type;
     }
 
     @Override
