@@ -38,7 +38,6 @@ public interface IBufferResizeStrategy
      * @return new size that buffer need. Always at least as big as minimumRequiredSize.
      * If currentCapacity and minimumRequiredSize are equal then currentCapacity value is returned.
      * @throws IllegalArgumentException if currentCapacity is a negative number or bigger than minimumRequiredSize.
-     * less than .
      */
     int calculateNewSize(int currentCapacity, int minimumRequiredSize);
 }

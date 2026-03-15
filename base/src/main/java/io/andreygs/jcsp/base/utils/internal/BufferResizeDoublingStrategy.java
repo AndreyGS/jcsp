@@ -29,6 +29,8 @@ import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 
 /**
  * Strategy that calculates new size of random buffer by at least doubling its current size.
+ * <p>
+ * If currentCapacity is 0, then minimumRequiredSize is returned.
  */
 class BufferResizeDoublingStrategy
     implements IBufferResizeStrategy
@@ -41,7 +43,10 @@ class BufferResizeDoublingStrategy
             throw new IllegalArgumentException("Current capacity shall not be negative or bigger than minimum "
                                                    + "required size!");
         }
-
+        if (currentCapacity == 0)
+        {
+            return minimumRequiredSize;
+        }
         int result = currentCapacity;
         while (result  < minimumRequiredSize)
         {
@@ -54,7 +59,6 @@ class BufferResizeDoublingStrategy
                 result = Integer.MAX_VALUE;
             }
         }
-
         return result;
     }
 }

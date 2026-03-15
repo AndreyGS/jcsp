@@ -30,11 +30,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
- * TODO: place description here
+ * Unit-tests for {@link BufferResizeDoublingStrategy}.
  */
 public class BufferResizeDoublingStrategyTests
 {
-    private IBufferResizeStrategy bufferResizeStrategy = new BufferResizeDoublingStrategy();
+    private final IBufferResizeStrategy bufferResizeStrategy = new BufferResizeDoublingStrategy();
 
     @Test
     public void calculateNewSizeTest()
@@ -42,7 +42,6 @@ public class BufferResizeDoublingStrategyTests
         int currentCapacity = 4;
         int minimumRequiredSize = 1000000000;
         int result = bufferResizeStrategy.calculateNewSize(currentCapacity, minimumRequiredSize);
-
         Assertions.assertTrue(minimumRequiredSize <= result, "Calculated buffer size is less than minimum required!");
     }
 
@@ -52,7 +51,6 @@ public class BufferResizeDoublingStrategyTests
         int currentCapacity = 4;
         int minimumRequiredSize = 4;
         int result = bufferResizeStrategy.calculateNewSize(currentCapacity, minimumRequiredSize);
-
         Assertions.assertEquals(currentCapacity, result,
                                 "Calculated size is not equal to current capacity when currentCapacity == minimumRequiredSize!");
     }
@@ -63,7 +61,6 @@ public class BufferResizeDoublingStrategyTests
         int currentCapacity = 4;
         int minimumRequiredSize = Integer.MAX_VALUE - 2;
         int result = bufferResizeStrategy.calculateNewSize(currentCapacity, minimumRequiredSize);
-
         Assertions.assertTrue(minimumRequiredSize <= result, "Calculated buffer size is less than minimum required!");
     }
 
@@ -73,7 +70,6 @@ public class BufferResizeDoublingStrategyTests
         int currentCapacity = 4;
         int minimumRequiredSize = Integer.MAX_VALUE;
         int result = bufferResizeStrategy.calculateNewSize(currentCapacity, minimumRequiredSize);
-
         Assertions.assertEquals(Integer.MAX_VALUE, result, "Calculated buffer size is not equal to Integer.MAX_VALUE!");
     }
 
@@ -97,5 +93,15 @@ public class BufferResizeDoublingStrategyTests
                                 () ->  bufferResizeStrategy.calculateNewSize(currentCapacity, minimumRequiredSize),
                                 "Minimum required size lesser than current capacity not triggered throwing of "
                                     + "IllegalArgumentException!");
+    }
+
+    @Test
+    public void calculateNewSizeWhenCurrentIsZeroTest()
+    {
+        int currentCapacity = 0;
+        int minimumRequiredSize = 7;
+        int result = bufferResizeStrategy.calculateNewSize(currentCapacity, minimumRequiredSize);
+        Assertions.assertEquals(minimumRequiredSize, result, "Calculated buffer size is not equal to "
+                                                                 + "minimumRequiredSize when currentCapacity == 0!");
     }
 }

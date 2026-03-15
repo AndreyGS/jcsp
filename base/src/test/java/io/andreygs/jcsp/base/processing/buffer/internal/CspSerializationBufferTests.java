@@ -26,10 +26,13 @@
 package io.andreygs.jcsp.base.processing.buffer.internal;
 
 import io.andreygs.jcsp.base.CommonUtils;
+import io.andreygs.jcsp.base.utils.BufferResizeStrategyFactoryProducer;
+import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.CharBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
@@ -40,21 +43,64 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 /**
- * Unit-tests for {@link ICspSerializationBuffer} contract.
+ * Unit-tests for {@link CspSerializationBuffer}.
  */
-public abstract class AbstractICspSerializationBufferTests extends AbstractICspBufferTests
+public class CspSerializationBufferTests
 {
     private final String ARRAYS_NOT_EQUAL_FAIL = "Serialized and read arrays are not equal!";
 
     @Test
+    public void getByteBufferTest()
+    {
+        ICspBuffer cspBuffer = new CspSerializationBuffer(0, false,
+                                                          BufferResizeStrategyFactoryProducer.produceBufferResizeStrategyFactory().createBufferDoublingSizeStrategy());
+        Assertions.assertNotNull(cspBuffer.getByteBuffer(), "ByteBuffer should not be null");
+    }
+
+    @Test
+    public void applyEndiannessTest()
+    {
+        ICspBuffer cspBuffer = new CspSerializationBuffer(0, false,
+                                                          BufferResizeStrategyFactoryProducer.produceBufferResizeStrategyFactory().createBufferDoublingSizeStrategy());
+        cspBuffer.applyEndianness(ByteOrder.BIG_ENDIAN);
+
+        String applyEndiannessTestFailed = "Endianness applying to buffer was failed!";
+        Assertions.assertEquals(ByteOrder.BIG_ENDIAN, cspBuffer.getByteBuffer().order(), applyEndiannessTestFailed);
+
+        cspBuffer.applyEndianness(ByteOrder.LITTLE_ENDIAN);
+        Assertions.assertEquals(ByteOrder.LITTLE_ENDIAN, cspBuffer.getByteBuffer().order(), applyEndiannessTestFailed);
+    }
+
+    @Test
     public void isDirectBufferTest()
     {
-        ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(null,
-                                                                                     true);
+        ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(0,
+                                                                                      true);
 
         Assertions.assertTrue(cspSerializationBuffer.isDirectBuffer(), "Buffer is not direct!");
         ICspSerializationBuffer cspSerializationBuffer2 = createCspSerializationBuffer(0, false);
         Assertions.assertFalse(cspSerializationBuffer2.isDirectBuffer(), "Buffer is direct!");
+    }
+
+    @Test
+    public void createCspSerializationBufferTest()
+    {
+        int capacitySize = 0;
+        boolean directBuffer = false;
+        int expandRatio = 17;
+        IBufferResizeStrategy customBufferResizeStrategy =
+            (currentCapacity, minimumRequiredSize) -> (minimumRequiredSize) * expandRatio;
+
+        ICspSerializationBuffer cspSerializationByteBuffer =
+            new CspSerializationBuffer(capacitySize, directBuffer, customBufferResizeStrategy);
+
+        Assertions.assertEquals(capacitySize, cspSerializationByteBuffer.getByteBuffer().capacity(),
+                                "ByteBuffer passed capacity size is not equal to actual one!");
+        Assertions.assertFalse(cspSerializationByteBuffer.isDirectBuffer(), "ByteBuffer is direct!");
+
+        cspSerializationByteBuffer.write((byte)5);
+        Assertions.assertEquals(expandRatio, cspSerializationByteBuffer.getByteBuffer().capacity(),
+                                "Buffer resizing not using passed strategy");
     }
 
     @Test
@@ -102,7 +148,7 @@ public abstract class AbstractICspSerializationBufferTests extends AbstractICspB
     @Test
     public void writeByteArrayTest()
     {
-        ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(null, null);
+        ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(0, true);
 
         byte[] value1 = { 1, 2, 3 };
         byte[] value2 = { 4, 5, 6, 7 };
@@ -124,7 +170,7 @@ public abstract class AbstractICspSerializationBufferTests extends AbstractICspB
     @Test
     public void writeShortArrayTest()
     {
-        ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(null, null);
+        ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(0, true);
 
         short[] value1 = { 1, 2, 3 };
         short[] value2 = { 4, 5, 6, 7 };
@@ -147,7 +193,7 @@ public abstract class AbstractICspSerializationBufferTests extends AbstractICspB
     @Test
     public void writeIntArrayTest()
     {
-        ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(null, null);
+        ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(0, true);
 
         int[] value1 = { 1, 2, 3 };
         int[] value2 = { 4, 5, 6, 7 };
@@ -171,7 +217,7 @@ public abstract class AbstractICspSerializationBufferTests extends AbstractICspB
     @Test
     public void writeLongArrayTest()
     {
-        ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(null, null);
+        ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(0, true);
 
         long[] value1 = { 1, 2, 3 };
         long[] value2 = { 4, 5, 6, 7 };
@@ -194,7 +240,7 @@ public abstract class AbstractICspSerializationBufferTests extends AbstractICspB
     @Test
     public void writeCharArrayTest()
     {
-        ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(null, null);
+        ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(0, true);
 
         char[] value1 = { 1, 2, 3 };
         char[] value2 = { 4, 5, 6, 7 };
@@ -217,7 +263,7 @@ public abstract class AbstractICspSerializationBufferTests extends AbstractICspB
     @Test
     public void writeFloatArrayTest()
     {
-        ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(null, null);
+        ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(0, true);
 
         float[] value1 = { 1, 2, 3 };
         float[] value2 = { 4, 5, 6, 7 };
@@ -240,7 +286,7 @@ public abstract class AbstractICspSerializationBufferTests extends AbstractICspB
     @Test
     public void writeDoubleArrayTest()
     {
-        ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(null, null);
+        ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(0, true);
 
         double[] value1 = { 1, 2, 3 };
         double[] value2 = { 4, 5, 6, 7 };
@@ -279,13 +325,16 @@ public abstract class AbstractICspSerializationBufferTests extends AbstractICspB
         Assertions.assertEquals(0, byteBuffer.position(), "Buffer position is not equal to buffer start!");
     }
 
-    protected abstract ICspSerializationBuffer createCspSerializationBuffer(Integer initialBufferCapacity,
-                                                                            Boolean directBuffer);
+    private ICspSerializationBuffer createCspSerializationBuffer(int initialBufferCapacity, boolean directBuffer)
+    {
+        return new CspSerializationBuffer(initialBufferCapacity, directBuffer,
+                                                          BufferResizeStrategyFactoryProducer.produceBufferResizeStrategyFactory().createBufferDoublingSizeStrategy());
+    }
 
     private <T> void writePrimitive(T value1, T value2, BiConsumer<ICspSerializationBuffer, T> writeFunction,
                                     Function<ByteBuffer, T> readValueFunction)
     {
-        ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(null, null);
+        ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(0, true);
 
         writeFunction.accept(cspSerializationBuffer, value1);
         writeFunction.accept(cspSerializationBuffer, value2);

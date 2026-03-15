@@ -23,7 +23,7 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing;
+package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
@@ -37,22 +37,21 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
- * Unit-tests for {@link ICspGeneralSerializationProcessor} contract.
+ * Unit-tests for {@link CspGeneralSerializationProcessor}.
  */
 @ExtendWith(MockitoExtension.class)
-public abstract class AbstractICspGeneralSerializationProcessorTests
+public class CspGeneralSerializationProcessorTests
 {
     @Mock
     private ICspDataMessageSerializationContext context;
     @Mock
     private ICspSerializationBuffer buffer;
 
-    private ICspGeneralSerializationProcessor cspGeneralSerializationProcessor;
+    private final ICspGeneralSerializationProcessor cspGeneralSerializationProcessor = new CspGeneralSerializationProcessor();
 
     @BeforeEach
     public void setup()
     {
-        cspGeneralSerializationProcessor = getCspGeneralSerializationProcessor();
         Mockito.when(context.getCspSerializationBuffer()).thenReturn(buffer);
     }
 
@@ -208,7 +207,7 @@ public abstract class AbstractICspGeneralSerializationProcessorTests
     public void serializeBooleanArrayNullTest()
     {
         Assertions.assertThrows(IllegalArgumentException.class, () ->
-                                cspGeneralSerializationProcessor.serialize((boolean[])null, context));
+                                                                    cspGeneralSerializationProcessor.serialize((boolean[])null, context));
     }
 
     @Test
@@ -267,6 +266,4 @@ public abstract class AbstractICspGeneralSerializationProcessorTests
         Mockito.verify(buffer).write((byte) 2);
         Mockito.verify(buffer).write((byte) 0);
     }
-
-    protected abstract ICspGeneralSerializationProcessor getCspGeneralSerializationProcessor();
 }

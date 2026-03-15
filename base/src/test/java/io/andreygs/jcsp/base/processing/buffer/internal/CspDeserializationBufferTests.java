@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.CharBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
@@ -40,11 +41,33 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 /**
- * Unit-tests for {@link ICspDeserializationBuffer} contract.
+ * Unit-tests for {@link CspDeserializationBuffer}.
  */
-public abstract class AbstractICspDeserializationBufferTests extends AbstractICspBufferTests
+public class CspDeserializationBufferTests
 {
     private final String ARRAYS_NOT_EQUAL_FAIL = "Written and deserialized arrays are not equal!";
+
+    @Test
+    public void getByteBufferTest()
+    {
+        ByteBuffer byteBuffer = ByteBuffer.allocate(0);
+        ICspBuffer cspBuffer = new CspDeserializationBuffer(byteBuffer);
+        Assertions.assertNotNull(cspBuffer.getByteBuffer(), "ByteBuffer should not be null");
+    }
+
+    @Test
+    public void applyEndiannessTest()
+    {
+        ByteBuffer byteBuffer = ByteBuffer.allocate(0);
+        ICspBuffer cspBuffer = new CspDeserializationBuffer(byteBuffer);
+        cspBuffer.applyEndianness(ByteOrder.BIG_ENDIAN);
+
+        String applyEndiannessTestFailed = "Endianness applying to buffer was failed!";
+        Assertions.assertEquals(ByteOrder.BIG_ENDIAN, cspBuffer.getByteBuffer().order(), applyEndiannessTestFailed);
+
+        cspBuffer.applyEndianness(ByteOrder.LITTLE_ENDIAN);
+        Assertions.assertEquals(ByteOrder.LITTLE_ENDIAN, cspBuffer.getByteBuffer().order(), applyEndiannessTestFailed);
+    }
 
     @Test
     public void readByteTest()
@@ -102,7 +125,7 @@ public abstract class AbstractICspDeserializationBufferTests extends AbstractICs
         byte[] readValue1 = new byte[3];
         byte[] readValue2 = new byte[4];
 
-        ICspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
+        ICspDeserializationBuffer cspDeserializationBuffer = new CspDeserializationBuffer(byteBuffer);
         cspDeserializationBuffer.read(readValue1);
         cspDeserializationBuffer.read(readValue2);
 
@@ -128,7 +151,7 @@ public abstract class AbstractICspDeserializationBufferTests extends AbstractICs
         short[] readValue1 = new short[3];
         short[] readValue2 = new short[4];
 
-        ICspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
+        ICspDeserializationBuffer cspDeserializationBuffer = new CspDeserializationBuffer(byteBuffer);
 
         cspDeserializationBuffer.read(readValue1);
         cspDeserializationBuffer.read(readValue2);
@@ -155,7 +178,7 @@ public abstract class AbstractICspDeserializationBufferTests extends AbstractICs
         int[] readValue1 = new int[3];
         int[] readValue2 = new int[4];
 
-        ICspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
+        ICspDeserializationBuffer cspDeserializationBuffer = new CspDeserializationBuffer(byteBuffer);
 
         cspDeserializationBuffer.read(readValue1);
         cspDeserializationBuffer.read(readValue2);
@@ -182,7 +205,7 @@ public abstract class AbstractICspDeserializationBufferTests extends AbstractICs
         long[] readValue1 = new long[3];
         long[] readValue2 = new long[4];
 
-        ICspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
+        ICspDeserializationBuffer cspDeserializationBuffer = new CspDeserializationBuffer(byteBuffer);
 
         cspDeserializationBuffer.read(readValue1);
         cspDeserializationBuffer.read(readValue2);
@@ -209,7 +232,7 @@ public abstract class AbstractICspDeserializationBufferTests extends AbstractICs
         char[] readValue1 = new char[3];
         char[] readValue2 = new char[4];
 
-        ICspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
+        ICspDeserializationBuffer cspDeserializationBuffer = new CspDeserializationBuffer(byteBuffer);
 
         cspDeserializationBuffer.read(readValue1);
         cspDeserializationBuffer.read(readValue2);
@@ -236,7 +259,7 @@ public abstract class AbstractICspDeserializationBufferTests extends AbstractICs
         float[] readValue1 = new float[3];
         float[] readValue2 = new float[4];
 
-        ICspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
+        ICspDeserializationBuffer cspDeserializationBuffer = new CspDeserializationBuffer(byteBuffer);
 
         cspDeserializationBuffer.read(readValue1);
         cspDeserializationBuffer.read(readValue2);
@@ -263,7 +286,7 @@ public abstract class AbstractICspDeserializationBufferTests extends AbstractICs
         double[] readValue1 = new double[3];
         double[] readValue2 = new double[4];
 
-        ICspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
+        ICspDeserializationBuffer cspDeserializationBuffer = new CspDeserializationBuffer(byteBuffer);
 
         cspDeserializationBuffer.read(readValue1);
         cspDeserializationBuffer.read(readValue2);
@@ -271,8 +294,6 @@ public abstract class AbstractICspDeserializationBufferTests extends AbstractICs
         Assertions.assertArrayEquals(value1, readValue1, ARRAYS_NOT_EQUAL_FAIL);
         Assertions.assertArrayEquals(value2, readValue2, ARRAYS_NOT_EQUAL_FAIL);
     }
-
-    protected abstract ICspDeserializationBuffer createCspDeserializationBuffer(ByteBuffer byteBuffer);
 
     private <T> void readPrimitive(T value1, T value2, BiConsumer<ByteBuffer, T> writeFunction,
                                    Function<ICspDeserializationBuffer, T> readValueFunction)
@@ -282,7 +303,7 @@ public abstract class AbstractICspDeserializationBufferTests extends AbstractICs
         writeFunction.accept(byteBuffer, value2);
         byteBuffer.flip();
 
-        ICspDeserializationBuffer cspDeserializationBuffer = createCspDeserializationBuffer(byteBuffer);
+        ICspDeserializationBuffer cspDeserializationBuffer = new CspDeserializationBuffer(byteBuffer);
 
         String primitivesNotEqualFail = "Written and deserialized primitives are not equal!";
         Assertions.assertEquals(value1, readValueFunction.apply(cspDeserializationBuffer), primitivesNotEqualFail);
