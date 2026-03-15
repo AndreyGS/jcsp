@@ -32,12 +32,4 @@ module io.andreygs.jcsp.base {
     exports io.andreygs.jcsp.base.processing.context;
     exports io.andreygs.jcsp.base.types;
     exports io.andreygs.jcsp.base.utils;
-
-    exports io.andreygs.jcsp.base.message.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.processing.buffer.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.processing.context.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.processing.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.utils.internal to io.andreygs.jcsp.base.test;
-    exports io.andreygs.jcsp.base.processing.typetraits.annotations;
-    exports io.andreygs.jcsp.base.processing.typetraits;
 }

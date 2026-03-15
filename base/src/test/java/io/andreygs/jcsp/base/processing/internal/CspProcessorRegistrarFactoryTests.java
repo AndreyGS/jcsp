@@ -23,28 +23,33 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.test.utils.internal;
+package io.andreygs.jcsp.base.processing.internal;
 
-import io.andreygs.jcsp.base.test.utils.AbstractIBufferResizeStrategyTests;
-import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
-import io.andreygs.jcsp.base.utils.internal.BufferResizeStrategyFactory;
+import io.andreygs.jcsp.base.processing.ICspProcessor;
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrarFactory;
+import io.andreygs.jcsp.base.processing.AbstractICspProcessorRegistrarFactory;
+import io.andreygs.jcsp.base.processing.AbstractICspProcessorRegistrarTests;
 import org.junit.jupiter.api.Nested;
 
 /**
- * Unit-tests for {@link BufferResizeStrategyFactory}.
+ *  Unit-tests for {@link CspProcessorRegistrarFactory}.
  */
-public class BufferResizeStrategyFactoryTests
+public class CspProcessorRegistrarFactoryTests extends AbstractICspProcessorRegistrarFactory
 {
-    /**
-     * Unit-tests for {@link IBufferResizeStrategy} instance returned from {@link BufferResizeStrategyFactory#createBufferDoublingSizeStrategy()} method.
-     */
+    @Override
+    protected ICspProcessorRegistrarFactory produceCspProcessorRegistrarFactory()
+    {
+        return new CspProcessorRegistrarFactory();
+    }
+
     @Nested
-    public class CreateBufferDoublingSizeStrategyResultTests extends AbstractIBufferResizeStrategyTests
+    public class CreateProcessorRegistrarTests extends AbstractICspProcessorRegistrarTests
     {
         @Override
-        protected IBufferResizeStrategy createBufferResizeStrategy()
+        protected <T extends ICspProcessor> ICspProcessorRegistrar<T> getCspProcessorRegistrar()
         {
-            return new BufferResizeStrategyFactory().createBufferDoublingSizeStrategy();
+            return produceCspProcessorRegistrarFactory().createProcessorRegistrar();
         }
     }
 }

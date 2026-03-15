@@ -23,24 +23,24 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.test.utils;
+package io.andreygs.jcsp.base.utils.internal;
 
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit-tests for {@link IBufferResizeStrategy} contract.
+ * TODO: place description here
  */
-public abstract class AbstractIBufferResizeStrategyTests
+public class BufferResizeDoublingStrategyTests
 {
+    private IBufferResizeStrategy bufferResizeStrategy = new BufferResizeDoublingStrategy();
+
     @Test
     public void calculateNewSizeTest()
     {
         int currentCapacity = 4;
         int minimumRequiredSize = 1000000000;
-
-        IBufferResizeStrategy bufferResizeStrategy = createBufferResizeStrategy();
         int result = bufferResizeStrategy.calculateNewSize(currentCapacity, minimumRequiredSize);
 
         Assertions.assertTrue(minimumRequiredSize <= result, "Calculated buffer size is less than minimum required!");
@@ -51,8 +51,6 @@ public abstract class AbstractIBufferResizeStrategyTests
     {
         int currentCapacity = 4;
         int minimumRequiredSize = 4;
-
-        IBufferResizeStrategy bufferResizeStrategy = createBufferResizeStrategy();
         int result = bufferResizeStrategy.calculateNewSize(currentCapacity, minimumRequiredSize);
 
         Assertions.assertEquals(currentCapacity, result,
@@ -64,8 +62,6 @@ public abstract class AbstractIBufferResizeStrategyTests
     {
         int currentCapacity = 4;
         int minimumRequiredSize = Integer.MAX_VALUE - 2;
-
-        IBufferResizeStrategy bufferResizeStrategy = createBufferResizeStrategy();
         int result = bufferResizeStrategy.calculateNewSize(currentCapacity, minimumRequiredSize);
 
         Assertions.assertTrue(minimumRequiredSize <= result, "Calculated buffer size is less than minimum required!");
@@ -76,21 +72,16 @@ public abstract class AbstractIBufferResizeStrategyTests
     {
         int currentCapacity = 4;
         int minimumRequiredSize = Integer.MAX_VALUE;
-
-        IBufferResizeStrategy bufferResizeStrategy = createBufferResizeStrategy();
         int result = bufferResizeStrategy.calculateNewSize(currentCapacity, minimumRequiredSize);
 
         Assertions.assertEquals(Integer.MAX_VALUE, result, "Calculated buffer size is not equal to Integer.MAX_VALUE!");
     }
-
 
     @Test
     public void calculateNewSizeCapacityIsNegativeTest()
     {
         int currentCapacity = -1;
         int minimumRequiredSize = 1;
-
-        IBufferResizeStrategy bufferResizeStrategy = createBufferResizeStrategy();
         Assertions.assertThrows(IllegalArgumentException.class,
                                 () ->  bufferResizeStrategy.calculateNewSize(currentCapacity, minimumRequiredSize),
                                 "Current capacity with negative number not triggered throwing of "
@@ -102,13 +93,9 @@ public abstract class AbstractIBufferResizeStrategyTests
     {
         int currentCapacity = 1;
         int minimumRequiredSize = 0;
-
-        IBufferResizeStrategy bufferResizeStrategy = createBufferResizeStrategy();
         Assertions.assertThrows(IllegalArgumentException.class,
                                 () ->  bufferResizeStrategy.calculateNewSize(currentCapacity, minimumRequiredSize),
                                 "Minimum required size lesser than current capacity not triggered throwing of "
                                     + "IllegalArgumentException!");
     }
-
-    protected abstract IBufferResizeStrategy createBufferResizeStrategy();
 }

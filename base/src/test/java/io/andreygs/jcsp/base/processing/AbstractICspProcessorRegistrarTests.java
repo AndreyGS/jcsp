@@ -23,7 +23,7 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.test.processing;
+package io.andreygs.jcsp.base.processing;
 
 import io.andreygs.jcsp.base.processing.ICspDeserializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspProcessor;

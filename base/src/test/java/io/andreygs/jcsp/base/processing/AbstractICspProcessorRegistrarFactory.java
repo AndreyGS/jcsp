@@ -23,38 +23,39 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.test.processing.buffer.internal;
+package io.andreygs.jcsp.base.processing;
 
-import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
+import io.andreygs.jcsp.base.processing.ICspDeserializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrarFactory;
+import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.nio.ByteOrder;
-
 /**
- * Unit-tests for {@link ICspBuffer} contract.
+ * Unit-tests for {@link ICspProcessorRegistrarFactory} contract.
  */
-public abstract class AbstractICspBufferTests
+public abstract class AbstractICspProcessorRegistrarFactory
 {
     @Test
-    public void getByteBufferTest()
+    public void createSerializationProcessorRegistrar()
     {
-        ICspBuffer cspBuffer = createCspBuffer();
-        Assertions.assertNotNull(cspBuffer.getByteBuffer(), "ByteBuffer should not be null");
+        ICspProcessorRegistrarFactory cspProcessorRegistrarFactory = produceCspProcessorRegistrarFactory();
+        ICspProcessorRegistrar<ICspSerializationProcessor> cspProcessorRegistrar =
+            cspProcessorRegistrarFactory.createProcessorRegistrar();
+
+        Assertions.assertNotNull(cspProcessorRegistrar);
     }
 
     @Test
-    public void applyEndiannessTest()
+    public void createDeserializationProcessorRegistrar()
     {
-        ICspBuffer cspBuffer = createCspBuffer();
-        cspBuffer.applyEndianness(ByteOrder.BIG_ENDIAN);
+        ICspProcessorRegistrarFactory cspProcessorRegistrarFactory = produceCspProcessorRegistrarFactory();
+        ICspProcessorRegistrar<ICspDeserializationProcessor> cspProcessorRegistrar =
+            cspProcessorRegistrarFactory.createProcessorRegistrar();
 
-        String applyEndiannessTestFailed = "Endianness applying to buffer was failed!";
-        Assertions.assertEquals(ByteOrder.BIG_ENDIAN, cspBuffer.getByteBuffer().order(), applyEndiannessTestFailed);
-
-        cspBuffer.applyEndianness(ByteOrder.LITTLE_ENDIAN);
-        Assertions.assertEquals(ByteOrder.LITTLE_ENDIAN, cspBuffer.getByteBuffer().order(), applyEndiannessTestFailed);
+        Assertions.assertNotNull(cspProcessorRegistrar);
     }
 
-    protected abstract ICspBuffer createCspBuffer();
+    protected abstract ICspProcessorRegistrarFactory produceCspProcessorRegistrarFactory();
 }

@@ -23,34 +23,29 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.test.processing.internal;
+package io.andreygs.jcsp.base;
 
-import io.andreygs.jcsp.base.processing.ICspProcessor;
-import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
-import io.andreygs.jcsp.base.processing.ICspProcessorRegistrarFactory;
-import io.andreygs.jcsp.base.processing.internal.CspProcessorRegistrarFactory;
-import io.andreygs.jcsp.base.test.processing.AbstractICspProcessorRegistrarFactory;
-import io.andreygs.jcsp.base.test.processing.AbstractICspProcessorRegistrarTests;
-import org.junit.jupiter.api.Nested;
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.lang.reflect.Field;
+import java.nio.ByteBuffer;
 
 /**
- *  Unit-tests for {@link CspProcessorRegistrarFactory}.
+ * TODO: place description here
  */
-public class CspProcessorRegistrarFactoryTests extends AbstractICspProcessorRegistrarFactory
+public class CommonUtils
 {
-    @Override
-    protected ICspProcessorRegistrarFactory produceCspProcessorRegistrarFactory()
+    public static <T> int getPrimitiveSize(T value)
     {
-        return new CspProcessorRegistrarFactory();
-    }
-
-    @Nested
-    public class CreateProcessorRegistrarTests extends AbstractICspProcessorRegistrarTests
-    {
-        @Override
-        protected <T extends ICspProcessor> ICspProcessorRegistrar<T> getCspProcessorRegistrar()
+        Class<?> clazz = value.getClass();
+        try
         {
-            return produceCspProcessorRegistrarFactory().createProcessorRegistrar();
+            Field field = clazz.getDeclaredField("BYTES");
+            return (int) field.get(null);
+        }
+        catch (NoSuchFieldException | IllegalAccessException e)
+        {
+            throw new RuntimeException(e);
         }
     }
 }

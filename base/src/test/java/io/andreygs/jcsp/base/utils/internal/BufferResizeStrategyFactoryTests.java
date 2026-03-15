@@ -23,29 +23,27 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.test;
+package io.andreygs.jcsp.base.utils.internal;
 
-import org.apache.commons.lang3.ArrayUtils;
-
-import java.lang.reflect.Field;
-import java.nio.ByteBuffer;
+import io.andreygs.jcsp.base.utils.AbstractIBufferResizeStrategyTests;
+import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
+import org.junit.jupiter.api.Nested;
 
 /**
- * TODO: place description here
+ * Unit-tests for {@link BufferResizeStrategyFactory}.
  */
-public class CommonUtils
+public class BufferResizeStrategyFactoryTests
 {
-    public static <T> int getPrimitiveSize(T value)
+    /**
+     * Unit-tests for {@link IBufferResizeStrategy} instance returned from {@link BufferResizeStrategyFactory#createBufferDoublingSizeStrategy()} method.
+     */
+    @Nested
+    public class CreateBufferDoublingSizeStrategyResultTests extends AbstractIBufferResizeStrategyTests
     {
-        Class<?> clazz = value.getClass();
-        try
+        @Override
+        protected IBufferResizeStrategy createBufferResizeStrategy()
         {
-            Field field = clazz.getDeclaredField("BYTES");
-            return (int) field.get(null);
-        }
-        catch (NoSuchFieldException | IllegalAccessException e)
-        {
-            throw new RuntimeException(e);
+            return new BufferResizeStrategyFactory().createBufferDoublingSizeStrategy();
         }
     }
 }

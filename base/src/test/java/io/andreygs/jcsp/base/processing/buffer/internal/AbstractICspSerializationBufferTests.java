@@ -23,10 +23,9 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.test.processing.buffer.internal;
+package io.andreygs.jcsp.base.processing.buffer.internal;
 
-import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
-import io.andreygs.jcsp.base.test.CommonUtils;
+import io.andreygs.jcsp.base.CommonUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

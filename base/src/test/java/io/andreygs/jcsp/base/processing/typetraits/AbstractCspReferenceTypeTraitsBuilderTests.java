@@ -23,7 +23,7 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.test.processing.typetraits;
+package io.andreygs.jcsp.base.processing.typetraits;
 
 import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
 import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraitsBuilder;
@@ -60,7 +60,6 @@ public abstract class AbstractCspReferenceTypeTraitsBuilderTests
     public void addStringTest()
     {
         cspReferenceTypeTraitsBuilder.addString(true, StandardCharsets.UTF_8);
-
     }
 
 
