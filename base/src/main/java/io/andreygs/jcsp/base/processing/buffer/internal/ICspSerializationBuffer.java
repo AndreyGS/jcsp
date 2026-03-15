@@ -30,9 +30,8 @@ package io.andreygs.jcsp.base.processing.buffer.internal;
  * <p>
  * Clients can use it for implementing ad-hoc serialization methods.
  */
-public sealed interface ICspSerializationBuffer
+public interface ICspSerializationBuffer
     extends ICspBuffer
-    permits CspSerializationBuffer
 {
     /**
      * Gets whether underlying storage has direct buffer or not.

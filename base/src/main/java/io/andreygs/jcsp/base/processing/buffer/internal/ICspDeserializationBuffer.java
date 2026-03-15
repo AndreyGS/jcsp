@@ -30,9 +30,8 @@ package io.andreygs.jcsp.base.processing.buffer.internal;
  * <p>
  * Clients can use it for implementing ad-hoc deserialization methods.
  */
-public sealed interface ICspDeserializationBuffer
+public interface ICspDeserializationBuffer
     extends ICspBuffer
-    permits CspDeserializationBuffer
 {
     /**
      * Reads byte value from buffer.

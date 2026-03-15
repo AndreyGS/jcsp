@@ -26,7 +26,7 @@
 package io.andreygs.jcsp.base.processing;
 
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
-import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
+import io.andreygs.jcsp.base.processing.state.internal.ICspDataSerializationState;
 import io.andreygs.jcsp.base.processing.typetraits.ICspArrayTypeTraits;
 import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
 import io.andreygs.jcsp.base.types.CspDataFlag;
@@ -44,7 +44,7 @@ import java.util.Map;
  * It is the access point on every top-struct and field serialization.
  * {@link ICspSerializationProcessor} must use this to serialize struct to which it belongs.
  * <p>
- * It uses {@link ICspDataMessageSerializationContext} to get respective serialization settings
+ * It uses {@link ICspDataSerializationState} to get respective serialization settings
  * and {@link ICspSerializationBuffer}.write(...) methods to write raw values of primitives and primitive arrays.
  */
 public interface ICspGeneralSerializationProcessor
@@ -58,9 +58,9 @@ public interface ICspGeneralSerializationProcessor
      * </ol>
      *
      * @param value Value to serialize.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      */
-    void serialize(boolean value, ICspDataMessageSerializationContext context);
+    void serialize(boolean value, Object state);
 
     /**
      * Serializes byte field value.
@@ -79,9 +79,9 @@ public interface ICspGeneralSerializationProcessor
      * </ol>
      *
      * @param value Value to serialize.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      */
-    void serialize(byte value, ICspDataMessageSerializationContext context);
+    void serialize(byte value, Object state);
 
     /**
      * Serializes short field value.
@@ -100,9 +100,9 @@ public interface ICspGeneralSerializationProcessor
      * </ol>
      *
      * @param value Value to serialize.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      */
-    void serialize(short value, ICspDataMessageSerializationContext context);
+    void serialize(short value, Object state);
 
     /**
      * Serializes int field value.
@@ -121,9 +121,9 @@ public interface ICspGeneralSerializationProcessor
      * </ol>
      *
      * @param value Value to serialize.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      */
-    void serialize(int value, ICspDataMessageSerializationContext context);
+    void serialize(int value, Object state);
 
     /**
      * Serializes long field value.
@@ -142,9 +142,9 @@ public interface ICspGeneralSerializationProcessor
      * </ol>
      *
      * @param value Value to serialize.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      */
-    void serialize(long value, ICspDataMessageSerializationContext context);
+    void serialize(long value, Object state);
 
     /**
      * Serializes char field value.
@@ -159,9 +159,9 @@ public interface ICspGeneralSerializationProcessor
      * specified in the CSP Interface. However, it seems highly unlikely that this would be the case.
      *
      * @param value Value to serialize.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      */
-    void serialize(char value, ICspDataMessageSerializationContext context);
+    void serialize(char value, Object state);
 
     /**
      * Serializes float field value.
@@ -172,9 +172,9 @@ public interface ICspGeneralSerializationProcessor
      * </ol>
      *
      * @param value Value to serialize.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      */
-    void serialize(float value, ICspDataMessageSerializationContext context);
+    void serialize(float value, Object state);
 
     /**
      * Serializes double field value.
@@ -185,21 +185,21 @@ public interface ICspGeneralSerializationProcessor
      * </ol>
      *
      * @param value Value to serialize.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      */
-    void serialize(double value, ICspDataMessageSerializationContext context);
+    void serialize(double value, Object state);
 
     /**
      * Serializes boolean[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
-     * Does the same thing as a call {@link #serialize(boolean[], boolean, boolean, ICspDataMessageSerializationContext)}
+     * Does the same thing as a call {@link #serialize(boolean[], boolean, boolean, ICspDataSerializationState)}
      * with false asReference and true fixedSize arguments.
      *
      * @param value Value to serialize.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      */
-    void serialize(boolean[] value, ICspDataMessageSerializationContext context);
+    void serialize(boolean[] value, Object state);
 
     /**
      * Serializes boolean[] field.
@@ -253,23 +253,23 @@ public interface ICspGeneralSerializationProcessor
      *                    It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
      * @param fixedSize If true, then it counts that this array has fixed size by its CSP Interface definition. So no
      *                  array length should be written and false otherwise.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      * @throws CspRuntimeException if asReference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
     void serialize(boolean @Nullable [] value, boolean asReference, boolean fixedSize,
-                   ICspDataMessageSerializationContext context);
+                   Object state);
 
     /**
      * Serializes byte[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
-     * Does the same thing as a call {@link #serialize(byte[], boolean, boolean, ICspDataMessageSerializationContext)}
+     * Does the same thing as a call {@link #serialize(byte[], boolean, boolean, ICspDataSerializationState)}
      * with false asReference and true fixedSize arguments.
      *
      * @param value Value to serialize.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      */
-    void serialize(byte[] value, ICspDataMessageSerializationContext context);
+    void serialize(byte[] value, Object state);
 
     /**
      * Serializes byte[] field.
@@ -330,22 +330,22 @@ public interface ICspGeneralSerializationProcessor
      *                    It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
      * @param fixedSize If true, then it counts that this array has fixed size by its CSP Interface definition. So no
      *                  array length should be written and false otherwise.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      * @throws CspRuntimeException if asReference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(byte @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
+    void serialize(byte @Nullable [] value, boolean asReference, boolean fixedSize, Object state);
 
     /**
      * Serializes short[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
-     * Does the same thing as a call {@link #serialize(short[], boolean, boolean, ICspDataMessageSerializationContext)}
+     * Does the same thing as a call {@link #serialize(short[], boolean, boolean, ICspDataSerializationState)}
      * with false asReference and true fixedSize arguments.
      *
      * @param value Value to serialize.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      */
-    void serialize(short[] value, ICspDataMessageSerializationContext context);
+    void serialize(short[] value, Object state);
 
     /**
      * Serializes short[] field.
@@ -406,22 +406,22 @@ public interface ICspGeneralSerializationProcessor
      *                    It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
      * @param fixedSize If true, then it counts that this array has fixed size by its CSP Interface definition. So no
      *                  array length should be written and false otherwise.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      * @throws CspRuntimeException if asReference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(short @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
+    void serialize(short @Nullable [] value, boolean asReference, boolean fixedSize, Object state);
 
     /**
      * Serializes int[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
-     * Does the same thing as a call {@link #serialize(int[], boolean, boolean, ICspDataMessageSerializationContext)}
+     * Does the same thing as a call {@link #serialize(int[], boolean, boolean, ICspDataSerializationState)}
      * with false asReference and true fixedSize arguments.
      *
      * @param value Value to serialize.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      */
-    void serialize(int[] value, ICspDataMessageSerializationContext context);
+    void serialize(int[] value, Object state);
 
     /**
      * Serializes int[] field.
@@ -482,22 +482,22 @@ public interface ICspGeneralSerializationProcessor
      *                    It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
      * @param fixedSize If true, then it counts that this array has fixed size by its CSP Interface definition. So no
      *                  array length should be written and false otherwise.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      * @throws CspRuntimeException if asReference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(int @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
+    void serialize(int @Nullable [] value, boolean asReference, boolean fixedSize, Object state);
 
     /**
      * Serializes long[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
-     * Does the same thing as a call {@link #serialize(long[], boolean, boolean, ICspDataMessageSerializationContext)}
+     * Does the same thing as a call {@link #serialize(long[], boolean, boolean, ICspDataSerializationState)}
      * with false asReference and true fixedSize arguments.
      *
      * @param value Value to serialize.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      */
-    void serialize(long[] value, ICspDataMessageSerializationContext context);
+    void serialize(long[] value, Object state);
 
     /**
      * Serializes long[] field.
@@ -558,16 +558,16 @@ public interface ICspGeneralSerializationProcessor
      *                    It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
      * @param fixedSize If true, then it counts that this array has fixed size by its CSP Interface definition. So no
      *                  array length should be written and false otherwise.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      * @throws CspRuntimeException if asReference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(long @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
+    void serialize(long @Nullable [] value, boolean asReference, boolean fixedSize, Object state);
 
     /**
      * Serializes char[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
-     * Does the same thing as a call {@link #serialize(char[], boolean, boolean, ICspDataMessageSerializationContext)}
+     * Does the same thing as a call {@link #serialize(char[], boolean, boolean, ICspDataSerializationState)}
      * with false asReference and true fixedSize arguments.
      * <p>
      * Please, note that using Java char is not recommended in CSP in most cases. Use it only when you really
@@ -575,9 +575,9 @@ public interface ICspGeneralSerializationProcessor
      * specified in the CSP Interface. However, it seems highly unlikely that this would be the case.
      *
      * @param value Value to serialize.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      */
-    void serialize(char[] value, ICspDataMessageSerializationContext context);
+    void serialize(char[] value, Object state);
 
     /**
      * Serializes char[] field.
@@ -633,22 +633,22 @@ public interface ICspGeneralSerializationProcessor
      *                    It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
      * @param fixedSize If true, then it counts that this array has fixed size by its CSP Interface definition. So no
      *                  array length should be written and false otherwise.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      * @throws CspRuntimeException if asReference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(char @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
+    void serialize(char @Nullable [] value, boolean asReference, boolean fixedSize, Object state);
 
     /**
      * Serializes float[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
-     * Does the same thing as a call {@link #serialize(float[], boolean, boolean, ICspDataMessageSerializationContext)}
+     * Does the same thing as a call {@link #serialize(float[], boolean, boolean, ICspDataSerializationState)}
      * with false asReference and true fixedSize arguments.
      *
      * @param value Value to serialize.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      */
-    void serialize(float[] value, ICspDataMessageSerializationContext context);
+    void serialize(float[] value, Object state);
 
     /**
      * Serializes float[] field.
@@ -701,22 +701,22 @@ public interface ICspGeneralSerializationProcessor
      *                    It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
      * @param fixedSize If true, then it counts that this array has fixed size by its CSP Interface definition. So no
      *                  array length should be written and false otherwise.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      * @throws CspRuntimeException if asReference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(float @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
+    void serialize(float @Nullable [] value, boolean asReference, boolean fixedSize, Object state);
 
     /**
      * Serializes double[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
-     * Does the same thing as a call {@link #serialize(double[], boolean, boolean, ICspDataMessageSerializationContext)}
+     * Does the same thing as a call {@link #serialize(double[], boolean, boolean, ICspDataSerializationState)}
      * with false asReference and true fixedSize arguments.
      *
      * @param value Value to serialize.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      */
-    void serialize(double[] value, ICspDataMessageSerializationContext context);
+    void serialize(double[] value, Object state);
 
     /**
      * Serializes double[] field.
@@ -769,22 +769,22 @@ public interface ICspGeneralSerializationProcessor
      *                    It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
      * @param fixedSize If true, then it counts that this array has fixed size by its CSP Interface definition. So no
      *                  array length should be written and false otherwise.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      * @throws CspRuntimeException if asReference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(double @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataMessageSerializationContext context);
+    void serialize(double @Nullable [] value, boolean asReference, boolean fixedSize, Object state);
 
     /**
      * Serializes String not as a reference, but as an embedded structure.
      * <p>
-     * Does the same thing as a call {@link #serialize(String, boolean, Charset, ICspDataMessageSerializationContext)}
+     * Does the same thing as a call {@link #serialize(String, boolean, Charset, ICspDataSerializationState)}
      * with false asReference argument.
      *
      * @param value Object to serialize.
      * @param charset Charset according to CSP Interface specification.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      */
-    void serialize(String value, Charset charset, ICspDataMessageSerializationContext context);
+    void serialize(String value, Charset charset, Object state);
 
     /**
      * Serializes String field.
@@ -832,10 +832,10 @@ public interface ICspGeneralSerializationProcessor
      *                    <p>
      *                    It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
      * @param charset Charset according to CSP Interface specification.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      * @throws CspRuntimeException if asReference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(@Nullable String value, boolean asReference, Charset charset, ICspDataMessageSerializationContext context);
+    void serialize(@Nullable String value, boolean asReference, Charset charset, Object state);
 
     /**
      * Serializes Object as an embedded structure.
@@ -846,11 +846,11 @@ public interface ICspGeneralSerializationProcessor
      * @param clazz The class that will be serialized. It is for choice which {@link ICspSerializationProcessor}
      *              shall be used, as long as value can implement different interfaces and inherits different classes
      *              (and some of them may be not part of CSP interface),
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      * @throws CspRuntimeException if some serialized object fields or their nested fields will be serialized
      * as references when {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(Object value, Class<?> clazz, ICspDataMessageSerializationContext context);
+    void serialize(Object value, Class<?> clazz, Object state);
 
     /**
      * Serializes Object.
@@ -912,9 +912,9 @@ public interface ICspGeneralSerializationProcessor
      *
      * @param value Object to serialize.
      * @param cspObjectTypeTraits Traits of value type according to CSP reference.
-     * @param context Current serialization message context.
+     * @param state Current serialization execution state.
      * @throws CspRuntimeException if asReference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(@Nullable Object value, ICspReferenceTypeTraits cspObjectTypeTraits, ICspDataMessageSerializationContext context);
+    void serialize(@Nullable Object value, ICspReferenceTypeTraits cspObjectTypeTraits, Object state);
 }
 

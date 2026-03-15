@@ -23,12 +23,10 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.context.internal;
+package io.andreygs.jcsp.base.processing.state.internal;
 
 import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
-import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
-import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspMessageType;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
@@ -39,20 +37,18 @@ import java.util.Set;
 /**
  * TODO: place description here
  */
-public final class CspStatusMessageSerializationContext extends AbstractCspMessageSerializationContext
-    implements ICspStatusMessageSerializationContext
+final class CspStatusSerializationState extends AbstractCspCommonSerializationState
+    implements ICspStatusSerializationState
 {
     private final CspStatus cspStatus;
 
-    public CspStatusMessageSerializationContext(ICspGeneralSerializationProcessor cspGeneralSerializationProcessor,
-                                                ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar,
-                                                ICspSerializationBuffer cspSerializationBuffer,
-                                                CspProtocolVersion cspProtocolVersion,
-                                                Set<CspCommonFlag> cspCommonFlags,
-                                                CspStatus cspStatus)
+    public CspStatusSerializationState(ICspGeneralSerializationProcessor cspGeneralSerializationProcessor,
+                                       ICspSerializationBuffer cspSerializationBuffer,
+                                       CspProtocolVersion cspProtocolVersion,
+                                       Set<CspCommonFlag> cspCommonFlags,
+                                       CspStatus cspStatus)
     {
-        super(cspGeneralSerializationProcessor, cspSerializationProcessorRegistrar, cspSerializationBuffer,
-              cspProtocolVersion, cspCommonFlags);
+        super(cspGeneralSerializationProcessor, cspSerializationBuffer, cspProtocolVersion, cspCommonFlags);
         this.cspStatus = cspStatus;
     }
 

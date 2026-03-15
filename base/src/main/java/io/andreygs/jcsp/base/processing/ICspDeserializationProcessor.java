@@ -25,13 +25,11 @@
 
 package io.andreygs.jcsp.base.processing;
 
-import io.andreygs.jcsp.base.processing.context.ICspDataMessageDeserializationContext;
-
 /**
  * TODO: place description here
  */
 public non-sealed interface ICspDeserializationProcessor
     extends ICspProcessor
 {
-    void deserialize(ICspDataMessageDeserializationContext context, Object value);
+    void deserialize(Object state, Object value);
 }

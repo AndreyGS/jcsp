@@ -23,13 +23,12 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.context.internal;
+package io.andreygs.jcsp.base.processing.state.internal;
 
 import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
-import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
@@ -42,9 +41,10 @@ import java.util.Set;
 /**
  * TODO: place description here
  */
-public final class CspDataMessageSerializationContext extends AbstractCspMessageSerializationContext
-    implements ICspDataMessageSerializationContext
+final class CspDataSerializationState extends AbstractCspCommonSerializationState
+    implements ICspDataSerializationState
 {
+    private final ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar;
     private final Class<?> structClazz;
     private final ICspInterfaceVersion cspInterfaceVersion;
     private final boolean alignmentMayBeNotEqual;
@@ -54,17 +54,17 @@ public final class CspDataMessageSerializationContext extends AbstractCspMessage
     private final boolean simplyAssignableTagsOptimizationsAreTurnedOff;
     private final boolean checkRecursivePointersWhileMaintainingLinkStructure;
 
-    public CspDataMessageSerializationContext(ICspGeneralSerializationProcessor cspGeneralSerializationProcessor,
-                                              ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar,
-                                              ICspSerializationBuffer cspSerializationBuffer,
-                                              CspProtocolVersion cspProtocolVersion,
-                                              Set<CspCommonFlag> cspCommonFlags,
-                                              Class<?> structClazz,
-                                              ICspInterfaceVersion cspInterfaceVersion,
-                                              Set<CspDataFlag> cspDataFlags)
+    public CspDataSerializationState(ICspGeneralSerializationProcessor cspGeneralSerializationProcessor,
+                                     ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar,
+                                     ICspSerializationBuffer cspSerializationBuffer,
+                                     CspProtocolVersion cspProtocolVersion,
+                                     Set<CspCommonFlag> cspCommonFlags,
+                                     Class<?> structClazz,
+                                     ICspInterfaceVersion cspInterfaceVersion,
+                                     Set<CspDataFlag> cspDataFlags)
     {
-        super(cspGeneralSerializationProcessor, cspSerializationProcessorRegistrar, cspSerializationBuffer,
-              cspProtocolVersion, cspCommonFlags);
+        super(cspGeneralSerializationProcessor, cspSerializationBuffer, cspProtocolVersion, cspCommonFlags);
+        this.cspSerializationProcessorRegistrar = cspSerializationProcessorRegistrar;
         this.structClazz = structClazz;
         this.cspInterfaceVersion = cspInterfaceVersion;
         this.alignmentMayBeNotEqual = cspDataFlags.contains(CspDataFlag.ALIGNMENT_MAY_BE_NOT_EQUAL);
@@ -75,6 +75,12 @@ public final class CspDataMessageSerializationContext extends AbstractCspMessage
             cspDataFlags.contains(CspDataFlag.SIMPLY_ASSIGNABLE_TAGS_OPTIMIZATIONS_ARE_TURNED_OFF);
         this.checkRecursivePointersWhileMaintainingLinkStructure =
             cspDataFlags.contains(CspDataFlag.CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE);
+    }
+
+    @Override
+    public final ICspProcessorRegistrar<ICspSerializationProcessor> getCspSerializationProcessorRegistrar()
+    {
+        return cspSerializationProcessorRegistrar;
     }
 
     @Override

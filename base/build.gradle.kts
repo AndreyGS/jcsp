@@ -15,7 +15,8 @@ repositories {
 }
 
 val mockitoAgent: Configuration = configurations.create("mockitoAgent")
-val mockitoLib = "org.mockito:mockito-junit-jupiter:5.21.0"
+val mockitoLib = "org.mockito:mockito-junit-jupiter:5.2.0"
+val mockitoInlineLib = "org.mockito:mockito-inline:5.2.0"
 
 dependencies {
     implementation("org.jetbrains:annotations:26.0.2")
@@ -25,7 +26,10 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     testImplementation(mockitoLib)
+    testImplementation(mockitoInlineLib)
+
     mockitoAgent(mockitoLib) { isTransitive = false }
+    mockitoAgent(mockitoInlineLib) { isTransitive = false }
 }
 
 tasks.test {

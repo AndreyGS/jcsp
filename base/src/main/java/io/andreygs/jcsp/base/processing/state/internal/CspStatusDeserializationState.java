@@ -23,42 +23,46 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.context.internal;
+package io.andreygs.jcsp.base.processing.state.internal;
 
-import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
-import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
-import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
+import io.andreygs.jcsp.base.processing.buffer.internal.ICspDeserializationBuffer;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
-import io.andreygs.jcsp.base.types.CspDataFlag;
+import io.andreygs.jcsp.base.types.CspMessageType;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
-import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
+import io.andreygs.jcsp.base.types.CspStatus;
 
 import java.util.Set;
 
 /**
  * TODO: place description here
  */
-public final class CspMessageSerializationContextsFactory
+final class CspStatusDeserializationState extends AbstractCspCommonDeserializationState
+    implements ICspStatusDeserializationState
 {
-    public static ICspDataMessageSerializationContext createCspDataMessageSerializationContext(
-        ICspGeneralSerializationProcessor cspGeneralSerializationProcessor,
-        ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar,
-        ICspSerializationBuffer cspSerializationBuffer,
+    private final CspStatus cspStatus;
+
+    public CspStatusDeserializationState(
+        ICspProcessorRegistrar<ICspSerializationProcessor> cspDeserializationProcessorRegistrar,
+        ICspDeserializationBuffer cspDeserializationBuffer,
         CspProtocolVersion cspProtocolVersion,
         Set<CspCommonFlag> cspCommonFlags,
-        Class<?> structClazz,
-        ICspInterfaceVersion cspInterfaceVersion,
-        Set<CspDataFlag> cspDataFlags)
+        CspStatus cspStatus)
     {
-        return new CspDataMessageSerializationContext(cspGeneralSerializationProcessor,
-                                                      cspSerializationProcessorRegistrar,
-                                                      cspSerializationBuffer,
-                                                      cspProtocolVersion,
-                                                      cspCommonFlags,
-                                                      structClazz,
-                                                      cspInterfaceVersion,
-                                                      cspDataFlags);
+        super(cspDeserializationBuffer, cspProtocolVersion, cspCommonFlags);
+        this.cspStatus = cspStatus;
+    }
+
+    @Override
+    public CspMessageType getCspMessageType()
+    {
+        return CspMessageType.STATUS;
+    }
+
+    @Override
+    public CspStatus getStatus()
+    {
+        return cspStatus;
     }
 }

@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.base.processing;
 
-import io.andreygs.jcsp.base.processing.context.ICspDataMessageDeserializationContext;
+import io.andreygs.jcsp.base.processing.state.internal.ICspDataDeserializationState;
 
 import java.nio.charset.Charset;
 
@@ -34,37 +34,37 @@ import java.nio.charset.Charset;
  */
 public interface ICspGeneralDeserializationProcessor
 {
-    boolean deserialize(ICspDataMessageDeserializationContext context, boolean value);
+    boolean deserialize(Object state, boolean value);
 
-    byte deserialize(ICspDataMessageDeserializationContext context, byte value);
+    byte deserialize(Object state, byte value);
 
-    short deserialize(ICspDataMessageDeserializationContext context, short value);
+    short deserialize(Object state, short value);
 
-    int deserialize(ICspDataMessageDeserializationContext context, int value);
+    int deserialize(Object state, int value);
 
-    long deserialize(ICspDataMessageDeserializationContext context, long value);
+    long deserialize(Object state, long value);
 
-    char deserialize(ICspDataMessageDeserializationContext context, char value);
+    char deserialize(Object state, char value);
 
-    float deserialize(ICspDataMessageDeserializationContext context, float value);
+    float deserialize(Object state, float value);
 
-    double deserialize(ICspDataMessageDeserializationContext context, double value);
+    double deserialize(Object state, double value);
 
-    void deserialize(ICspDataMessageDeserializationContext context, byte[] value);
+    void deserialize(Object state, byte[] value);
 
-    void deserialize(ICspDataMessageDeserializationContext context, short[] value);
+    void deserialize(Object state, short[] value);
 
-    void deserialize(ICspDataMessageDeserializationContext context, int[] value);
+    void deserialize(Object state, int[] value);
 
-    void deserialize(ICspDataMessageDeserializationContext context, long[] value);
+    void deserialize(Object state, long[] value);
 
-    void deserialize(ICspDataMessageDeserializationContext context, char[] value);
+    void deserialize(Object state, char[] value);
 
-    void deserialize(ICspDataMessageDeserializationContext context, float[] value);
+    void deserialize(Object state, float[] value);
 
-    void deserialize(ICspDataMessageDeserializationContext context, double[] value);
+    void deserialize(Object state, double[] value);
 
-    void deserialize(ICspDataMessageDeserializationContext context, Charset charset, String value);
+    void deserialize(Object state, Charset charset, String value);
 
-    void deserialize(ICspDataMessageDeserializationContext context, Object value);
+    void deserialize(Object state, Object value);
 }

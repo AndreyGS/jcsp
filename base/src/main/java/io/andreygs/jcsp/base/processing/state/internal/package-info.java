@@ -1,4 +1,6 @@
 /**
+ * TODO: place brief description here
+ *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -22,17 +24,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+@NotNullByDefault
+package io.andreygs.jcsp.base.processing.state.internal;
 
-package io.andreygs.jcsp.base.processing.context;
-
-import io.andreygs.jcsp.base.message.ICspDataMessage;
-import io.andreygs.jcsp.base.processing.context.internal.CspDataMessageSerializationContext;
-import io.andreygs.jcsp.base.processing.context.internal.ICspMessageSerializationContext;
-
-/**
- * TODO: place description here
- */
-public sealed interface ICspDataMessageSerializationContext extends ICspDataMessage, ICspMessageSerializationContext
-    permits CspDataMessageSerializationContext
-{
-}
+import org.jetbrains.annotations.NotNullByDefault;

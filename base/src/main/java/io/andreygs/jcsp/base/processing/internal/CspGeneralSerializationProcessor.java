@@ -26,7 +26,7 @@
 package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
-import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
+import io.andreygs.jcsp.base.processing.state.internal.ICspDataSerializationState;
 import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
 import org.jetbrains.annotations.Nullable;
 
@@ -39,179 +39,179 @@ final class CspGeneralSerializationProcessor implements ICspGeneralSerialization
 {
 
     @Override
-    public void serialize(boolean value, ICspDataMessageSerializationContext context)
+    public void serialize(boolean value, Object state)
     {
 
     }
 
     @Override
-    public void serialize(byte value, ICspDataMessageSerializationContext context)
+    public void serialize(byte value, Object state)
     {
 
     }
 
     @Override
-    public void serialize(short value, ICspDataMessageSerializationContext context)
+    public void serialize(short value, Object state)
     {
 
     }
 
     @Override
-    public void serialize(int value, ICspDataMessageSerializationContext context)
+    public void serialize(int value, Object state)
     {
 
     }
 
     @Override
-    public void serialize(long value, ICspDataMessageSerializationContext context)
+    public void serialize(long value, Object state)
     {
 
     }
 
     @Override
-    public void serialize(char value, ICspDataMessageSerializationContext context)
+    public void serialize(char value, Object state)
     {
 
     }
 
     @Override
-    public void serialize(float value, ICspDataMessageSerializationContext context)
+    public void serialize(float value, Object state)
     {
 
     }
 
     @Override
-    public void serialize(double value, ICspDataMessageSerializationContext context)
+    public void serialize(double value, Object state)
     {
 
     }
 
     @Override
-    public void serialize(boolean[] value, ICspDataMessageSerializationContext context)
+    public void serialize(boolean[] value, Object state)
     {
 
     }
 
     @Override
     public void serialize(boolean @Nullable [] value, boolean asReference, boolean fixedSize,
-                          ICspDataMessageSerializationContext context)
+                          Object state)
     {
 
     }
 
     @Override
-    public void serialize(byte[] value, ICspDataMessageSerializationContext context)
+    public void serialize(byte[] value, Object state)
     {
 
     }
 
     @Override
     public void serialize(byte @Nullable [] value, boolean asReference, boolean fixedSize,
-                          ICspDataMessageSerializationContext context)
+                          Object state)
     {
 
     }
 
     @Override
-    public void serialize(short[] value, ICspDataMessageSerializationContext context)
+    public void serialize(short[] value, Object state)
     {
 
     }
 
     @Override
     public void serialize(short @Nullable [] value, boolean asReference, boolean fixedSize,
-                          ICspDataMessageSerializationContext context)
+                          Object state)
     {
 
     }
 
     @Override
-    public void serialize(int[] value, ICspDataMessageSerializationContext context)
+    public void serialize(int[] value, Object state)
     {
 
     }
 
     @Override
     public void serialize(int @Nullable [] value, boolean asReference, boolean fixedSize,
-                          ICspDataMessageSerializationContext context)
+                          Object state)
     {
 
     }
 
     @Override
-    public void serialize(long[] value, ICspDataMessageSerializationContext context)
+    public void serialize(long[] value, Object state)
     {
 
     }
 
     @Override
     public void serialize(long @Nullable [] value, boolean asReference, boolean fixedSize,
-                          ICspDataMessageSerializationContext context)
+                          Object state)
     {
 
     }
 
     @Override
-    public void serialize(char[] value, ICspDataMessageSerializationContext context)
+    public void serialize(char[] value, Object state)
     {
 
     }
 
     @Override
     public void serialize(char @Nullable [] value, boolean asReference, boolean fixedSize,
-                          ICspDataMessageSerializationContext context)
+                          Object state)
     {
 
     }
 
     @Override
-    public void serialize(float[] value, ICspDataMessageSerializationContext context)
+    public void serialize(float[] value, Object state)
     {
 
     }
 
     @Override
     public void serialize(float @Nullable [] value, boolean asReference, boolean fixedSize,
-                          ICspDataMessageSerializationContext context)
+                          Object state)
     {
 
     }
 
     @Override
-    public void serialize(double[] value, ICspDataMessageSerializationContext context)
+    public void serialize(double[] value, Object state)
     {
 
     }
 
     @Override
     public void serialize(double @Nullable [] value, boolean asReference, boolean fixedSize,
-                          ICspDataMessageSerializationContext context)
+                          Object state)
     {
 
     }
 
     @Override
-    public void serialize(String value, Charset charset, ICspDataMessageSerializationContext context)
+    public void serialize(String value, Charset charset, Object state)
     {
 
     }
 
     @Override
     public void serialize(@Nullable String value, boolean asReference, Charset charset,
-                          ICspDataMessageSerializationContext context)
+                          Object state)
     {
 
     }
 
     @Override
-    public void serialize(Object value, Class<?> clazz, ICspDataMessageSerializationContext context)
+    public void serialize(Object value, Class<?> clazz, Object state)
     {
 
     }
 
     @Override
     public void serialize(@Nullable Object value, ICspReferenceTypeTraits cspObjectTypeTraits,
-                          ICspDataMessageSerializationContext context)
+                          Object state)
     {
 
     }

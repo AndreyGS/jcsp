@@ -23,12 +23,11 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.context.internal;
+package io.andreygs.jcsp.base.processing.state.internal;
 
-import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
-import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
+import io.andreygs.jcsp.base.processing.buffer.internal.ICspDeserializationBuffer;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 
@@ -39,27 +38,22 @@ import java.util.Set;
 /**
  * TODO: place description here
  */
-sealed abstract class AbstractCspMessageSerializationContext
-    implements ICspMessageSerializationContext
-    permits CspDataMessageSerializationContext, CspStatusMessageSerializationContext
+sealed abstract class AbstractCspCommonDeserializationState
+    implements ICspCommonDeserializationState
+    permits CspDataDeserializationState, CspStatusDeserializationState
 {
-    private final ICspGeneralSerializationProcessor cspGeneralSerializationProcessor;
-    private final ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar;
-    private final ICspSerializationBuffer cspSerializationBuffer;
+    private final ICspDeserializationBuffer cspDeserializationBuffer;
     private final CspProtocolVersion cspProtocolVersion;
     private final boolean bitness32;
     private final boolean bigEndian;
     private final boolean endiannessDifference;
 
-    public AbstractCspMessageSerializationContext(ICspGeneralSerializationProcessor cspGeneralSerializationProcessor,
-                                                  ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar,
-                                                  ICspSerializationBuffer cspSerializationBuffer,
-                                                  CspProtocolVersion cspProtocolVersion,
-                                                  Set<CspCommonFlag> cspCommonFlags)
+    public AbstractCspCommonDeserializationState(
+        ICspDeserializationBuffer cspDeserializationBuffer,
+        CspProtocolVersion cspProtocolVersion,
+        Set<CspCommonFlag> cspCommonFlags)
     {
-        this.cspGeneralSerializationProcessor = cspGeneralSerializationProcessor;
-        this.cspSerializationProcessorRegistrar = cspSerializationProcessorRegistrar;
-        this.cspSerializationBuffer = cspSerializationBuffer;
+        this.cspDeserializationBuffer = cspDeserializationBuffer;
         this.cspProtocolVersion = cspProtocolVersion;
         this.bitness32 = cspCommonFlags.contains(CspCommonFlag.BITNESS_32);
         this.bigEndian = cspCommonFlags.contains(CspCommonFlag.BIG_ENDIAN);
@@ -67,21 +61,9 @@ sealed abstract class AbstractCspMessageSerializationContext
     }
 
     @Override
-    public final ICspGeneralSerializationProcessor getCspGeneralSerializationProcessor()
-    {
-        return cspGeneralSerializationProcessor;
-    }
-
-    @Override
-    public final ICspProcessorRegistrar<ICspSerializationProcessor> getCspSerializationProcessorRegistrar()
-    {
-        return cspSerializationProcessorRegistrar;
-    }
-
-    @Override
     public final ByteBuffer getBinaryData()
     {
-        return cspSerializationBuffer.getByteBuffer();
+        return cspDeserializationBuffer.getByteBuffer();
     }
 
     @Override
@@ -130,8 +112,9 @@ sealed abstract class AbstractCspMessageSerializationContext
     }
 
     @Override
-    public final ICspSerializationBuffer getCspSerializationBuffer()
+    public final ICspDeserializationBuffer getCspDeserializationBuffer()
     {
-        return cspSerializationBuffer;
+        return cspDeserializationBuffer;
     }
 }
+

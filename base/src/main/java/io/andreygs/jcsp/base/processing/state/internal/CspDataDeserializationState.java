@@ -23,12 +23,11 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.context.internal;
+package io.andreygs.jcsp.base.processing.state.internal;
 
 import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspDeserializationBuffer;
-import io.andreygs.jcsp.base.processing.context.ICspDataMessageDeserializationContext;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
@@ -41,9 +40,10 @@ import java.util.Set;
 /**
  * TODO: place description here
  */
-public final class CspDataMessageDeserializationContext extends AbstractCspMessageDeserializationContext
-    implements ICspDataMessageDeserializationContext
+final class CspDataDeserializationState extends AbstractCspCommonDeserializationState
+    implements ICspDataDeserializationState
 {
+    private final ICspProcessorRegistrar<ICspSerializationProcessor> cspDeserializationProcessorRegistrar;
     private final Class<?> structClazz;
     private final ICspInterfaceVersion cspInterfaceVersion;
     private final boolean alignmentMayBeNotEqual;
@@ -53,7 +53,7 @@ public final class CspDataMessageDeserializationContext extends AbstractCspMessa
     private final boolean simplyAssignableTagsOptimizationsAreTurnedOff;
     private final boolean checkRecursivePointersWhileMaintainingLinkStructure;
 
-    public CspDataMessageDeserializationContext(
+    public CspDataDeserializationState(
         ICspProcessorRegistrar<ICspSerializationProcessor> cspDeserializationProcessorRegistrar,
         ICspDeserializationBuffer cspDeserializationBuffer,
         CspProtocolVersion cspProtocolVersion,
@@ -61,7 +61,8 @@ public final class CspDataMessageDeserializationContext extends AbstractCspMessa
         Class<?> structClazz, ICspInterfaceVersion cspInterfaceVersion,
         Set<CspDataFlag> cspDataFlags)
     {
-        super(cspDeserializationProcessorRegistrar, cspDeserializationBuffer, cspProtocolVersion, cspCommonFlags);
+        super(cspDeserializationBuffer, cspProtocolVersion, cspCommonFlags);
+        this.cspDeserializationProcessorRegistrar = cspDeserializationProcessorRegistrar;
         this.structClazz = structClazz;
         this.cspInterfaceVersion = cspInterfaceVersion;
         this.alignmentMayBeNotEqual = cspDataFlags.contains(CspDataFlag.ALIGNMENT_MAY_BE_NOT_EQUAL);
@@ -72,6 +73,12 @@ public final class CspDataMessageDeserializationContext extends AbstractCspMessa
             cspDataFlags.contains(CspDataFlag.SIMPLY_ASSIGNABLE_TAGS_OPTIMIZATIONS_ARE_TURNED_OFF);
         this.checkRecursivePointersWhileMaintainingLinkStructure =
             cspDataFlags.contains(CspDataFlag.CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE);
+    }
+
+    @Override
+    public final ICspProcessorRegistrar<ICspSerializationProcessor> getCspDeserializationProcessorRegistrar()
+    {
+        return cspDeserializationProcessorRegistrar;
     }
 
     @Override

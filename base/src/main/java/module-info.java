@@ -29,7 +29,6 @@ module io.andreygs.jcsp.base {
 
     exports io.andreygs.jcsp.base.message;
     exports io.andreygs.jcsp.base.processing;
-    exports io.andreygs.jcsp.base.processing.context;
     exports io.andreygs.jcsp.base.types;
     exports io.andreygs.jcsp.base.utils;
 }

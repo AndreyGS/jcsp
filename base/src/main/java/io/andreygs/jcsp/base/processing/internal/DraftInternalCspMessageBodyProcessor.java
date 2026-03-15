@@ -26,7 +26,7 @@
 package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
-import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
+import io.andreygs.jcsp.base.processing.state.internal.ICspDataSerializationState;
 import io.andreygs.jcsp.base.types.ICspVersionable;
 
 import java.lang.reflect.Array;
@@ -46,47 +46,47 @@ public class DraftInternalCspMessageBodyProcessor
 
     }
 
-    public static void serialize(boolean value, ICspDataMessageSerializationContext context)
+    public static void serialize(boolean value, ICspDataSerializationState context)
     {
         context.getCspSerializationBuffer().write((byte)(value ? 1 : 0));
     }
 
-    public static void serialize(byte value, ICspDataMessageSerializationContext context)
+    public static void serialize(byte value, ICspDataSerializationState context)
     {
         context.getCspSerializationBuffer().write(value);
     }
 
-    public static void serialize(short value, ICspDataMessageSerializationContext context)
+    public static void serialize(short value, ICspDataSerializationState context)
     {
         context.getCspSerializationBuffer().write(value);
     }
 
-    public static void serialize(int value, ICspDataMessageSerializationContext context)
+    public static void serialize(int value, ICspDataSerializationState context)
     {
         context.getCspSerializationBuffer().write(value);
     }
 
-    public static void serialize(long value, ICspDataMessageSerializationContext context)
+    public static void serialize(long value, ICspDataSerializationState context)
     {
         context.getCspSerializationBuffer().write(value);
     }
 
-    public static void serialize(char value, ICspDataMessageSerializationContext context)
+    public static void serialize(char value, ICspDataSerializationState context)
     {
         context.getCspSerializationBuffer().write(value);
     }
 
-    public static void serialize(float value, ICspDataMessageSerializationContext context)
+    public static void serialize(float value, ICspDataSerializationState context)
     {
         context.getCspSerializationBuffer().write(value);
     }
 
-    public static void serialize(double value, ICspDataMessageSerializationContext context)
+    public static void serialize(double value, ICspDataSerializationState context)
     {
         context.getCspSerializationBuffer().write(value);
     }
 
-    public static void serialize(boolean[] value, ICspDataMessageSerializationContext context)
+    public static void serialize(boolean[] value, ICspDataSerializationState context)
     {
         for (boolean item : value)
         {
@@ -94,54 +94,54 @@ public class DraftInternalCspMessageBodyProcessor
         }
     }
 
-    public static void serialize(byte[] value, ICspDataMessageSerializationContext context)
+    public static void serialize(byte[] value, ICspDataSerializationState context)
     {
         context.getCspSerializationBuffer().write(value);
     }
 
-    public static void serialize(short[] value, ICspDataMessageSerializationContext context)
+    public static void serialize(short[] value, ICspDataSerializationState context)
     {
         context.getCspSerializationBuffer().write(value);
     }
 
-    public static void serialize(int[] value, ICspDataMessageSerializationContext context)
+    public static void serialize(int[] value, ICspDataSerializationState context)
     {
         context.getCspSerializationBuffer().write(value);
     }
 
-    public static void serialize(long[] value, ICspDataMessageSerializationContext context)
+    public static void serialize(long[] value, ICspDataSerializationState context)
     {
         context.getCspSerializationBuffer().write(value);
     }
 
-    public static void serialize(char[] value, ICspDataMessageSerializationContext context)
+    public static void serialize(char[] value, ICspDataSerializationState context)
     {
         context.getCspSerializationBuffer().write(value);
     }
 
-    public static void serialize(float[] value, ICspDataMessageSerializationContext context)
+    public static void serialize(float[] value, ICspDataSerializationState context)
     {
         context.getCspSerializationBuffer().write(value);
     }
 
-    public static void serialize(double[] value, ICspDataMessageSerializationContext context)
+    public static void serialize(double[] value, ICspDataSerializationState context)
     {
         context.getCspSerializationBuffer().write(value);
     }
 
-    public static void serialize(String value, ICspDataMessageSerializationContext context)
+    public static void serialize(String value, ICspDataSerializationState context)
     {
         context.getCspSerializationBuffer().write((long)value.length());
         context.getCspSerializationBuffer().write(value.getBytes(StandardCharsets.UTF_16BE));
     }
 
-    public static void serialize(String value, Charset charset, ICspDataMessageSerializationContext context)
+    public static void serialize(String value, Charset charset, ICspDataSerializationState context)
     {
         context.getCspSerializationBuffer().write((long)value.length());
         context.getCspSerializationBuffer().write(value.getBytes(charset));
     }
 
-    public static void serialize(ICspVersionable value, Class<?> clazz, ICspDataMessageSerializationContext context)
+    public static void serialize(ICspVersionable value, Class<?> clazz, ICspDataSerializationState context)
     {
         Class<?> parentClazz = clazz.getSuperclass();
         if (ICspVersionable.class.isAssignableFrom(parentClazz))
@@ -170,7 +170,7 @@ public class DraftInternalCspMessageBodyProcessor
      *
      * @throws io.andreygs.jcsp.base.types.CspRuntimeException when there is no such method.
      */
-    public static void serialize(Object value, ICspDataMessageSerializationContext context)
+    public static void serialize(Object value, ICspDataSerializationState context)
     {
         Optional<ICspSerializationProcessor> cspSerializationProcessor =
             context.getCspSerializationProcessorRegistrar().findProcessor(value.getClass());
@@ -185,7 +185,7 @@ public class DraftInternalCspMessageBodyProcessor
         }*/
     }
 
-    private static void serializationMethodExecutor(ICspVersionable value, ICspDataMessageSerializationContext context,
+    private static void serializationMethodExecutor(ICspVersionable value, ICspDataSerializationState context,
                                                     Class<?> fieldClazz, Field field) throws IllegalAccessException
     {
         if (ICspVersionable.class.isAssignableFrom(fieldClazz))

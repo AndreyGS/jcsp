@@ -29,9 +29,9 @@ import io.andreygs.jcsp.base.message.ICspDataMessage;
 import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.buffer.internal.CspSerializationBufferFactory;
-import io.andreygs.jcsp.base.processing.context.internal.CspMessageSerializationContextsFactory;
+import io.andreygs.jcsp.base.processing.state.internal.CspSerializationStatesFactory;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
-import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
+import io.andreygs.jcsp.base.processing.state.internal.ICspDataSerializationState;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
@@ -70,13 +70,13 @@ public class Serializer
             CspSerializationBufferFactory.createCspSerializationBuffer(initialBufferCapacity, directBuffer, bufferResizeStrategy);
 
         // TODO construction of message should be made later (right before message body serialization).
-        ICspDataMessageSerializationContext cspSerializationDataMessage =
-            CspMessageSerializationContextsFactory.createCspDataMessageSerializationContext(CspGeneralSerializationProcessorFactory.createCspGeneralSerializationProcessor(),
-                                                                                            cspSerializationProcessorRegistrar,
-                                                                                            cspSerializationBuffer,
+        ICspDataSerializationState cspSerializationDataMessage =
+            CspSerializationStatesFactory.createCspDataMessageSerializationContext(CspGeneralSerializationProcessorFactory.createCspGeneralSerializationProcessor(),
+                                                                                   cspSerializationBuffer,
+                                                                                   cspSerializationProcessorRegistrar,
                                                                               cspProtocolVersion == null ? DEFAULT_CSP_PROTOCOL_VERSION : cspProtocolVersion,
                                                                               cspCommonFlags == null ? DEFAULT_CSP_COMMON_FLAGS : cspCommonFlags,
-                                                                                            cspSerializable.getClass(),
+                                                                                   cspSerializable.getClass(),
                                                                               cspInterfaceVersion == null ? cspSerializable.getInterfaceVersion() : cspInterfaceVersion,
                                                                               cspDataFlags == null ? DEFAULT_CSP_DATA_FLAGS : cspDataFlags);
         return cspSerializationDataMessage;

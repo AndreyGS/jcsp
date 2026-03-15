@@ -34,7 +34,7 @@ import java.nio.ByteOrder;
  *  Current interface holds common for both (serialization and deserialization) operations.
  *  It is the wrapper of {@link ByteBuffer} optimized for use in CSP operations.
  */
-public sealed interface ICspBuffer permits ICspSerializationBuffer, ICspDeserializationBuffer
+public interface ICspBuffer
 {
     /**
      * Gets underlying buffer.

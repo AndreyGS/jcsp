@@ -23,21 +23,17 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.context.internal;
+package io.andreygs.jcsp.base.processing.state.internal;
 
-import io.andreygs.jcsp.base.message.ICspMessage;
+import io.andreygs.jcsp.base.message.ICspDataMessage;
 import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
-import io.andreygs.jcsp.base.processing.buffer.internal.ICspDeserializationBuffer;
-import io.andreygs.jcsp.base.processing.context.ICspDataMessageDeserializationContext;
 
 /**
  * TODO: place description here
  */
-public sealed interface ICspMessageDeserializationContext extends ICspMessage
-    permits AbstractCspMessageDeserializationContext, ICspDataMessageDeserializationContext,
-            ICspStatusMessageDeserializationContext
+public sealed interface ICspDataDeserializationState extends ICspDataMessage, ICspCommonDeserializationState
+    permits CspDataDeserializationState
 {
     ICspProcessorRegistrar<ICspSerializationProcessor> getCspDeserializationProcessorRegistrar();
-    ICspDeserializationBuffer getCspDeserializationBuffer();
 }

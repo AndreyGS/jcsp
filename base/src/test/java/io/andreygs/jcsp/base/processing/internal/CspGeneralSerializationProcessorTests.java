@@ -27,11 +27,12 @@ package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
-import io.andreygs.jcsp.base.processing.context.ICspDataMessageSerializationContext;
+import io.andreygs.jcsp.base.processing.state.internal.ICspDataSerializationState;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -43,29 +44,24 @@ import org.mockito.junit.jupiter.MockitoExtension;
 public class CspGeneralSerializationProcessorTests
 {
     @Mock
-    private ICspDataMessageSerializationContext context;
-    @Mock
     private ICspSerializationBuffer buffer;
 
-    private final ICspGeneralSerializationProcessor cspGeneralSerializationProcessor = new CspGeneralSerializationProcessor();
+    @InjectMocks
+    private ICspDataSerializationState state;
 
-    @BeforeEach
-    public void setup()
-    {
-        Mockito.when(context.getCspSerializationBuffer()).thenReturn(buffer);
-    }
+    private final ICspGeneralSerializationProcessor cspGeneralSerializationProcessor = new CspGeneralSerializationProcessor();
 
     @Test
     public void serializeBooleanTrueTest()
     {
-        cspGeneralSerializationProcessor.serialize(true, context);
+        cspGeneralSerializationProcessor.serialize(true, state);
         Mockito.verify(buffer).write((byte) 1);
     }
 
     @Test
     public void serializeBooleanFalseTest()
     {
-        cspGeneralSerializationProcessor.serialize(false, context);
+        cspGeneralSerializationProcessor.serialize(false, state);
         Mockito.verify(buffer).write((byte) 0);
     }
 
@@ -75,7 +71,7 @@ public class CspGeneralSerializationProcessorTests
         byte value = 11;
         byte sizeOfInteger = 1;
 
-        cspGeneralSerializationProcessor.serialize(value, context);
+        cspGeneralSerializationProcessor.serialize(value, state);
         Mockito.verify(buffer, Mockito.never()).write(sizeOfInteger);
         Mockito.verify(buffer).write(value);
     }
@@ -86,9 +82,9 @@ public class CspGeneralSerializationProcessorTests
         byte value = 11;
         byte sizeOfInteger = 1;
 
-        Mockito.when(context.isSizeOfIntegersMayBeNotEqual()).thenReturn(true);
+        Mockito.when(state.isSizeOfIntegersMayBeNotEqual()).thenReturn(true);
 
-        cspGeneralSerializationProcessor.serialize(value, context);
+        cspGeneralSerializationProcessor.serialize(value, state);
         Mockito.verify(buffer).write(sizeOfInteger);
         Mockito.verify(buffer).write(value);
     }
@@ -99,7 +95,7 @@ public class CspGeneralSerializationProcessorTests
         short value = 1111;
         byte sizeOfInteger = 2;
 
-        cspGeneralSerializationProcessor.serialize(value, context);
+        cspGeneralSerializationProcessor.serialize(value, state);
         Mockito.verify(buffer, Mockito.never()).write(sizeOfInteger);
         Mockito.verify(buffer).write(value);
     }
@@ -110,9 +106,9 @@ public class CspGeneralSerializationProcessorTests
         short value = 1111;
         byte sizeOfInteger = 2;
 
-        Mockito.when(context.isSizeOfIntegersMayBeNotEqual()).thenReturn(true);
+        Mockito.when(state.isSizeOfIntegersMayBeNotEqual()).thenReturn(true);
 
-        cspGeneralSerializationProcessor.serialize(value, context);
+        cspGeneralSerializationProcessor.serialize(value, state);
         Mockito.verify(buffer).write(sizeOfInteger);
         Mockito.verify(buffer).write(value);
     }
@@ -123,7 +119,7 @@ public class CspGeneralSerializationProcessorTests
         int value = 111111;
         byte sizeOfInteger = 4;
 
-        cspGeneralSerializationProcessor.serialize(value, context);
+        cspGeneralSerializationProcessor.serialize(value, state);
         Mockito.verify(buffer, Mockito.never()).write(sizeOfInteger);
         Mockito.verify(buffer).write(value);
     }
@@ -134,9 +130,9 @@ public class CspGeneralSerializationProcessorTests
         int value = 111111;
         byte sizeOfInteger = 4;
 
-        Mockito.when(context.isSizeOfIntegersMayBeNotEqual()).thenReturn(true);
+        Mockito.when(state.isSizeOfIntegersMayBeNotEqual()).thenReturn(true);
 
-        cspGeneralSerializationProcessor.serialize(value, context);
+        cspGeneralSerializationProcessor.serialize(value, state);
         Mockito.verify(buffer).write(sizeOfInteger);
         Mockito.verify(buffer).write(value);
     }
@@ -147,7 +143,7 @@ public class CspGeneralSerializationProcessorTests
         long value = 1111111111L;
         byte sizeOfInteger = 8;
 
-        cspGeneralSerializationProcessor.serialize(value, context);
+        cspGeneralSerializationProcessor.serialize(value, state);
         Mockito.verify(buffer, Mockito.never()).write(sizeOfInteger);
         Mockito.verify(buffer).write(value);
     }
@@ -158,9 +154,9 @@ public class CspGeneralSerializationProcessorTests
         long value = 1111111111L;
         byte sizeOfInteger = 8;
 
-        Mockito.when(context.isSizeOfIntegersMayBeNotEqual()).thenReturn(true);
+        Mockito.when(state.isSizeOfIntegersMayBeNotEqual()).thenReturn(true);
 
-        cspGeneralSerializationProcessor.serialize(value, context);
+        cspGeneralSerializationProcessor.serialize(value, state);
         Mockito.verify(buffer).write(sizeOfInteger);
         Mockito.verify(buffer).write(value);
     }
@@ -170,7 +166,7 @@ public class CspGeneralSerializationProcessorTests
     {
         char value = 'a';
 
-        cspGeneralSerializationProcessor.serialize(value, context);
+        cspGeneralSerializationProcessor.serialize(value, state);
         Mockito.verify(buffer).write(value);
     }
 
@@ -179,7 +175,7 @@ public class CspGeneralSerializationProcessorTests
     {
         float value = 1.11F;
 
-        cspGeneralSerializationProcessor.serialize(value, context);
+        cspGeneralSerializationProcessor.serialize(value, state);
         Mockito.verify(buffer).write(value);
     }
 
@@ -188,7 +184,7 @@ public class CspGeneralSerializationProcessorTests
     {
         double value = 1.11;
 
-        cspGeneralSerializationProcessor.serialize(value, context);
+        cspGeneralSerializationProcessor.serialize(value, state);
         Mockito.verify(buffer).write(value);
     }
 
@@ -197,7 +193,7 @@ public class CspGeneralSerializationProcessorTests
     {
         boolean[] value = new boolean[] { true, false };
 
-        cspGeneralSerializationProcessor.serialize(value, context);
+        cspGeneralSerializationProcessor.serialize(value, state);
         Mockito.verify(buffer).write((byte) 1);
         Mockito.verify(buffer).write((byte) 0);
     }
@@ -207,7 +203,7 @@ public class CspGeneralSerializationProcessorTests
     public void serializeBooleanArrayNullTest()
     {
         Assertions.assertThrows(IllegalArgumentException.class, () ->
-                                                                    cspGeneralSerializationProcessor.serialize((boolean[])null, context));
+                                                                    cspGeneralSerializationProcessor.serialize((boolean[])null, state));
     }
 
     @Test
@@ -225,9 +221,9 @@ public class CspGeneralSerializationProcessorTests
     {
         boolean[] value = new boolean[] { true, false };
 
-        Mockito.when(context.isAllowUnmanagedPointers()).thenReturn(true);
+        Mockito.when(state.isAllowUnmanagedPointers()).thenReturn(true);
 
-        cspGeneralSerializationProcessor.serialize(value, true, true, context);
+        cspGeneralSerializationProcessor.serialize(value, true, true, state);
         Mockito.verify(buffer).write((byte) 1);
         Mockito.verify(buffer).write((byte) 1);
         Mockito.verify(buffer).write((byte) 0);
@@ -236,9 +232,9 @@ public class CspGeneralSerializationProcessorTests
     @Test
     public void serializeBooleanArrayNullAsReferenceTest()
     {
-        Mockito.when(context.isAllowUnmanagedPointers()).thenReturn(true);
+        Mockito.when(state.isAllowUnmanagedPointers()).thenReturn(true);
 
-        cspGeneralSerializationProcessor.serialize((boolean[]) null, true, false, context);
+        cspGeneralSerializationProcessor.serialize((boolean[]) null, true, false, state);
         Mockito.verify(buffer, Mockito.never()).write(1);
         Mockito.verify(buffer).write((byte) 0);
     }
@@ -248,9 +244,9 @@ public class CspGeneralSerializationProcessorTests
     {
         boolean[] value = new boolean[] { true, false };
 
-        Mockito.when(context.isAllowUnmanagedPointers()).thenReturn(true);
+        Mockito.when(state.isAllowUnmanagedPointers()).thenReturn(true);
 
-        cspGeneralSerializationProcessor.serialize(value, false, false, context);
+        cspGeneralSerializationProcessor.serialize(value, false, false, state);
         Mockito.verify(buffer).write((byte) 2);
         Mockito.verify(buffer, Mockito.calls(1)).write((byte) 1);
         Mockito.verify(buffer).write((byte) 0);
@@ -259,9 +255,9 @@ public class CspGeneralSerializationProcessorTests
     @Test
     public void serializeBooleanArrayAsReferenceNotFixedTest()
     {
-        Mockito.when(context.isAllowUnmanagedPointers()).thenReturn(true);
+        Mockito.when(state.isAllowUnmanagedPointers()).thenReturn(true);
 
-        cspGeneralSerializationProcessor.serialize((boolean[]) null, true, false, context);
+        cspGeneralSerializationProcessor.serialize((boolean[]) null, true, false, state);
         Mockito.verify(buffer, Mockito.calls(2)).write((byte) 1);
         Mockito.verify(buffer).write((byte) 2);
         Mockito.verify(buffer).write((byte) 0);
