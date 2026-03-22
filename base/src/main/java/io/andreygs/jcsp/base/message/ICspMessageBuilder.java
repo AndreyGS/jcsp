@@ -40,7 +40,7 @@ public interface ICspMessageBuilder
      * Sets initial capacity of buffer which will be used to serialize message in.
      *
      * @param initialBufferCapacity Desired initial capacity of message serialization buffer. Must not be negative.
-     * @return this builder. Never null.
+     * @return this builder.
      * @throws IllegalArgumentException if initialBufferCapacity is a negative number.
      */
     ICspMessageBuilder setBufferInitialCapacity(int initialBufferCapacity)

@@ -34,7 +34,6 @@ public class CspGeneralSerializationProcessorFactory
 {
     private CspGeneralSerializationProcessorFactory()
     {
-
     }
 
     public static ICspGeneralSerializationProcessor createCspGeneralSerializationProcessor()

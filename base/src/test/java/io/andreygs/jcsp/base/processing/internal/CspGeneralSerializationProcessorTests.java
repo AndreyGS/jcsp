@@ -75,7 +75,7 @@ public class CspGeneralSerializationProcessorTests
         byte value = 11;
         byte sizeOfInteger = 1;
 
-        cspGeneralSerializationProcessor.serialize(value, state);
+        cspGeneralSerializationProcessor.serializeByte(value, state);
         Mockito.verify(buffer, Mockito.never()).writeByte(sizeOfInteger);
         Mockito.verify(buffer).writeByte(value);
     }
@@ -88,7 +88,7 @@ public class CspGeneralSerializationProcessorTests
 
         Mockito.when(state.isSizeOfIntegersMayBeNotEqual()).thenReturn(true);
 
-        cspGeneralSerializationProcessor.serialize(value, state);
+        cspGeneralSerializationProcessor.serializeByte(value, state);
         Mockito.verify(buffer).writeByte(sizeOfInteger);
         Mockito.verify(buffer).writeByte(value);
     }
@@ -99,7 +99,7 @@ public class CspGeneralSerializationProcessorTests
         short value = 1111;
         byte sizeOfInteger = 2;
 
-        cspGeneralSerializationProcessor.serialize(value, state);
+        cspGeneralSerializationProcessor.serializeShort(value, state);
         Mockito.verify(buffer, Mockito.never()).writeByte(sizeOfInteger);
         Mockito.verify(buffer).writeShort(value);
     }
@@ -112,7 +112,7 @@ public class CspGeneralSerializationProcessorTests
 
         Mockito.when(state.isSizeOfIntegersMayBeNotEqual()).thenReturn(true);
 
-        cspGeneralSerializationProcessor.serialize(value, state);
+        cspGeneralSerializationProcessor.serializeShort(value, state);
         Mockito.verify(buffer).writeByte(sizeOfInteger);
         Mockito.verify(buffer).writeShort(value);
     }
@@ -123,7 +123,7 @@ public class CspGeneralSerializationProcessorTests
         int value = 111111;
         byte sizeOfInteger = 4;
 
-        cspGeneralSerializationProcessor.serialize(value, state);
+        cspGeneralSerializationProcessor.serializeInt(value, state);
         Mockito.verify(buffer, Mockito.never()).writeByte(sizeOfInteger);
         Mockito.verify(buffer).writeInt(value);
     }
@@ -136,7 +136,7 @@ public class CspGeneralSerializationProcessorTests
 
         Mockito.when(state.isSizeOfIntegersMayBeNotEqual()).thenReturn(true);
 
-        cspGeneralSerializationProcessor.serialize(value, state);
+        cspGeneralSerializationProcessor.serializeInt(value, state);
         Mockito.verify(buffer).writeByte(sizeOfInteger);
         Mockito.verify(buffer).writeInt(value);
     }
@@ -147,7 +147,7 @@ public class CspGeneralSerializationProcessorTests
         long value = 1111111111L;
         byte sizeOfInteger = 8;
 
-        cspGeneralSerializationProcessor.serialize(value, state);
+        cspGeneralSerializationProcessor.serializeLong(value, state);
         Mockito.verify(buffer, Mockito.never()).writeByte(sizeOfInteger);
         Mockito.verify(buffer).writeLong(value);
     }
@@ -160,7 +160,7 @@ public class CspGeneralSerializationProcessorTests
 
         Mockito.when(state.isSizeOfIntegersMayBeNotEqual()).thenReturn(true);
 
-        cspGeneralSerializationProcessor.serialize(value, state);
+        cspGeneralSerializationProcessor.serializeLong(value, state);
         Mockito.verify(buffer).writeByte(sizeOfInteger);
         Mockito.verify(buffer).writeLong(value);
     }
@@ -170,7 +170,7 @@ public class CspGeneralSerializationProcessorTests
     {
         char value = 'a';
 
-        cspGeneralSerializationProcessor.serialize(value, state);
+        cspGeneralSerializationProcessor.serializeChar(value, state);
         Mockito.verify(buffer).writeChar(value);
     }
 
@@ -179,7 +179,7 @@ public class CspGeneralSerializationProcessorTests
     {
         float value = 1.11F;
 
-        cspGeneralSerializationProcessor.serialize(value, state);
+        cspGeneralSerializationProcessor.serializeFloat(value, state);
         Mockito.verify(buffer).writeFloat(value);
     }
 
@@ -188,7 +188,7 @@ public class CspGeneralSerializationProcessorTests
     {
         double value = 1.11;
 
-        cspGeneralSerializationProcessor.serialize(value, state);
+        cspGeneralSerializationProcessor.serializeDouble(value, state);
         Mockito.verify(buffer).writeDouble(value);
     }
 

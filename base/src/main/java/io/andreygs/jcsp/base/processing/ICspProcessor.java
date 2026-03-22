@@ -28,9 +28,8 @@ package io.andreygs.jcsp.base.processing;
 /**
  * Tagging interface to bound processor register and provider generic types.
  * <p>
- * Please note, that this is shorthand to ICspDataBodyProcessor.
+ * Please note, that processor is only in use for message type {@link io.andreygs.jcsp.base.types.CspMessageType#DATA}.
  */
-public sealed interface ICspProcessor
-    permits ICspSerializationProcessor, ICspDeserializationProcessor
+public interface ICspProcessor
 {
 }

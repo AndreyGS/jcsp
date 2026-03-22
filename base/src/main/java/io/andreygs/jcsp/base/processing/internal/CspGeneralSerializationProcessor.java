@@ -45,43 +45,43 @@ final class CspGeneralSerializationProcessor implements ICspGeneralSerialization
     }
 
     @Override
-    public void serialize(byte value, Object state)
+    public void serializeByte(byte value, Object state)
     {
 
     }
 
     @Override
-    public void serialize(short value, Object state)
+    public void serializeShort(short value, Object state)
     {
 
     }
 
     @Override
-    public void serialize(int value, Object state)
+    public void serializeInt(int value, Object state)
     {
 
     }
 
     @Override
-    public void serialize(long value, Object state)
+    public void serializeLong(long value, Object state)
     {
 
     }
 
     @Override
-    public void serialize(char value, Object state)
+    public void serializeChar(char value, Object state)
     {
 
     }
 
     @Override
-    public void serialize(float value, Object state)
+    public void serializeFloat(float value, Object state)
     {
 
     }
 
     @Override
-    public void serialize(double value, Object state)
+    public void serializeDouble(double value, Object state)
     {
 
     }

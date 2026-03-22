@@ -28,7 +28,7 @@ package io.andreygs.jcsp.base.processing;
 /**
  * TODO: place description here
  */
-public non-sealed interface ICspSerializationProcessor
+public interface ICspSerializationProcessor
     extends ICspProcessor
 {
     void serialize(Object value, Object state);

@@ -81,7 +81,7 @@ public interface ICspGeneralSerializationProcessor
      * @param value Value to serialize.
      * @param state Current serialization execution state.
      */
-    void serialize(byte value, Object state);
+    void serializeByte(byte value, Object state);
 
     /**
      * Serializes short field value.
@@ -102,7 +102,7 @@ public interface ICspGeneralSerializationProcessor
      * @param value Value to serialize.
      * @param state Current serialization execution state.
      */
-    void serialize(short value, Object state);
+    void serializeShort(short value, Object state);
 
     /**
      * Serializes int field value.
@@ -123,7 +123,7 @@ public interface ICspGeneralSerializationProcessor
      * @param value Value to serialize.
      * @param state Current serialization execution state.
      */
-    void serialize(int value, Object state);
+    void serializeInt(int value, Object state);
 
     /**
      * Serializes long field value.
@@ -144,7 +144,7 @@ public interface ICspGeneralSerializationProcessor
      * @param value Value to serialize.
      * @param state Current serialization execution state.
      */
-    void serialize(long value, Object state);
+    void serializeLong(long value, Object state);
 
     /**
      * Serializes char field value.
@@ -161,7 +161,7 @@ public interface ICspGeneralSerializationProcessor
      * @param value Value to serialize.
      * @param state Current serialization execution state.
      */
-    void serialize(char value, Object state);
+    void serializeChar(char value, Object state);
 
     /**
      * Serializes float field value.
@@ -174,7 +174,7 @@ public interface ICspGeneralSerializationProcessor
      * @param value Value to serialize.
      * @param state Current serialization execution state.
      */
-    void serialize(float value, Object state);
+    void serializeFloat(float value, Object state);
 
     /**
      * Serializes double field value.
@@ -187,13 +187,13 @@ public interface ICspGeneralSerializationProcessor
      * @param value Value to serialize.
      * @param state Current serialization execution state.
      */
-    void serialize(double value, Object state);
+    void serializeDouble(double value, Object state);
 
     /**
      * Serializes boolean[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
-     * Does the same thing as a call {@link #serialize(boolean[], boolean, boolean, ICspDataSerializationState)}
+     * Does the same thing as a call {@link #serialize(boolean[], boolean, boolean, Object)}
      * with false asReference and true fixedSize arguments.
      *
      * @param value Value to serialize.
@@ -263,7 +263,7 @@ public interface ICspGeneralSerializationProcessor
      * Serializes byte[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
-     * Does the same thing as a call {@link #serialize(byte[], boolean, boolean, ICspDataSerializationState)}
+     * Does the same thing as a call {@link #serialize(byte[], boolean, boolean, Object)}
      * with false asReference and true fixedSize arguments.
      *
      * @param value Value to serialize.
@@ -339,7 +339,7 @@ public interface ICspGeneralSerializationProcessor
      * Serializes short[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
-     * Does the same thing as a call {@link #serialize(short[], boolean, boolean, ICspDataSerializationState)}
+     * Does the same thing as a call {@link #serialize(short[], boolean, boolean, Object)}
      * with false asReference and true fixedSize arguments.
      *
      * @param value Value to serialize.
@@ -415,7 +415,7 @@ public interface ICspGeneralSerializationProcessor
      * Serializes int[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
-     * Does the same thing as a call {@link #serialize(int[], boolean, boolean, ICspDataSerializationState)}
+     * Does the same thing as a call {@link #serialize(int[], boolean, boolean, Object)}
      * with false asReference and true fixedSize arguments.
      *
      * @param value Value to serialize.
@@ -491,7 +491,7 @@ public interface ICspGeneralSerializationProcessor
      * Serializes long[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
-     * Does the same thing as a call {@link #serialize(long[], boolean, boolean, ICspDataSerializationState)}
+     * Does the same thing as a call {@link #serialize(long[], boolean, boolean, Object)}
      * with false asReference and true fixedSize arguments.
      *
      * @param value Value to serialize.
@@ -567,7 +567,7 @@ public interface ICspGeneralSerializationProcessor
      * Serializes char[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
-     * Does the same thing as a call {@link #serialize(char[], boolean, boolean, ICspDataSerializationState)}
+     * Does the same thing as a call {@link #serialize(char[], boolean, boolean, Object)}
      * with false asReference and true fixedSize arguments.
      * <p>
      * Please, note that using Java char is not recommended in CSP in most cases. Use it only when you really
@@ -642,7 +642,7 @@ public interface ICspGeneralSerializationProcessor
      * Serializes float[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
-     * Does the same thing as a call {@link #serialize(float[], boolean, boolean, ICspDataSerializationState)}
+     * Does the same thing as a call {@link #serialize(float[], boolean, boolean, Object)}
      * with false asReference and true fixedSize arguments.
      *
      * @param value Value to serialize.
@@ -710,7 +710,7 @@ public interface ICspGeneralSerializationProcessor
      * Serializes double[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
-     * Does the same thing as a call {@link #serialize(double[], boolean, boolean, ICspDataSerializationState)}
+     * Does the same thing as a call {@link #serialize(double[], boolean, boolean, Object)}
      * with false asReference and true fixedSize arguments.
      *
      * @param value Value to serialize.
@@ -777,7 +777,7 @@ public interface ICspGeneralSerializationProcessor
     /**
      * Serializes String not as a reference, but as an embedded structure.
      * <p>
-     * Does the same thing as a call {@link #serialize(String, boolean, Charset, ICspDataSerializationState)}
+     * Does the same thing as a call {@link #serialize(String, boolean, Charset, Object)}
      * with false asReference argument.
      *
      * @param value Object to serialize.
