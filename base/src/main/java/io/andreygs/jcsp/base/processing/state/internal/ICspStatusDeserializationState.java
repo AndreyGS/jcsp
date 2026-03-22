@@ -30,8 +30,7 @@ import io.andreygs.jcsp.base.message.ICspStatusMessage;
 /**
  * TODO: place description here
  */
-public sealed interface ICspStatusDeserializationState
+public interface ICspStatusDeserializationState
     extends ICspStatusMessage, ICspCommonDeserializationState
-    permits CspStatusDeserializationState
 {
 }

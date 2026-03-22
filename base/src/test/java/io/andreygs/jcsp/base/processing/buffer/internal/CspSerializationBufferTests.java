@@ -98,7 +98,7 @@ public class CspSerializationBufferTests
                                 "ByteBuffer passed capacity size is not equal to actual one!");
         Assertions.assertFalse(cspSerializationByteBuffer.isDirectBuffer(), "ByteBuffer is direct!");
 
-        cspSerializationByteBuffer.write((byte)5);
+        cspSerializationByteBuffer.writeByte((byte)5);
         Assertions.assertEquals(expandRatio, cspSerializationByteBuffer.getByteBuffer().capacity(),
                                 "Buffer resizing not using passed strategy");
     }
@@ -106,43 +106,43 @@ public class CspSerializationBufferTests
     @Test
     public void writeByteTest()
     {
-        writePrimitive((byte) 100, (byte) 101, ICspSerializationBuffer::write, ByteBuffer::get);
+        writePrimitive((byte) 100, (byte) 101, ICspSerializationBuffer::writeByte, ByteBuffer::get);
     }
 
     @Test
     public void writeShortTest()
     {
-        writePrimitive((short) 10000, (short) 10001, ICspSerializationBuffer::write, ByteBuffer::getShort);
+        writePrimitive((short) 10000, (short) 10001, ICspSerializationBuffer::writeShort, ByteBuffer::getShort);
     }
 
     @Test
     public void writeIntTest()
     {
-        writePrimitive(10000000, 10000001, ICspSerializationBuffer::write, ByteBuffer::getInt);
+        writePrimitive(10000000, 10000001, ICspSerializationBuffer::writeInt, ByteBuffer::getInt);
     }
 
     @Test
     public void writeLongTest()
     {
-        writePrimitive(10000000000L, 10000000001L, ICspSerializationBuffer::write, ByteBuffer::getLong);
+        writePrimitive(10000000000L, 10000000001L, ICspSerializationBuffer::writeLong, ByteBuffer::getLong);
     }
 
     @Test
     public void writeCharTest()
     {
-        writePrimitive('a', 'b', ICspSerializationBuffer::write, ByteBuffer::getChar);
+        writePrimitive('a', 'b', ICspSerializationBuffer::writeChar, ByteBuffer::getChar);
     }
 
     @Test
     public void writeFloatTest()
     {
-        writePrimitive(10000000F, 10000001F, ICspSerializationBuffer::write, ByteBuffer::getFloat);
+        writePrimitive(10000000F, 10000001F, ICspSerializationBuffer::writeFloat, ByteBuffer::getFloat);
     }
 
     @Test
     public void writeDoubleTest()
     {
-        writePrimitive(1000000000000000000D, 1000000000000000001D, ICspSerializationBuffer::write, ByteBuffer::getDouble);
+        writePrimitive(1000000000000000000D, 1000000000000000001D, ICspSerializationBuffer::writeDouble, ByteBuffer::getDouble);
     }
 
     @Test
@@ -313,7 +313,7 @@ public class CspSerializationBufferTests
 
         ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(capacitySize, true);
         int i = 5;
-        cspSerializationBuffer.write(i);
+        cspSerializationBuffer.writeInt(i);
 
         ByteBuffer byteBuffer = cspSerializationBuffer.getByteBuffer();
         Assertions.assertEquals(CommonUtils.getPrimitiveSize(i), byteBuffer.position(),

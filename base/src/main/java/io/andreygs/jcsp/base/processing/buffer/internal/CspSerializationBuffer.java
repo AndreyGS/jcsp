@@ -96,49 +96,49 @@ final class CspSerializationBuffer
     }
 
     @Override
-    public void write(byte value)
+    public void writeByte(byte value)
     {
         expandBufferIfNeed(Byte.BYTES);
         byteBuffer.put(value);
     }
 
     @Override
-    public void write(short value)
+    public void writeShort(short value)
     {
         expandBufferIfNeed(Short.BYTES);
         byteBuffer.putShort(value);
     }
 
     @Override
-    public void write(int value)
+    public void writeInt(int value)
     {
         expandBufferIfNeed(Integer.BYTES);
         byteBuffer.putInt(value);
     }
 
     @Override
-    public void write(long value)
+    public void writeLong(long value)
     {
         expandBufferIfNeed(Long.BYTES);
         byteBuffer.putLong(value);
     }
 
     @Override
-    public void write(char value)
+    public void writeChar(char value)
     {
         expandBufferIfNeed(Character.BYTES);
         byteBuffer.putChar(value);
     }
 
     @Override
-    public void write(float value)
+    public void writeFloat(float value)
     {
         expandBufferIfNeed(Float.BYTES);
         byteBuffer.putFloat(value);
     }
 
     @Override
-    public void write(double value)
+    public void writeDouble(double value)
     {
         expandBufferIfNeed(Double.BYTES);
         byteBuffer.putDouble(value);

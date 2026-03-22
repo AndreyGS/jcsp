@@ -46,7 +46,7 @@ public interface ICspSerializationBuffer
      * @param value Value to write.
      * @throws ArithmeticException if buffer capacity needs to be expanded and new size will overflow an int.
      */
-    void write(byte value);
+    void writeByte(byte value);
 
     /**
      * Writes single short value to buffer.
@@ -54,7 +54,7 @@ public interface ICspSerializationBuffer
      * @param value Value to write.
      * @throws ArithmeticException if buffer capacity needs to be expanded and new size will overflow an int.
      */
-    void write(short value);
+    void writeShort(short value);
 
     /**
      * Writes single int value to buffer.
@@ -62,7 +62,7 @@ public interface ICspSerializationBuffer
      * @param value Value to write.
      * @throws ArithmeticException if buffer capacity needs to be expanded and new size will overflow an int.
      */
-    void write(int value);
+    void writeInt(int value);
 
     /**
      * Writes single long value to buffer.
@@ -70,7 +70,7 @@ public interface ICspSerializationBuffer
      * @param value Value to write.
      * @throws ArithmeticException if buffer capacity needs to be expanded and new size will overflow an int.
      */
-    void write(long value);
+    void writeLong(long value);
 
     /**
      * Writes single char value to buffer.
@@ -78,7 +78,7 @@ public interface ICspSerializationBuffer
      * @param value Value to write.
      * @throws ArithmeticException if buffer capacity needs to be expanded and new size will overflow an int.
      */
-    void write(char value);
+    void writeChar(char value);
 
     /**
      * Writes single float value to buffer.
@@ -86,7 +86,7 @@ public interface ICspSerializationBuffer
      * @param value Value to write.
      * @throws ArithmeticException if buffer capacity needs to be expanded and new size will overflow an int.
      */
-    void write(float value);
+    void writeFloat(float value);
 
     /**
      * Writes single double value to buffer.
@@ -94,7 +94,7 @@ public interface ICspSerializationBuffer
      * @param value Value to write.
      * @throws ArithmeticException if buffer capacity needs to be expanded and new size will overflow an int.
      */
-    void write(double value);
+    void writeDouble(double value);
 
     /**
      * Writes byte array value to buffer.

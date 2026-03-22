@@ -32,8 +32,7 @@ import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 /**
  * TODO: place description here
  */
-public sealed interface ICspDataSerializationState extends ICspDataMessage, ICspCommonSerializationState
-    permits CspDataSerializationState
+public interface ICspDataSerializationState extends ICspDataMessage, ICspCommonSerializationState
 {
     ICspProcessorRegistrar<ICspSerializationProcessor> getCspSerializationProcessorRegistrar();
 }

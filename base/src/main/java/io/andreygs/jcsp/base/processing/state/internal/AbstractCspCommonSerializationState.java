@@ -37,9 +37,8 @@ import java.util.Set;
 /**
  * TODO: place description here
  */
-sealed abstract class AbstractCspCommonSerializationState
+abstract class AbstractCspCommonSerializationState
     implements ICspCommonSerializationState
-    permits CspDataSerializationState, CspStatusSerializationState
 {
     private final ICspGeneralSerializationProcessor cspGeneralSerializationProcessor;
     private final ICspSerializationBuffer cspSerializationBuffer;

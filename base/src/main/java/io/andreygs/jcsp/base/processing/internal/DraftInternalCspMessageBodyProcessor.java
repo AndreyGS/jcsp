@@ -48,49 +48,49 @@ public class DraftInternalCspMessageBodyProcessor
 
     public static void serialize(boolean value, ICspDataSerializationState context)
     {
-        context.getCspSerializationBuffer().write((byte)(value ? 1 : 0));
+        context.getCspSerializationBuffer().writeByte((byte)(value ? 1 : 0));
     }
 
     public static void serialize(byte value, ICspDataSerializationState context)
     {
-        context.getCspSerializationBuffer().write(value);
+        context.getCspSerializationBuffer().writeByte(value);
     }
 
     public static void serialize(short value, ICspDataSerializationState context)
     {
-        context.getCspSerializationBuffer().write(value);
+        context.getCspSerializationBuffer().writeShort(value);
     }
 
     public static void serialize(int value, ICspDataSerializationState context)
     {
-        context.getCspSerializationBuffer().write(value);
+        context.getCspSerializationBuffer().writeInt(value);
     }
 
     public static void serialize(long value, ICspDataSerializationState context)
     {
-        context.getCspSerializationBuffer().write(value);
+        context.getCspSerializationBuffer().writeLong(value);
     }
 
     public static void serialize(char value, ICspDataSerializationState context)
     {
-        context.getCspSerializationBuffer().write(value);
+        context.getCspSerializationBuffer().writeChar(value);
     }
 
     public static void serialize(float value, ICspDataSerializationState context)
     {
-        context.getCspSerializationBuffer().write(value);
+        context.getCspSerializationBuffer().writeFloat(value);
     }
 
     public static void serialize(double value, ICspDataSerializationState context)
     {
-        context.getCspSerializationBuffer().write(value);
+        context.getCspSerializationBuffer().writeDouble(value);
     }
 
     public static void serialize(boolean[] value, ICspDataSerializationState context)
     {
         for (boolean item : value)
         {
-            context.getCspSerializationBuffer().write((byte)(item ? 1 : 0));
+            context.getCspSerializationBuffer().writeByte((byte)(item ? 1 : 0));
         }
     }
 
@@ -131,13 +131,13 @@ public class DraftInternalCspMessageBodyProcessor
 
     public static void serialize(String value, ICspDataSerializationState context)
     {
-        context.getCspSerializationBuffer().write((long)value.length());
+        context.getCspSerializationBuffer().writeLong((long)value.length());
         context.getCspSerializationBuffer().write(value.getBytes(StandardCharsets.UTF_16BE));
     }
 
     public static void serialize(String value, Charset charset, ICspDataSerializationState context)
     {
-        context.getCspSerializationBuffer().write((long)value.length());
+        context.getCspSerializationBuffer().writeLong((long)value.length());
         context.getCspSerializationBuffer().write(value.getBytes(charset));
     }
 

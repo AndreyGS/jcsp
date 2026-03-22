@@ -39,7 +39,7 @@ import java.util.Set;
 /**
  * TODO: place description here
  */
-public final class CspSerializationStatesFactory
+public class CspSerializationStatesFactory
 {
     public static ICspDataSerializationState createCspDataMessageSerializationContext(
         ICspGeneralSerializationProcessor cspGeneralSerializationProcessor,

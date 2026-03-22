@@ -64,7 +64,7 @@ public class Serializer
         @Nullable Set<CspCommonFlag> cspCommonFlags,
         @Nullable ICspInterfaceVersion cspInterfaceVersion,
         @Nullable Set<CspDataFlag> cspDataFlags,
-        ICspVersionable cspSerializable)
+        ICspVersionable cspVersionable)
     {
         ICspSerializationBuffer cspSerializationBuffer =
             CspSerializationBufferFactory.createCspSerializationBuffer(initialBufferCapacity, directBuffer, bufferResizeStrategy);
@@ -76,8 +76,8 @@ public class Serializer
                                                                                    cspSerializationProcessorRegistrar,
                                                                               cspProtocolVersion == null ? DEFAULT_CSP_PROTOCOL_VERSION : cspProtocolVersion,
                                                                               cspCommonFlags == null ? DEFAULT_CSP_COMMON_FLAGS : cspCommonFlags,
-                                                                                   cspSerializable.getClass(),
-                                                                              cspInterfaceVersion == null ? cspSerializable.getInterfaceVersion() : cspInterfaceVersion,
+                                                                                   cspVersionable.getClass(),
+                                                                              cspInterfaceVersion == null ? cspVersionable.getInterfaceVersion() : cspInterfaceVersion,
                                                                               cspDataFlags == null ? DEFAULT_CSP_DATA_FLAGS : cspDataFlags);
         return cspSerializationDataMessage;
     }

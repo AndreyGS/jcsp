@@ -31,8 +31,7 @@ import io.andreygs.jcsp.base.processing.buffer.internal.ICspDeserializationBuffe
 /**
  * TODO: place description here
  */
-public sealed interface ICspCommonDeserializationState extends ICspMessage
-    permits AbstractCspCommonDeserializationState, ICspDataDeserializationState, ICspStatusDeserializationState
+public interface ICspCommonDeserializationState extends ICspMessage
 {
     ICspDeserializationBuffer getCspDeserializationBuffer();
 }

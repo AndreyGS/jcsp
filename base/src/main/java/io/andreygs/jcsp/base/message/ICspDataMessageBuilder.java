@@ -54,5 +54,5 @@ public interface ICspDataMessageBuilder extends ICspMessageBuilder
 
     ICspDataMessageBuilder setCspDataFlags(Set<CspDataFlag> cspDataFlags);
 
-    ICspDataMessage serialize(ICspVersionable cspSerializable);
+    ICspDataMessage serialize(ICspVersionable cspVersionable);
 }

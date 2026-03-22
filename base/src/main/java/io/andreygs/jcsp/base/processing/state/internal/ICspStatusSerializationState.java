@@ -30,7 +30,6 @@ import io.andreygs.jcsp.base.message.ICspStatusMessage;
 /**
  * TODO: place description here
  */
-public sealed interface ICspStatusSerializationState extends ICspStatusMessage, ICspCommonSerializationState
-    permits CspStatusSerializationState
+public interface ICspStatusSerializationState extends ICspStatusMessage, ICspCommonSerializationState
 {
 }

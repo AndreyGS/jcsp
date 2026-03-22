@@ -105,13 +105,13 @@ final class CspDataMessageBuilder extends AbstractCspMessageBuilder
     }
 
     @Override
-    public ICspDataMessage serialize(ICspVersionable cspSerializable)
+    public ICspDataMessage serialize(ICspVersionable cspVersionable)
     {
-        ArgumentChecker.nonNull(cspSerializable);
+        ArgumentChecker.nonNull(cspVersionable);
 
         return Serializer.serializeDataMessage(getCspSerializationProcessorRegistrar(), getInitialBufferCapacity(), getDirectBuffer(),
                                                getBufferResizeStrategy(), getCspProtocolVersion(),
                                                getCspCommonFlags(), cspInterfaceVersion, cspDataFlags,
-                                               cspSerializable);
+                                               cspVersionable);
     }
 }

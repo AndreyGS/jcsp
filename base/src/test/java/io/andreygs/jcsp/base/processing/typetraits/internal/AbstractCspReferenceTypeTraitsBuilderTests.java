@@ -23,28 +23,21 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.typetraits;
+package io.andreygs.jcsp.base.processing.typetraits.internal;
 
 import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
 import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraitsBuilder;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.nio.charset.StandardCharsets;
 
 /**
- * Unit-tests for {@link ICspReferenceTypeTraitsBuilder} contract.
+ * Unit-tests for {@link CspReferenceTypeTraitsBuilder}.
  */
 public abstract class AbstractCspReferenceTypeTraitsBuilderTests
 {
-    private ICspReferenceTypeTraitsBuilder cspReferenceTypeTraitsBuilder;
-
-    @BeforeEach
-    public void setup()
-    {
-        cspReferenceTypeTraitsBuilder = getCspReferenceTypeTraitsBuilder();
-    }
+    private final CspReferenceTypeTraitsBuilder cspReferenceTypeTraitsBuilder = new CspReferenceTypeTraitsBuilder();
 
     @Test
     public void addReferenceTest()
@@ -61,9 +54,6 @@ public abstract class AbstractCspReferenceTypeTraitsBuilderTests
     {
         cspReferenceTypeTraitsBuilder.addString(true, StandardCharsets.UTF_8);
     }
-
-
-    protected abstract ICspReferenceTypeTraitsBuilder getCspReferenceTypeTraitsBuilder();
 
     private static class Dummy
     {

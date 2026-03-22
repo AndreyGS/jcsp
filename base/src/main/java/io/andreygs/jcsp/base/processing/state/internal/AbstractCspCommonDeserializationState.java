@@ -38,9 +38,8 @@ import java.util.Set;
 /**
  * TODO: place description here
  */
-sealed abstract class AbstractCspCommonDeserializationState
+abstract class AbstractCspCommonDeserializationState
     implements ICspCommonDeserializationState
-    permits CspDataDeserializationState, CspStatusDeserializationState
 {
     private final ICspDeserializationBuffer cspDeserializationBuffer;
     private final CspProtocolVersion cspProtocolVersion;
