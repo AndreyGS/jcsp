@@ -30,6 +30,7 @@ import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
+import io.andreygs.jcsp.base.utils.ArgumentChecker;
 import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,21 +41,20 @@ import java.util.Set;
  */
 abstract class AbstractCspMessageBuilder implements ICspMessageBuilder
 {
-    private final ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar;
     private @Nullable Integer initialBufferCapacity;
     private @Nullable Boolean directBuffer;
     private @Nullable IBufferResizeStrategy bufferResizeStrategy;
     private @Nullable CspProtocolVersion cspProtocolVersion;
     private @Nullable Set<CspCommonFlag> cspCommonFlags;
 
-    AbstractCspMessageBuilder(ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar)
-    {
-        this.cspSerializationProcessorRegistrar = cspSerializationProcessorRegistrar;
-    }
-
     @Override
     public ICspMessageBuilder setBufferInitialCapacity(int initialBufferCapacity)
+        throws IllegalArgumentException
     {
+        if (initialBufferCapacity < 0)
+        {
+            throw new IllegalArgumentException("Buffer capacity can not be negative!");
+        }
         this.initialBufferCapacity = initialBufferCapacity;
         return this;
     }
@@ -68,28 +68,29 @@ abstract class AbstractCspMessageBuilder implements ICspMessageBuilder
 
     @Override
     public ICspMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy)
+        throws IllegalArgumentException
     {
+        ArgumentChecker.nonNull(bufferResizeStrategy);
         this.bufferResizeStrategy = bufferResizeStrategy;
         return this;
     }
 
     @Override
     public ICspMessageBuilder setCspProtocolVersion(CspProtocolVersion cspProtocolVersion)
+        throws IllegalArgumentException
     {
+        ArgumentChecker.nonNull(cspProtocolVersion);
         this.cspProtocolVersion = cspProtocolVersion;
         return this;
     }
 
     @Override
     public ICspMessageBuilder setCspCommonFlags(Set<CspCommonFlag> cspCommonFlags)
+        throws IllegalArgumentException
     {
+        ArgumentChecker.nonNull(cspCommonFlags);
         this.cspCommonFlags = cspCommonFlags;
         return this;
-    }
-
-    protected ICspProcessorRegistrar<ICspSerializationProcessor> getCspSerializationProcessorRegistrar()
-    {
-        return cspSerializationProcessorRegistrar;
     }
 
     protected @Nullable Integer getInitialBufferCapacity()

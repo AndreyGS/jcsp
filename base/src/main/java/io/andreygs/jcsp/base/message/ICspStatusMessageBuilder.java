@@ -43,10 +43,11 @@ public interface ICspStatusMessageBuilder extends ICspMessageBuilder
     ICspStatusMessageBuilder setDirectBuffer(boolean directBuffer);
 
     @Override
-    ICspStatusMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
+    ICspStatusMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy)
+        throws IllegalArgumentException;
 
     @Override
-    ICspStatusMessageBuilder setCspCommonFlags(Set<CspCommonFlag> cspCommonFlags);
+    ICspStatusMessageBuilder setCspCommonFlags(Set<CspCommonFlag> cspCommonFlags) throws IllegalArgumentException;
 
     ICspStatusMessage serialize(CspStatus cspStatus);
 }

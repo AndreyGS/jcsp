@@ -36,13 +36,24 @@ import java.util.Set;
  */
 public interface ICspMessageBuilder
 {
-    ICspMessageBuilder setBufferInitialCapacity(int initialBufferCapacity);
+    /**
+     * Sets initial capacity of buffer which will be used to serialize message in.
+     *
+     * @param initialBufferCapacity Desired initial capacity of message serialization buffer. Must not be negative.
+     * @return this builder. Never null.
+     * @throws IllegalArgumentException if initialBufferCapacity is a negative number.
+     */
+    ICspMessageBuilder setBufferInitialCapacity(int initialBufferCapacity)
+        throws IllegalArgumentException;
 
     ICspMessageBuilder setDirectBuffer(boolean directBuffer);
 
-    ICspMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
+    ICspMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy)
+        throws IllegalArgumentException;
 
-    ICspMessageBuilder setCspProtocolVersion(CspProtocolVersion cspProtocolVersion);
+    ICspMessageBuilder setCspProtocolVersion(CspProtocolVersion cspProtocolVersion)
+        throws IllegalArgumentException;
 
-    ICspMessageBuilder setCspCommonFlags(Set<CspCommonFlag> cspCommonFlags);
+    ICspMessageBuilder setCspCommonFlags(Set<CspCommonFlag> cspCommonFlags)
+        throws IllegalArgumentException;
 }

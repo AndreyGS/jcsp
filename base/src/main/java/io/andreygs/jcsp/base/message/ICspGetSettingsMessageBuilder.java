@@ -42,10 +42,11 @@ public interface ICspGetSettingsMessageBuilder extends ICspMessageBuilder
     ICspGetSettingsMessageBuilder setDirectBuffer(boolean directBuffer);
 
     @Override
-    ICspGetSettingsMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
+    ICspGetSettingsMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy)
+        throws IllegalArgumentException;
 
     @Override
-    ICspGetSettingsMessageBuilder setCspCommonFlags(Set<CspCommonFlag> cspCommonFlags);
+    ICspGetSettingsMessageBuilder setCspCommonFlags(Set<CspCommonFlag> cspCommonFlags) throws IllegalArgumentException;
 
     ICspGetSettingsMessage serialize();
 }

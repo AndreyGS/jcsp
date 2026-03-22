@@ -29,22 +29,18 @@ import io.andreygs.jcsp.base.message.ICspMessageBuilderFactory;
 import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
 import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
+import io.andreygs.jcsp.base.utils.ArgumentChecker;
 
 /**
  * TODO: place description here
  */
 final public class CspMessageBuilderFactory implements ICspMessageBuilderFactory
 {
-    private final ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar;
-
-    public CspMessageBuilderFactory(
+    public ICspDataMessageBuilder createCspDataMessageBuilder(
         ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar)
+        throws IllegalArgumentException
     {
-        this.cspSerializationProcessorRegistrar = cspSerializationProcessorRegistrar;
-    }
-
-    public ICspDataMessageBuilder createCspDataMessageBuilder()
-    {
+        ArgumentChecker.nonNull(cspSerializationProcessorRegistrar);
         return new CspDataMessageBuilder(cspSerializationProcessorRegistrar);
     }
 }

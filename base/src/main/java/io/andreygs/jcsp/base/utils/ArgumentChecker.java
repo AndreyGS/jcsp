@@ -40,6 +40,14 @@ public class ArgumentChecker
 
     }
 
+    public static void nonNull(@Nullable Object obj)
+    {
+        if (obj == null)
+        {
+            throw new IllegalArgumentException();
+        }
+    }
+
     public static void nonNull(@Nullable Object... obj)
     {
         if (Arrays.stream(obj).anyMatch(Objects::isNull))

@@ -45,14 +45,19 @@ public interface ICspDataMessageBuilder extends ICspMessageBuilder
     ICspDataMessageBuilder setDirectBuffer(boolean directBuffer);
 
     @Override
-    ICspDataMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
+    ICspDataMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy)
+        throws IllegalArgumentException;
 
     @Override
-    ICspDataMessageBuilder setCspCommonFlags(Set<CspCommonFlag> cspCommonFlags);
+    ICspDataMessageBuilder setCspCommonFlags(Set<CspCommonFlag> cspCommonFlags)
+        throws IllegalArgumentException;
 
-    ICspDataMessageBuilder setInterfaceVersion(ICspInterfaceVersion cspInterfaceVersion);
+    ICspDataMessageBuilder setInterfaceVersion(ICspInterfaceVersion cspInterfaceVersion)
+        throws IllegalArgumentException;
 
-    ICspDataMessageBuilder setCspDataFlags(Set<CspDataFlag> cspDataFlags);
+    ICspDataMessageBuilder setCspDataFlags(Set<CspDataFlag> cspDataFlags)
+        throws IllegalArgumentException;
 
-    ICspDataMessage serialize(ICspVersionable cspVersionable);
+    ICspDataMessage serialize(ICspVersionable cspVersionable)
+        throws IllegalArgumentException;
 }

@@ -25,10 +25,15 @@
 
 package io.andreygs.jcsp.base.message;
 
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
+
 /**
  * TODO: place description here
  */
 public interface ICspMessageBuilderFactory
 {
-    ICspDataMessageBuilder createCspDataMessageBuilder();
+    ICspDataMessageBuilder createCspDataMessageBuilder(
+        ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar)
+        throws IllegalArgumentException;
 }

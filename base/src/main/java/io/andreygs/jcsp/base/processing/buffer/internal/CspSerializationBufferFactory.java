@@ -38,8 +38,8 @@ import java.nio.ByteBuffer;
 public final class CspSerializationBufferFactory
 {
     /**
-     * Default capacity of {@link ByteBuffer} of ICspSerializationBuffer when it is created, if no explicit value was
-     * provided.
+     * Default capacity of {@link ByteBuffer} of {@link ICspSerializationBuffer} when it is created, if no explicit
+     * value was provided.
      */
     public static final int DEFAULT_CAPACITY_SIZE = 256;
 
@@ -60,23 +60,18 @@ public final class CspSerializationBufferFactory
      * @param bufferResizeStrategy Strategy of buffer resizing.
      *                             If it equals null, then doubling resize strategy will be used -
      *                             {@link BufferResizeStrategyFactory#createBufferDoublingSizeStrategy()}
-     * @return created ICspSerializationBuffer instance.
-     * @throws IllegalArgumentException if initialBufferCapacity is a negative number.
+     * @return created {@link ICspSerializationBuffer} instance.
      * @see ByteBuffer
      */
-    public static ICspSerializationBuffer createCspSerializationBuffer(@Nullable Integer initialBufferCapacity, @Nullable Boolean directBuffer,
+    public static ICspSerializationBuffer createCspSerializationBuffer(@Nullable Integer initialBufferCapacity,
+                                                                       @Nullable Boolean directBuffer,
                                                                        @Nullable IBufferResizeStrategy bufferResizeStrategy)
     {
-        int initialBufferCapacityLocal = initialBufferCapacity != null ? initialBufferCapacity : DEFAULT_CAPACITY_SIZE;
-        boolean directBufferLocal = directBuffer != null ? directBuffer : true;
-        IBufferResizeStrategy bufferResizeStrategyLocal = bufferResizeStrategy != null ? bufferResizeStrategy
-            : BufferResizeStrategyFactoryProducer.produceBufferResizeStrategyFactory().createBufferDoublingSizeStrategy();
-
-        if (initialBufferCapacityLocal < 0)
-        {
-            throw new IllegalArgumentException("Buffer capacity shall not be negative!");
-        }
-
+        int initialBufferCapacityLocal = initialBufferCapacity == null ? DEFAULT_CAPACITY_SIZE : initialBufferCapacity;
+        boolean directBufferLocal = directBuffer == null || directBuffer;
+        IBufferResizeStrategy bufferResizeStrategyLocal = bufferResizeStrategy == null
+            ? BufferResizeStrategyFactoryProducer.produceBufferResizeStrategyFactory().createBufferDoublingSizeStrategy()
+            : bufferResizeStrategy;
         return new CspSerializationBuffer(initialBufferCapacityLocal, directBufferLocal, bufferResizeStrategyLocal);
     }
 }

@@ -64,7 +64,6 @@ public class CspRuntimeException extends RuntimeException
         {
             throw new IllegalArgumentException("CSP Status is not error status");
         }
-
         return new CspRuntimeException(status, null);
     }
 
@@ -82,7 +81,6 @@ public class CspRuntimeException extends RuntimeException
         {
             throw new IllegalArgumentException("CSP Status is not error status");
         }
-
         return new CspRuntimeException(status, additionalInfo, cause);
     }
 }

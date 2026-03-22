@@ -47,16 +47,18 @@ import java.util.Set;
 final class CspDataMessageBuilder extends AbstractCspMessageBuilder
     implements ICspDataMessageBuilder
 {
+    private final ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar;
     private @Nullable ICspInterfaceVersion cspInterfaceVersion;
     private @Nullable Set<CspDataFlag> cspDataFlags;
 
     CspDataMessageBuilder(ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar)
     {
-        super(cspSerializationProcessorRegistrar);
+        this.cspSerializationProcessorRegistrar = cspSerializationProcessorRegistrar;
     }
 
     @Override
     public ICspDataMessageBuilder setBufferInitialCapacity(int initialBufferCapacity)
+        throws IllegalArgumentException
     {
         super.setBufferInitialCapacity(initialBufferCapacity);
         return this;
@@ -71,6 +73,7 @@ final class CspDataMessageBuilder extends AbstractCspMessageBuilder
 
     @Override
     public ICspDataMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy)
+        throws IllegalArgumentException
     {
         super.setBufferResizeStrategy(bufferResizeStrategy);
         return this;
@@ -78,6 +81,7 @@ final class CspDataMessageBuilder extends AbstractCspMessageBuilder
 
     @Override
     public ICspDataMessageBuilder setCspProtocolVersion(CspProtocolVersion cspProtocolVersion)
+        throws IllegalArgumentException
     {
         super.setCspProtocolVersion(cspProtocolVersion);
         return this;
@@ -85,6 +89,7 @@ final class CspDataMessageBuilder extends AbstractCspMessageBuilder
 
     @Override
     public ICspDataMessageBuilder setCspCommonFlags(Set<CspCommonFlag> cspCommonFlags)
+        throws IllegalArgumentException
     {
         super.setCspCommonFlags(cspCommonFlags);
         return this;
@@ -92,24 +97,28 @@ final class CspDataMessageBuilder extends AbstractCspMessageBuilder
 
     @Override
     public ICspDataMessageBuilder setInterfaceVersion(ICspInterfaceVersion cspInterfaceVersion)
+        throws IllegalArgumentException
     {
+        ArgumentChecker.nonNull(cspInterfaceVersion);
         this.cspInterfaceVersion = cspInterfaceVersion;
         return this;
     }
 
     @Override
     public ICspDataMessageBuilder setCspDataFlags(Set<CspDataFlag> cspDataFlags)
+        throws IllegalArgumentException
     {
+        ArgumentChecker.nonNull(cspDataFlags);
         this.cspDataFlags = cspDataFlags;
         return this;
     }
 
     @Override
     public ICspDataMessage serialize(ICspVersionable cspVersionable)
+        throws IllegalArgumentException
     {
         ArgumentChecker.nonNull(cspVersionable);
-
-        return Serializer.serializeDataMessage(getCspSerializationProcessorRegistrar(), getInitialBufferCapacity(), getDirectBuffer(),
+        return Serializer.serializeDataMessage(cspSerializationProcessorRegistrar, getInitialBufferCapacity(), getDirectBuffer(),
                                                getBufferResizeStrategy(), getCspProtocolVersion(),
                                                getCspCommonFlags(), cspInterfaceVersion, cspDataFlags,
                                                cspVersionable);

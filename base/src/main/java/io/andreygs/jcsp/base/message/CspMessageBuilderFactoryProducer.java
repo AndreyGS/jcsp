@@ -26,20 +26,15 @@
 package io.andreygs.jcsp.base.message;
 
 import io.andreygs.jcsp.base.message.internal.CspMessageBuilderFactory;
-import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
-import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
-import io.andreygs.jcsp.base.utils.ArgumentChecker;
 
 /**
  * TODO: place description here
  */
 public class CspMessageBuilderFactoryProducer
 {
-    public static ICspMessageBuilderFactory produceCspMessageBuilderFactory(
-        ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar)
+    public static ICspMessageBuilderFactory produceCspMessageBuilderFactory()
     {
-        ArgumentChecker.nonNull(cspSerializationProcessorRegistrar);
-        return new CspMessageBuilderFactory(cspSerializationProcessorRegistrar);
+        return new CspMessageBuilderFactory();
     }
 
     private CspMessageBuilderFactoryProducer()
