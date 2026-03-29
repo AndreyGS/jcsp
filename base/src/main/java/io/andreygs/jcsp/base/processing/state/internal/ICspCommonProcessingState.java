@@ -25,12 +25,16 @@
 
 package io.andreygs.jcsp.base.processing.state.internal;
 
-import io.andreygs.jcsp.base.message.ICspStatusMessage;
+import io.andreygs.jcsp.base.message.ICspMessage;
+import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
 
 /**
  * TODO: place description here
  */
-public interface ICspStatusDeserializationState
-    extends ICspStatusMessage, ICspCommonDeserializationState
+public interface ICspCommonProcessingState<T, U extends ICspBuffer>
+    extends ICspMessage
 {
+    T getCspGeneralProcessor();
+
+    U getCspBuffer();
 }

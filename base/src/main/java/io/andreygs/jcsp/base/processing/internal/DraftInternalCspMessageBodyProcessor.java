@@ -26,7 +26,6 @@
 package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
-import io.andreygs.jcsp.base.processing.state.internal.ICspDataSerializationState;
 import io.andreygs.jcsp.base.types.ICspVersionable;
 
 import java.lang.reflect.Array;
@@ -45,7 +44,7 @@ public class DraftInternalCspMessageBodyProcessor
     {
 
     }
-
+/*
     public static void serialize(boolean value, ICspDataSerializationState context)
     {
         context.getCspSerializationBuffer().writeByte((byte)(value ? 1 : 0));
@@ -163,26 +162,19 @@ public class DraftInternalCspMessageBodyProcessor
         });
     }
 
-    /**
-     *
-     * @param value
-     * @param context
-     *
-     * @throws io.andreygs.jcsp.base.types.CspRuntimeException when there is no such method.
-     */
     public static void serialize(Object value, ICspDataSerializationState context)
     {
         Optional<ICspSerializationProcessor> cspSerializationProcessor =
             context.getCspSerializationProcessorRegistrar().findProcessor(value.getClass());
         //cspSerializationProcessor.serialize(value, context);
-  /*
+
         if (cspSerializationProcessor.isEmpty())
         {
             throw CspRuntimeException.createCspRuntimeException(CspStatus.NO_SUCH_HANDLER,
                                                                 MessageFormat.format(
                                                                     Messages.CspStatus_No_Such_Handler_ext_No_specialized_processor_for__0__,
                                                                     clazz));
-        }*/
+        }
     }
 
     private static void serializationMethodExecutor(ICspVersionable value, ICspDataSerializationState context,
@@ -283,4 +275,5 @@ public class DraftInternalCspMessageBodyProcessor
             serialize(field.get(value), context);
         }
     }
+    */
 }

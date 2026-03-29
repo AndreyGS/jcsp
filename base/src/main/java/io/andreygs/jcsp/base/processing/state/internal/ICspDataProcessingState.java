@@ -25,11 +25,16 @@
 
 package io.andreygs.jcsp.base.processing.state.internal;
 
-import io.andreygs.jcsp.base.message.ICspStatusMessage;
+import io.andreygs.jcsp.base.message.ICspDataMessage;
+import io.andreygs.jcsp.base.processing.ICspProcessor;
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
 
 /**
  * TODO: place description here
  */
-public interface ICspStatusSerializationState extends ICspStatusMessage, ICspCommonSerializationState
+public interface ICspDataProcessingState<T, U extends ICspBuffer, V extends ICspProcessor>
+    extends ICspCommonProcessingState<T, U>, ICspDataMessage
 {
+    ICspProcessorRegistrar<V> getCspProcessorRegistrar();
 }

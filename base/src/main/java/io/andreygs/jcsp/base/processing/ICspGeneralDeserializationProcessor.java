@@ -25,8 +25,6 @@
 
 package io.andreygs.jcsp.base.processing;
 
-import io.andreygs.jcsp.base.processing.state.internal.ICspDataDeserializationState;
-
 import java.nio.charset.Charset;
 
 /**

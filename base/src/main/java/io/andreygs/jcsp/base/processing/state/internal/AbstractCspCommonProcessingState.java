@@ -25,37 +25,34 @@
 
 package io.andreygs.jcsp.base.processing.state.internal;
 
-import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
-import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
+import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
-import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 
 import java.nio.ByteBuffer;
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
  * TODO: place description here
  */
-abstract class AbstractCspCommonSerializationState
-    implements ICspCommonSerializationState
+abstract class AbstractCspCommonProcessingState<T, U extends ICspBuffer>
+    implements ICspCommonProcessingState<T, U>
 {
-    private final ICspGeneralSerializationProcessor cspGeneralSerializationProcessor;
-    private final ICspSerializationBuffer cspSerializationBuffer;
+    private final T cspGeneralProcessor;
+    private final U cspBuffer;
     private final CspProtocolVersion cspProtocolVersion;
     private final boolean bitness32;
     private final boolean bigEndian;
     private final boolean endiannessDifference;
 
-    public AbstractCspCommonSerializationState(ICspGeneralSerializationProcessor cspGeneralSerializationProcessor,
-                                               ICspSerializationBuffer cspSerializationBuffer,
-                                               CspProtocolVersion cspProtocolVersion,
-                                               Set<CspCommonFlag> cspCommonFlags)
+    public AbstractCspCommonProcessingState(T cspGeneralProcessor,
+                                            U cspBuffer,
+                                            CspProtocolVersion cspProtocolVersion,
+                                            Set<CspCommonFlag> cspCommonFlags)
     {
-        this.cspGeneralSerializationProcessor = cspGeneralSerializationProcessor;
-        this.cspSerializationBuffer = cspSerializationBuffer;
+        this.cspGeneralProcessor = cspGeneralProcessor;
+        this.cspBuffer = cspBuffer;
         this.cspProtocolVersion = cspProtocolVersion;
         this.bitness32 = cspCommonFlags.contains(CspCommonFlag.BITNESS_32);
         this.bigEndian = cspCommonFlags.contains(CspCommonFlag.BIG_ENDIAN);
@@ -63,15 +60,21 @@ abstract class AbstractCspCommonSerializationState
     }
 
     @Override
-    public final ICspGeneralSerializationProcessor getCspGeneralSerializationProcessor()
+    public T getCspGeneralProcessor()
     {
-        return cspGeneralSerializationProcessor;
+        return cspGeneralProcessor;
     }
 
     @Override
-    public final ByteBuffer getBinaryData()
+    public U getCspBuffer()
     {
-        return cspSerializationBuffer.getByteBuffer();
+        return cspBuffer;
+    }
+
+    @Override
+    public ByteBuffer getBinaryData()
+    {
+        return cspBuffer.getByteBuffer();
     }
 
     @Override
@@ -117,11 +120,5 @@ abstract class AbstractCspCommonSerializationState
     public final boolean isEndiannessDifference()
     {
         return endiannessDifference;
-    }
-
-    @Override
-    public final ICspSerializationBuffer getCspSerializationBuffer()
-    {
-        return cspSerializationBuffer;
     }
 }

@@ -26,7 +26,6 @@
 package io.andreygs.jcsp.base.processing;
 
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
-import io.andreygs.jcsp.base.processing.state.internal.ICspDataSerializationState;
 import io.andreygs.jcsp.base.processing.typetraits.ICspArrayTypeTraits;
 import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
 import io.andreygs.jcsp.base.types.CspDataFlag;

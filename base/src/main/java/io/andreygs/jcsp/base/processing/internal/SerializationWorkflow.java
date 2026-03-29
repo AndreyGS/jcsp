@@ -31,8 +31,8 @@ import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBufferFactory;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
-import io.andreygs.jcsp.base.processing.state.internal.ICspDataSerializationState;
-import io.andreygs.jcsp.base.processing.state.internal.ICspSerializationStateFactory;
+import io.andreygs.jcsp.base.processing.state.internal.ICspDataProcessingState;
+import io.andreygs.jcsp.base.processing.state.internal.ICspProcessingStateFactory;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
@@ -55,11 +55,11 @@ public class SerializationWorkflow
 
     private final ICspGeneralSerializationProcessor cspGeneralSerializationProcessor;
     private final ICspSerializationBufferFactory cspSerializationBufferFactory;
-    private final ICspSerializationStateFactory cspSerializationStateFactory;
+    private final ICspProcessingStateFactory<ICspGeneralSerializationProcessor, ICspSerializationBuffer> cspSerializationStateFactory;
 
     public SerializationWorkflow(ICspGeneralSerializationProcessor cspGeneralSerializationProcessor,
                                  ICspSerializationBufferFactory cspSerializationBufferFactory,
-                                 ICspSerializationStateFactory cspSerializationStateFactory)
+                                 ICspProcessingStateFactory<ICspGeneralSerializationProcessor, ICspSerializationBuffer> cspSerializationStateFactory)
     {
         this.cspGeneralSerializationProcessor = cspGeneralSerializationProcessor;
         this.cspSerializationBufferFactory = cspSerializationBufferFactory;
@@ -82,15 +82,16 @@ public class SerializationWorkflow
             cspSerializationBufferFactory.createCspSerializationBuffer(initialBufferCapacity, directBuffer, bufferResizeStrategy);
 
         // TODO construction of message should be made later (right before message body serialization).
-        ICspDataSerializationState cspSerializationDataMessage =
-            cspSerializationStateFactory.createDataMessageState(cspGeneralSerializationProcessor,
-                                                                cspSerializationBuffer,
-                                                                cspProtocolVersion == null ? DEFAULT_CSP_PROTOCOL_VERSION : cspProtocolVersion,
-                                                                cspCommonFlags == null ? DEFAULT_CSP_COMMON_FLAGS : cspCommonFlags,
-                                                                cspSerializationProcessorRegistrar,
-                                                                cspVersionable.getClass(),
-                                                                cspInterfaceVersion == null ? cspVersionable.getInterfaceVersion() : cspInterfaceVersion,
-                                                                cspDataFlags == null ? DEFAULT_CSP_DATA_FLAGS : cspDataFlags);
+        ICspDataProcessingState<ICspGeneralSerializationProcessor, ICspSerializationBuffer, ICspSerializationProcessor>
+            cspSerializationDataMessage
+                = cspSerializationStateFactory.createDataMessageState(cspGeneralSerializationProcessor,
+                                                                      cspSerializationBuffer,
+                                                                      cspProtocolVersion == null ? DEFAULT_CSP_PROTOCOL_VERSION : cspProtocolVersion,
+                                                                      cspCommonFlags == null ? DEFAULT_CSP_COMMON_FLAGS : cspCommonFlags,
+                                                                      cspSerializationProcessorRegistrar,
+                                                                      cspVersionable.getClass(),
+                                                                      cspInterfaceVersion == null ? cspVersionable.getInterfaceVersion() : cspInterfaceVersion,
+                                                                      cspDataFlags == null ? DEFAULT_CSP_DATA_FLAGS : cspDataFlags);
         return cspSerializationDataMessage;
     }
 }

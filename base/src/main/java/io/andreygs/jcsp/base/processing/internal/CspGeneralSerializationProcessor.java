@@ -26,7 +26,6 @@
 package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
-import io.andreygs.jcsp.base.processing.state.internal.ICspDataSerializationState;
 import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
 import org.jetbrains.annotations.Nullable;
 

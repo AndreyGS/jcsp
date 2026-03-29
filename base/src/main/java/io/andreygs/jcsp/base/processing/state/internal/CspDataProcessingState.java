@@ -25,27 +25,26 @@
 
 package io.andreygs.jcsp.base.processing.state.internal;
 
-import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspProcessor;
 import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
-import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
-import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
+import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspDataFlag;
-import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
 import io.andreygs.jcsp.base.types.CspMessageType;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
+import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
 
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
  * TODO: place description here
  */
-final class CspDataSerializationState extends AbstractCspCommonSerializationState
-    implements ICspDataSerializationState
+class CspDataProcessingState<T, U extends ICspBuffer, V extends ICspProcessor>
+    extends AbstractCspCommonProcessingState<T, U>
+    implements ICspDataProcessingState<T, U, V>
 {
-    private final ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar;
+    private final ICspProcessorRegistrar<V> cspProcessorRegistrar;
     private final Class<?> structClazz;
     private final ICspInterfaceVersion cspInterfaceVersion;
     private final boolean alignmentMayBeNotEqual;
@@ -55,17 +54,17 @@ final class CspDataSerializationState extends AbstractCspCommonSerializationStat
     private final boolean simplyAssignableTagsOptimizationsAreTurnedOff;
     private final boolean checkRecursivePointersWhileMaintainingLinkStructure;
 
-    public CspDataSerializationState(ICspGeneralSerializationProcessor cspGeneralSerializationProcessor,
-                                     ICspSerializationBuffer cspSerializationBuffer,
-                                     CspProtocolVersion cspProtocolVersion,
-                                     Set<CspCommonFlag> cspCommonFlags,
-                                     ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar,
-                                     Class<?> structClazz,
-                                     ICspInterfaceVersion cspInterfaceVersion,
-                                     Set<CspDataFlag> cspDataFlags)
+    public CspDataProcessingState(T cspGeneralProcessor,
+                                  U cspBuffer,
+                                  CspProtocolVersion cspProtocolVersion,
+                                  Set<CspCommonFlag> cspCommonFlags,
+                                  ICspProcessorRegistrar<V> cspProcessorRegistrar,
+                                  Class<?> structClazz,
+                                  ICspInterfaceVersion cspInterfaceVersion,
+                                  Set<CspDataFlag> cspDataFlags)
     {
-        super(cspGeneralSerializationProcessor, cspSerializationBuffer, cspProtocolVersion, cspCommonFlags);
-        this.cspSerializationProcessorRegistrar = cspSerializationProcessorRegistrar;
+        super(cspGeneralProcessor, cspBuffer, cspProtocolVersion, cspCommonFlags);
+        this.cspProcessorRegistrar = cspProcessorRegistrar;
         this.structClazz = structClazz;
         this.cspInterfaceVersion = cspInterfaceVersion;
         this.alignmentMayBeNotEqual = cspDataFlags.contains(CspDataFlag.ALIGNMENT_MAY_BE_NOT_EQUAL);
@@ -79,9 +78,9 @@ final class CspDataSerializationState extends AbstractCspCommonSerializationStat
     }
 
     @Override
-    public final ICspProcessorRegistrar<ICspSerializationProcessor> getCspSerializationProcessorRegistrar()
+    public ICspProcessorRegistrar<V> getCspProcessorRegistrar()
     {
-        return cspSerializationProcessorRegistrar;
+        return cspProcessorRegistrar;
     }
 
     @Override

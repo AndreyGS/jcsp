@@ -26,42 +26,43 @@
 package io.andreygs.jcsp.base.processing.state.internal;
 
 import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
-import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
-import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
-import io.andreygs.jcsp.base.types.CspDataFlag;
+import io.andreygs.jcsp.base.types.CspMessageType;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
-import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
+import io.andreygs.jcsp.base.types.CspStatus;
 
 import java.util.Set;
 
 /**
- * Sole implementation of {@link ICspSerializationStateFactory}.
- * <p>
- * Creates following class instances:
- * <ul>
- *     <li>{@link ICspDataSerializationState} -> {@link CspDataSerializationState}</li>
- * </ul>
+ * TODO: place description here
  */
-public class CspSerializationStateFactory
-    implements ICspSerializationStateFactory
+public class CspStatusProcessingState<T, U extends ICspBuffer>
+    extends AbstractCspCommonProcessingState<T, U>
+    implements ICspStatusProcessingState<T, U>
 {
-    @Override
-    public ICspDataSerializationState createDataMessageState(
-        ICspGeneralSerializationProcessor cspGeneralSerializationProcessor,
-        ICspSerializationBuffer cspSerializationBuffer, CspProtocolVersion cspProtocolVersion,
-        Set<CspCommonFlag> cspCommonFlags,
-        ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar, Class<?> structClazz,
-        ICspInterfaceVersion cspInterfaceVersion, Set<CspDataFlag> cspDataFlags)
+    private final CspStatus cspStatus;
+
+    public CspStatusProcessingState(T cspGeneralProcessor,
+                                    U cspBuffer,
+                                    CspProtocolVersion cspProtocolVersion,
+                                    Set<CspCommonFlag> cspCommonFlags,
+                                    CspStatus cspStatus)
     {
-        return new CspDataSerializationState(cspGeneralSerializationProcessor,
-                                             cspSerializationBuffer,
-                                             cspProtocolVersion,
-                                             cspCommonFlags,
-                                             cspSerializationProcessorRegistrar,
-                                             structClazz,
-                                             cspInterfaceVersion,
-                                             cspDataFlags);
+        super(cspGeneralProcessor, cspBuffer, cspProtocolVersion, cspCommonFlags);
+        this.cspStatus = cspStatus;
+    }
+
+    @Override
+    public CspMessageType getCspMessageType()
+    {
+        return CspMessageType.STATUS;
+    }
+
+    @Override
+    public CspStatus getStatus()
+    {
+        return cspStatus;
     }
 }

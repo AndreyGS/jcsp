@@ -25,42 +25,28 @@
 
 package io.andreygs.jcsp.base.processing.state.internal;
 
-import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
-import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
+import io.andreygs.jcsp.base.processing.ICspProcessor;
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
-import io.andreygs.jcsp.base.types.CspMessageType;
+import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
-import io.andreygs.jcsp.base.types.CspStatus;
+import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
 
 import java.util.Set;
 
 /**
- * TODO: place description here
+ * Factory for creation states of CSP message serialization and deserialization processes.
  */
-final class CspStatusSerializationState extends AbstractCspCommonSerializationState
-    implements ICspStatusSerializationState
+public interface ICspProcessingStateFactory<T, U extends ICspBuffer>
 {
-    private final CspStatus cspStatus;
-
-    public CspStatusSerializationState(ICspGeneralSerializationProcessor cspGeneralSerializationProcessor,
-                                       ICspSerializationBuffer cspSerializationBuffer,
-                                       CspProtocolVersion cspProtocolVersion,
-                                       Set<CspCommonFlag> cspCommonFlags,
-                                       CspStatus cspStatus)
-    {
-        super(cspGeneralSerializationProcessor, cspSerializationBuffer, cspProtocolVersion, cspCommonFlags);
-        this.cspStatus = cspStatus;
-    }
-
-    @Override
-    public CspMessageType getCspMessageType()
-    {
-        return CspMessageType.STATUS;
-    }
-
-    @Override
-    public CspStatus getStatus()
-    {
-        return cspStatus;
-    }
+    <V extends ICspProcessor> ICspDataProcessingState<T, U, V> createDataMessageState(
+        T cspGeneralSerializationProcessor,
+        U cspSerializationBuffer,
+        CspProtocolVersion cspProtocolVersion,
+        Set<CspCommonFlag> cspCommonFlags,
+        ICspProcessorRegistrar<V> cspSerializationProcessorRegistrar,
+        Class<?> structClazz,
+        ICspInterfaceVersion cspInterfaceVersion,
+        Set<CspDataFlag> cspDataFlags);
 }
