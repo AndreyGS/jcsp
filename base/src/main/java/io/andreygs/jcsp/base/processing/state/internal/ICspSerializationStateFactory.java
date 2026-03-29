@@ -23,41 +23,30 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message;
+package io.andreygs.jcsp.base.processing.state.internal;
 
+import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
+import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspDataFlag;
+import io.andreygs.jcsp.base.types.CspProtocolVersion;
 import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
-import io.andreygs.jcsp.base.types.ICspVersionable;
-import io.andreygs.jcsp.base.processing.buffer.IBufferResizeStrategy;
 
 import java.util.Set;
 
 /**
- * TODO: place description here
+ * Factory for creation states of CSP message serialization process.
  */
-public interface ICspDataMessageBuilder extends ICspMessageBuilder
+public interface ICspSerializationStateFactory
 {
-    @Override
-    ICspDataMessageBuilder setBufferInitialCapacity(int initialBufferCapacity);
-
-    @Override
-    ICspDataMessageBuilder setDirectBuffer(boolean directBuffer);
-
-    @Override
-    ICspDataMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy)
-        throws IllegalArgumentException;
-
-    @Override
-    ICspDataMessageBuilder setCspCommonFlags(Set<CspCommonFlag> cspCommonFlags)
-        throws IllegalArgumentException;
-
-    ICspDataMessageBuilder setInterfaceVersion(ICspInterfaceVersion cspInterfaceVersion)
-        throws IllegalArgumentException;
-
-    ICspDataMessageBuilder setCspDataFlags(Set<CspDataFlag> cspDataFlags)
-        throws IllegalArgumentException;
-
-    ICspDataMessage serialize(ICspVersionable cspVersionable)
-        throws IllegalArgumentException;
+    ICspDataSerializationState createDataMessageState(ICspGeneralSerializationProcessor cspGeneralSerializationProcessor,
+                                                      ICspSerializationBuffer cspSerializationBuffer,
+                                                      CspProtocolVersion cspProtocolVersion,
+                                                      Set<CspCommonFlag> cspCommonFlags,
+                                                      ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar,
+                                                      Class<?> structClazz,
+                                                      ICspInterfaceVersion cspInterfaceVersion,
+                                                      Set<CspDataFlag> cspDataFlags);
 }

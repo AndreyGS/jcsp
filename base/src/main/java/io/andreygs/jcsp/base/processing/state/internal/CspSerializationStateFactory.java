@@ -37,25 +37,29 @@ import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
 import java.util.Set;
 
 /**
- * TODO: place description here
+ * Sole implementation of {@link ICspSerializationStateFactory}.
+ * <p>
+ * Creates following class instances:
+ * <ul>
+ *     <li>{@link ICspDataSerializationState} -> {@link CspDataSerializationState}</li>
+ * </ul>
  */
-public class CspSerializationStatesFactory
+public class CspSerializationStateFactory
+    implements ICspSerializationStateFactory
 {
-    public static ICspDataSerializationState createCspDataMessageSerializationContext(
+    @Override
+    public ICspDataSerializationState createDataMessageState(
         ICspGeneralSerializationProcessor cspGeneralSerializationProcessor,
-        ICspSerializationBuffer cspSerializationBuffer,
-        ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar,
-        CspProtocolVersion cspProtocolVersion,
+        ICspSerializationBuffer cspSerializationBuffer, CspProtocolVersion cspProtocolVersion,
         Set<CspCommonFlag> cspCommonFlags,
-        Class<?> structClazz,
-        ICspInterfaceVersion cspInterfaceVersion,
-        Set<CspDataFlag> cspDataFlags)
+        ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar, Class<?> structClazz,
+        ICspInterfaceVersion cspInterfaceVersion, Set<CspDataFlag> cspDataFlags)
     {
         return new CspDataSerializationState(cspGeneralSerializationProcessor,
-                                             cspSerializationProcessorRegistrar,
                                              cspSerializationBuffer,
                                              cspProtocolVersion,
                                              cspCommonFlags,
+                                             cspSerializationProcessorRegistrar,
                                              structClazz,
                                              cspInterfaceVersion,
                                              cspDataFlags);

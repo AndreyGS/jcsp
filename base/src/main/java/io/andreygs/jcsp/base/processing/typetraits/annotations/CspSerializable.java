@@ -37,7 +37,7 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})
-public @interface cspVersionable
+public @interface CspSerializable
 {
     /**
      * Order for field in class serialization/deserialization according to CSP Interface.

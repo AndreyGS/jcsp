@@ -23,20 +23,21 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.utils.internal;
-
-import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
-import io.andreygs.jcsp.base.utils.IBufferResizeStrategyFactory;
+package io.andreygs.jcsp.base.processing.buffer;
 
 /**
- * Factory for creating instances of {@link IBufferResizeStrategy buffer resize strategies}.
+ * Strategy for determining size of random buffer when it needs to be expanded (to hold new data, for example).
  */
-public class BufferResizeStrategyFactory
-    implements IBufferResizeStrategyFactory
+public interface IBufferResizeStrategy
 {
-    @Override
-    public IBufferResizeStrategy createBufferDoublingSizeStrategy()
-    {
-        return new BufferResizeDoublingStrategy();
-    }
+    /**
+     * Calculates new size for random buffer with respect to it current capacity and minimum expected size.
+     *
+     * @param currentCapacity The current capacity of buffer. Must not be negative.
+     * @param minimumRequiredSize Minimum required size of buffer. Must be not less than currentCapacity.
+     * @return new size that buffer need. Always at least as big as minimumRequiredSize.
+     * If currentCapacity and minimumRequiredSize are equal then currentCapacity value is returned.
+     * @throws IllegalArgumentException if currentCapacity is a negative number or bigger than minimumRequiredSize.
+     */
+    int calculateNewSize(int currentCapacity, int minimumRequiredSize);
 }

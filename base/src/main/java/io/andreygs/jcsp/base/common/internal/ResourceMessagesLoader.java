@@ -23,17 +23,39 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.utils;
+package io.andreygs.jcsp.base.common.internal;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
- * Factory for creating instances of IBufferResizeStrategy.
+ * TODO: place description here
  */
-public interface IBufferResizeStrategyFactory
+public class ResourceMessagesLoader
 {
-    /**
-     * Creates an instance of a strategy that calculates a buffer size which is twice as big as the current one.
-     *
-     * @return new instance of strategy of doubling buffer size.
-     */
-    IBufferResizeStrategy createBufferDoublingSizeStrategy();
+    public static void loadMessages(Class<?> clazz)
+    {
+        try
+        {
+            ResourceBundle bundle = ResourceBundle.getBundle(clazz.getPackageName() + ".messages"
+                , Locale.getDefault());
+            for (Field field : clazz.getDeclaredFields())
+            {
+                if (Modifier.isStatic(field.getModifiers()) && Modifier.isPublic(field.getModifiers())
+                        && field.getType() == String.class)
+                {
+                    String key = field.getName();
+                    String value = bundle.getString(key);
+                    field.setAccessible(true);
+                    field.set(null, value);
+                }
+            }
+        }
+        catch (IllegalAccessException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
 }

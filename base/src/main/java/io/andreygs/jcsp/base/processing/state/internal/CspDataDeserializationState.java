@@ -34,6 +34,7 @@ import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
 import io.andreygs.jcsp.base.types.CspMessageType;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -102,7 +103,7 @@ final class CspDataDeserializationState extends AbstractCspCommonDeserialization
     @Override
     public Set<CspDataFlag> getCspDataFlags()
     {
-        Set<CspDataFlag> cspDataFlags = new HashSet<>();
+        Set<CspDataFlag> cspDataFlags = EnumSet.noneOf(CspDataFlag.class);
 
         if (alignmentMayBeNotEqual)
         {

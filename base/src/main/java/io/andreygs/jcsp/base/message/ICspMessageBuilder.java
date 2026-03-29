@@ -27,7 +27,7 @@ package io.andreygs.jcsp.base.message;
 
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
-import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
+import io.andreygs.jcsp.base.processing.buffer.IBufferResizeStrategy;
 
 import java.util.Set;
 

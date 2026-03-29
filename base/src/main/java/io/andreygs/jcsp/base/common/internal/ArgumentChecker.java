@@ -23,21 +23,36 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.internal;
+package io.andreygs.jcsp.base.common.internal;
 
-import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * TODO: place description here
  */
-public class CspGeneralSerializationProcessorFactory
+public class ArgumentChecker
 {
-    private CspGeneralSerializationProcessorFactory()
+    private ArgumentChecker()
     {
+
     }
 
-    public static ICspGeneralSerializationProcessor createCspGeneralSerializationProcessor()
+    public static void nonNull(@Nullable Object obj)
     {
-        return new CspGeneralSerializationProcessor();
+        if (obj == null)
+        {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public static void nonNull(@Nullable Object... obj)
+    {
+        if (Arrays.stream(obj).anyMatch(Objects::isNull))
+        {
+            throw new IllegalArgumentException();
+        }
     }
 }

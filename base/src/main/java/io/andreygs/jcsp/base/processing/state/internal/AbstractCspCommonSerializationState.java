@@ -28,9 +28,11 @@ package io.andreygs.jcsp.base.processing.state.internal;
 import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
+import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 
 import java.nio.ByteBuffer;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -81,7 +83,7 @@ abstract class AbstractCspCommonSerializationState
     @Override
     public final Set<CspCommonFlag> getCspCommonFlags()
     {
-        Set<CspCommonFlag> cspCommonFlags = new HashSet<>();
+        Set<CspCommonFlag> cspCommonFlags = EnumSet.noneOf(CspCommonFlag.class);
 
         if (bitness32)
         {

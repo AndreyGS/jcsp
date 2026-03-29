@@ -26,12 +26,11 @@
 package io.andreygs.jcsp.base.message.internal;
 
 import io.andreygs.jcsp.base.message.ICspMessageBuilder;
-import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
-import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
+import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflow;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
-import io.andreygs.jcsp.base.utils.ArgumentChecker;
-import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
+import io.andreygs.jcsp.base.common.internal.ArgumentChecker;
+import io.andreygs.jcsp.base.processing.buffer.IBufferResizeStrategy;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
@@ -41,11 +40,17 @@ import java.util.Set;
  */
 abstract class AbstractCspMessageBuilder implements ICspMessageBuilder
 {
+    private ISerializationWorkflow serializationWorkflow;
     private @Nullable Integer initialBufferCapacity;
     private @Nullable Boolean directBuffer;
     private @Nullable IBufferResizeStrategy bufferResizeStrategy;
     private @Nullable CspProtocolVersion cspProtocolVersion;
     private @Nullable Set<CspCommonFlag> cspCommonFlags;
+
+    AbstractCspMessageBuilder(ISerializationWorkflow serializationWorkflow)
+    {
+        this.serializationWorkflow = serializationWorkflow;
+    }
 
     @Override
     public ICspMessageBuilder setBufferInitialCapacity(int initialBufferCapacity)
@@ -91,6 +96,11 @@ abstract class AbstractCspMessageBuilder implements ICspMessageBuilder
         ArgumentChecker.nonNull(cspCommonFlags);
         this.cspCommonFlags = cspCommonFlags;
         return this;
+    }
+
+    protected ISerializationWorkflow getSerializationWorkflow()
+    {
+        return serializationWorkflow;
     }
 
     protected @Nullable Integer getInitialBufferCapacity()

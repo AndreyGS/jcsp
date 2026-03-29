@@ -25,17 +25,29 @@
 
 package io.andreygs.jcsp.base.processing.buffer.internal;
 
-import io.andreygs.jcsp.base.utils.BufferResizeStrategyFactoryProducer;
-import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
-import io.andreygs.jcsp.base.utils.internal.BufferResizeStrategyFactory;
+import io.andreygs.jcsp.base.processing.buffer.BufferResizeStrategyFactoryProducer;
+import io.andreygs.jcsp.base.processing.buffer.IBufferResizeStrategy;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.ByteBuffer;
 
 /**
- * Factory for creating instance of {@link ICspSerializationBuffer}.
+ * Sole implementation of {@link ICspSerializationBufferFactory}.
+ * <p>
+ * Creates following class instances:
+ * <ul>
+ *     <li>{@link ICspSerializationBuffer} -> {@link CspSerializationBuffer}</li>
+ * </ul>
+ * <p>
+ * When creating serialization buffer it uses next default values:
+ * <ul>
+ *     <li>initialBufferCapacity - {@link #DEFAULT_CAPACITY_SIZE default capacity}</li>
+ *     <li>directBuffer - true</li>
+ *     <li>bufferResizeStrategy - {@link BufferResizeStrategyFactory#createBufferDoublingSizeStrategy()}</li>
+ * </ul>
  */
 public final class CspSerializationBufferFactory
+    implements ICspSerializationBufferFactory
 {
     /**
      * Default capacity of {@link ByteBuffer} of {@link ICspSerializationBuffer} when it is created, if no explicit
@@ -43,29 +55,10 @@ public final class CspSerializationBufferFactory
      */
     public static final int DEFAULT_CAPACITY_SIZE = 256;
 
-    /**
-     * Creates {@link ICspSerializationBuffer} instance.
-     *
-     * @param initialBufferCapacity Initial capacity of buffer. Must not be negative.
-     *                              If it equals null, then {@link #DEFAULT_CAPACITY_SIZE default capacity} value will be used.
-     * @param directBuffer Is buffer direct or not.
-     *                     You should consider that direct buffer may not have underlying array that can be retrieved.
-     *                     Non-direct buffer, otherwise will always have underlying array, and it can be used in all
-     *                     cases safely, but it has at least one additional copying when passed to any native function,
-     *                     including methods of sockets and streams.
-     *                     So if you want to pass data by net buffer should be direct. But many cryptographic libraries,
-     *                     on the other hand, are using byte[], and you must either use non-direct buffer or
-     *                     convert make additionally copy to byte[] from direct buffer manually.
-     *                     If it equals null, then direct buffer will be used.
-     * @param bufferResizeStrategy Strategy of buffer resizing.
-     *                             If it equals null, then doubling resize strategy will be used -
-     *                             {@link BufferResizeStrategyFactory#createBufferDoublingSizeStrategy()}
-     * @return created {@link ICspSerializationBuffer} instance.
-     * @see ByteBuffer
-     */
-    public static ICspSerializationBuffer createCspSerializationBuffer(@Nullable Integer initialBufferCapacity,
-                                                                       @Nullable Boolean directBuffer,
-                                                                       @Nullable IBufferResizeStrategy bufferResizeStrategy)
+    @Override
+    public ICspSerializationBuffer createCspSerializationBuffer(@Nullable Integer initialBufferCapacity,
+                                                                @Nullable Boolean directBuffer,
+                                                                @Nullable IBufferResizeStrategy bufferResizeStrategy)
     {
         int initialBufferCapacityLocal = initialBufferCapacity == null ? DEFAULT_CAPACITY_SIZE : initialBufferCapacity;
         boolean directBufferLocal = directBuffer == null || directBuffer;

@@ -23,30 +23,36 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message;
+package io.andreygs.jcsp.base.processing.internal;
 
+import io.andreygs.jcsp.base.message.ICspDataMessage;
+import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
+import io.andreygs.jcsp.base.types.CspDataFlag;
+import io.andreygs.jcsp.base.types.CspProtocolVersion;
+import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
+import io.andreygs.jcsp.base.types.ICspVersionable;
 import io.andreygs.jcsp.base.processing.buffer.IBufferResizeStrategy;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
 /**
- * TODO: place description here
+ * Workflow of serialization message construction.
+ * <p>
+ * It init buffer, cheks an arguments, writes the message contexts and message bodies.
  */
-public interface ICspGetSettingsMessageBuilder extends ICspMessageBuilder
+public interface ISerializationWorkflow
 {
-    @Override
-    ICspGetSettingsMessageBuilder setBufferInitialCapacity(int initialBufferCapacity);
-
-    @Override
-    ICspGetSettingsMessageBuilder setDirectBuffer(boolean directBuffer);
-
-    @Override
-    ICspGetSettingsMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy)
-        throws IllegalArgumentException;
-
-    @Override
-    ICspGetSettingsMessageBuilder setCspCommonFlags(Set<CspCommonFlag> cspCommonFlags) throws IllegalArgumentException;
-
-    ICspGetSettingsMessage serialize();
+    ICspDataMessage serializeDataMessage(
+        @Nullable Integer initialBufferCapacity,
+        @Nullable Boolean directBuffer,
+        @Nullable IBufferResizeStrategy bufferResizeStrategy,
+        @Nullable CspProtocolVersion cspProtocolVersion,
+        @Nullable Set<CspCommonFlag> cspCommonFlags,
+        ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar,
+        ICspVersionable cspVersionable,
+        @Nullable ICspInterfaceVersion cspInterfaceVersion,
+        @Nullable Set<CspDataFlag> cspDataFlags);
 }

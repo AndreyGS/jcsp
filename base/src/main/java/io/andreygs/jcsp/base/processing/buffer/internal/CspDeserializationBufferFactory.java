@@ -28,17 +28,18 @@ package io.andreygs.jcsp.base.processing.buffer.internal;
 import java.nio.ByteBuffer;
 
 /**
- * Factory for creating instance of {@link ICspDeserializationBuffer}.
+ * Sole implementation of {@link ICspDeserializationBufferFactory}.
+ * <p>
+ * Creates following class instances:
+ * <ul>
+ *     <li>{@link ICspDeserializationBuffer} -> {@link CspDeserializationBuffer}</li>
+ * </ul>
  */
 public final class CspDeserializationBufferFactory
+    implements ICspDeserializationBufferFactory
 {
-    /**
-     * Creates {@link ICspDeserializationBuffer} with provided ByteBuffer as source of CSP serialized message.
-     *
-     * @param byteBuffer Buffer that contains CSP serialized message.
-     * @return created instance of ICspDeserializationByteBuffer.
-     */
-    public static ICspDeserializationBuffer createCspDeserializationBuffer(ByteBuffer byteBuffer)
+    @Override
+    public ICspDeserializationBuffer createCspDeserializationBuffer(ByteBuffer byteBuffer)
     {
         return new CspDeserializationBuffer(byteBuffer);
     }

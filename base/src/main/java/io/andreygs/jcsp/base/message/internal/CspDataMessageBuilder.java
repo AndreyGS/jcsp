@@ -29,14 +29,14 @@ import io.andreygs.jcsp.base.message.ICspDataMessage;
 import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
 import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
-import io.andreygs.jcsp.base.processing.internal.Serializer;
+import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflow;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 import io.andreygs.jcsp.base.types.ICspVersionable;
-import io.andreygs.jcsp.base.utils.ArgumentChecker;
-import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
+import io.andreygs.jcsp.base.common.internal.ArgumentChecker;
+import io.andreygs.jcsp.base.processing.buffer.IBufferResizeStrategy;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
@@ -51,8 +51,10 @@ final class CspDataMessageBuilder extends AbstractCspMessageBuilder
     private @Nullable ICspInterfaceVersion cspInterfaceVersion;
     private @Nullable Set<CspDataFlag> cspDataFlags;
 
-    CspDataMessageBuilder(ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar)
+    CspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
+                          ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar)
     {
+        super(serializationWorkflow);
         this.cspSerializationProcessorRegistrar = cspSerializationProcessorRegistrar;
     }
 
@@ -118,9 +120,8 @@ final class CspDataMessageBuilder extends AbstractCspMessageBuilder
         throws IllegalArgumentException
     {
         ArgumentChecker.nonNull(cspVersionable);
-        return Serializer.serializeDataMessage(cspSerializationProcessorRegistrar, getInitialBufferCapacity(), getDirectBuffer(),
-                                               getBufferResizeStrategy(), getCspProtocolVersion(),
-                                               getCspCommonFlags(), cspInterfaceVersion, cspDataFlags,
-                                               cspVersionable);
+        return getSerializationWorkflow().serializeDataMessage(
+            getInitialBufferCapacity(), getDirectBuffer(), getBufferResizeStrategy(),getCspProtocolVersion(),
+            getCspCommonFlags(), cspSerializationProcessorRegistrar, cspVersionable, cspInterfaceVersion, cspDataFlags);
     }
 }

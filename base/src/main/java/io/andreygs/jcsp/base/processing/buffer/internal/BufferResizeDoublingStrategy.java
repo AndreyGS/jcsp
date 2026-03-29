@@ -23,18 +23,42 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.utils;
+package io.andreygs.jcsp.base.processing.buffer.internal;
 
-import io.andreygs.jcsp.base.utils.internal.BufferResizeStrategyFactory;
+import io.andreygs.jcsp.base.processing.buffer.IBufferResizeStrategy;
 
-public class BufferResizeStrategyFactoryProducer
+/**
+ * Strategy that calculates new size of random buffer by at least doubling its current size.
+ * <p>
+ * If currentCapacity is 0, then minimumRequiredSize is returned.
+ */
+class BufferResizeDoublingStrategy
+    implements IBufferResizeStrategy
 {
-    private BufferResizeStrategyFactoryProducer()
+    @Override
+    public int calculateNewSize(int currentCapacity, int minimumRequiredSize)
     {
-    }
-
-    public static IBufferResizeStrategyFactory produceBufferResizeStrategyFactory()
-    {
-        return new BufferResizeStrategyFactory();
+        if (currentCapacity < 0 || currentCapacity > minimumRequiredSize)
+        {
+            throw new IllegalArgumentException("Current capacity shall not be negative or bigger than minimum "
+                                                   + "required size!");
+        }
+        if (currentCapacity == 0)
+        {
+            return minimumRequiredSize;
+        }
+        int result = currentCapacity;
+        while (result  < minimumRequiredSize)
+        {
+            try
+            {
+                result = Math.multiplyExact(result, 2);
+            }
+            catch (ArithmeticException e)
+            {
+                result = Integer.MAX_VALUE;
+            }
+        }
+        return result;
     }
 }

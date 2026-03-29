@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
-import io.andreygs.jcsp.base.utils.ResourceMessagesLoader;
+import io.andreygs.jcsp.base.common.internal.ResourceMessagesLoader;
 
 /**
  * TODO: place description here

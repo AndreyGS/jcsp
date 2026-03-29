@@ -32,6 +32,7 @@ import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 
 import java.nio.ByteBuffer;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -74,7 +75,7 @@ abstract class AbstractCspCommonDeserializationState
     @Override
     public final Set<CspCommonFlag> getCspCommonFlags()
     {
-        Set<CspCommonFlag> cspCommonFlags = new HashSet<>();
+        Set<CspCommonFlag> cspCommonFlags = EnumSet.noneOf(CspCommonFlag.class);
 
         if (bitness32)
         {

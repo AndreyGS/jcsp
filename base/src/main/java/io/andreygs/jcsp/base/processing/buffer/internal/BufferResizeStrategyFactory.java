@@ -23,36 +23,20 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.utils;
+package io.andreygs.jcsp.base.processing.buffer.internal;
 
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Arrays;
-import java.util.Objects;
+import io.andreygs.jcsp.base.processing.buffer.IBufferResizeStrategy;
+import io.andreygs.jcsp.base.processing.buffer.IBufferResizeStrategyFactory;
 
 /**
- * TODO: place description here
+ * Factory for creating instances of {@link IBufferResizeStrategy buffer resize strategies}.
  */
-public class ArgumentChecker
+public class BufferResizeStrategyFactory
+    implements IBufferResizeStrategyFactory
 {
-    private ArgumentChecker()
+    @Override
+    public IBufferResizeStrategy createBufferDoublingSizeStrategy()
     {
-
-    }
-
-    public static void nonNull(@Nullable Object obj)
-    {
-        if (obj == null)
-        {
-            throw new IllegalArgumentException();
-        }
-    }
-
-    public static void nonNull(@Nullable Object... obj)
-    {
-        if (Arrays.stream(obj).anyMatch(Objects::isNull))
-        {
-            throw new IllegalArgumentException();
-        }
+        return new BufferResizeDoublingStrategy();
     }
 }

@@ -27,7 +27,7 @@ package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.ICspProcessor;
 import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
-import io.andreygs.jcsp.base.utils.ArgumentChecker;
+import io.andreygs.jcsp.base.common.internal.ArgumentChecker;
 
 import java.util.HashMap;
 import java.util.Map;

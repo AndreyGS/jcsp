@@ -35,6 +35,7 @@ import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
 import io.andreygs.jcsp.base.types.CspMessageType;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -55,10 +56,10 @@ final class CspDataSerializationState extends AbstractCspCommonSerializationStat
     private final boolean checkRecursivePointersWhileMaintainingLinkStructure;
 
     public CspDataSerializationState(ICspGeneralSerializationProcessor cspGeneralSerializationProcessor,
-                                     ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar,
                                      ICspSerializationBuffer cspSerializationBuffer,
                                      CspProtocolVersion cspProtocolVersion,
                                      Set<CspCommonFlag> cspCommonFlags,
+                                     ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar,
                                      Class<?> structClazz,
                                      ICspInterfaceVersion cspInterfaceVersion,
                                      Set<CspDataFlag> cspDataFlags)
@@ -104,7 +105,7 @@ final class CspDataSerializationState extends AbstractCspCommonSerializationStat
     @Override
     public Set<CspDataFlag> getCspDataFlags()
     {
-        Set<CspDataFlag> cspDataFlags = new HashSet<>();
+        Set<CspDataFlag> cspDataFlags = EnumSet.noneOf(CspDataFlag.class);
 
         if (alignmentMayBeNotEqual)
         {

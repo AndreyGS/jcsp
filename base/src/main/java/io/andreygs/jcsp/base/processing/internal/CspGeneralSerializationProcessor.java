@@ -33,9 +33,9 @@ import org.jetbrains.annotations.Nullable;
 import java.nio.charset.Charset;
 
 /**
- * The single implementation of {@link ICspGeneralSerializationProcessor}.
+ * The sole implementation of {@link ICspGeneralSerializationProcessor}.
  */
-final class CspGeneralSerializationProcessor implements ICspGeneralSerializationProcessor
+public final class CspGeneralSerializationProcessor implements ICspGeneralSerializationProcessor
 {
 
     @Override
@@ -93,8 +93,7 @@ final class CspGeneralSerializationProcessor implements ICspGeneralSerialization
     }
 
     @Override
-    public void serialize(boolean @Nullable [] value, boolean asReference, boolean fixedSize,
-                          Object state)
+    public void serialize(boolean @Nullable [] value, boolean asReference, boolean fixedSize, Object state)
     {
 
     }
@@ -106,8 +105,7 @@ final class CspGeneralSerializationProcessor implements ICspGeneralSerialization
     }
 
     @Override
-    public void serialize(byte @Nullable [] value, boolean asReference, boolean fixedSize,
-                          Object state)
+    public void serialize(byte @Nullable [] value, boolean asReference, boolean fixedSize, Object state)
     {
 
     }
@@ -119,8 +117,7 @@ final class CspGeneralSerializationProcessor implements ICspGeneralSerialization
     }
 
     @Override
-    public void serialize(short @Nullable [] value, boolean asReference, boolean fixedSize,
-                          Object state)
+    public void serialize(short @Nullable [] value, boolean asReference, boolean fixedSize, Object state)
     {
 
     }
@@ -132,8 +129,7 @@ final class CspGeneralSerializationProcessor implements ICspGeneralSerialization
     }
 
     @Override
-    public void serialize(int @Nullable [] value, boolean asReference, boolean fixedSize,
-                          Object state)
+    public void serialize(int @Nullable [] value, boolean asReference, boolean fixedSize, Object state)
     {
 
     }
@@ -145,8 +141,7 @@ final class CspGeneralSerializationProcessor implements ICspGeneralSerialization
     }
 
     @Override
-    public void serialize(long @Nullable [] value, boolean asReference, boolean fixedSize,
-                          Object state)
+    public void serialize(long @Nullable [] value, boolean asReference, boolean fixedSize, Object state)
     {
 
     }
@@ -158,8 +153,7 @@ final class CspGeneralSerializationProcessor implements ICspGeneralSerialization
     }
 
     @Override
-    public void serialize(char @Nullable [] value, boolean asReference, boolean fixedSize,
-                          Object state)
+    public void serialize(char @Nullable [] value, boolean asReference, boolean fixedSize, Object state)
     {
 
     }
@@ -171,8 +165,7 @@ final class CspGeneralSerializationProcessor implements ICspGeneralSerialization
     }
 
     @Override
-    public void serialize(float @Nullable [] value, boolean asReference, boolean fixedSize,
-                          Object state)
+    public void serialize(float @Nullable [] value, boolean asReference, boolean fixedSize, Object state)
     {
 
     }
@@ -184,8 +177,7 @@ final class CspGeneralSerializationProcessor implements ICspGeneralSerialization
     }
 
     @Override
-    public void serialize(double @Nullable [] value, boolean asReference, boolean fixedSize,
-                          Object state)
+    public void serialize(double @Nullable [] value, boolean asReference, boolean fixedSize, Object state)
     {
 
     }
@@ -197,8 +189,7 @@ final class CspGeneralSerializationProcessor implements ICspGeneralSerialization
     }
 
     @Override
-    public void serialize(@Nullable String value, boolean asReference, Charset charset,
-                          Object state)
+    public void serialize(@Nullable String value, boolean asReference, Charset charset, Object state)
     {
 
     }
@@ -210,8 +201,7 @@ final class CspGeneralSerializationProcessor implements ICspGeneralSerialization
     }
 
     @Override
-    public void serialize(@Nullable Object value, ICspReferenceTypeTraits cspObjectTypeTraits,
-                          Object state)
+    public void serialize(@Nullable Object value, ICspReferenceTypeTraits cspObjectTypeTraits, Object state)
     {
 
     }

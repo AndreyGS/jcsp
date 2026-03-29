@@ -23,21 +23,20 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.utils;
+package io.andreygs.jcsp.base.processing.buffer.internal;
+
+import java.nio.ByteBuffer;
 
 /**
- * Strategy for determining size of random buffer when it needs to be expanded (to hold new data, for example).
+ * Factory for creating {@link ICspDeserializationBuffer} instance.
  */
-public interface IBufferResizeStrategy
+public interface ICspDeserializationBufferFactory
 {
     /**
-     * Calculates new size for random buffer with respect to it current capacity and minimum expected size.
+     * Creates {@link ICspDeserializationBuffer} with provided ByteBuffer as source of CSP serialized message.
      *
-     * @param currentCapacity The current capacity of buffer. Must not be negative.
-     * @param minimumRequiredSize Minimum required size of buffer. Must be not less than currentCapacity.
-     * @return new size that buffer need. Always at least as big as minimumRequiredSize.
-     * If currentCapacity and minimumRequiredSize are equal then currentCapacity value is returned.
-     * @throws IllegalArgumentException if currentCapacity is a negative number or bigger than minimumRequiredSize.
+     * @param byteBuffer Buffer that contains CSP serialized message.
+     * @return created instance of {@link ICspDeserializationBuffer}.
      */
-    int calculateNewSize(int currentCapacity, int minimumRequiredSize);
+    ICspDeserializationBuffer createCspDeserializationBuffer(ByteBuffer byteBuffer);
 }

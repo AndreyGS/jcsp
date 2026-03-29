@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.base.processing.buffer.internal;
 
-import io.andreygs.jcsp.base.utils.IBufferResizeStrategy;
+import io.andreygs.jcsp.base.processing.buffer.IBufferResizeStrategy;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
