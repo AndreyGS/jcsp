@@ -27,11 +27,9 @@ package io.andreygs.jcsp.base.message.internal;
 
 import io.andreygs.jcsp.base.message.ICspMessageBuilderFactory;
 import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
-import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
-import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
-import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.CspSerializationBufferFactory;
-import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.internal.CspGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.internal.SerializationWorkflow;
 import io.andreygs.jcsp.base.processing.state.internal.CspProcessingStateFactory;
@@ -51,7 +49,7 @@ public final class CspMessageBuilderFactory implements ICspMessageBuilderFactory
                                   new CspProcessingStateFactory<>());
 
     public ICspDataMessageBuilder createCspDataMessageBuilder(
-        ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar)
+        ICspDataProcessorRegistrar<ICspDataSerializationProcessor> cspSerializationProcessorRegistrar)
         throws IllegalArgumentException
     {
         ArgumentChecker.nonNull(cspSerializationProcessorRegistrar);

@@ -26,7 +26,7 @@
 package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
-import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.state.internal.ICspDataProcessingState;
 import org.junit.jupiter.api.Assertions;
@@ -44,8 +44,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 public class CspGeneralSerializationProcessorTests
 {
     @Mock
-    private ICspDataProcessingState<ICspGeneralSerializationProcessor, ICspSerializationBuffer,
-                                           ICspSerializationProcessor, Object, Integer> state;
+    private ICspDataProcessingState<ICspGeneralSerializationProcessor, ICspSerializationBuffer, ICspDataSerializationProcessor, Object, Integer> state;
     @Mock
     private ICspSerializationBuffer buffer;
 

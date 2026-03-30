@@ -41,7 +41,7 @@ import java.util.Map;
  * General-purpose CSP serialization processor for Data Message Body.
  * <p>
  * It is the access point on every top-struct and field serialization.
- * {@link ICspSerializationProcessor} must use this to serialize struct to which it belongs.
+ * {@link ICspDataSerializationProcessor} must use this to serialize struct to which it belongs.
  * <p>
  * It uses {@link ICspDataSerializationState} to get respective serialization settings
  * and {@link ICspSerializationBuffer}.write(...) methods to write raw values of primitives and primitive arrays.
@@ -842,7 +842,7 @@ public interface ICspGeneralSerializationProcessor
      * Object should not be any of: array, {@link String}, {@link Collection}, {@link Map}.
      *
      * @param value Object to serialize.
-     * @param clazz The class that will be serialized. It is for choice which {@link ICspSerializationProcessor}
+     * @param clazz The class that will be serialized. It is for choice which {@link ICspDataSerializationProcessor}
      *              shall be used, as long as value can implement different interfaces and inherits different classes
      *              (and some of them may be not part of CSP interface),
      * @param state Current serialization execution state.
@@ -901,7 +901,7 @@ public interface ICspGeneralSerializationProcessor
      * <p>
      *    Conditions:
      *    <ol>
-     *        <li>Parent class is implementing ICspSerializable or {@link ICspSerializationProcessor} for
+     *        <li>Parent class is implementing ICspSerializable or {@link ICspDataSerializationProcessor} for
      *        specific class is explicitly serializes its parent.</li>
      *    </ol>
      *    </li>

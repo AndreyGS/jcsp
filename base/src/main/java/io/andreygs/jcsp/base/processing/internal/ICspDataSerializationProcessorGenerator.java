@@ -23,21 +23,12 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing;
-
-import io.andreygs.jcsp.base.processing.internal.CspProcessorRegistrarFactory;
+package io.andreygs.jcsp.base.processing.internal;
 
 /**
  * TODO: place description here
  */
-public class CspProcessorRegistrarFactoryProducer
+public interface ICspDataSerializationProcessorGenerator
 {
-    public static ICspProcessorRegistrarFactory produceCspProcessorRegistrarFactory()
-    {
-        return new CspProcessorRegistrarFactory();
-    }
 
-    private CspProcessorRegistrarFactoryProducer()
-    {
-    }
 }

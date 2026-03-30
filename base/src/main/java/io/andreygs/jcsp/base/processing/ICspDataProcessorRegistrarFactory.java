@@ -26,15 +26,16 @@
 package io.andreygs.jcsp.base.processing;
 
 /**
- * Factory for creation {@link ICspProcessorRegistrar}.
+ * Factory for creation {@link ICspDataProcessorRegistrar}.
  */
-public interface ICspProcessorRegistrarFactory
+public interface ICspDataProcessorRegistrarFactory
 {
     /**
-     * Creates {@link ICspProcessorRegistrar}.
+     * Creates {@link ICspDataProcessorRegistrar}.
      *
      * @return created CSP processor registrar.
-     * @param <T> one of {@link ICspSerializationProcessor} or {@link ICspDeserializationProcessor}, depending on what kind of registrar should be created.
+     * @param <T> one of {@link ICspDataSerializationProcessor} or {@link ICspDataDeserializationProcessor},
+     *           depending on what kind of registrar should be created.
      */
-    <T extends ICspProcessor> ICspProcessorRegistrar<T> createProcessorRegistrar();
+    <T> ICspDataProcessorRegistrar<T> createProcessorRegistrar();
 }

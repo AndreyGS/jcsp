@@ -25,8 +25,7 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
-import io.andreygs.jcsp.base.processing.ICspProcessor;
-import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrar;
 import io.andreygs.jcsp.base.common.internal.ArgumentChecker;
 
 import java.util.HashMap;
@@ -36,12 +35,12 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- * Sole implementation of {@link ICspProcessorRegistrar}.
+ * Sole implementation of {@link ICspDataProcessorRegistrar}.
  * <p>
  * Uses RW lock to access to HashMap of classes with processors.
  */
-final class CspProcessorRegistrar<T extends ICspProcessor>
-    implements ICspProcessorRegistrar<T>
+final class CspDataProcessorRegistrar<T>
+    implements ICspDataProcessorRegistrar<T>
 {
     private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
     private final Map<Class<?>, T> processors = new HashMap<>();

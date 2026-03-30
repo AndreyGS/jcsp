@@ -25,11 +25,19 @@
 
 package io.andreygs.jcsp.base.processing;
 
+import io.andreygs.jcsp.base.processing.internal.CspDataProcessorRegistrarFactory;
+
 /**
- * Tagging interface to bound processor register and provider generic types.
- * <p>
- * Please note, that processor is only in use for message type {@link io.andreygs.jcsp.base.types.CspMessageType#DATA}.
+ * TODO: place description here
  */
-public interface ICspProcessor
+public class CspDataProcessorRegistrarFactoryProducer
 {
+    public static ICspDataProcessorRegistrarFactory produceCspProcessorRegistrarFactory()
+    {
+        return new CspDataProcessorRegistrarFactory();
+    }
+
+    private CspDataProcessorRegistrarFactoryProducer()
+    {
+    }
 }

@@ -25,8 +25,8 @@
 
 package io.andreygs.jcsp.base.processing.typetraits.annotations;
 
-import io.andreygs.jcsp.base.processing.ICspDeserializationProcessor;
-import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataDeserializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -35,7 +35,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Tagging annotation, telling that {@link ICspSerializationProcessor} and {@link ICspDeserializationProcessor}
+ * Tagging annotation, telling that {@link ICspDataSerializationProcessor} and {@link ICspDataDeserializationProcessor}
  * can be auto generated using CSP annotations of class fields.
  */
 @Documented

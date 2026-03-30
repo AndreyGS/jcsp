@@ -26,8 +26,7 @@
 package io.andreygs.jcsp.base.processing.state.internal;
 
 import io.andreygs.jcsp.base.message.ICspDataMessage;
-import io.andreygs.jcsp.base.processing.ICspProcessor;
-import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,9 +35,9 @@ import java.util.Map;
 /**
  * TODO: place description here
  */
-public interface ICspDataProcessingState<G, B extends ICspBuffer, P extends ICspProcessor, K, V>
+public interface ICspDataProcessingState<G, B extends ICspBuffer, P, K, V>
     extends ICspCommonProcessingState<G, B>, ICspDataMessage
 {
-    ICspProcessorRegistrar<P> getCspProcessorRegistrar();
+    ICspDataProcessorRegistrar<P> getCspProcessorRegistrar();
     @Nullable Map<K, V> getReferenceMap();
 }

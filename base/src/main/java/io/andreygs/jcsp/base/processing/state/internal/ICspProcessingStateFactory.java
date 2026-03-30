@@ -25,8 +25,7 @@
 
 package io.andreygs.jcsp.base.processing.state.internal;
 
-import io.andreygs.jcsp.base.processing.ICspProcessor;
-import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspDataFlag;
@@ -43,12 +42,12 @@ import java.util.Set;
  */
 public interface ICspProcessingStateFactory<G, B extends ICspBuffer>
 {
-    <P extends ICspProcessor, K, V> ICspDataProcessingState<G, B, P, K, V> createDataMessageState(
+    <P, K, V> ICspDataProcessingState<G, B, P, K, V> createDataMessageState(
         G cspGeneralSerializationProcessor,
         B cspSerializationBuffer,
         CspProtocolVersion cspProtocolVersion,
         Set<CspCommonFlag> cspCommonFlags,
-        ICspProcessorRegistrar<P> cspSerializationProcessorRegistrar,
+        ICspDataProcessorRegistrar<P> cspSerializationProcessorRegistrar,
         @Nullable Map<K, V> referenceMap,
         ICspVersionable struct,
         Class<?> structClazz,

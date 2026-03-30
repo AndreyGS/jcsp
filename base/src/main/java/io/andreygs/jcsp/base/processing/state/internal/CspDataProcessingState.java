@@ -25,8 +25,7 @@
 
 package io.andreygs.jcsp.base.processing.state.internal;
 
-import io.andreygs.jcsp.base.processing.ICspProcessor;
-import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspDataFlag;
@@ -43,11 +42,11 @@ import java.util.Set;
 /**
  * TODO: place description here
  */
-class CspDataProcessingState<G, B extends ICspBuffer, P extends ICspProcessor, K, V>
+class CspDataProcessingState<G, B extends ICspBuffer, P, K, V>
     extends AbstractCspCommonProcessingState<G, B>
     implements ICspDataProcessingState<G, B, P, K, V>
 {
-    private final ICspProcessorRegistrar<P> cspProcessorRegistrar;
+    private final ICspDataProcessorRegistrar<P> cspProcessorRegistrar;
     private final @Nullable Map<K, V> referenceMap;
     private final ICspVersionable struct;
     private final Class<?> structClazz;
@@ -63,7 +62,7 @@ class CspDataProcessingState<G, B extends ICspBuffer, P extends ICspProcessor, K
                                   B cspBuffer,
                                   CspProtocolVersion cspProtocolVersion,
                                   Set<CspCommonFlag> cspCommonFlags,
-                                  ICspProcessorRegistrar<P> cspProcessorRegistrar,
+                                  ICspDataProcessorRegistrar<P> cspProcessorRegistrar,
                                   @Nullable Map<K, V> referenceMap,
                                   ICspVersionable struct,
                                   Class<?> structClazz,
@@ -93,7 +92,7 @@ class CspDataProcessingState<G, B extends ICspBuffer, P extends ICspProcessor, K
     }
 
     @Override
-    public ICspProcessorRegistrar<P> getCspProcessorRegistrar()
+    public ICspDataProcessorRegistrar<P> getCspProcessorRegistrar()
     {
         return cspProcessorRegistrar;
     }

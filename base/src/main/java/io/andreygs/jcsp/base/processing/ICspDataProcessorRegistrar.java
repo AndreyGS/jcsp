@@ -52,8 +52,11 @@ import java.util.Optional;
  * Please note that arrays of any type must not have separate processors.
  * <p>
  * Thread-safe.
+ *
+ * @param <T> one of {@link ICspDataSerializationProcessor} or {@link ICspDataDeserializationProcessor},
+ *           depending on what kind of registrar should be created.
  */
-public interface ICspProcessorRegistrar<T extends ICspProcessor>
+public interface ICspDataProcessorRegistrar<T>
 {
     /**
      * Registers processor for later use.

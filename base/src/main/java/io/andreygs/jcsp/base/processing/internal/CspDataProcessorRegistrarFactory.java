@@ -23,13 +23,22 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing;
+package io.andreygs.jcsp.base.processing.internal;
+
+import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrarFactory;
 
 /**
- * TODO: place description here
+ * Internal implementation of {@link ICspDataProcessorRegistrarFactory}.
+ * <p>
+ * Creates default CSP processor registrar.
  */
-public interface ICspSerializationProcessor
-    extends ICspProcessor
+public final class CspDataProcessorRegistrarFactory
+    implements ICspDataProcessorRegistrarFactory
 {
-    void serialize(Object value, Object state);
+    @Override
+    public <T> ICspDataProcessorRegistrar<T> createProcessorRegistrar()
+    {
+        return new CspDataProcessorRegistrar<>();
+    }
 }

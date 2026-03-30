@@ -25,9 +25,9 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
-import io.andreygs.jcsp.base.processing.ICspDeserializationProcessor;
-import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
-import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataDeserializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,20 +38,21 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 /**
- * Unit-tests for {@link CspProcessorRegistrar}.
+ * Unit-tests for {@link CspDataProcessorRegistrar}.
  */
 @ExtendWith(MockitoExtension.class)
 public class CspProcessorRegistrarTests
 {
     @Mock
-    private ICspSerializationProcessor cspSerializationProcessor;
+    private ICspDataSerializationProcessor cspSerializationProcessor;
     @Mock
-    private ICspDeserializationProcessor cspDeserializationProcessor;
+    private ICspDataDeserializationProcessor cspDeserializationProcessor;
 
     @Test
     public void registerProcessorTest()
     {
-        ICspProcessorRegistrar<ICspSerializationProcessor> cspProcessorRegistrar = new CspProcessorRegistrar<>();
+        ICspDataProcessorRegistrar<ICspDataSerializationProcessor>
+            cspProcessorRegistrar = new CspDataProcessorRegistrar<>();
 
         Assertions.assertTrue(cspProcessorRegistrar.findProcessor(List.class).isEmpty(),
                               "Processor registered for " + List.class.getName() + "!");
@@ -66,7 +67,8 @@ public class CspProcessorRegistrarTests
     @SuppressWarnings("DataFlowIssue")
     public void registerProcessorNullClassTest()
     {
-        ICspProcessorRegistrar<ICspSerializationProcessor> cspProcessorRegistrar = new CspProcessorRegistrar<>();
+        ICspDataProcessorRegistrar<ICspDataSerializationProcessor>
+            cspProcessorRegistrar = new CspDataProcessorRegistrar<>();
 
         Assertions.assertThrows(IllegalArgumentException.class,
                                 () -> cspProcessorRegistrar.registerProcessor(null, cspSerializationProcessor));
@@ -76,7 +78,8 @@ public class CspProcessorRegistrarTests
     @SuppressWarnings("DataFlowIssue")
     public void registerProcessorNullProcessorTest()
     {
-        ICspProcessorRegistrar<ICspSerializationProcessor> cspProcessorRegistrar = new CspProcessorRegistrar<>();
+        ICspDataProcessorRegistrar<ICspDataSerializationProcessor>
+            cspProcessorRegistrar = new CspDataProcessorRegistrar<>();
 
         Assertions.assertThrows(IllegalArgumentException.class,
                                 () -> cspProcessorRegistrar.registerProcessor(List.class, null));
@@ -85,11 +88,12 @@ public class CspProcessorRegistrarTests
     @Test
     public void registerProcessorReplaceTest()
     {
-        ICspProcessorRegistrar<ICspSerializationProcessor> cspProcessorRegistrar = new CspProcessorRegistrar<>();
+        ICspDataProcessorRegistrar<ICspDataSerializationProcessor>
+            cspProcessorRegistrar = new CspDataProcessorRegistrar<>();
         cspProcessorRegistrar.registerProcessor(List.class, cspSerializationProcessor);
 
-        ICspSerializationProcessor cspSerializationProcessorNew = Mockito.mock(
-            ICspSerializationProcessor.class);
+        ICspDataSerializationProcessor cspSerializationProcessorNew = Mockito.mock(
+            ICspDataSerializationProcessor.class);
         cspProcessorRegistrar.registerProcessor(List.class, cspSerializationProcessorNew);
 
         Assertions.assertEquals(cspSerializationProcessorNew, cspProcessorRegistrar.findProcessor(List.class).orElse(null),
@@ -99,7 +103,8 @@ public class CspProcessorRegistrarTests
     @Test
     public void unregisterProcessorTest()
     {
-        ICspProcessorRegistrar<ICspDeserializationProcessor> cspProcessorRegistrar = new CspProcessorRegistrar<>();
+        ICspDataProcessorRegistrar<ICspDataDeserializationProcessor>
+            cspProcessorRegistrar = new CspDataProcessorRegistrar<>();
         cspProcessorRegistrar.registerProcessor(List.class, cspDeserializationProcessor);
         cspProcessorRegistrar.unregisterProcessor(List.class);
 
@@ -111,7 +116,8 @@ public class CspProcessorRegistrarTests
     @SuppressWarnings("DataFlowIssue")
     public void unregisterProcessorNullClassTest()
     {
-        ICspProcessorRegistrar<ICspSerializationProcessor> cspProcessorRegistrar = new CspProcessorRegistrar<>();
+        ICspDataProcessorRegistrar<ICspDataSerializationProcessor>
+            cspProcessorRegistrar = new CspDataProcessorRegistrar<>();
 
         Assertions.assertThrows(IllegalArgumentException.class,
                                 () -> cspProcessorRegistrar.unregisterProcessor(null));
@@ -127,7 +133,8 @@ public class CspProcessorRegistrarTests
     @SuppressWarnings("DataFlowIssue")
     public void findProcessorNullClassTest()
     {
-        ICspProcessorRegistrar<ICspSerializationProcessor> cspProcessorRegistrar = new CspProcessorRegistrar<>();
+        ICspDataProcessorRegistrar<ICspDataSerializationProcessor>
+            cspProcessorRegistrar = new CspDataProcessorRegistrar<>();
 
         Assertions.assertThrows(IllegalArgumentException.class,
                                 () -> cspProcessorRegistrar.findProcessor(null));

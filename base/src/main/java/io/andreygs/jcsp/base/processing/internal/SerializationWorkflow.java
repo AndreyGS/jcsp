@@ -27,10 +27,10 @@ package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.message.ICspDataMessage;
 import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
-import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBufferFactory;
-import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.base.processing.state.internal.ICspDataProcessingState;
 import io.andreygs.jcsp.base.processing.state.internal.ICspProcessingStateFactory;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
@@ -73,7 +73,7 @@ public class SerializationWorkflow
         @Nullable IBufferResizeStrategy bufferResizeStrategy,
         @Nullable CspProtocolVersion cspProtocolVersion,
         @Nullable Set<CspCommonFlag> cspCommonFlags,
-        ICspProcessorRegistrar<ICspSerializationProcessor> cspSerializationProcessorRegistrar,
+        ICspDataProcessorRegistrar<ICspDataSerializationProcessor> cspSerializationProcessorRegistrar,
         ICspVersionable cspVersionable,
         @Nullable ICspInterfaceVersion cspInterfaceVersion,
         @Nullable Set<CspDataFlag> cspDataFlags)
@@ -82,8 +82,7 @@ public class SerializationWorkflow
             cspSerializationBufferFactory.createCspSerializationBuffer(initialBufferCapacity, directBuffer, bufferResizeStrategy);
 
         // TODO construction of message should be made later (right before message body serialization).
-        ICspDataProcessingState<ICspGeneralSerializationProcessor, ICspSerializationBuffer,
-                                   ICspSerializationProcessor, Object, Integer>
+        ICspDataProcessingState<ICspGeneralSerializationProcessor, ICspSerializationBuffer, ICspDataSerializationProcessor, Object, Integer>
             cspSerializationDataMessage
                 = cspSerializationStateFactory.createDataMessageState(cspGeneralSerializationProcessor,
                                                                       cspSerializationBuffer,
