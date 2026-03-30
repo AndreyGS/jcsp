@@ -3,7 +3,8 @@
  * <p>
  * All states here are not contain any logic and are used only as containers of neccessary settings
  * that are need in serailization and deserialization processes. Besides that they are also represents
- * implementations of {@link io.andreygs.jcsp.base.message.ICspMessage}.
+ * implementations of {@link io.andreygs.jcsp.base.message.ICspMessage} and when message build or extraction
+ * is complete it returns to user.
  *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>

@@ -44,8 +44,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 public class CspGeneralSerializationProcessorTests
 {
     @Mock
-    private ICspDataProcessingState<ICspGeneralSerializationProcessor, ICspSerializationBuffer, ICspSerializationProcessor>
-        state;
+    private ICspDataProcessingState<ICspGeneralSerializationProcessor, ICspSerializationBuffer,
+                                           ICspSerializationProcessor, Object, Integer> state;
     @Mock
     private ICspSerializationBuffer buffer;
 

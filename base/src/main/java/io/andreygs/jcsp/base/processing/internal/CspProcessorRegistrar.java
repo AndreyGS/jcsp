@@ -36,7 +36,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- * Internal implementation of {@link ICspProcessorRegistrar}.
+ * Sole implementation of {@link ICspProcessorRegistrar}.
  * <p>
  * Uses RW lock to access to HashMap of classes with processors.
  */
@@ -50,7 +50,6 @@ final class CspProcessorRegistrar<T extends ICspProcessor>
     public void registerProcessor(Class<?> clazz, T processor)
     {
         ArgumentChecker.nonNull(clazz, processor);
-
         rwLock.writeLock().lock();
         try
         {
@@ -66,7 +65,6 @@ final class CspProcessorRegistrar<T extends ICspProcessor>
     public void unregisterProcessor(Class<?> clazz)
     {
         ArgumentChecker.nonNull(clazz);
-
         rwLock.writeLock().lock();
         try
         {
@@ -82,7 +80,6 @@ final class CspProcessorRegistrar<T extends ICspProcessor>
     public Optional<T> findProcessor(Class<?> clazz)
     {
         ArgumentChecker.nonNull(clazz);
-
         rwLock.readLock().lock();
         try
         {

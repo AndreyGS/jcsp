@@ -25,9 +25,7 @@
 
 package io.andreygs.jcsp.base.processing.state.internal;
 
-import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
-import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspMessageType;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
@@ -38,14 +36,14 @@ import java.util.Set;
 /**
  * TODO: place description here
  */
-public class CspStatusProcessingState<T, U extends ICspBuffer>
-    extends AbstractCspCommonProcessingState<T, U>
-    implements ICspStatusProcessingState<T, U>
+public class CspStatusProcessingState<G, B extends ICspBuffer>
+    extends AbstractCspCommonProcessingState<G, B>
+    implements ICspStatusProcessingState<G, B>
 {
     private final CspStatus cspStatus;
 
-    public CspStatusProcessingState(T cspGeneralProcessor,
-                                    U cspBuffer,
+    public CspStatusProcessingState(G cspGeneralProcessor,
+                                    B cspBuffer,
                                     CspProtocolVersion cspProtocolVersion,
                                     Set<CspCommonFlag> cspCommonFlags,
                                     CspStatus cspStatus)

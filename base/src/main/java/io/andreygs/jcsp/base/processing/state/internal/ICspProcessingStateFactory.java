@@ -32,20 +32,25 @@ import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
+import io.andreygs.jcsp.base.types.ICspVersionable;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
 import java.util.Set;
 
 /**
  * Factory for creation states of CSP message serialization and deserialization processes.
  */
-public interface ICspProcessingStateFactory<T, U extends ICspBuffer>
+public interface ICspProcessingStateFactory<G, B extends ICspBuffer>
 {
-    <V extends ICspProcessor> ICspDataProcessingState<T, U, V> createDataMessageState(
-        T cspGeneralSerializationProcessor,
-        U cspSerializationBuffer,
+    <P extends ICspProcessor, K, V> ICspDataProcessingState<G, B, P, K, V> createDataMessageState(
+        G cspGeneralSerializationProcessor,
+        B cspSerializationBuffer,
         CspProtocolVersion cspProtocolVersion,
         Set<CspCommonFlag> cspCommonFlags,
-        ICspProcessorRegistrar<V> cspSerializationProcessorRegistrar,
+        ICspProcessorRegistrar<P> cspSerializationProcessorRegistrar,
+        @Nullable Map<K, V> referenceMap,
+        ICspVersionable struct,
         Class<?> structClazz,
         ICspInterfaceVersion cspInterfaceVersion,
         Set<CspDataFlag> cspDataFlags);

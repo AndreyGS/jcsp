@@ -31,7 +31,7 @@ import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
 /**
  * TODO: place description here
  */
-public interface ICspStatusProcessingState<T, U extends ICspBuffer>
-    extends ICspCommonProcessingState<T, U>, ICspStatusMessage
+public interface ICspStatusProcessingState<G, B extends ICspBuffer>
+    extends ICspCommonProcessingState<G, B>, ICspStatusMessage
 {
 }

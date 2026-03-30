@@ -25,17 +25,17 @@
 
 package io.andreygs.jcsp.base.processing.state.internal;
 
-import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspProcessor;
 import io.andreygs.jcsp.base.processing.ICspProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
-import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
-import io.andreygs.jcsp.base.processing.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
+import io.andreygs.jcsp.base.types.ICspVersionable;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -46,27 +46,31 @@ import java.util.Set;
  *     <li>{@link ICspDataProcessingState} -> {@link CspDataProcessingState}</li>
  * </ul>
  */
-public class CspProcessingStateFactory<T, U extends ICspBuffer>
-    implements ICspProcessingStateFactory<T, U>
+public class CspProcessingStateFactory<G, B extends ICspBuffer>
+    implements ICspProcessingStateFactory<G, B>
 {
     @Override
-    public <V extends ICspProcessor> ICspDataProcessingState<T, U, V> createDataMessageState(
-        T cspGeneralSerializationProcessor,
-        U cspSerializationBuffer,
+    public <P extends ICspProcessor, K, V> ICspDataProcessingState<G, B, P, K, V> createDataMessageState(
+        G cspGeneralSerializationProcessor,
+        B cspSerializationBuffer,
         CspProtocolVersion cspProtocolVersion,
         Set<CspCommonFlag> cspCommonFlags,
-        ICspProcessorRegistrar<V> cspSerializationProcessorRegistrar,
+        ICspProcessorRegistrar<P> cspSerializationProcessorRegistrar,
+        @Nullable Map<K, V> referenceMap,
+        ICspVersionable struct,
         Class<?> structClazz,
         ICspInterfaceVersion cspInterfaceVersion,
         Set<CspDataFlag> cspDataFlags)
     {
-        return new CspDataProcessingState<T, U, V>(cspGeneralSerializationProcessor,
-                                                   cspSerializationBuffer,
-                                                   cspProtocolVersion,
-                                                   cspCommonFlags,
-                                                   cspSerializationProcessorRegistrar,
-                                                   structClazz,
-                                                   cspInterfaceVersion,
-                                                   cspDataFlags);
+        return new CspDataProcessingState<G, B, P, K, V>(cspGeneralSerializationProcessor,
+                                                         cspSerializationBuffer,
+                                                         cspProtocolVersion,
+                                                         cspCommonFlags,
+                                                         cspSerializationProcessorRegistrar,
+                                                         referenceMap,
+                                                         struct,
+                                                         structClazz,
+                                                         cspInterfaceVersion,
+                                                         cspDataFlags);
     }
 }

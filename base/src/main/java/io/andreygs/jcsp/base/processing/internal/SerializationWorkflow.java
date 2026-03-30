@@ -82,13 +82,16 @@ public class SerializationWorkflow
             cspSerializationBufferFactory.createCspSerializationBuffer(initialBufferCapacity, directBuffer, bufferResizeStrategy);
 
         // TODO construction of message should be made later (right before message body serialization).
-        ICspDataProcessingState<ICspGeneralSerializationProcessor, ICspSerializationBuffer, ICspSerializationProcessor>
+        ICspDataProcessingState<ICspGeneralSerializationProcessor, ICspSerializationBuffer,
+                                   ICspSerializationProcessor, Object, Integer>
             cspSerializationDataMessage
                 = cspSerializationStateFactory.createDataMessageState(cspGeneralSerializationProcessor,
                                                                       cspSerializationBuffer,
                                                                       cspProtocolVersion == null ? DEFAULT_CSP_PROTOCOL_VERSION : cspProtocolVersion,
                                                                       cspCommonFlags == null ? DEFAULT_CSP_COMMON_FLAGS : cspCommonFlags,
                                                                       cspSerializationProcessorRegistrar,
+                                                                      null,
+                                                                      cspVersionable,
                                                                       cspVersionable.getClass(),
                                                                       cspInterfaceVersion == null ? cspVersionable.getInterfaceVersion() : cspInterfaceVersion,
                                                                       cspDataFlags == null ? DEFAULT_CSP_DATA_FLAGS : cspDataFlags);

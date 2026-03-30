@@ -27,22 +27,32 @@ package io.andreygs.jcsp.base.message;
 
 import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
+import io.andreygs.jcsp.base.types.ICspVersionable;
 
 import java.util.Set;
 
 /**
  * TODO: place description here
  */
-public interface ICspDataMessage
-    extends ICspMessage
+public interface ICspDataMessage extends ICspMessage
 {
+    ICspVersionable getStruct();
+
     Class<?> getStructClazz();
+
     ICspInterfaceVersion getInterfaceVersion();
+
     Set<CspDataFlag> getCspDataFlags();
+
     boolean isAlignmentMayBeNotEqual();
+
     boolean isSizeOfIntegersMayBeNotEqual();
+
     boolean isAllowUnmanagedPointers();
+
     boolean isCheckRecursivePointers();
+
     boolean isSimplyAssignableTagsOptimizationsAreTurnedOff();
+
     boolean isCheckRecursivePointersWhileMaintainingLinkStructure();
 }

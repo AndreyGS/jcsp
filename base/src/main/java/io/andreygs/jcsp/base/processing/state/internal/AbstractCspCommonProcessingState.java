@@ -36,18 +36,18 @@ import java.util.Set;
 /**
  * TODO: place description here
  */
-abstract class AbstractCspCommonProcessingState<T, U extends ICspBuffer>
-    implements ICspCommonProcessingState<T, U>
+abstract class AbstractCspCommonProcessingState<G, B extends ICspBuffer>
+    implements ICspCommonProcessingState<G, B>
 {
-    private final T cspGeneralProcessor;
-    private final U cspBuffer;
+    private final G cspGeneralProcessor;
+    private final B cspBuffer;
     private final CspProtocolVersion cspProtocolVersion;
     private final boolean bitness32;
     private final boolean bigEndian;
     private final boolean endiannessDifference;
 
-    public AbstractCspCommonProcessingState(T cspGeneralProcessor,
-                                            U cspBuffer,
+    public AbstractCspCommonProcessingState(G cspGeneralProcessor,
+                                            B cspBuffer,
                                             CspProtocolVersion cspProtocolVersion,
                                             Set<CspCommonFlag> cspCommonFlags)
     {
@@ -60,13 +60,13 @@ abstract class AbstractCspCommonProcessingState<T, U extends ICspBuffer>
     }
 
     @Override
-    public T getCspGeneralProcessor()
+    public G getCspGeneralProcessor()
     {
         return cspGeneralProcessor;
     }
 
     @Override
-    public U getCspBuffer()
+    public B getCspBuffer()
     {
         return cspBuffer;
     }

@@ -31,10 +31,10 @@ import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
 /**
  * TODO: place description here
  */
-public interface ICspCommonProcessingState<T, U extends ICspBuffer>
+public interface ICspCommonProcessingState<G, B extends ICspBuffer>
     extends ICspMessage
 {
-    T getCspGeneralProcessor();
+    G getCspGeneralProcessor();
 
-    U getCspBuffer();
+    B getCspBuffer();
 }

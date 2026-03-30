@@ -40,7 +40,7 @@ import java.util.Set;
  */
 abstract class AbstractCspMessageBuilder implements ICspMessageBuilder
 {
-    private ISerializationWorkflow serializationWorkflow;
+    private final ISerializationWorkflow serializationWorkflow;
     private @Nullable Integer initialBufferCapacity;
     private @Nullable Boolean directBuffer;
     private @Nullable IBufferResizeStrategy bufferResizeStrategy;

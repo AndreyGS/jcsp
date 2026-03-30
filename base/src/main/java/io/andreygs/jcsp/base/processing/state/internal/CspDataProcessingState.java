@@ -33,18 +33,23 @@ import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.CspMessageType;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
+import io.andreygs.jcsp.base.types.ICspVersionable;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
  * TODO: place description here
  */
-class CspDataProcessingState<T, U extends ICspBuffer, V extends ICspProcessor>
-    extends AbstractCspCommonProcessingState<T, U>
-    implements ICspDataProcessingState<T, U, V>
+class CspDataProcessingState<G, B extends ICspBuffer, P extends ICspProcessor, K, V>
+    extends AbstractCspCommonProcessingState<G, B>
+    implements ICspDataProcessingState<G, B, P, K, V>
 {
-    private final ICspProcessorRegistrar<V> cspProcessorRegistrar;
+    private final ICspProcessorRegistrar<P> cspProcessorRegistrar;
+    private final @Nullable Map<K, V> referenceMap;
+    private final ICspVersionable struct;
     private final Class<?> structClazz;
     private final ICspInterfaceVersion cspInterfaceVersion;
     private final boolean alignmentMayBeNotEqual;
@@ -54,17 +59,21 @@ class CspDataProcessingState<T, U extends ICspBuffer, V extends ICspProcessor>
     private final boolean simplyAssignableTagsOptimizationsAreTurnedOff;
     private final boolean checkRecursivePointersWhileMaintainingLinkStructure;
 
-    public CspDataProcessingState(T cspGeneralProcessor,
-                                  U cspBuffer,
+    public CspDataProcessingState(G cspGeneralProcessor,
+                                  B cspBuffer,
                                   CspProtocolVersion cspProtocolVersion,
                                   Set<CspCommonFlag> cspCommonFlags,
-                                  ICspProcessorRegistrar<V> cspProcessorRegistrar,
+                                  ICspProcessorRegistrar<P> cspProcessorRegistrar,
+                                  @Nullable Map<K, V> referenceMap,
+                                  ICspVersionable struct,
                                   Class<?> structClazz,
                                   ICspInterfaceVersion cspInterfaceVersion,
                                   Set<CspDataFlag> cspDataFlags)
     {
         super(cspGeneralProcessor, cspBuffer, cspProtocolVersion, cspCommonFlags);
         this.cspProcessorRegistrar = cspProcessorRegistrar;
+        this.referenceMap = referenceMap;
+        this.struct = struct;
         this.structClazz = structClazz;
         this.cspInterfaceVersion = cspInterfaceVersion;
         this.alignmentMayBeNotEqual = cspDataFlags.contains(CspDataFlag.ALIGNMENT_MAY_BE_NOT_EQUAL);
@@ -78,15 +87,28 @@ class CspDataProcessingState<T, U extends ICspBuffer, V extends ICspProcessor>
     }
 
     @Override
-    public ICspProcessorRegistrar<V> getCspProcessorRegistrar()
+    public CspMessageType getCspMessageType()
+    {
+        return CspMessageType.DATA;
+    }
+
+    @Override
+    public ICspProcessorRegistrar<P> getCspProcessorRegistrar()
     {
         return cspProcessorRegistrar;
     }
 
     @Override
-    public CspMessageType getCspMessageType()
+    @Nullable
+    public Map<K, V> getReferenceMap()
     {
-        return CspMessageType.DATA;
+        return referenceMap;
+    }
+
+    @Override
+    public ICspVersionable getStruct()
+    {
+        return struct;
     }
 
     @Override
