@@ -32,7 +32,7 @@ import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBufferFactory;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.base.processing.session.ICspDataSerializationSession;
-import io.andreygs.jcsp.base.processing.session.internal.ICspProcessingSessionFactory;
+import io.andreygs.jcsp.base.processing.session.internal.ICspSerializationSessionFactory;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
@@ -55,14 +55,14 @@ public class SerializationWorkflow
 
     private final ICspDataGeneralSerializationProcessor cspDataGeneralSerializationProcessor;
     private final ICspSerializationBufferFactory cspSerializationBufferFactory;
-    private final ICspProcessingSessionFactory<ICspSerializationBuffer>
-        cspSerializationStateFactory;
+    private final ICspSerializationSessionFactory cspSerializationStateFactory;
 
-    public SerializationWorkflow(ICspDataGeneralSerializationProcessor cspDataGeneralSerializationProcessor,
-                                 ICspSerializationBufferFactory cspSerializationBufferFactory,
-                                 ICspProcessingSessionFactory<ICspSerializationBuffer> cspSerializationStateFactory)
+    public SerializationWorkflow(ICspSerializationBufferFactory cspSerializationBufferFactory,
+                                 ICspDataGeneralSerializationProcessorFactory cspDataGeneralSerializationProcessorFactory,
+                                 ICspSerializationSessionFactory cspSerializationStateFactory)
     {
-        this.cspDataGeneralSerializationProcessor = cspDataGeneralSerializationProcessor;
+        this.cspDataGeneralSerializationProcessor
+            = cspDataGeneralSerializationProcessorFactory.createOrRetrieveGeneralSerializationProcessor();
         this.cspSerializationBufferFactory = cspSerializationBufferFactory;
         this.cspSerializationStateFactory = cspSerializationStateFactory;
     }

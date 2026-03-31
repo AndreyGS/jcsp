@@ -23,25 +23,14 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
+package io.andreygs.jcsp.base.processing.internal;
 
-import io.andreygs.jcsp.base.message.ICspMessageBuilderFactory;
-import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
-import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
-import io.andreygs.jcsp.base.common.internal.ArgumentChecker;
-import io.andreygs.jcsp.base.processing.internal.SerializationWorkflowFactory;
 
 /**
  * TODO: place description here
  */
-public final class CspMessageBuilderFactory implements ICspMessageBuilderFactory
+interface ICspDataSerializationProcessorGeneratorFactory
 {
-    public ICspDataMessageBuilder createCspDataMessageBuilder(
-        ICspDataProcessorRegistrar<ICspDataSerializationProcessor> cspSerializationProcessorRegistrar)
-        throws IllegalArgumentException
-    {
-        ArgumentChecker.nonNull(cspSerializationProcessorRegistrar);
-        return new CspDataMessageBuilder(new SerializationWorkflowFactory(), cspSerializationProcessorRegistrar);
-    }
+    ICspDataProcessorGenerator<ICspDataSerializationProcessor> createCspDataProcessorGenerator();
 }

@@ -27,6 +27,7 @@ package io.andreygs.jcsp.base.message.internal;
 
 import io.andreygs.jcsp.base.message.ICspMessageBuilder;
 import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflow;
+import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflowFactory;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 import io.andreygs.jcsp.base.common.internal.ArgumentChecker;
@@ -47,9 +48,9 @@ abstract class AbstractCspMessageBuilder implements ICspMessageBuilder
     private @Nullable CspProtocolVersion cspProtocolVersion;
     private @Nullable Set<CspCommonFlag> cspCommonFlags;
 
-    AbstractCspMessageBuilder(ISerializationWorkflow serializationWorkflow)
+    AbstractCspMessageBuilder(ISerializationWorkflowFactory serializationWorkflowFactory)
     {
-        this.serializationWorkflow = serializationWorkflow;
+        serializationWorkflow = serializationWorkflowFactory.createOrRetrieveWorkflow();
     }
 
     @Override

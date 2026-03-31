@@ -25,7 +25,6 @@
 
 package io.andreygs.jcsp.base.processing;
 
-import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.session.ICspDataSerializationSession;
 import io.andreygs.jcsp.base.processing.typetraits.ICspArrayTypeTraits;
 import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
@@ -44,8 +43,9 @@ import java.util.Map;
  * It is the access point on every top-struct and field serialization.
  * {@link ICspDataSerializationProcessor} must use this to serialize struct to which it belongs.
  * <p>
- * It uses {@link ICspDataSerializationSession} to get respective serialization settings
- * and {@link ICspSerializationBuffer}.write(...) methods to write raw values of primitives and primitive arrays.
+ * It has immutable state, and it does the same actions every time it has the same input on every method.
+ * It serializes data by using supplied {@link ICspDataSerializationSession session} where it
+ * takes buffer and serialization settings.
  */
 public interface ICspDataGeneralSerializationProcessor
 {
@@ -193,7 +193,7 @@ public interface ICspDataGeneralSerializationProcessor
      * Serializes boolean[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
-     * Does the same thing as a call {@link #serialize(boolean[], boolean, boolean, Object)}
+     * Does the same thing as a call {@link #serialize(boolean[], boolean, boolean, ICspDataSerializationSession)}
      * with false asReference and true fixedSize arguments.
      *
      * @param value Value to serialize.
@@ -263,7 +263,7 @@ public interface ICspDataGeneralSerializationProcessor
      * Serializes byte[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
-     * Does the same thing as a call {@link #serialize(byte[], boolean, boolean, Object)}
+     * Does the same thing as a call {@link #serialize(byte[], boolean, boolean, ICspDataSerializationSession)}
      * with false asReference and true fixedSize arguments.
      *
      * @param value Value to serialize.
@@ -340,7 +340,7 @@ public interface ICspDataGeneralSerializationProcessor
      * Serializes short[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
-     * Does the same thing as a call {@link #serialize(short[], boolean, boolean, Object)}
+     * Does the same thing as a call {@link #serialize(short[], boolean, boolean, ICspDataSerializationSession)}
      * with false asReference and true fixedSize arguments.
      *
      * @param value Value to serialize.
@@ -417,7 +417,7 @@ public interface ICspDataGeneralSerializationProcessor
      * Serializes int[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
-     * Does the same thing as a call {@link #serialize(int[], boolean, boolean, Object)}
+     * Does the same thing as a call {@link #serialize(int[], boolean, boolean, ICspDataSerializationSession)}
      * with false asReference and true fixedSize arguments.
      *
      * @param value Value to serialize.
@@ -494,7 +494,7 @@ public interface ICspDataGeneralSerializationProcessor
      * Serializes long[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
-     * Does the same thing as a call {@link #serialize(long[], boolean, boolean, Object)}
+     * Does the same thing as a call {@link #serialize(long[], boolean, boolean, ICspDataSerializationSession)}
      * with false asReference and true fixedSize arguments.
      *
      * @param value Value to serialize.
@@ -571,7 +571,7 @@ public interface ICspDataGeneralSerializationProcessor
      * Serializes char[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
-     * Does the same thing as a call {@link #serialize(char[], boolean, boolean, Object)}
+     * Does the same thing as a call {@link #serialize(char[], boolean, boolean, ICspDataSerializationSession)}
      * with false asReference and true fixedSize arguments.
      * <p>
      * Please, note that using Java char is not recommended in CSP in most cases. Use it only when you really
@@ -647,7 +647,7 @@ public interface ICspDataGeneralSerializationProcessor
      * Serializes float[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
-     * Does the same thing as a call {@link #serialize(float[], boolean, boolean, Object)}
+     * Does the same thing as a call {@link #serialize(float[], boolean, boolean, ICspDataSerializationSession)}
      * with false asReference and true fixedSize arguments.
      *
      * @param value Value to serialize.
@@ -716,7 +716,7 @@ public interface ICspDataGeneralSerializationProcessor
      * Serializes double[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
-     * Does the same thing as a call {@link #serialize(double[], boolean, boolean, Object)}
+     * Does the same thing as a call {@link #serialize(double[], boolean, boolean, ICspDataSerializationSession)}
      * with false asReference and true fixedSize arguments.
      *
      * @param value Value to serialize.
@@ -784,7 +784,7 @@ public interface ICspDataGeneralSerializationProcessor
     /**
      * Serializes String not as a reference, but as an embedded structure.
      * <p>
-     * Does the same thing as a call {@link #serialize(String, boolean, Charset, Object)}
+     * Does the same thing as a call {@link #serialize(String, boolean, Charset, ICspDataSerializationSession)}
      * with false asReference argument.
      *
      * @param value Object to serialize.

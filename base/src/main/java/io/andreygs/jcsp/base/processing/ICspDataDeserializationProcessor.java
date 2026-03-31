@@ -25,6 +25,8 @@
 
 package io.andreygs.jcsp.base.processing;
 
+import io.andreygs.jcsp.base.processing.session.ICspDataDeserializationSession;
+
 /**
  * TODO: place description here
  */

@@ -41,7 +41,9 @@ import java.util.Set;
 /**
  * Workflow of serialization message construction.
  * <p>
- * It init buffer, cheks an arguments, writes the message contexts and message bodies.
+ * It init buffer, checks an arguments, writes the message contexts and message bodies.
+ * <p>
+ * It has immutable state, and it does the same actions every time it has the same input on every method.
  */
 public interface ISerializationWorkflow
 {

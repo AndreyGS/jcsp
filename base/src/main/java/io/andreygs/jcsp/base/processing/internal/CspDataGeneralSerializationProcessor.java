@@ -26,6 +26,8 @@
 package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
+import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.session.ICspDataSerializationSession;
 import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
 import org.jetbrains.annotations.Nullable;
@@ -34,9 +36,21 @@ import java.nio.charset.Charset;
 
 /**
  * The sole implementation of {@link ICspDataGeneralSerializationProcessor}.
+ * <p>
+ * It uses {@link ICspDataSerializationSession} to get respective serialization settings
+ * and {@link ICspSerializationBuffer}.write(...) methods to write raw values of primitives and primitive arrays.
+ *
  */
-public final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSerializationProcessor
+final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSerializationProcessor
 {
+    private ICspDataProcessorGenerator<ICspDataSerializationProcessor> processorGenerator;
+
+    CspDataGeneralSerializationProcessor(ICspDataSerializationProcessorGeneratorFactory
+                                             cspDataSerializationProcessorGeneratorFactory)
+    {
+        processorGenerator =
+            cspDataSerializationProcessorGeneratorFactory.createCspDataProcessorGenerator();
+    }
 
     @Override
     public void serialize(boolean value, ICspDataSerializationSession session)

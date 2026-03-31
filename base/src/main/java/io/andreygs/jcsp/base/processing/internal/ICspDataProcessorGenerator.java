@@ -28,9 +28,24 @@ package io.andreygs.jcsp.base.processing.internal;
 import io.andreygs.jcsp.base.types.CspRuntimeException;
 
 /**
- * TODO: place description here
+ * Generator of serialization and deserialization data processors.
+ * <p>
+ * It has immutable state.
  */
-public interface ICspDataProcessorGenerator<T>
+interface ICspDataProcessorGenerator<P>
 {
-    T generateDataProcessor(Class<?> structClazz) throws CspRuntimeException;
+    /**
+     * Generates data processor.
+     * <p>
+     * Pure method.
+     *
+     * @param structClazz Class for which processor should be generated. It must contain
+     *                    {@link io.andreygs.jcsp.base.processing.typetraits.annotations.CspProcessorAutoGeneratable}
+     *                    annotation.
+     * @return generated processor.
+     * @throws CspRuntimeException with status {@link io.andreygs.jcsp.base.types.CspStatus#NO_SUCH_HANDLER} if
+     * provided class has no {@link io.andreygs.jcsp.base.processing.typetraits.annotations.CspProcessorAutoGeneratable}
+     * annotation.
+     */
+    P generateProcessor(Class<?> structClazz) throws CspRuntimeException;
 }

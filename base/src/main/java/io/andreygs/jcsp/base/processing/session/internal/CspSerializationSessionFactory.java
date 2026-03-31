@@ -42,15 +42,15 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Sole implementation of {@link ICspProcessingSessionFactory}.
+ * Sole implementation of {@link ICspSerializationSessionFactory}.
  * <p>
  * Creates following class instances:
  * <ul>
  *     <li>{@link ICspDataSerializationSession} -> {@link CspDataSerializationSession}</li>
  * </ul>
  */
-public class CspProcessingSessionFactory<B extends ICspBuffer>
-    implements ICspProcessingSessionFactory<B>
+public class CspSerializationSessionFactory
+    implements ICspSerializationSessionFactory
 {
     @Override
     public ICspDataSerializationSession createCspDataSerializationSession(

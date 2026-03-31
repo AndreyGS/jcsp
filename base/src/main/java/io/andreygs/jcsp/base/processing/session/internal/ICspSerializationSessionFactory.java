@@ -28,7 +28,6 @@ package io.andreygs.jcsp.base.processing.session.internal;
 import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
-import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.session.ICspDataSerializationSession;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
@@ -42,9 +41,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Factory for creation states of CSP message serialization and deserialization processing sessions.
+ * Factory for creation CSP message serialization sessions.
  */
-public interface ICspProcessingSessionFactory<B extends ICspBuffer>
+public interface ICspSerializationSessionFactory
 {
     ICspDataSerializationSession createCspDataSerializationSession(
         ICspSerializationBuffer cspSerializationBuffer,
