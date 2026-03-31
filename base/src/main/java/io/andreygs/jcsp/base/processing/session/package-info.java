@@ -1,10 +1,5 @@
 /**
- * Package containing states for CSP message serialziation and deserialization processes.
- * <p>
- * All states here are not contain any logic and are used only as containers of neccessary settings
- * that are need in serailization and deserialization processes. Besides that they are also represents
- * implementations of {@link io.andreygs.jcsp.base.message.ICspMessage} and when message build or extraction
- * is complete it returns to user with respective interface.
+ * TODO: place brief description here
  *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
@@ -30,6 +25,6 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 @NotNullByDefault
-package io.andreygs.jcsp.base.processing.state.internal;
+package io.andreygs.jcsp.base.processing.session;
 
 import org.jetbrains.annotations.NotNullByDefault;

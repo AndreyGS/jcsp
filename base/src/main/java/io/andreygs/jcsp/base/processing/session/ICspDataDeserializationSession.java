@@ -23,12 +23,19 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing;
+package io.andreygs.jcsp.base.processing.session;
+
+import io.andreygs.jcsp.base.processing.ICspDataDeserializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataGeneralDeserializationProcessor;
+import io.andreygs.jcsp.base.processing.buffer.internal.ICspDeserializationBuffer;
+import io.andreygs.jcsp.base.processing.session.internal.ICspDataProcessingSession;
 
 /**
  * TODO: place description here
  */
-public interface ICspDataDeserializationProcessor
+public interface ICspDataDeserializationSession
+    extends ICspDataProcessingSession<ICspDeserializationBuffer, ICspDataGeneralDeserializationProcessor,
+                                         ICspDataDeserializationProcessor, Integer, Object>
 {
-    void deserialize(ICspDataDeserializationSession session, Object value);
+
 }

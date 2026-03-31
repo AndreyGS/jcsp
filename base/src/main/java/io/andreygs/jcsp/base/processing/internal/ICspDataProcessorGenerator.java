@@ -23,12 +23,14 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing;
+package io.andreygs.jcsp.base.processing.internal;
+
+import io.andreygs.jcsp.base.types.CspRuntimeException;
 
 /**
  * TODO: place description here
  */
-public interface ICspDataDeserializationProcessor
+public interface ICspDataProcessorGenerator<T>
 {
-    void deserialize(ICspDataDeserializationSession session, Object value);
+    T generateDataProcessor(Class<?> structClazz) throws CspRuntimeException;
 }

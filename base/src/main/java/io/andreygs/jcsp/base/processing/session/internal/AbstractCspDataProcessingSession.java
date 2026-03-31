@@ -23,7 +23,7 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.state.internal;
+package io.andreygs.jcsp.base.processing.session.internal;
 
 import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
@@ -42,10 +42,11 @@ import java.util.Set;
 /**
  * TODO: place description here
  */
-class CspDataProcessingState<G, B extends ICspBuffer, P, K, V>
-    extends AbstractCspCommonProcessingState<G, B>
-    implements ICspDataProcessingState<G, B, P, K, V>
+abstract class AbstractCspDataProcessingSession<B extends ICspBuffer, G, P, K, V>
+    extends AbstractCspCommonProcessingSession<B>
+    implements ICspDataProcessingSession<B, G, P, K, V>
 {
+    private final G cspGeneralProcessor;
     private final ICspDataProcessorRegistrar<P> cspProcessorRegistrar;
     private final @Nullable Map<K, V> referenceMap;
     private final ICspVersionable struct;
@@ -58,18 +59,19 @@ class CspDataProcessingState<G, B extends ICspBuffer, P, K, V>
     private final boolean simplyAssignableTagsOptimizationsAreTurnedOff;
     private final boolean checkRecursivePointersWhileMaintainingLinkStructure;
 
-    public CspDataProcessingState(G cspGeneralProcessor,
-                                  B cspBuffer,
-                                  CspProtocolVersion cspProtocolVersion,
-                                  Set<CspCommonFlag> cspCommonFlags,
-                                  ICspDataProcessorRegistrar<P> cspProcessorRegistrar,
-                                  @Nullable Map<K, V> referenceMap,
-                                  ICspVersionable struct,
-                                  Class<?> structClazz,
-                                  ICspInterfaceVersion cspInterfaceVersion,
-                                  Set<CspDataFlag> cspDataFlags)
+    public AbstractCspDataProcessingSession(B cspBuffer,
+                                            CspProtocolVersion cspProtocolVersion,
+                                            Set<CspCommonFlag> cspCommonFlags,
+                                            G cspGeneralProcessor,
+                                            ICspDataProcessorRegistrar<P> cspProcessorRegistrar,
+                                            @Nullable Map<K, V> referenceMap,
+                                            ICspVersionable struct,
+                                            Class<?> structClazz,
+                                            ICspInterfaceVersion cspInterfaceVersion,
+                                            Set<CspDataFlag> cspDataFlags)
     {
-        super(cspGeneralProcessor, cspBuffer, cspProtocolVersion, cspCommonFlags);
+        super(cspBuffer, cspProtocolVersion, cspCommonFlags);
+        this.cspGeneralProcessor = cspGeneralProcessor;
         this.cspProcessorRegistrar = cspProcessorRegistrar;
         this.referenceMap = referenceMap;
         this.struct = struct;
@@ -83,6 +85,12 @@ class CspDataProcessingState<G, B extends ICspBuffer, P, K, V>
             cspDataFlags.contains(CspDataFlag.SIMPLY_ASSIGNABLE_TAGS_OPTIMIZATIONS_ARE_TURNED_OFF);
         this.checkRecursivePointersWhileMaintainingLinkStructure =
             cspDataFlags.contains(CspDataFlag.CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE);
+    }
+
+    @Override
+    public G getCspDataGeneralProcessor()
+    {
+        return cspGeneralProcessor;
     }
 
     @Override

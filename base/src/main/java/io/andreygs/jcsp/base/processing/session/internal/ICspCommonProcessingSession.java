@@ -23,7 +23,7 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.state.internal;
+package io.andreygs.jcsp.base.processing.session.internal;
 
 import io.andreygs.jcsp.base.message.ICspMessage;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
@@ -31,10 +31,8 @@ import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
 /**
  * TODO: place description here
  */
-public interface ICspCommonProcessingState<G, B extends ICspBuffer>
+interface ICspCommonProcessingSession<B extends ICspBuffer>
     extends ICspMessage
 {
-    G getCspGeneralProcessor();
-
     B getCspBuffer();
 }

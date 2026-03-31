@@ -30,9 +30,9 @@ import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
 import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.CspSerializationBufferFactory;
-import io.andreygs.jcsp.base.processing.internal.CspGeneralSerializationProcessor;
+import io.andreygs.jcsp.base.processing.internal.CspDataGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.internal.SerializationWorkflow;
-import io.andreygs.jcsp.base.processing.state.internal.CspProcessingStateFactory;
+import io.andreygs.jcsp.base.processing.session.internal.CspProcessingSessionFactory;
 import io.andreygs.jcsp.base.common.internal.ArgumentChecker;
 
 /**
@@ -44,9 +44,9 @@ public final class CspMessageBuilderFactory implements ICspMessageBuilderFactory
      * Default cached instance of {@link SerializationWorkflow}.
      */
     private static final SerializationWorkflow DEFAULT_SERIALIZATION_WORKFLOW =
-        new SerializationWorkflow(new CspGeneralSerializationProcessor(),
+        new SerializationWorkflow(new CspDataGeneralSerializationProcessor(),
                                   new CspSerializationBufferFactory(),
-                                  new CspProcessingStateFactory<>());
+                                  new CspProcessingSessionFactory<>());
 
     public ICspDataMessageBuilder createCspDataMessageBuilder(
         ICspDataProcessorRegistrar<ICspDataSerializationProcessor> cspSerializationProcessorRegistrar)

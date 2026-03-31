@@ -23,10 +23,14 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.state.internal;
+package io.andreygs.jcsp.base.processing.session.internal;
 
+import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
+import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
+import io.andreygs.jcsp.base.processing.session.ICspDataSerializationSession;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
@@ -38,38 +42,38 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Sole implementation of {@link ICspProcessingStateFactory}.
+ * Sole implementation of {@link ICspProcessingSessionFactory}.
  * <p>
  * Creates following class instances:
  * <ul>
- *     <li>{@link ICspDataProcessingState} -> {@link CspDataProcessingState}</li>
+ *     <li>{@link ICspDataSerializationSession} -> {@link CspDataSerializationSession}</li>
  * </ul>
  */
-public class CspProcessingStateFactory<G, B extends ICspBuffer>
-    implements ICspProcessingStateFactory<G, B>
+public class CspProcessingSessionFactory<B extends ICspBuffer>
+    implements ICspProcessingSessionFactory<B>
 {
     @Override
-    public <P, K, V> ICspDataProcessingState<G, B, P, K, V> createDataMessageState(
-        G cspGeneralSerializationProcessor,
-        B cspSerializationBuffer,
+    public ICspDataSerializationSession createCspDataSerializationSession(
+        ICspSerializationBuffer cspSerializationBuffer,
         CspProtocolVersion cspProtocolVersion,
         Set<CspCommonFlag> cspCommonFlags,
-        ICspDataProcessorRegistrar<P> cspSerializationProcessorRegistrar,
-        @Nullable Map<K, V> referenceMap,
+        ICspDataGeneralSerializationProcessor cspDataGeneralSerializationProcessor,
+        ICspDataProcessorRegistrar<ICspDataSerializationProcessor> cspSerializationProcessorRegistrar,
+        @Nullable Map<Object, Integer> referenceMap,
         ICspVersionable struct,
         Class<?> structClazz,
         ICspInterfaceVersion cspInterfaceVersion,
         Set<CspDataFlag> cspDataFlags)
     {
-        return new CspDataProcessingState<G, B, P, K, V>(cspGeneralSerializationProcessor,
-                                                         cspSerializationBuffer,
-                                                         cspProtocolVersion,
-                                                         cspCommonFlags,
-                                                         cspSerializationProcessorRegistrar,
-                                                         referenceMap,
-                                                         struct,
-                                                         structClazz,
-                                                         cspInterfaceVersion,
-                                                         cspDataFlags);
+        return new CspDataSerializationSession(cspSerializationBuffer,
+                                               cspProtocolVersion,
+                                               cspCommonFlags,
+                                               cspDataGeneralSerializationProcessor,
+                                               cspSerializationProcessorRegistrar,
+                                               referenceMap,
+                                               struct,
+                                               structClazz,
+                                               cspInterfaceVersion,
+                                               cspDataFlags);
     }
 }

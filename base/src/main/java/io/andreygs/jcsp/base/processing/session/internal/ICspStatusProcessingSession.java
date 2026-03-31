@@ -23,12 +23,15 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.internal;
+package io.andreygs.jcsp.base.processing.session.internal;
+
+import io.andreygs.jcsp.base.message.ICspStatusMessage;
+import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
 
 /**
  * TODO: place description here
  */
-public interface ICspDataSerializationProcessorGenerator
+public interface ICspStatusProcessingSession<B extends ICspBuffer>
+    extends ICspCommonProcessingSession<B>, ICspStatusMessage
 {
-
 }

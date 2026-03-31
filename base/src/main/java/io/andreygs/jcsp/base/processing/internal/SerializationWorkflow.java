@@ -26,13 +26,13 @@
 package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.message.ICspDataMessage;
-import io.andreygs.jcsp.base.processing.ICspGeneralSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrar;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBufferFactory;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
-import io.andreygs.jcsp.base.processing.state.internal.ICspDataProcessingState;
-import io.andreygs.jcsp.base.processing.state.internal.ICspProcessingStateFactory;
+import io.andreygs.jcsp.base.processing.session.ICspDataSerializationSession;
+import io.andreygs.jcsp.base.processing.session.internal.ICspProcessingSessionFactory;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
@@ -53,15 +53,16 @@ public class SerializationWorkflow
     private static final Set<CspCommonFlag> DEFAULT_CSP_COMMON_FLAGS = Set.of(CspCommonFlag.BIG_ENDIAN);
     private static final Set<CspDataFlag> DEFAULT_CSP_DATA_FLAGS = Set.of(CspDataFlag.ALLOW_UNMANAGED_POINTERS);
 
-    private final ICspGeneralSerializationProcessor cspGeneralSerializationProcessor;
+    private final ICspDataGeneralSerializationProcessor cspDataGeneralSerializationProcessor;
     private final ICspSerializationBufferFactory cspSerializationBufferFactory;
-    private final ICspProcessingStateFactory<ICspGeneralSerializationProcessor, ICspSerializationBuffer> cspSerializationStateFactory;
+    private final ICspProcessingSessionFactory<ICspSerializationBuffer>
+        cspSerializationStateFactory;
 
-    public SerializationWorkflow(ICspGeneralSerializationProcessor cspGeneralSerializationProcessor,
+    public SerializationWorkflow(ICspDataGeneralSerializationProcessor cspDataGeneralSerializationProcessor,
                                  ICspSerializationBufferFactory cspSerializationBufferFactory,
-                                 ICspProcessingStateFactory<ICspGeneralSerializationProcessor, ICspSerializationBuffer> cspSerializationStateFactory)
+                                 ICspProcessingSessionFactory<ICspSerializationBuffer> cspSerializationStateFactory)
     {
-        this.cspGeneralSerializationProcessor = cspGeneralSerializationProcessor;
+        this.cspDataGeneralSerializationProcessor = cspDataGeneralSerializationProcessor;
         this.cspSerializationBufferFactory = cspSerializationBufferFactory;
         this.cspSerializationStateFactory = cspSerializationStateFactory;
     }
@@ -82,12 +83,11 @@ public class SerializationWorkflow
             cspSerializationBufferFactory.createCspSerializationBuffer(initialBufferCapacity, directBuffer, bufferResizeStrategy);
 
         // TODO construction of message should be made later (right before message body serialization).
-        ICspDataProcessingState<ICspGeneralSerializationProcessor, ICspSerializationBuffer, ICspDataSerializationProcessor, Object, Integer>
-            cspSerializationDataMessage
-                = cspSerializationStateFactory.createDataMessageState(cspGeneralSerializationProcessor,
-                                                                      cspSerializationBuffer,
+        ICspDataSerializationSession cspSerializationDataMessage
+                = cspSerializationStateFactory.createCspDataSerializationSession(cspSerializationBuffer,
                                                                       cspProtocolVersion == null ? DEFAULT_CSP_PROTOCOL_VERSION : cspProtocolVersion,
                                                                       cspCommonFlags == null ? DEFAULT_CSP_COMMON_FLAGS : cspCommonFlags,
+                                                                      cspDataGeneralSerializationProcessor,
                                                                       cspSerializationProcessorRegistrar,
                                                                       null,
                                                                       cspVersionable,

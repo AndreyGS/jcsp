@@ -23,21 +23,18 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.state.internal;
+package io.andreygs.jcsp.base.processing.session;
 
-import io.andreygs.jcsp.base.message.ICspDataMessage;
-import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrar;
-import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Map;
+import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
+import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
+import io.andreygs.jcsp.base.processing.session.internal.ICspDataProcessingSession;
 
 /**
  * TODO: place description here
  */
-public interface ICspDataProcessingState<G, B extends ICspBuffer, P, K, V>
-    extends ICspCommonProcessingState<G, B>, ICspDataMessage
+public interface ICspDataSerializationSession
+    extends ICspDataProcessingSession<ICspSerializationBuffer, ICspDataGeneralSerializationProcessor,
+                                         ICspDataSerializationProcessor, Object, Integer>
 {
-    ICspDataProcessorRegistrar<P> getCspProcessorRegistrar();
-    @Nullable Map<K, V> getReferenceMap();
 }

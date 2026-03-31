@@ -30,7 +30,7 @@ import java.nio.charset.Charset;
 /**
  * TODO: place description here
  */
-public interface ICspGeneralDeserializationProcessor
+public interface ICspDataGeneralDeserializationProcessor
 {
     boolean deserialize(Object state, boolean value);
 

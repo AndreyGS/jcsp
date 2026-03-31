@@ -1,4 +1,11 @@
 /**
+ * Package containing states for CSP message serialziation and deserialization processes.
+ * <p>
+ * All states here are not contain any logic and are used only as containers of neccessary settings
+ * that are need in serailization and deserialization processes. Besides that they are also represents
+ * implementations of {@link io.andreygs.jcsp.base.message.ICspMessage} and when message build or extraction
+ * is complete it returns to user with respective interface.
+ *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -22,35 +29,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+@NotNullByDefault
+package io.andreygs.jcsp.base.processing.session.internal;
 
-package io.andreygs.jcsp.base.processing.state.internal;
-
-import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrar;
-import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
-import io.andreygs.jcsp.base.types.CspCommonFlag;
-import io.andreygs.jcsp.base.types.CspDataFlag;
-import io.andreygs.jcsp.base.types.CspProtocolVersion;
-import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
-import io.andreygs.jcsp.base.types.ICspVersionable;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Map;
-import java.util.Set;
-
-/**
- * Factory for creation states of CSP message serialization and deserialization processes.
- */
-public interface ICspProcessingStateFactory<G, B extends ICspBuffer>
-{
-    <P, K, V> ICspDataProcessingState<G, B, P, K, V> createDataMessageState(
-        G cspGeneralSerializationProcessor,
-        B cspSerializationBuffer,
-        CspProtocolVersion cspProtocolVersion,
-        Set<CspCommonFlag> cspCommonFlags,
-        ICspDataProcessorRegistrar<P> cspSerializationProcessorRegistrar,
-        @Nullable Map<K, V> referenceMap,
-        ICspVersionable struct,
-        Class<?> structClazz,
-        ICspInterfaceVersion cspInterfaceVersion,
-        Set<CspDataFlag> cspDataFlags);
-}
+import org.jetbrains.annotations.NotNullByDefault;

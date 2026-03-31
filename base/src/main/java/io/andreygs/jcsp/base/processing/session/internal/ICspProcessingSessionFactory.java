@@ -23,44 +23,38 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.state.internal;
+package io.andreygs.jcsp.base.processing.session.internal;
 
+import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
+import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
+import io.andreygs.jcsp.base.processing.session.ICspDataSerializationSession;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
-import io.andreygs.jcsp.base.types.CspMessageType;
+import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
-import io.andreygs.jcsp.base.types.CspStatus;
+import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
+import io.andreygs.jcsp.base.types.ICspVersionable;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
 import java.util.Set;
 
 /**
- * TODO: place description here
+ * Factory for creation states of CSP message serialization and deserialization processing sessions.
  */
-public class CspStatusProcessingState<G, B extends ICspBuffer>
-    extends AbstractCspCommonProcessingState<G, B>
-    implements ICspStatusProcessingState<G, B>
+public interface ICspProcessingSessionFactory<B extends ICspBuffer>
 {
-    private final CspStatus cspStatus;
-
-    public CspStatusProcessingState(G cspGeneralProcessor,
-                                    B cspBuffer,
-                                    CspProtocolVersion cspProtocolVersion,
-                                    Set<CspCommonFlag> cspCommonFlags,
-                                    CspStatus cspStatus)
-    {
-        super(cspGeneralProcessor, cspBuffer, cspProtocolVersion, cspCommonFlags);
-        this.cspStatus = cspStatus;
-    }
-
-    @Override
-    public CspMessageType getCspMessageType()
-    {
-        return CspMessageType.STATUS;
-    }
-
-    @Override
-    public CspStatus getStatus()
-    {
-        return cspStatus;
-    }
+    ICspDataSerializationSession createCspDataSerializationSession(
+        ICspSerializationBuffer cspSerializationBuffer,
+        CspProtocolVersion cspProtocolVersion,
+        Set<CspCommonFlag> cspCommonFlags,
+        ICspDataGeneralSerializationProcessor cspDataGeneralSerializationProcessor,
+        ICspDataProcessorRegistrar<ICspDataSerializationProcessor> cspSerializationProcessorRegistrar,
+        @Nullable Map<Object, Integer> referenceMap,
+        ICspVersionable struct,
+        Class<?> structClazz,
+        ICspInterfaceVersion cspInterfaceVersion,
+        Set<CspDataFlag> cspDataFlags);
 }
