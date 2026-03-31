@@ -58,11 +58,11 @@ public class SerializationWorkflow
     private final ICspSerializationSessionFactory cspSerializationStateFactory;
 
     public SerializationWorkflow(ICspSerializationBufferFactory cspSerializationBufferFactory,
-                                 ICspDataGeneralSerializationProcessorFactory cspDataGeneralSerializationProcessorFactory,
+                                 ICspDataGeneralSerializationProcessorProvider cspDataGeneralSerializationProcessorProvider,
                                  ICspSerializationSessionFactory cspSerializationStateFactory)
     {
         this.cspDataGeneralSerializationProcessor
-            = cspDataGeneralSerializationProcessorFactory.createOrRetrieveGeneralSerializationProcessor();
+            = cspDataGeneralSerializationProcessorProvider.provideGeneralSerializationProcessor();
         this.cspSerializationBufferFactory = cspSerializationBufferFactory;
         this.cspSerializationStateFactory = cspSerializationStateFactory;
     }

@@ -25,25 +25,23 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
-import io.andreygs.jcsp.base.processing.buffer.internal.CspSerializationBufferFactory;
-import io.andreygs.jcsp.base.processing.session.internal.CspSerializationSessionFactory;
+import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 
 /**
  * TODO: place description here
  */
-public class SerializationWorkflowFactory
-    implements ISerializationWorkflowFactory
+class CspDataSerializationProcessorGeneratorProvider
+    implements ICspDataSerializationProcessorGeneratorProvider
 {
     /**
-     * Default cached instance of {@link SerializationWorkflow}.
+     * Default cached instance of {@link ICspDataProcessorGenerator}.
      */
-    private static final SerializationWorkflow DEFAULT_SERIALIZATION_WORKFLOW =
-        new SerializationWorkflow(new CspSerializationBufferFactory(),
-                                  new CspDataGeneralSerializationProcessorFactory(),
-                                  new CspSerializationSessionFactory());
+    private static final ICspDataProcessorGenerator<ICspDataSerializationProcessor>
+        DEFAULT_DATA_SERIALIZATION_PROCESSOR_GENERATOR = new CspDataSerializationProcessorGenerator();
+
     @Override
-    public ISerializationWorkflow createOrRetrieveWorkflow()
+    public ICspDataProcessorGenerator<ICspDataSerializationProcessor> provideCspDataProcessorGenerator()
     {
-        return DEFAULT_SERIALIZATION_WORKFLOW;
+        return DEFAULT_DATA_SERIALIZATION_PROCESSOR_GENERATOR;
     }
 }

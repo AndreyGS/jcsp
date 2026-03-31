@@ -25,12 +25,12 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
-import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
 
 /**
  * TODO: place description here
  */
-interface ICspDataSerializationProcessorGeneratorFactory
+public interface ICspDataGeneralSerializationProcessorProvider
 {
-    ICspDataProcessorGenerator<ICspDataSerializationProcessor> createCspDataProcessorGenerator();
+    ICspDataGeneralSerializationProcessor provideGeneralSerializationProcessor();
 }

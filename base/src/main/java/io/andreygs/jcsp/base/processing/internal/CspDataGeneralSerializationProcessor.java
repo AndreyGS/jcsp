@@ -45,11 +45,11 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
 {
     private ICspDataProcessorGenerator<ICspDataSerializationProcessor> processorGenerator;
 
-    CspDataGeneralSerializationProcessor(ICspDataSerializationProcessorGeneratorFactory
+    CspDataGeneralSerializationProcessor(ICspDataSerializationProcessorGeneratorProvider
                                              cspDataSerializationProcessorGeneratorFactory)
     {
         processorGenerator =
-            cspDataSerializationProcessorGeneratorFactory.createCspDataProcessorGenerator();
+            cspDataSerializationProcessorGeneratorFactory.provideCspDataProcessorGenerator();
     }
 
     @Override

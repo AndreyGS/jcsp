@@ -25,10 +25,25 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
+import io.andreygs.jcsp.base.processing.buffer.internal.CspSerializationBufferFactory;
+import io.andreygs.jcsp.base.processing.session.internal.CspSerializationSessionFactory;
+
 /**
  * TODO: place description here
  */
-public interface ISerializationWorkflowFactory
+public class SerializationWorkflowProvider
+    implements ISerializationWorkflowProvider
 {
-    ISerializationWorkflow createOrRetrieveWorkflow();
+    /**
+     * Default cached instance of {@link ISerializationWorkflow}.
+     */
+    private static final ISerializationWorkflow DEFAULT_SERIALIZATION_WORKFLOW =
+        new SerializationWorkflow(new CspSerializationBufferFactory(),
+                                  new CspDataGeneralSerializationProcessorProvider(),
+                                  new CspSerializationSessionFactory());
+    @Override
+    public ISerializationWorkflow provideWorkflow()
+    {
+        return DEFAULT_SERIALIZATION_WORKFLOW;
+    }
 }

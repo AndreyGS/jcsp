@@ -25,17 +25,10 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
-import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
-
 /**
  * TODO: place description here
  */
-public class CspDataGeneralSerializationProcessorFactory
-    implements ICspDataGeneralSerializationProcessorFactory
+public interface ISerializationWorkflowProvider
 {
-    @Override
-    public ICspDataGeneralSerializationProcessor createOrRetrieveGeneralSerializationProcessor()
-    {
-        return new CspDataGeneralSerializationProcessor(new CspDataSerializationProcessorGeneratorFactory());
-    }
+    ISerializationWorkflow provideWorkflow();
 }

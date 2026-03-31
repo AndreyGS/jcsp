@@ -25,7 +25,6 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
-import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.session.ICspDataSerializationSession;
@@ -55,10 +54,10 @@ public class CspGeneralSerializationProcessorTests
     @BeforeEach
     public void setup()
     {
-        ICspDataSerializationProcessorGeneratorFactory generatorFactory
-            = Mockito.mock(ICspDataSerializationProcessorGeneratorFactory.class);
-        Mockito.when(generatorFactory.createCspDataProcessorGenerator()).thenAnswer(i -> processorGenerator);
-        cspDataGeneralSerializationProcessor = new CspDataGeneralSerializationProcessor(generatorFactory);
+        ICspDataSerializationProcessorGeneratorProvider generatorProvider
+            = Mockito.mock(ICspDataSerializationProcessorGeneratorProvider.class);
+        Mockito.when(generatorProvider.provideCspDataProcessorGenerator()).thenAnswer(i -> processorGenerator);
+        cspDataGeneralSerializationProcessor = new CspDataGeneralSerializationProcessor(generatorProvider);
         Mockito.when(session.getCspBuffer()).thenReturn(buffer);
     }
 

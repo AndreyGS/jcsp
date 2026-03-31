@@ -30,12 +30,7 @@ import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 /**
  * TODO: place description here
  */
-class CspDataSerializationProcessorGeneratorFactory
-    implements ICspDataSerializationProcessorGeneratorFactory
+interface ICspDataSerializationProcessorGeneratorProvider
 {
-    @Override
-    public ICspDataProcessorGenerator<ICspDataSerializationProcessor> createCspDataProcessorGenerator()
-    {
-        return new CspDataSerializationProcessorGenerator();
-    }
+    ICspDataProcessorGenerator<ICspDataSerializationProcessor> provideCspDataProcessorGenerator();
 }

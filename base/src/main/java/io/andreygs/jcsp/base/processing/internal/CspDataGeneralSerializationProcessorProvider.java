@@ -30,7 +30,18 @@ import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
 /**
  * TODO: place description here
  */
-interface ICspDataGeneralSerializationProcessorFactory
+public class CspDataGeneralSerializationProcessorProvider
+    implements ICspDataGeneralSerializationProcessorProvider
 {
-    ICspDataGeneralSerializationProcessor createOrRetrieveGeneralSerializationProcessor();
+    /**
+     * Default cached instance of {@link ICspDataGeneralSerializationProcessor}.
+     */
+    private static final ICspDataGeneralSerializationProcessor DEFAULT_DATA_GENERAL_SERIALIZATION_PROCESSOR =
+        new CspDataGeneralSerializationProcessor(new CspDataSerializationProcessorGeneratorProvider());
+
+    @Override
+    public ICspDataGeneralSerializationProcessor provideGeneralSerializationProcessor()
+    {
+        return DEFAULT_DATA_GENERAL_SERIALIZATION_PROCESSOR;
+    }
 }
