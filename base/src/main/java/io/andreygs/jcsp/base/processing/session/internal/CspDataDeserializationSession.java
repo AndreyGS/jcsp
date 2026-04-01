@@ -27,7 +27,7 @@ package io.andreygs.jcsp.base.processing.session.internal;
 
 import io.andreygs.jcsp.base.processing.ICspDataDeserializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspDataGeneralDeserializationProcessor;
-import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspDeserializationBuffer;
 import io.andreygs.jcsp.base.processing.session.ICspDataDeserializationSession;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
@@ -51,7 +51,7 @@ public class CspDataDeserializationSession
     public CspDataDeserializationSession(ICspDeserializationBuffer cspBuffer, CspProtocolVersion cspProtocolVersion,
                                          Set<CspCommonFlag> cspCommonFlags,
                                          ICspDataGeneralDeserializationProcessor cspGeneralProcessor,
-                                         ICspDataProcessorRegistrar<ICspDataDeserializationProcessor> cspProcessorRegistrar,
+                                         ICspDataProcessorRegistry<ICspDataDeserializationProcessor> cspProcessorRegistrar,
                                          @Nullable Map<Integer, Object> referenceMap, ICspVersionable struct,
                                          Class<?> structClazz, ICspInterfaceVersion cspInterfaceVersion,
                                          Set<CspDataFlag> cspDataFlags)

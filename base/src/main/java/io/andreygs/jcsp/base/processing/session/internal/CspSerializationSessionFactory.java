@@ -26,9 +26,8 @@
 package io.andreygs.jcsp.base.processing.session.internal;
 
 import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
-import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
-import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.session.ICspDataSerializationSession;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
@@ -58,7 +57,7 @@ public class CspSerializationSessionFactory
         CspProtocolVersion cspProtocolVersion,
         Set<CspCommonFlag> cspCommonFlags,
         ICspDataGeneralSerializationProcessor cspDataGeneralSerializationProcessor,
-        ICspDataProcessorRegistrar<ICspDataSerializationProcessor> cspSerializationProcessorRegistrar,
+        ICspDataProcessorRegistry<ICspDataSerializationProcessor> cspSerializationProcessorRegistrar,
         @Nullable Map<Object, Integer> referenceMap,
         ICspVersionable struct,
         Class<?> structClazz,

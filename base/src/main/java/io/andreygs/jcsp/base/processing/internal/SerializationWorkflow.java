@@ -27,7 +27,7 @@ package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.message.ICspDataMessage;
 import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
-import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBufferFactory;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
@@ -74,7 +74,7 @@ public class SerializationWorkflow
         @Nullable IBufferResizeStrategy bufferResizeStrategy,
         @Nullable CspProtocolVersion cspProtocolVersion,
         @Nullable Set<CspCommonFlag> cspCommonFlags,
-        ICspDataProcessorRegistrar<ICspDataSerializationProcessor> cspSerializationProcessorRegistrar,
+        ICspDataProcessorRegistry<ICspDataSerializationProcessor> cspDataSerializationProcessorRegistry,
         ICspVersionable cspVersionable,
         @Nullable ICspInterfaceVersion cspInterfaceVersion,
         @Nullable Set<CspDataFlag> cspDataFlags)
@@ -88,7 +88,7 @@ public class SerializationWorkflow
                                                                       cspProtocolVersion == null ? DEFAULT_CSP_PROTOCOL_VERSION : cspProtocolVersion,
                                                                       cspCommonFlags == null ? DEFAULT_CSP_COMMON_FLAGS : cspCommonFlags,
                                                                       cspDataGeneralSerializationProcessor,
-                                                                      cspSerializationProcessorRegistrar,
+                                                                      cspDataSerializationProcessorRegistry,
                                                                       null,
                                                                       cspVersionable,
                                                                       cspVersionable.getClass(),

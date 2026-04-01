@@ -23,21 +23,12 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message;
-
-import io.andreygs.jcsp.base.message.internal.CspMessageBuilderFactory;
+package io.andreygs.jcsp.base.processing.typetraits.internal;
 
 /**
  * TODO: place description here
  */
-public class CspMessageBuilderFactoryProducer
+public class CspReferenceFieldTraitsTests
 {
-    public static ICspMessageBuilderFactory produceCspMessageBuilderFactory()
-    {
-        return new CspMessageBuilderFactory();
-    }
 
-    private CspMessageBuilderFactoryProducer()
-    {
-    }
 }

@@ -25,14 +25,12 @@
 
 package io.andreygs.jcsp.base.processing.typetraits.internal;
 
-import io.andreygs.jcsp.base.processing.typetraits.ICspStringTypeTraits;
-
 import java.nio.charset.Charset;
 
 /**
  * TODO: place description here
  */
-public class CspStringTypeTraits extends CspReferenceTypeTraits
+final class CspStringTypeTraits extends CspReferenceTypeTraits
     implements ICspStringTypeTraits
 {
     private final Charset charset;

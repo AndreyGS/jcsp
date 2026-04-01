@@ -32,5 +32,5 @@ import java.util.Collection;
  */
 public interface ICspGenericTypeTraits extends ICspReferenceTypeTraits
 {
-    Collection<? extends ICspReferenceTypeTraits> getGenericTypeParametersTypeTraits();
+    Collection<? extends ICspReferenceTypeTraits> getGenericTypeParametersFieldTraits();
 }

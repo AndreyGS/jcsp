@@ -23,14 +23,34 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.typetraits;
+package io.andreygs.jcsp.base;
+
+import io.andreygs.jcsp.base.message.ICspMessageBuilderFactory;
+import io.andreygs.jcsp.base.message.internal.CspMessageBuilderFactory;
+import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistryFactory;
+import io.andreygs.jcsp.base.processing.internal.CspDataProcessorRegistryFactory;
+import io.andreygs.jcsp.base.processing.typetraits.ICspGenericTypeTraitsBuilderFactory;
+import io.andreygs.jcsp.base.processing.typetraits.internal.CspGenericTypeTraitsBuilderFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * TODO: place description here
  */
-public interface ICspArrayTypeTraits extends ICspGenericTypeTraits
+public class FactoryRegistry
 {
-    boolean isFixedSize();
+    private static final Map<Class<?>, Object> factories = new HashMap<>();
 
-    boolean hasPrimitiveTypeParameter();
+    static
+    {
+        factories.put(ICspMessageBuilderFactory.class, new CspMessageBuilderFactory());
+        factories.put(ICspDataProcessorRegistryFactory.class, new CspDataProcessorRegistryFactory());
+        factories.put(ICspGenericTypeTraitsBuilderFactory.class, new CspGenericTypeTraitsBuilderFactory());
+    }
+
+    public static <F> F getFactory(Class<F> factoryClazz)
+    {
+        return factoryClazz.cast(factories.get(factoryClazz));
+    }
 }

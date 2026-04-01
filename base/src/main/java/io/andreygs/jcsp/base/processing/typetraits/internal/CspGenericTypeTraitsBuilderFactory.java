@@ -23,19 +23,19 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing;
+package io.andreygs.jcsp.base.processing.typetraits.internal;
+
+import io.andreygs.jcsp.base.processing.typetraits.ICspGenericTypeTraitsBuilder;
+import io.andreygs.jcsp.base.processing.typetraits.ICspGenericTypeTraitsBuilderFactory;
 
 /**
- * Factory for creation {@link ICspDataProcessorRegistrar}.
+ * TODO: place description here
  */
-public interface ICspDataProcessorRegistrarFactory
+public final class CspGenericTypeTraitsBuilderFactory implements ICspGenericTypeTraitsBuilderFactory
 {
-    /**
-     * Creates {@link ICspDataProcessorRegistrar}.
-     *
-     * @return created CSP processor registrar.
-     * @param <T> one of {@link ICspDataSerializationProcessor} or {@link ICspDataDeserializationProcessor},
-     *           depending on what kind of registrar should be created.
-     */
-    <T> ICspDataProcessorRegistrar<T> createProcessorRegistrar();
+    @Override
+    public ICspGenericTypeTraitsBuilder createCspGenericFieldTraitsBuilder()
+    {
+        return new CspGenericTypeTraitsBuilder();
+    }
 }

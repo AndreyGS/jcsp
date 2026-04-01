@@ -23,40 +23,12 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.typetraits.internal;
-
-import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
-import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraitsBuilder;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
-import java.nio.charset.StandardCharsets;
+package io.andreygs.jcsp.base.processing.typetraits;
 
 /**
- * Unit-tests for {@link CspReferenceTypeTraitsBuilder}.
+ * TODO: place description here
  */
-public abstract class AbstractCspReferenceTypeTraitsBuilderTests
+public interface ICspGenericTypeTraitsBuilderFactory
 {
-    private final CspReferenceTypeTraitsBuilder cspReferenceTypeTraitsBuilder = new CspReferenceTypeTraitsBuilder();
-
-    @Test
-    public void addReferenceTest()
-    {
-        cspReferenceTypeTraitsBuilder.addReference(Dummy.class, true);
-        ICspReferenceTypeTraits cspReferenceTypeTraits = cspReferenceTypeTraitsBuilder.build();
-
-        Assertions.assertTrue(cspReferenceTypeTraits.isReference());
-        Assertions.assertEquals(Dummy.class, cspReferenceTypeTraits.getClazz());
-    }
-
-    @Test
-    public void addStringTest()
-    {
-        cspReferenceTypeTraitsBuilder.addString(true, StandardCharsets.UTF_8);
-    }
-
-    private static class Dummy
-    {
-
-    }
+    ICspGenericTypeTraitsBuilder createCspGenericFieldTraitsBuilder();
 }

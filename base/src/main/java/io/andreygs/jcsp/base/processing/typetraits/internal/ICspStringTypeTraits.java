@@ -23,21 +23,16 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing;
+package io.andreygs.jcsp.base.processing.typetraits.internal;
 
-import io.andreygs.jcsp.base.processing.internal.CspDataProcessorRegistrarFactory;
+import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
+
+import java.nio.charset.Charset;
 
 /**
  * TODO: place description here
  */
-public class CspDataProcessorRegistrarFactoryProducer
+public interface ICspStringTypeTraits extends ICspReferenceTypeTraits
 {
-    public static ICspDataProcessorRegistrarFactory produceCspProcessorRegistrarFactory()
-    {
-        return new CspDataProcessorRegistrarFactory();
-    }
-
-    private CspDataProcessorRegistrarFactoryProducer()
-    {
-    }
+    Charset getCharset();
 }

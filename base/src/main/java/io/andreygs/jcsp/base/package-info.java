@@ -1,4 +1,6 @@
 /**
+ * TODO: place brief description here
+ *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -22,28 +24,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+@NotNullByDefault
+package io.andreygs.jcsp.base;
 
-package io.andreygs.jcsp.base.processing.typetraits.internal;
-
-import io.andreygs.jcsp.base.processing.typetraits.ICspArrayDimensionTypeTraits;
-
-/**
- * TODO: place description here
- */
-public class CspArrayDimensionTypeTraits extends CspReferenceTypeTraits
-    implements ICspArrayDimensionTypeTraits
-{
-    private final boolean fixedSize;
-
-    public CspArrayDimensionTypeTraits(boolean reference, boolean fixedSize)
-    {
-        super(Object.class, reference);
-        this.fixedSize = fixedSize;
-    }
-
-    @Override
-    public boolean isFixedSize()
-    {
-        return fixedSize;
-    }
-}
+import org.jetbrains.annotations.NotNullByDefault;

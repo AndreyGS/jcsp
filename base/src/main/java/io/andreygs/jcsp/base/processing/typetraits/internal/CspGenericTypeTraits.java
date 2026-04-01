@@ -34,39 +34,33 @@ import java.util.Collection;
 /**
  * TODO: place description here
  */
-public class CspGenericTypeTraits extends CspReferenceTypeTraits
+class CspGenericTypeTraits extends CspReferenceTypeTraits
     implements ICspGenericTypeTraits, ICspGenericTypeTraitsParameterAdder
 {
     private final Collection<ICspReferenceTypeTraits> genericTypeParametersTypeTraits;
     private final int typeParametersNumber;
 
-    public CspGenericTypeTraits(Class<?> typeClazz, boolean reference, int typeParametersNumber)
+    public CspGenericTypeTraits(Class<?> clazz, boolean reference, int typeParametersNumber)
     {
-        super(typeClazz, reference);
+        super(clazz, reference);
         this.genericTypeParametersTypeTraits = new ArrayList<>(typeParametersNumber);
         this.typeParametersNumber = typeParametersNumber;
     }
 
     @Override
-    public Collection<? extends ICspReferenceTypeTraits> getGenericTypeParametersTypeTraits()
+    public Collection<? extends ICspReferenceTypeTraits> getGenericTypeParametersFieldTraits()
     {
         return genericTypeParametersTypeTraits;
     }
 
     @Override
-    public boolean addGenericTypeParametersTypeTraits(ICspReferenceTypeTraits cspReferenceTypeTraits)
+    public boolean addGenericTypeTraitsParameter(ICspReferenceTypeTraits cspReferenceTypeTraits)
     {
         if (typeParametersNumber == genericTypeParametersTypeTraits.size())
         {
             throw new IllegalStateException("All generic type parameters have been added earlier!");
         }
-
         genericTypeParametersTypeTraits.add(cspReferenceTypeTraits);
         return typeParametersNumber == genericTypeParametersTypeTraits.size();
-    }
-
-    protected int getTypeParametersNumberToAdd()
-    {
-        return typeParametersNumber - genericTypeParametersTypeTraits.size();
     }
 }

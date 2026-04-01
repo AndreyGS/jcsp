@@ -29,7 +29,7 @@ import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.session.ICspDataSerializationSession;
-import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
+import io.andreygs.jcsp.base.processing.typetraits.ICspGenericTypeTraits;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
@@ -107,7 +107,8 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     }
 
     @Override
-    public void serialize(boolean @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataSerializationSession session)
+    public void serialize(boolean @Nullable [] value, boolean asReference, boolean fixedSize,
+                          ICspDataSerializationSession session)
     {
 
     }
@@ -119,7 +120,8 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     }
 
     @Override
-    public void serialize(byte @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataSerializationSession session)
+    public void serialize(byte @Nullable [] value, boolean asReference, boolean fixedSize,
+                          ICspDataSerializationSession session)
     {
 
     }
@@ -131,7 +133,8 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     }
 
     @Override
-    public void serialize(short @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataSerializationSession session)
+    public void serialize(short @Nullable [] value, boolean asReference, boolean fixedSize,
+                          ICspDataSerializationSession session)
     {
 
     }
@@ -143,7 +146,8 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     }
 
     @Override
-    public void serialize(int @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataSerializationSession session)
+    public void serialize(int @Nullable [] value, boolean asReference, boolean fixedSize,
+                          ICspDataSerializationSession session)
     {
 
     }
@@ -155,7 +159,8 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     }
 
     @Override
-    public void serialize(long @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataSerializationSession session)
+    public void serialize(long @Nullable [] value, boolean asReference, boolean fixedSize,
+                          ICspDataSerializationSession session)
     {
 
     }
@@ -167,7 +172,8 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     }
 
     @Override
-    public void serialize(char @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataSerializationSession session)
+    public void serialize(char @Nullable [] value, boolean asReference, boolean fixedSize,
+                          ICspDataSerializationSession session)
     {
 
     }
@@ -179,7 +185,8 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     }
 
     @Override
-    public void serialize(float @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataSerializationSession session)
+    public void serialize(float @Nullable [] value, boolean asReference, boolean fixedSize,
+                          ICspDataSerializationSession session)
     {
 
     }
@@ -191,7 +198,8 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     }
 
     @Override
-    public void serialize(double @Nullable [] value, boolean asReference, boolean fixedSize, ICspDataSerializationSession session)
+    public void serialize(double @Nullable [] value, boolean asReference, boolean fixedSize,
+                          ICspDataSerializationSession session)
     {
 
     }
@@ -203,7 +211,8 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     }
 
     @Override
-    public void serialize(@Nullable String value, boolean asReference, Charset charset, ICspDataSerializationSession session)
+    public void serialize(@Nullable String value, boolean asReference, Charset charset,
+                          ICspDataSerializationSession session)
     {
 
     }
@@ -215,7 +224,8 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     }
 
     @Override
-    public void serialize(@Nullable Object value, ICspReferenceTypeTraits cspObjectTypeTraits, ICspDataSerializationSession session)
+    public void serialize(@Nullable Object value, ICspGenericTypeTraits cspObjectTypeTraits,
+                          ICspDataSerializationSession session)
     {
 
     }

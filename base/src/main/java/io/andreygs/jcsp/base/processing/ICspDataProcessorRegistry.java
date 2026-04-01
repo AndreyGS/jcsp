@@ -30,7 +30,7 @@ import io.andreygs.jcsp.base.processing.typetraits.annotations.CspProcessorAutoG
 import java.util.Optional;
 
 /**
- * Registrar of CSP serialization/deserialization processors for specific classes.
+ * Registry of CSP serialization/deserialization processors for specific classes.
  * <p>
  * Registering of processor is always necessary when target class not annotated with
  * {@link CspProcessorAutoGeneratable} interface (because they are generating automatically) and not
@@ -53,10 +53,10 @@ import java.util.Optional;
  * <p>
  * Thread-safe.
  *
- * @param <T> one of {@link ICspDataSerializationProcessor} or {@link ICspDataDeserializationProcessor},
+ * @param <P> one of {@link ICspDataSerializationProcessor} or {@link ICspDataDeserializationProcessor},
  *           depending on what kind of registrar should be created.
  */
-public interface ICspDataProcessorRegistrar<T>
+public interface ICspDataProcessorRegistry<P>
 {
     /**
      * Registers processor for later use.
@@ -69,7 +69,7 @@ public interface ICspDataProcessorRegistrar<T>
      * @param clazz Class that processor should handle.
      * @param processor Processor that will be used in serialization or deserialization process.
      */
-    void registerProcessor(Class<?> clazz, T processor);
+    void registerProcessor(Class<?> clazz, P processor);
 
     /**
      * Unregisters processor for chosen class.
@@ -84,5 +84,5 @@ public interface ICspDataProcessorRegistrar<T>
      * @param clazz Class which processor need to be found.
      * @return optional processor value.
      */
-    Optional<T> findProcessor(Class<?> clazz);
+    Optional<P> findProcessor(Class<?> clazz);
 }

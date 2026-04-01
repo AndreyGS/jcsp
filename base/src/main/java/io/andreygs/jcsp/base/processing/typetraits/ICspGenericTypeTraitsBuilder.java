@@ -34,24 +34,20 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Builder of csp type traits.
+ * Builder of CSP generic type traits.
  * <p>
+ * Build traits for generic types and arrays (all but primitive arrays), for their proper serialization
+ * and deserialization.
+ * <p></p>
  * Example of use:
  * <p>
  * Suppose we have such declared type {@link CspAsReference @CspAsReference} {@link List}<
  * {@link Map}<{@link CspStringCharset @CspStringCharset(CspStringCharset.CharsetType.UTF_8)}
  * {@link String}, {@link Map}&lt;BmpImage, byte[]>> [] {@link CspFixedSizeArray @CspVariableSizeArray} []>.
  * <p>
- * builder.addNode({@link ICspCollectionTypeTraits}.class).setReference();<br>
- * builder.addNode({@link ICspArrayTypeTraits}.class);<br>
- * builder.addNode({@link ICspArrayTypeTraits}.class).setFixedSize();<br>
- * builder.addNode({@link ICspMapTypeTraits}.class);<br>
- * builder.addNode({@link ICspStringTypeTraits}.class).setCharset(CspStringCharset.CharsetType.UTF_8);<br>
- * builder.addNode({@link ICspMapTypeTraits}.class)<br>
- * builder.addNode({@link ICspNotGenericTypeTraits}.class).setProcessorClazz(Image.class);<br>
- * builder.addNode({@link ICspArrayTypeTraits}.class)<br>
- * builder.addNode({@link ICspTypeTraits}.class)
- * ICspReferenceTypeTraits cspReferenceTypeTraits = builder.build();
+ * Traits for this type can be build this way:
+ * <p>
+ * ...
  * <p>
  * First, we add node List, which should be serialized as reference.
  * Next, we add a List element type, which is an array.
@@ -62,11 +58,11 @@ import java.util.Map;
  * Next, we add the Map key type, which is BmpImage and set its processor class to Image (it must be registered
  * in respective serialization/deserialization CSP processor registrar).
  * Next, we add the second Map value type, which is an array.
- * Next, we add element type of previously added array as simply {@link ICspTypeTraits} to mark it as primitive.
+ * Next, we add element type of previously added array as simply ... to mark it as primitive.
  * Finally, we build complete type traits which will help to correctly process type according to CSP Interface.
  * <p>
  * Note, that after adding node all properties excluding those implementing {@link ICspReferenceTypeTraits} must
- * be set before next call to {@link #addNode(Class)}. Next call will start recursively element or key, or
+ * be set before next call to ... Next call will start recursively element or key, or
  * value type node (value always going after key).
  * <p>
  * So, if root Map key, for example, itself a Map, then, after processing root Map node, next add node call will add
@@ -77,17 +73,15 @@ import java.util.Map;
  * Setting not applicable properties including adding node when not applicable, to currently processing node is
  * considered as an error.
  */
-public interface ICspReferenceTypeTraitsBuilder
+public interface ICspGenericTypeTraitsBuilder
 {
-    ICspReferenceTypeTraitsBuilder addReference(Class<?> clazz, boolean reference);
+    ICspGenericTypeTraitsBuilder addReference(Class<?> clazz, boolean reference);
 
-    ICspReferenceTypeTraitsBuilder addString(boolean reference, Charset charset);
+    ICspGenericTypeTraitsBuilder addString(boolean reference, Charset charset);
 
-    ICspReferenceTypeTraitsBuilder addGeneric(Class<?> clazz, boolean reference);
+    ICspGenericTypeTraitsBuilder addGeneric(Class<?> clazz, boolean reference);
 
-    ICspReferenceTypeTraitsBuilder addArray(Class<?> clazz, boolean reference, boolean fixedSizeArray);
+    ICspGenericTypeTraitsBuilder addArray(Class<?> clazz, boolean reference, boolean fixedSizeArray);
 
-    ICspReferenceTypeTraitsBuilder addArrayDimension(boolean reference, boolean fixedSizeArray);
-
-    ICspReferenceTypeTraits build();
+    ICspGenericTypeTraits build();
 }

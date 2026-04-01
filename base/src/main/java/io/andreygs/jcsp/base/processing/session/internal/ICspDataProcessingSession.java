@@ -26,7 +26,7 @@
 package io.andreygs.jcsp.base.processing.session.internal;
 
 import io.andreygs.jcsp.base.message.ICspDataMessage;
-import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
 import org.jetbrains.annotations.Nullable;
 
@@ -39,6 +39,6 @@ public interface ICspDataProcessingSession<B extends ICspBuffer, G, P, K, V>
     extends ICspCommonProcessingSession<B>, ICspDataMessage
 {
     G getCspDataGeneralProcessor();
-    ICspDataProcessorRegistrar<P> getCspProcessorRegistrar();
+    ICspDataProcessorRegistry<P> getCspProcessorRegistrar();
     @Nullable Map<K, V> getReferenceMap();
 }

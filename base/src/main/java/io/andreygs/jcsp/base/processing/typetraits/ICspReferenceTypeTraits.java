@@ -25,8 +25,19 @@
 
 package io.andreygs.jcsp.base.processing.typetraits;
 
+import java.util.List;
+import java.util.Map;
+
 /**
- * TODO: place description here
+ * CSP traits that can be applied to serialized/deserialized type with reference type.
+ * <p>
+ * These traits dictate how field should be serialized/deserialized.
+ * Because {@link io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor} already have methods with
+ * all necessary traits as parameters for all non-generic and primitive array types, use of this interface and all
+ * {@code typetraits.field} facility is only need when you need to set traits to array with non-primitive element type
+ * or to generic type that is not {@link List} or {@link Map} to serialize/deserialize it.
+ *
+ * @see ICspGenericTypeTraitsBuilder
  */
 public interface ICspReferenceTypeTraits
 {

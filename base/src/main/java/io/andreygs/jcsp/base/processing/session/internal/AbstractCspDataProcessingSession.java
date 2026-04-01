@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.base.processing.session.internal;
 
-import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspDataFlag;
@@ -47,7 +47,7 @@ abstract class AbstractCspDataProcessingSession<B extends ICspBuffer, G, P, K, V
     implements ICspDataProcessingSession<B, G, P, K, V>
 {
     private final G cspGeneralProcessor;
-    private final ICspDataProcessorRegistrar<P> cspProcessorRegistrar;
+    private final ICspDataProcessorRegistry<P> cspProcessorRegistrar;
     private final @Nullable Map<K, V> referenceMap;
     private final ICspVersionable struct;
     private final Class<?> structClazz;
@@ -63,7 +63,7 @@ abstract class AbstractCspDataProcessingSession<B extends ICspBuffer, G, P, K, V
                                             CspProtocolVersion cspProtocolVersion,
                                             Set<CspCommonFlag> cspCommonFlags,
                                             G cspGeneralProcessor,
-                                            ICspDataProcessorRegistrar<P> cspProcessorRegistrar,
+                                            ICspDataProcessorRegistry<P> cspProcessorRegistrar,
                                             @Nullable Map<K, V> referenceMap,
                                             ICspVersionable struct,
                                             Class<?> structClazz,
@@ -100,7 +100,7 @@ abstract class AbstractCspDataProcessingSession<B extends ICspBuffer, G, P, K, V
     }
 
     @Override
-    public ICspDataProcessorRegistrar<P> getCspProcessorRegistrar()
+    public ICspDataProcessorRegistry<P> getCspProcessorRegistrar()
     {
         return cspProcessorRegistrar;
     }

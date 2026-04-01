@@ -23,12 +23,19 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.typetraits;
+package io.andreygs.jcsp.base.processing;
 
 /**
- * TODO: place description here
+ * Factory for creation {@link ICspDataProcessorRegistry}.
  */
-public interface ICspArrayDimensionTypeTraits extends ICspReferenceTypeTraits
+public interface ICspDataProcessorRegistryFactory
 {
-    boolean isFixedSize();
+    /**
+     * Creates {@link ICspDataProcessorRegistry}.
+     *
+     * @return created CSP processor registrar.
+     * @param <P> one of {@link ICspDataSerializationProcessor} or {@link ICspDataDeserializationProcessor},
+     *           depending on what kind of registrar should be created.
+     */
+    <P> ICspDataProcessorRegistry<P> createProcessorRegistry();
 }

@@ -25,14 +25,10 @@
 
 package io.andreygs.jcsp.base.processing.typetraits.internal;
 
-import io.andreygs.jcsp.base.processing.typetraits.ICspArrayDimensionTypeTraits;
-import io.andreygs.jcsp.base.processing.typetraits.ICspArrayTypeTraits;
-import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
-
 /**
  * TODO: place description here
  */
-class CspArrayTypeTraits extends CspGenericTypeTraits
+final class CspArrayTypeTraits extends CspGenericTypeTraits
     implements ICspArrayTypeTraits
 {
     private final boolean fixedSize;
@@ -40,7 +36,7 @@ class CspArrayTypeTraits extends CspGenericTypeTraits
 
     CspArrayTypeTraits(Class<?> arrayClazz, boolean reference, boolean fixedSize)
     {
-        super(arrayClazz, fixedSize, evalGenericsNumber(arrayClazz));
+        super(arrayClazz, reference, evalGenericsNumber(arrayClazz));
         this.fixedSize = fixedSize;
         this.primitiveTypeParameter = evalHasPrimitiveTypeParameter();
     }
@@ -57,42 +53,25 @@ class CspArrayTypeTraits extends CspGenericTypeTraits
         return primitiveTypeParameter;
     }
 
-    @Override
-    public boolean addGenericTypeParametersTypeTraits(ICspReferenceTypeTraits cspReferenceTypeTraits)
-    {
-        if ((primitiveTypeParameter || getTypeParametersNumberToAdd() > 1)
-                & !(cspReferenceTypeTraits  instanceof ICspArrayDimensionTypeTraits))
-        {
-            throw new IllegalArgumentException("cspReferenceTypeTraits must implement "
-                + "ICspArrayDimensionTypeTraits to add an array dimension!");
-        }
-
-        return super.addGenericTypeParametersTypeTraits(cspReferenceTypeTraits);
-    }
-
     private boolean evalHasPrimitiveTypeParameter()
     {
         Class<?> arrayType = getClazz();
-
         while (arrayType.isArray())
         {
             arrayType = arrayType.getComponentType();
         }
-
         return arrayType.isPrimitive();
     }
 
     private static int evalGenericsNumber(Class<?> arrayClazz)
     {
         Class<?> arrayType = arrayClazz;
-
         int dimensions = 0;
         while (arrayType.isArray())
         {
             ++dimensions;
             arrayType = arrayType.getComponentType();
         }
-
         return arrayType.isPrimitive() ? dimensions : dimensions + 1;
     }
 }

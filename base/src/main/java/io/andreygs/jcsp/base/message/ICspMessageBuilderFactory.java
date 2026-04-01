@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.base.message;
 
-import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 
 /**
@@ -34,6 +34,6 @@ import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 public interface ICspMessageBuilderFactory
 {
     ICspDataMessageBuilder createCspDataMessageBuilder(
-        ICspDataProcessorRegistrar<ICspDataSerializationProcessor> cspSerializationProcessorRegistrar)
+        ICspDataProcessorRegistry<ICspDataSerializationProcessor> cspSerializationProcessorRegistrar)
         throws IllegalArgumentException;
 }

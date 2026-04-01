@@ -26,7 +26,8 @@
 package io.andreygs.jcsp.base.processing;
 
 import io.andreygs.jcsp.base.processing.session.ICspDataSerializationSession;
-import io.andreygs.jcsp.base.processing.typetraits.ICspArrayTypeTraits;
+import io.andreygs.jcsp.base.processing.typetraits.ICspGenericTypeTraits;
+import io.andreygs.jcsp.base.processing.typetraits.internal.ICspArrayTypeTraits;
 import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
 import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.CspRuntimeException;
@@ -860,7 +861,7 @@ public interface ICspDataGeneralSerializationProcessor
     void serialize(Object value, Class<?> clazz, ICspDataSerializationSession session);
 
     /**
-     * Serializes Object.
+     * Serializes generic type or array with non-primitive element type.
      * <p>
      * This includes next steps:
      * <ol>
@@ -917,12 +918,12 @@ public interface ICspDataGeneralSerializationProcessor
      *    <li>Serialization of every serializable field by order specified by CSP Interface.</li>
      * </ol>
      *
-     * @param value Object to serialize.
-     * @param cspObjectTypeTraits Traits of value type according to CSP reference.
+     * @param value Generic or array to serialize.
+     * @param cspGenericFieldTraits Traits of value type according to CSP reference.
      * @param session Current serialization processing session
      * @throws CspRuntimeException if asReference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(@Nullable Object value, ICspReferenceTypeTraits cspObjectTypeTraits,
+    void serialize(@Nullable Object value, ICspGenericTypeTraits cspGenericFieldTraits,
                    ICspDataSerializationSession session);
 }
 

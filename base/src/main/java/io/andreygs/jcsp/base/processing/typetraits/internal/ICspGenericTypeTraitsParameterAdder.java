@@ -30,12 +30,12 @@ import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
 /**
  * TODO: place description here
  */
-public interface ICspGenericTypeTraitsParameterAdder
+interface ICspGenericTypeTraitsParameterAdder
 {
     /**
      *
      * @param cspReferenceTypeTraits
      * @return true if all type parameters are added, false otherwise.
      */
-    boolean addGenericTypeParametersTypeTraits(ICspReferenceTypeTraits cspReferenceTypeTraits);
+    boolean addGenericTypeTraitsParameter(ICspReferenceTypeTraits cspReferenceTypeTraits);
 }

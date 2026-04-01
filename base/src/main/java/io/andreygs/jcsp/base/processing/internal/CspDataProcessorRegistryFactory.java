@@ -25,20 +25,20 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
-import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrar;
-import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrarFactory;
+import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistry;
+import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistryFactory;
 
 /**
- * Internal implementation of {@link ICspDataProcessorRegistrarFactory}.
+ * Internal implementation of {@link ICspDataProcessorRegistryFactory}.
  * <p>
  * Creates default CSP processor registrar.
  */
-public final class CspDataProcessorRegistrarFactory
-    implements ICspDataProcessorRegistrarFactory
+public final class CspDataProcessorRegistryFactory
+    implements ICspDataProcessorRegistryFactory
 {
     @Override
-    public <T> ICspDataProcessorRegistrar<T> createProcessorRegistrar()
+    public <P> ICspDataProcessorRegistry<P> createProcessorRegistry()
     {
-        return new CspDataProcessorRegistrar<>();
+        return new CspDataProcessorRegistry<>();
     }
 }

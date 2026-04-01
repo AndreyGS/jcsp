@@ -27,7 +27,7 @@ package io.andreygs.jcsp.base.message.internal;
 
 import io.andreygs.jcsp.base.message.ICspDataMessage;
 import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
-import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistrar;
+import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflowProvider;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
@@ -47,12 +47,12 @@ import java.util.Set;
 final class CspDataMessageBuilder extends AbstractCspMessageBuilder
     implements ICspDataMessageBuilder
 {
-    private final ICspDataProcessorRegistrar<ICspDataSerializationProcessor> cspSerializationProcessorRegistrar;
+    private final ICspDataProcessorRegistry<ICspDataSerializationProcessor> cspSerializationProcessorRegistrar;
     private @Nullable ICspInterfaceVersion cspInterfaceVersion;
     private @Nullable Set<CspDataFlag> cspDataFlags;
 
     CspDataMessageBuilder(ISerializationWorkflowProvider serializationWorkflowFactory,
-                          ICspDataProcessorRegistrar<ICspDataSerializationProcessor> cspSerializationProcessorRegistrar)
+                          ICspDataProcessorRegistry<ICspDataSerializationProcessor> cspSerializationProcessorRegistrar)
     {
         super(serializationWorkflowFactory);
         this.cspSerializationProcessorRegistrar = cspSerializationProcessorRegistrar;

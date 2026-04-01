@@ -155,7 +155,7 @@ public class DraftInternalCspMessageBodyProcessor
     public static void serialize(Object value, ICspDataSerializationState context)
     {
         Optional<ICspSerializationProcessor> cspSerializationProcessor =
-            context.getCspSerializationProcessorRegistrar().findProcessor(value.getClass());
+            context.getcspDataSerializationProcessorRegistry().findProcessor(value.getClass());
         //cspSerializationProcessor.serialize(value, context);
 
         if (cspSerializationProcessor.isEmpty())
