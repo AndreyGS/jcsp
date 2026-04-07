@@ -25,7 +25,6 @@
 
 package io.andreygs.jcsp.base.processing.buffer.internal;
 
-import io.andreygs.jcsp.base.processing.buffer.BufferResizeStrategyFactoryProducer;
 import io.andreygs.jcsp.base.processing.buffer.IBufferResizeStrategy;
 import org.jetbrains.annotations.Nullable;
 
@@ -43,7 +42,7 @@ import java.nio.ByteBuffer;
  * <ul>
  *     <li>initialBufferCapacity - {@link #DEFAULT_CAPACITY_SIZE default capacity}</li>
  *     <li>directBuffer - true</li>
- *     <li>bufferResizeStrategy - {@link BufferResizeStrategyFactory#createBufferDoublingSizeStrategy()}</li>
+ *     <li>bufferResizeStrategy - {@link #DEFAULT_BUFFER_RESIZE_STRATEGY default buffer resize strategy}</li>
  * </ul>
  */
 public final class CspSerializationBufferFactory
@@ -54,6 +53,10 @@ public final class CspSerializationBufferFactory
      * value was provided.
      */
     public static final int DEFAULT_CAPACITY_SIZE = 256;
+    /**
+     * Default immutable cached instance of {@link IBufferResizeStrategy}. Thread-safe.
+     */
+    public static final IBufferResizeStrategy DEFAULT_BUFFER_RESIZE_STRATEGY = new DoublingBufferSizeStrategy();
 
     @Override
     public ICspSerializationBuffer createCspSerializationBuffer(@Nullable Integer initialBufferCapacity,
@@ -63,7 +66,7 @@ public final class CspSerializationBufferFactory
         int initialBufferCapacityLocal = initialBufferCapacity == null ? DEFAULT_CAPACITY_SIZE : initialBufferCapacity;
         boolean directBufferLocal = directBuffer == null || directBuffer;
         IBufferResizeStrategy bufferResizeStrategyLocal = bufferResizeStrategy == null
-            ? BufferResizeStrategyFactoryProducer.produceBufferResizeStrategyFactory().createBufferDoublingSizeStrategy()
+            ? DEFAULT_BUFFER_RESIZE_STRATEGY
             : bufferResizeStrategy;
         return new CspSerializationBuffer(initialBufferCapacityLocal, directBufferLocal, bufferResizeStrategyLocal);
     }

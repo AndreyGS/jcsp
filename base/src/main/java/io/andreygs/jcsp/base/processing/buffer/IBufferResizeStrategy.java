@@ -28,6 +28,7 @@ package io.andreygs.jcsp.base.processing.buffer;
 /**
  * Strategy for determining size of random buffer when it needs to be expanded (to hold new data, for example).
  */
+@FunctionalInterface
 public interface IBufferResizeStrategy
 {
     /**

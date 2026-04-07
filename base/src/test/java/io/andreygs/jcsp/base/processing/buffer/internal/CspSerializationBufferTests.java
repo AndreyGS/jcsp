@@ -26,7 +26,6 @@
 package io.andreygs.jcsp.base.processing.buffer.internal;
 
 import io.andreygs.jcsp.base.CommonUtils;
-import io.andreygs.jcsp.base.processing.buffer.BufferResizeStrategyFactoryProducer;
 import io.andreygs.jcsp.base.processing.buffer.IBufferResizeStrategy;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -53,7 +52,7 @@ public class CspSerializationBufferTests
     public void getByteBufferTest()
     {
         ICspBuffer cspBuffer = new CspSerializationBuffer(0, false,
-                                                          BufferResizeStrategyFactoryProducer.produceBufferResizeStrategyFactory().createBufferDoublingSizeStrategy());
+                                                          CspSerializationBufferFactory.DEFAULT_BUFFER_RESIZE_STRATEGY);
         Assertions.assertNotNull(cspBuffer.getByteBuffer(), "ByteBuffer should not be null");
     }
 
@@ -61,7 +60,7 @@ public class CspSerializationBufferTests
     public void applyEndiannessTest()
     {
         ICspBuffer cspBuffer = new CspSerializationBuffer(0, false,
-                                                          BufferResizeStrategyFactoryProducer.produceBufferResizeStrategyFactory().createBufferDoublingSizeStrategy());
+                                                          CspSerializationBufferFactory.DEFAULT_BUFFER_RESIZE_STRATEGY);
         cspBuffer.applyEndianness(ByteOrder.BIG_ENDIAN);
 
         String applyEndiannessTestFailed = "Endianness applying to buffer was failed!";
@@ -328,7 +327,7 @@ public class CspSerializationBufferTests
     private ICspSerializationBuffer createCspSerializationBuffer(int initialBufferCapacity, boolean directBuffer)
     {
         return new CspSerializationBuffer(initialBufferCapacity, directBuffer,
-                                                          BufferResizeStrategyFactoryProducer.produceBufferResizeStrategyFactory().createBufferDoublingSizeStrategy());
+                                          CspSerializationBufferFactory.DEFAULT_BUFFER_RESIZE_STRATEGY);
     }
 
     private <T> void writePrimitive(T value1, T value2, BiConsumer<ICspSerializationBuffer, T> writeFunction,
