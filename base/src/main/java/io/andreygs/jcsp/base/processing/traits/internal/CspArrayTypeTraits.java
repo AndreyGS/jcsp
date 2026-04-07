@@ -23,7 +23,7 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.typetraits.internal;
+package io.andreygs.jcsp.base.processing.traits.internal;
 
 /**
  * TODO: place description here

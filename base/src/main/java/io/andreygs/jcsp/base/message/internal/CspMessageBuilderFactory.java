@@ -40,7 +40,9 @@ import io.andreygs.jcsp.base.processing.internal.SerializationWorkflowProvider;
 public final class CspMessageBuilderFactory implements ICspMessageBuilderFactory
 {
     /**
-     * Default cached instance of {@link ISerializationWorkflowProvider}.
+     * Default immutable cached instance of {@link ISerializationWorkflowProvider}.
+     * <p>
+     * Thread-safe.
      */
     private static final ISerializationWorkflow DEFAULT_SERIALIZATION_WORKFLOW =
         new SerializationWorkflowProvider().provideWorkflow();

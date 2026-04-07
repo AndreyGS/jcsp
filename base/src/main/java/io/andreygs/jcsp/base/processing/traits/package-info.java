@@ -1,4 +1,6 @@
 /**
+ * TODO: place brief description here
+ *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -22,25 +24,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+@NotNullByDefault
+package io.andreygs.jcsp.base.processing.traits;
 
-package io.andreygs.jcsp.base.processing.typetraits.annotations;
-
-import io.andreygs.jcsp.base.processing.ICspDataDeserializationProcessor;
-import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
-
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-/**
- * Tagging annotation, telling that {@link ICspDataSerializationProcessor} and {@link ICspDataDeserializationProcessor}
- * can be auto generated using CSP annotations of class fields.
- */
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE})
-public @interface CspProcessorAutoGeneratable
-{
-}
+import org.jetbrains.annotations.NotNullByDefault;

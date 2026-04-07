@@ -40,11 +40,11 @@ interface ICspDataProcessorGenerator<P>
      * Pure method.
      *
      * @param structClazz Class for which processor should be generated. It must contain
-     *                    {@link io.andreygs.jcsp.base.processing.typetraits.annotations.CspProcessorAutoGeneratable}
+     *                    {@link io.andreygs.jcsp.base.processing.traits.annotations.CspProcessorAutoGeneratable}
      *                    annotation.
      * @return generated processor.
      * @throws CspRuntimeException with status {@link io.andreygs.jcsp.base.types.CspStatus#NO_SUCH_HANDLER} if
-     * provided class has no {@link io.andreygs.jcsp.base.processing.typetraits.annotations.CspProcessorAutoGeneratable}
+     * provided class has no {@link io.andreygs.jcsp.base.processing.traits.annotations.CspProcessorAutoGeneratable}
      * annotation.
      */
     P generateProcessor(Class<?> structClazz) throws CspRuntimeException;

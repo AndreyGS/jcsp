@@ -23,16 +23,17 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.typetraits.internal;
-
-import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
-
-import java.nio.charset.Charset;
+package io.andreygs.jcsp.base.processing.traits.internal;
 
 /**
  * TODO: place description here
  */
-public interface ICspStringTypeTraits extends ICspReferenceTypeTraits
+interface ICspGenericTypeTraitsParameterAdder
 {
-    Charset getCharset();
+    /**
+     *
+     * @param cspReferenceTypeTraits
+     * @return true if all type parameters are added, false otherwise.
+     */
+    boolean addGenericTypeTraitsParameter(ICspReferenceTypeTraits cspReferenceTypeTraits);
 }

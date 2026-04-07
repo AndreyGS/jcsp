@@ -26,11 +26,11 @@
 package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.session.ICspDataSerializationSession;
-import io.andreygs.jcsp.base.processing.typetraits.annotations.CspAsReference;
-import io.andreygs.jcsp.base.processing.typetraits.annotations.CspProcessorAutoGeneratable;
+import io.andreygs.jcsp.base.processing.traits.annotations.CspAsReference;
+import io.andreygs.jcsp.base.processing.traits.annotations.CspProcessorAutoGeneratable;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
-import io.andreygs.jcsp.base.processing.typetraits.annotations.CspSerializable;
-import io.andreygs.jcsp.base.processing.typetraits.annotations.CspFixedSizeArray;
+import io.andreygs.jcsp.base.processing.traits.annotations.CspSerializable;
+import io.andreygs.jcsp.base.processing.traits.annotations.CspFixedSizeArray;
 import io.andreygs.jcsp.base.types.CspRuntimeException;
 import io.andreygs.jcsp.base.types.CspStatus;
 

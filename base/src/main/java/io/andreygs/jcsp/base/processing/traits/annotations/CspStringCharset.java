@@ -23,27 +23,30 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.typetraits.internal;
+package io.andreygs.jcsp.base.processing.traits.annotations;
 
-import java.nio.charset.Charset;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * TODO: place description here
+ * Indicates {@link String} charset according to CSP Interface.
+ * Make sense only for fields (or array types, or generic types) which has type {@link String}.
  */
-final class CspStringTypeTraits extends CspReferenceTypeTraits
-    implements ICspStringTypeTraits
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD, ElementType.TYPE_PARAMETER, ElementType.TYPE_USE})
+public @interface CspStringCharset
 {
-    private final Charset charset;
-
-    public CspStringTypeTraits(boolean reference, Charset charset)
-    {
-        super(String.class, reference);
-        this.charset = charset;
-    }
-
-    @Override
-    public Charset getCharset()
-    {
-        return charset;
-    }
+    /**
+     * Which charset should be used in serialization according to CSP Interface.
+     * <p>
+     * By default, {@link String} is serializing with this UTF-16BE charset.
+     *
+     * @return charset according to CSP Interface. It will be used to build
+     * {@link java.nio.charset.Charset} instance, so it must be valid canonical name of the charset.
+     */
+    String charset();
 }

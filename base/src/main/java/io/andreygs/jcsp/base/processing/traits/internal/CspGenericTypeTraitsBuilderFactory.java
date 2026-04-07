@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,7 +22,20 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-@NotNullByDefault
-package io.andreygs.jcsp.base.processing.typetraits.internal;
 
-import org.jetbrains.annotations.NotNullByDefault;
+package io.andreygs.jcsp.base.processing.traits.internal;
+
+import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraitsBuilder;
+import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraitsBuilderFactory;
+
+/**
+ * TODO: place description here
+ */
+public final class CspGenericTypeTraitsBuilderFactory implements ICspGenericTypeTraitsBuilderFactory
+{
+    @Override
+    public ICspGenericTypeTraitsBuilder createCspGenericFieldTraitsBuilder()
+    {
+        return new CspGenericTypeTraitsBuilder();
+    }
+}

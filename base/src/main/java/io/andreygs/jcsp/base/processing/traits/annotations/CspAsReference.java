@@ -23,12 +23,21 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.typetraits;
+package io.andreygs.jcsp.base.processing.traits.annotations;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * TODO: place description here
+ * Tag that field should be threatened as CSP pointer (Java reference) and not as embedded instance.
+ * Make sense only for object types, not for primitives.
  */
-public interface ICspGenericTypeTraitsBuilderFactory
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD, ElementType.TYPE_PARAMETER, ElementType.TYPE_USE})
+public @interface CspAsReference
 {
-    ICspGenericTypeTraitsBuilder createCspGenericFieldTraitsBuilder();
 }

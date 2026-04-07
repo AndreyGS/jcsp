@@ -29,8 +29,8 @@ import io.andreygs.jcsp.base.message.ICspMessageBuilderFactory;
 import io.andreygs.jcsp.base.message.internal.CspMessageBuilderFactory;
 import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistryFactory;
 import io.andreygs.jcsp.base.processing.internal.CspDataProcessorRegistryFactory;
-import io.andreygs.jcsp.base.processing.typetraits.ICspGenericTypeTraitsBuilderFactory;
-import io.andreygs.jcsp.base.processing.typetraits.internal.CspGenericTypeTraitsBuilderFactory;
+import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraitsBuilderFactory;
+import io.andreygs.jcsp.base.processing.traits.internal.CspGenericTypeTraitsBuilderFactory;
 
 import java.util.HashMap;
 import java.util.Map;

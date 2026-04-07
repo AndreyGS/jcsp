@@ -23,11 +23,10 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.typetraits.internal;
+package io.andreygs.jcsp.base.processing.traits.internal;
 
-import io.andreygs.jcsp.base.processing.typetraits.ICspGenericTypeTraits;
-import io.andreygs.jcsp.base.processing.typetraits.ICspGenericTypeTraitsBuilder;
-import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
+import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraits;
+import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraitsBuilder;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;

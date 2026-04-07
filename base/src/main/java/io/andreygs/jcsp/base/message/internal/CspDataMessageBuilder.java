@@ -122,7 +122,7 @@ final class CspDataMessageBuilder extends AbstractCspMessageBuilder
     {
         ArgumentChecker.nonNull(cspVersionable);
         return getSerializationWorkflow().serializeDataMessage(
-            getInitialBufferCapacity(), getDirectBuffer(), getBufferResizeStrategy(),getCspProtocolVersion(),
+            getInitialBufferCapacity(), getDirectBuffer(), getBufferResizeStrategy(), getCspProtocolVersion(),
             getCspCommonFlags(), cspSerializationProcessorRegistrar, cspVersionable, cspInterfaceVersion, cspDataFlags);
     }
 }

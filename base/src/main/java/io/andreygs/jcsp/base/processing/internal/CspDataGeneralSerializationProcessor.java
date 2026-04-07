@@ -29,10 +29,12 @@ import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.session.ICspDataSerializationSession;
-import io.andreygs.jcsp.base.processing.typetraits.ICspGenericTypeTraits;
+import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraits;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * The sole implementation of {@link ICspDataGeneralSerializationProcessor}.
@@ -223,7 +225,121 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     }
 
     @Override
+    public void serialize(Object value, boolean asReference, Class<?> clazz, ICspDataSerializationSession session)
+    {
+
+    }
+
+    @Override
     public void serialize(@Nullable Object value, ICspGenericTypeTraits cspObjectTypeTraits,
+                          ICspDataSerializationSession session)
+    {
+
+    }
+
+    @Override
+    public <T> void serialize(T[] value, Class<?> elementClazz, ICspDataSerializationSession session)
+    {
+
+    }
+
+    @Override
+    public <T> void serialize(T[] value, boolean asReference, Class<?> elementClazz,
+                              ICspDataSerializationSession session)
+    {
+
+    }
+
+    @Override
+    public void serialize(String[] value, Charset charset, ICspDataSerializationSession session)
+    {
+
+    }
+
+    @Override
+    public void serialize(String[] value, boolean asReference, Charset charset, ICspDataSerializationSession session)
+    {
+
+    }
+
+    @Override
+    public <T> void serialize(Collection<T> value, Class<?> elementClazz, ICspDataSerializationSession session)
+    {
+
+    }
+
+    @Override
+    public <T> void serialize(Collection<T> value, boolean asReference, boolean valueAsReference, Class<?> elementClazz,
+                              ICspDataSerializationSession session)
+    {
+
+    }
+
+    @Override
+    public void serialize(Collection<String> value, Charset charset, ICspDataSerializationSession session)
+    {
+
+    }
+
+    @Override
+    public void serialize(Collection<String> value, boolean asReference, boolean valueAsReference, Charset charset,
+                          ICspDataSerializationSession session)
+    {
+
+    }
+
+    @Override
+    public <K, V> void serialize(Map<K, V> value, Class<?> keyClazz, Class<?> valueClazz,
+                                 ICspDataSerializationSession session)
+    {
+
+    }
+
+    @Override
+    public <K, V> void serialize(Map<K, V> value, boolean asReference, boolean keyAsReference, boolean valueAsRefence,
+                                 Class<?> keyClazz, Class<?> valueClazz, ICspDataSerializationSession session)
+    {
+
+    }
+
+    @Override
+    public <K> void serialize(Map<K, String> value, Class<?> keyClazz, Charset valueCharset,
+                              ICspDataSerializationSession session)
+    {
+
+    }
+
+    @Override
+    public <K> void serialize(Map<K, String> value, boolean asReference, boolean keyAsReference, boolean valueAsRefence,
+                              Class<?> keyClazz, Charset valueCharset, ICspDataSerializationSession session)
+    {
+
+    }
+
+    @Override
+    public <V> void serialize(Map<String, V> value, Charset keyCharset, Class<?> valueClazz,
+                              ICspDataSerializationSession session)
+    {
+
+    }
+
+    @Override
+    public <V> void serialize(Map<String, V> value, boolean asReference, boolean keyAsReference, boolean valueAsRefence,
+                              Charset keyCharset, Class<?> valueClazz, ICspDataSerializationSession session)
+    {
+
+    }
+
+    @Override
+    public void serialize(Map<String, String> value, Charset keyCharset, Charset valueCharset,
+                          ICspDataSerializationSession session)
+    {
+
+    }
+
+    @Override
+    public void serialize(Map<String, String> value, boolean asReference, boolean keyAsReference,
+                          boolean valueAsRefence, Charset keyCharset, Charset valueCharset,
                           ICspDataSerializationSession session)
     {
 

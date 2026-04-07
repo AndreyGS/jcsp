@@ -23,26 +23,27 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.typetraits.annotations;
+package io.andreygs.jcsp.base.processing.traits.internal;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.nio.charset.Charset;
 
 /**
- * Annotation indicates that this field is involved in the serialization process in the specified order starting with 0.
+ * TODO: place description here
  */
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD})
-public @interface CspSerializable
+final class CspStringTypeTraits extends CspReferenceTypeTraits
+    implements ICspStringTypeTraits
 {
-    /**
-     * Order for field in class serialization/deserialization according to CSP Interface.
-     *
-     * @return order of field in class serialization/deserialization. Must not be negative.
-     */
-    int order();
+    private final Charset charset;
+
+    public CspStringTypeTraits(boolean reference, Charset charset)
+    {
+        super(String.class, reference);
+        this.charset = charset;
+    }
+
+    @Override
+    public Charset getCharset()
+    {
+        return charset;
+    }
 }

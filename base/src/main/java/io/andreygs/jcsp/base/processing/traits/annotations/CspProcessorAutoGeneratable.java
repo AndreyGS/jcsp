@@ -23,16 +23,24 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.typetraits.internal;
+package io.andreygs.jcsp.base.processing.traits.annotations;
 
-import io.andreygs.jcsp.base.processing.typetraits.ICspGenericTypeTraits;
+import io.andreygs.jcsp.base.processing.ICspDataDeserializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * TODO: place description here
+ * Tagging annotation, telling that {@link ICspDataSerializationProcessor} and {@link ICspDataDeserializationProcessor}
+ * can be auto generated using CSP annotations of class fields.
  */
-public interface ICspArrayTypeTraits extends ICspGenericTypeTraits
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE})
+public @interface CspProcessorAutoGeneratable
 {
-    boolean isFixedSize();
-
-    boolean hasPrimitiveTypeParameter();
 }

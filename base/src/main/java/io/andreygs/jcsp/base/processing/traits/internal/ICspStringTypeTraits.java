@@ -23,14 +23,14 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.typetraits;
+package io.andreygs.jcsp.base.processing.traits.internal;
 
-import java.util.Collection;
+import java.nio.charset.Charset;
 
 /**
  * TODO: place description here
  */
-public interface ICspGenericTypeTraits extends ICspReferenceTypeTraits
+public interface ICspStringTypeTraits extends ICspReferenceTypeTraits
 {
-    Collection<? extends ICspReferenceTypeTraits> getGenericTypeParametersFieldTraits();
+    Charset getCharset();
 }

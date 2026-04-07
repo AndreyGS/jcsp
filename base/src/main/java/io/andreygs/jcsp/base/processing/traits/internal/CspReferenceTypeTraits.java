@@ -23,12 +23,33 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.typetraits.internal;
+package io.andreygs.jcsp.base.processing.traits.internal;
 
 /**
  * TODO: place description here
  */
-public class CspReferenceFieldTraitsTests
+class CspReferenceTypeTraits
+    implements ICspReferenceTypeTraits
 {
+    private final Class<?> clazz;
 
+    private final boolean reference;
+
+    public CspReferenceTypeTraits(Class<?> clazz, boolean reference)
+    {
+        this.clazz = clazz;
+        this.reference = reference;
+    }
+
+    @Override
+    public Class<?> getClazz()
+    {
+        return clazz;
+    }
+
+    @Override
+    public boolean isReference()
+    {
+        return reference;
+    }
 }

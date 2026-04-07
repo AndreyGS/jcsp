@@ -31,6 +31,6 @@ module io.andreygs.jcsp.base {
     exports io.andreygs.jcsp.base.processing;
     exports io.andreygs.jcsp.base.processing.buffer;
     exports io.andreygs.jcsp.base.processing.session;
-    exports io.andreygs.jcsp.base.processing.typetraits;
+    exports io.andreygs.jcsp.base.processing.traits;
     exports io.andreygs.jcsp.base.types;
 }

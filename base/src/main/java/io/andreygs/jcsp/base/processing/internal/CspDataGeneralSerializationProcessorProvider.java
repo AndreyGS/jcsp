@@ -34,7 +34,9 @@ public class CspDataGeneralSerializationProcessorProvider
     implements ICspDataGeneralSerializationProcessorProvider
 {
     /**
-     * Default cached instance of {@link ICspDataGeneralSerializationProcessor}.
+     * Default immutable cached instance of {@link ICspDataGeneralSerializationProcessor}.
+     * <p>
+     * Thread-safe.
      */
     private static final ICspDataGeneralSerializationProcessor DEFAULT_DATA_GENERAL_SERIALIZATION_PROCESSOR =
         new CspDataGeneralSerializationProcessor(

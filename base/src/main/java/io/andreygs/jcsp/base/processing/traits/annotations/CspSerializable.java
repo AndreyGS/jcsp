@@ -23,19 +23,26 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.typetraits.internal;
+package io.andreygs.jcsp.base.processing.traits.annotations;
 
-import io.andreygs.jcsp.base.processing.typetraits.ICspReferenceTypeTraits;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * TODO: place description here
+ * Annotation indicates that this field is involved in the serialization process in the specified order starting with 0.
  */
-interface ICspGenericTypeTraitsParameterAdder
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD})
+public @interface CspSerializable
 {
     /**
+     * Order for field in class serialization/deserialization according to CSP Interface.
      *
-     * @param cspReferenceTypeTraits
-     * @return true if all type parameters are added, false otherwise.
+     * @return order of field in class serialization/deserialization. Must not be negative.
      */
-    boolean addGenericTypeTraitsParameter(ICspReferenceTypeTraits cspReferenceTypeTraits);
+    int order();
 }

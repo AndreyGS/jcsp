@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,7 +22,28 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-@NotNullByDefault
-package io.andreygs.jcsp.base.processing.typetraits.annotations;
 
-import org.jetbrains.annotations.NotNullByDefault;
+package io.andreygs.jcsp.base.processing.traits.internal;
+
+import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraitsBuilder;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * CSP traits that can be applied to serialized/deserialized type with reference type.
+ * <p>
+ * These traits dictate how field should be serialized/deserialized.
+ * Because {@link io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor} already have methods with
+ * all necessary traits as parameters for all non-generic and single dimension array types, use of this interface and
+ * all {@code traits} facility is only need when you need to set custom traits to the very specific handling of field
+ * seerialization/deserialization.
+ *
+ * @see ICspGenericTypeTraitsBuilder
+ */
+public interface ICspReferenceTypeTraits
+{
+    Class<?> getClazz();
+
+    boolean isReference();
+}

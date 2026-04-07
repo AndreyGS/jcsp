@@ -25,9 +25,8 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
-import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
-import io.andreygs.jcsp.base.processing.typetraits.annotations.CspProcessorAutoGeneratable;
-import io.andreygs.jcsp.base.processing.typetraits.annotations.CspSerializable;
+import io.andreygs.jcsp.base.processing.traits.annotations.CspProcessorAutoGeneratable;
+import io.andreygs.jcsp.base.processing.traits.annotations.CspSerializable;
 import io.andreygs.jcsp.base.types.CspRuntimeException;
 import io.andreygs.jcsp.base.types.CspStatus;
 

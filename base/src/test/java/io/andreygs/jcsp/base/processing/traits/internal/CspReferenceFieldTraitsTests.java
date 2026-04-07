@@ -23,19 +23,12 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.typetraits.internal;
-
-import io.andreygs.jcsp.base.processing.typetraits.ICspGenericTypeTraitsBuilder;
-import io.andreygs.jcsp.base.processing.typetraits.ICspGenericTypeTraitsBuilderFactory;
+package io.andreygs.jcsp.base.processing.traits.internal;
 
 /**
  * TODO: place description here
  */
-public final class CspGenericTypeTraitsBuilderFactory implements ICspGenericTypeTraitsBuilderFactory
+public class CspReferenceFieldTraitsTests
 {
-    @Override
-    public ICspGenericTypeTraitsBuilder createCspGenericFieldTraitsBuilder()
-    {
-        return new CspGenericTypeTraitsBuilder();
-    }
+
 }

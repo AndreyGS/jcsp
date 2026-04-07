@@ -26,6 +26,7 @@
 package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
+import io.andreygs.jcsp.base.processing.traits.internal.CspGenericTypeTraitsBuilderFactory;
 
 /**
  * TODO: place description here
@@ -34,10 +35,13 @@ class CspDataSerializationProcessorGeneratorProvider
     implements ICspDataSerializationProcessorGeneratorProvider
 {
     /**
-     * Default cached instance of {@link ICspDataProcessorGenerator}.
+     * Default immutable cached instance of {@link ICspDataProcessorGenerator}.
+     * <p>
+     * Thread-safe.
      */
     private static final ICspDataProcessorGenerator<ICspDataSerializationProcessor>
-        DEFAULT_DATA_SERIALIZATION_PROCESSOR_GENERATOR = new CspDataSerializationProcessorGenerator();
+        DEFAULT_DATA_SERIALIZATION_PROCESSOR_GENERATOR = new CspDataSerializationProcessorGenerator(
+            new CspGenericTypeTraitsBuilderFactory());
 
     @Override
     public ICspDataProcessorGenerator<ICspDataSerializationProcessor> provideCspDataProcessorGenerator()

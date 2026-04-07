@@ -27,6 +27,7 @@ package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.base.processing.session.ICspDataSerializationSession;
+import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraitsBuilderFactory;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -37,6 +38,13 @@ import java.util.List;
 class CspDataSerializationProcessorGenerator
     extends AbstractCspDataProcessorGenerator<ICspDataSerializationProcessor>
 {
+    private final ICspGenericTypeTraitsBuilderFactory cspGenericTypeTraitsBuilderFactory;
+
+    CspDataSerializationProcessorGenerator(ICspGenericTypeTraitsBuilderFactory cspGenericTypeTraitsBuilderFactory)
+    {
+        this.cspGenericTypeTraitsBuilderFactory = cspGenericTypeTraitsBuilderFactory;
+    }
+
     @Override
     protected void addParentClass(Class<?> parentClazz, List<ICspDataSerializationProcessor> callbacks)
     {

@@ -23,11 +23,12 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.typetraits;
+package io.andreygs.jcsp.base.processing.traits;
 
-import io.andreygs.jcsp.base.processing.typetraits.annotations.CspAsReference;
-import io.andreygs.jcsp.base.processing.typetraits.annotations.CspStringCharset;
-import io.andreygs.jcsp.base.processing.typetraits.annotations.CspFixedSizeArray;
+import io.andreygs.jcsp.base.processing.traits.annotations.CspAsReference;
+import io.andreygs.jcsp.base.processing.traits.annotations.CspStringCharset;
+import io.andreygs.jcsp.base.processing.traits.annotations.CspFixedSizeArray;
+import io.andreygs.jcsp.base.processing.traits.internal.ICspReferenceTypeTraits;
 
 import java.nio.charset.Charset;
 import java.util.List;
