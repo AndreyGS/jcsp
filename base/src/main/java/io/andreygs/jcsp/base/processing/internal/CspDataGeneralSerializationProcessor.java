@@ -43,13 +43,12 @@ import java.nio.charset.Charset;
  */
 final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSerializationProcessor
 {
-    private ICspDataProcessorGenerator<ICspDataSerializationProcessor> processorGenerator;
+    private ICspDataProcessorGenerator<ICspDataSerializationProcessor> cspDataProcessorGenerator;
 
-    CspDataGeneralSerializationProcessor(ICspDataSerializationProcessorGeneratorProvider
-                                             cspDataSerializationProcessorGeneratorFactory)
+    CspDataGeneralSerializationProcessor(
+        ICspDataProcessorGenerator<ICspDataSerializationProcessor> cspDataProcessorGenerator)
     {
-        processorGenerator =
-            cspDataSerializationProcessorGeneratorFactory.provideCspDataProcessorGenerator();
+        this.cspDataProcessorGenerator = cspDataProcessorGenerator;
     }
 
     @Override

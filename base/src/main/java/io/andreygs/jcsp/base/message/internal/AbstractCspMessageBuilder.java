@@ -48,9 +48,9 @@ abstract class AbstractCspMessageBuilder implements ICspMessageBuilder
     private @Nullable CspProtocolVersion cspProtocolVersion;
     private @Nullable Set<CspCommonFlag> cspCommonFlags;
 
-    AbstractCspMessageBuilder(ISerializationWorkflowProvider serializationWorkflowFactory)
+    AbstractCspMessageBuilder(ISerializationWorkflow serializationWorkflow)
     {
-        serializationWorkflow = serializationWorkflowFactory.provideWorkflow();
+        this.serializationWorkflow = serializationWorkflow;
     }
 
     @Override

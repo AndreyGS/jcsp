@@ -37,7 +37,8 @@ public class CspDataGeneralSerializationProcessorProvider
      * Default cached instance of {@link ICspDataGeneralSerializationProcessor}.
      */
     private static final ICspDataGeneralSerializationProcessor DEFAULT_DATA_GENERAL_SERIALIZATION_PROCESSOR =
-        new CspDataGeneralSerializationProcessor(new CspDataSerializationProcessorGeneratorProvider());
+        new CspDataGeneralSerializationProcessor(
+            new CspDataSerializationProcessorGeneratorProvider().provideCspDataProcessorGenerator());
 
     @Override
     public ICspDataGeneralSerializationProcessor provideGeneralSerializationProcessor()

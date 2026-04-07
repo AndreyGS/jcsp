@@ -35,11 +35,13 @@ public class SerializationWorkflowProvider
     implements ISerializationWorkflowProvider
 {
     /**
-     * Default cached instance of {@link ISerializationWorkflow}.
+     * Default immutable cached instance of {@link ISerializationWorkflow}.
+     * <p>
+     * Thread-safe.
      */
     private static final ISerializationWorkflow DEFAULT_SERIALIZATION_WORKFLOW =
         new SerializationWorkflow(new CspSerializationBufferFactory(),
-                                  new CspDataGeneralSerializationProcessorProvider(),
+                                  new CspDataGeneralSerializationProcessorProvider().provideGeneralSerializationProcessor(),
                                   new CspSerializationSessionFactory());
     @Override
     public ISerializationWorkflow provideWorkflow()

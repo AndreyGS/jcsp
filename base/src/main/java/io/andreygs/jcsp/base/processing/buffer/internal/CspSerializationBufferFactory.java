@@ -54,7 +54,9 @@ public final class CspSerializationBufferFactory
      */
     public static final int DEFAULT_CAPACITY_SIZE = 256;
     /**
-     * Default immutable cached instance of {@link IBufferResizeStrategy}. Thread-safe.
+     * Default immutable cached instance of {@link IBufferResizeStrategy}.
+     * <p>
+     * Thread-safe.
      */
     public static final IBufferResizeStrategy DEFAULT_BUFFER_RESIZE_STRATEGY = new DoublingBufferSizeStrategy();
 

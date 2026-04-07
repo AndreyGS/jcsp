@@ -54,10 +54,7 @@ public class CspGeneralSerializationProcessorTests
     @BeforeEach
     public void setup()
     {
-        ICspDataSerializationProcessorGeneratorProvider generatorProvider
-            = Mockito.mock(ICspDataSerializationProcessorGeneratorProvider.class);
-        Mockito.when(generatorProvider.provideCspDataProcessorGenerator()).thenAnswer(i -> processorGenerator);
-        cspDataGeneralSerializationProcessor = new CspDataGeneralSerializationProcessor(generatorProvider);
+        cspDataGeneralSerializationProcessor = new CspDataGeneralSerializationProcessor(processorGenerator);
         Mockito.when(session.getCspBuffer()).thenReturn(buffer);
     }
 
@@ -212,8 +209,8 @@ public class CspGeneralSerializationProcessorTests
     @SuppressWarnings("DataFlowIssue")
     public void serializeBooleanArrayNullTest()
     {
-        Assertions.assertThrows(IllegalArgumentException.class, () ->
-                                                                    cspDataGeneralSerializationProcessor.serialize((boolean[])null, session));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                                () -> cspDataGeneralSerializationProcessor.serialize((boolean[])null, session));
     }
 
     @Test
@@ -222,8 +219,8 @@ public class CspGeneralSerializationProcessorTests
     {
         boolean[] value = new boolean[] { true, false };
 
-        Assertions.assertThrows(IllegalArgumentException.class, () ->
-                                                                    cspDataGeneralSerializationProcessor.serialize(value, null));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                                () -> cspDataGeneralSerializationProcessor.serialize(value, null));
     }
 
     @Test

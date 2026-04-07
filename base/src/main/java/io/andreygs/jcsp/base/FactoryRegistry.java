@@ -49,7 +49,7 @@ public class FactoryRegistry
         factories.put(ICspGenericTypeTraitsBuilderFactory.class, new CspGenericTypeTraitsBuilderFactory());
     }
 
-    public static <F> F getFactory(Class<F> factoryClazz)
+    public static <F> F requireFactory(Class<F> factoryClazz)
     {
         return factoryClazz.cast(factories.get(factoryClazz));
     }
