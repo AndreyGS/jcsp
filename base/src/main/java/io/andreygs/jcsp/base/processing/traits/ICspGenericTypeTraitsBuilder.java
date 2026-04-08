@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.base.processing.traits;
 
-import io.andreygs.jcsp.base.processing.traits.annotations.CspAsReference;
+import io.andreygs.jcsp.base.processing.traits.annotations.CspReference;
 import io.andreygs.jcsp.base.processing.traits.annotations.CspStringCharset;
 import io.andreygs.jcsp.base.processing.traits.annotations.CspFixedSizeArray;
 import io.andreygs.jcsp.base.processing.traits.internal.ICspReferenceTypeTraits;
@@ -42,7 +42,7 @@ import java.util.Map;
  * <p></p>
  * Example of use:
  * <p>
- * Suppose we have such declared type {@link CspAsReference @CspAsReference} {@link List}<
+ * Suppose we have such declared type {@link CspReference @CspAsReference} {@link List}<
  * {@link Map}<{@link CspStringCharset @CspStringCharset(CspStringCharset.CharsetType.UTF_8)}
  * {@link String}, {@link Map}&lt;BmpImage, byte[]>> [] {@link CspFixedSizeArray @CspVariableSizeArray} []>.
  * <p>

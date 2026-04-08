@@ -33,11 +33,16 @@ import java.lang.annotation.Target;
 
 /**
  * Tag that field should be threatened as CSP pointer (Java reference) and not as embedded instance.
+ * <p>
  * Make sense only for object types, not for primitives.
+ * <p>
+ * Note that word "reference" was chosen as more familiar to Java developers. But CSP specification has only "pointer"
+ * term, and you should consider that when you meet "reference" or "asReference" words their meaning from CSP
+ * perspective is single level pointers. For multi-level pointers you should take a look at {@link CspMultiLevelPointer}.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.TYPE_PARAMETER, ElementType.TYPE_USE})
-public @interface CspAsReference
+public @interface CspReference
 {
 }
