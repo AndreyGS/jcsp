@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * TODO: place description here
  */
-public class CspArrayWithPrimitiveTypeParameterTypeTraits extends CspReferenceTypeTraits
+final class CspArrayWithPrimitiveTypeParameterTypeTraits extends CspReferenceTypeTraits
     implements ICspArrayTypeTraits
 {
     private final List<Boolean> dimensionReferenceFlags;
@@ -40,8 +40,8 @@ public class CspArrayWithPrimitiveTypeParameterTypeTraits extends CspReferenceTy
         List<Boolean> dimensionReferenceFlags, List<Boolean> dimensionFixedSizeFlags)
     {
         super(arrayClazz, dimensionReferenceFlags.get(0));
-        this.dimensionReferenceFlags = dimensionReferenceFlags;
-        this.dimensionFixedSizeFlags = dimensionFixedSizeFlags;
+        this.dimensionReferenceFlags = List.copyOf(dimensionReferenceFlags);
+        this.dimensionFixedSizeFlags = List.copyOf(dimensionFixedSizeFlags);
     }
 
     @Override

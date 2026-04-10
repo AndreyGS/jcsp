@@ -35,7 +35,7 @@ import java.util.List;
 /**
  * TODO: place description here
  */
-class CspDataSerializationProcessorGenerator
+final class CspDataSerializationProcessorGenerator
     extends AbstractCspDataProcessorGenerator<ICspDataSerializationProcessor>
 {
     private final ICspGenericTypeTraitsBuilderFactory cspGenericTypeTraitsBuilderFactory;

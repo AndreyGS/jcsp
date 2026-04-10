@@ -48,7 +48,7 @@ import java.util.Set;
  *     <li>{@link ICspDataSerializationSession} -> {@link CspDataSerializationSession}</li>
  * </ul>
  */
-public class CspSerializationSessionFactory
+public final class CspSerializationSessionFactory
     implements ICspSerializationSessionFactory
 {
     @Override

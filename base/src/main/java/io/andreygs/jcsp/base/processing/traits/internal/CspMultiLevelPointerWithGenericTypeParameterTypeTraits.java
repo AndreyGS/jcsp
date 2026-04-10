@@ -28,7 +28,7 @@ package io.andreygs.jcsp.base.processing.traits.internal;
 /**
  * TODO: place description here
  */
-public class CspMultiLevelPointerWithGenericTypeParameterTypeTraits extends CspGenericTypeTraits
+final class CspMultiLevelPointerWithGenericTypeParameterTypeTraits extends CspGenericTypeTraits
     implements ICspMultiLevelPointer
 {
     private final int pointerLevelNumber;

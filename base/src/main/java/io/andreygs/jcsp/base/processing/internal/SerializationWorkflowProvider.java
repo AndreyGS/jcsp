@@ -31,7 +31,7 @@ import io.andreygs.jcsp.base.processing.session.internal.CspSerializationSession
 /**
  * TODO: place description here
  */
-public class SerializationWorkflowProvider
+public final class SerializationWorkflowProvider
     implements ISerializationWorkflowProvider
 {
     /**

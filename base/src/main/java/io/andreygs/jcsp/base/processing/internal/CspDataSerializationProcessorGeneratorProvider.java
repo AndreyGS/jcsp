@@ -31,7 +31,7 @@ import io.andreygs.jcsp.base.processing.traits.internal.CspGenericTypeTraitsBuil
 /**
  * TODO: place description here
  */
-class CspDataSerializationProcessorGeneratorProvider
+final class CspDataSerializationProcessorGeneratorProvider
     implements ICspDataSerializationProcessorGeneratorProvider
 {
     /**

@@ -32,7 +32,7 @@ import io.andreygs.jcsp.base.processing.buffer.IBufferResizeStrategy;
  * <p>
  * If currentCapacity is 0, then minimumRequiredSize is returned.
  */
-class DoublingBufferSizeStrategy
+final class DoublingBufferSizeStrategy
     implements IBufferResizeStrategy
 {
     @Override

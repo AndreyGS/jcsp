@@ -30,7 +30,7 @@ import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
 /**
  * TODO: place description here
  */
-public class CspDataGeneralSerializationProcessorProvider
+public final class CspDataGeneralSerializationProcessorProvider
     implements ICspDataGeneralSerializationProcessorProvider
 {
     /**

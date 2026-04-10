@@ -40,8 +40,8 @@ final class CspArrayWithGenericTypeParameterTypeTraits extends CspGenericTypeTra
         List<Boolean> dimensionReferenceFlags, List<Boolean> dimensionFixedSizeFlags)
     {
         super(arrayClazz, dimensionReferenceFlags.get(0), 1);
-        this.dimensionReferenceFlags = dimensionReferenceFlags;
-        this.dimensionFixedSizeFlags = dimensionFixedSizeFlags;
+        this.dimensionReferenceFlags = List.copyOf(dimensionReferenceFlags);
+        this.dimensionFixedSizeFlags = List.copyOf(dimensionFixedSizeFlags);
     }
 
     @Override

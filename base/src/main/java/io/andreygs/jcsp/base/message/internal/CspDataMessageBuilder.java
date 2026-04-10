@@ -40,6 +40,7 @@ import io.andreygs.jcsp.base.common.internal.ArgumentChecker;
 import io.andreygs.jcsp.base.processing.buffer.IBufferResizeStrategy;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -112,7 +113,7 @@ final class CspDataMessageBuilder extends AbstractCspMessageBuilder
         throws IllegalArgumentException
     {
         ArgumentChecker.nonNull(cspDataFlags);
-        this.cspDataFlags = cspDataFlags;
+        this.cspDataFlags = Set.copyOf(cspDataFlags);
         return this;
     }
 

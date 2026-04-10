@@ -43,7 +43,7 @@ import java.util.Set;
 /**
  * TODO: place description here
  */
-public class CspDataDeserializationSession
+final class CspDataDeserializationSession
     extends AbstractCspDataProcessingSession<ICspDeserializationBuffer, ICspDataGeneralDeserializationProcessor,
                                                 ICspDataDeserializationProcessor, Integer, Object>
     implements ICspDataDeserializationSession

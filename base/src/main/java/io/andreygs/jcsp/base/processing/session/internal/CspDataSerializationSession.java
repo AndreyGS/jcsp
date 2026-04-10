@@ -43,7 +43,7 @@ import java.util.Set;
 /**
  * TODO: place description here
  */
-class CspDataSerializationSession
+final class CspDataSerializationSession
     extends AbstractCspDataProcessingSession<ICspSerializationBuffer, ICspDataGeneralSerializationProcessor,
                                                 ICspDataSerializationProcessor, Object, Integer>
     implements ICspDataSerializationSession

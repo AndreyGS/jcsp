@@ -46,7 +46,7 @@ import java.util.Set;
 /**
  * The sole implementation of {@link ISerializationWorkflow}.
  */
-public class SerializationWorkflow
+final class SerializationWorkflow
     implements ISerializationWorkflow
 {
     private static final CspProtocolVersion DEFAULT_CSP_PROTOCOL_VERSION = CspProtocolVersion.latestVersion();

@@ -28,7 +28,8 @@ package io.andreygs.jcsp.base.processing.traits.internal;
 import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraits;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * TODO: place description here
@@ -36,7 +37,7 @@ import java.util.Collection;
 class CspGenericTypeTraits extends CspReferenceTypeTraits
     implements ICspGenericTypeTraits, ICspGenericTypeTraitsParameterAdder
 {
-    private final Collection<ICspReferenceTypeTraits> genericTypeParametersTypeTraits;
+    private final List<ICspReferenceTypeTraits> genericTypeParametersTypeTraits;
     private final int typeParametersNumber;
 
     public CspGenericTypeTraits(Class<?> clazz, boolean reference, int typeParametersNumber)
@@ -47,9 +48,9 @@ class CspGenericTypeTraits extends CspReferenceTypeTraits
     }
 
     @Override
-    public Collection<? extends ICspReferenceTypeTraits> getGenericTypeParametersFieldTraits()
+    public List<? extends ICspReferenceTypeTraits> getGenericTypeParametersFieldTraits()
     {
-        return genericTypeParametersTypeTraits;
+        return Collections.unmodifiableList(genericTypeParametersTypeTraits);
     }
 
     @Override
