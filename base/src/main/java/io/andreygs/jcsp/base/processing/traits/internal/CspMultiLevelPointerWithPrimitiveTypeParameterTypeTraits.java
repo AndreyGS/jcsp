@@ -25,14 +25,23 @@
 
 package io.andreygs.jcsp.base.processing.traits.internal;
 
-import java.util.List;
-
 /**
  * TODO: place description here
  */
-public interface ICspArrayTypeTraits extends ICspReferenceTypeTraits
+public class CspMultiLevelPointerWithPrimitiveTypeParameterTypeTraits extends CspReferenceTypeTraits
+    implements ICspMultiLevelPointer
 {
-    boolean isDimensionReference(int dimension);
+    private final int pointerLevelNumber;
 
-    boolean isDimensionFixedSize(int dimension);
+    public CspMultiLevelPointerWithPrimitiveTypeParameterTypeTraits(Class<?> clazz, int pointerLevelNumber)
+    {
+        super(clazz, true);
+        this.pointerLevelNumber = pointerLevelNumber;
+    }
+
+    @Override
+    public int getPointerLevelNumber()
+    {
+        return pointerLevelNumber;
+    }
 }

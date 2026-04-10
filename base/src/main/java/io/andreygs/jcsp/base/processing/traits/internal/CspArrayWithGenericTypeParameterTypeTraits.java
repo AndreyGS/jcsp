@@ -30,9 +30,29 @@ import java.util.List;
 /**
  * TODO: place description here
  */
-public interface ICspArrayTypeTraits extends ICspReferenceTypeTraits
+final class CspArrayWithGenericTypeParameterTypeTraits extends CspGenericTypeTraits
+    implements ICspArrayTypeTraits
 {
-    boolean isDimensionReference(int dimension);
+    private final List<Boolean> dimensionReferenceFlags;
+    private final List<Boolean> dimensionFixedSizeFlags;
 
-    boolean isDimensionFixedSize(int dimension);
+    CspArrayWithGenericTypeParameterTypeTraits(Class<?> arrayClazz,
+        List<Boolean> dimensionReferenceFlags, List<Boolean> dimensionFixedSizeFlags)
+    {
+        super(arrayClazz, dimensionReferenceFlags.get(0), 1);
+        this.dimensionReferenceFlags = dimensionReferenceFlags;
+        this.dimensionFixedSizeFlags = dimensionFixedSizeFlags;
+    }
+
+    @Override
+    public boolean isDimensionReference(int dimension)
+    {
+        return dimensionReferenceFlags.get(dimension);
+    }
+
+    @Override
+    public boolean isDimensionFixedSize(int dimension)
+    {
+        return dimensionFixedSizeFlags.get(dimension);
+    }
 }

@@ -82,7 +82,10 @@ public interface ICspGenericTypeTraitsBuilder
 
     ICspGenericTypeTraitsBuilder addGeneric(Class<?> clazz, boolean reference);
 
-    ICspGenericTypeTraitsBuilder addArray(Class<?> clazz, boolean reference, boolean fixedSizeArray);
+    ICspGenericTypeTraitsBuilder addArray(Class<?> clazz, List<Boolean> dimensionReferenceFlags,
+        List<Boolean> dimensionFixedSizeFlags);
+
+    ICspGenericTypeTraitsBuilder addMultiLevelPointer(Class<?> clazz);
 
     ICspGenericTypeTraits build();
 }

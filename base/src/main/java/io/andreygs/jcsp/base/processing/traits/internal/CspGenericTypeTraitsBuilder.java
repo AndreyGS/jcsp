@@ -30,6 +30,7 @@ import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraitsBuilder;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -88,7 +89,8 @@ final class CspGenericTypeTraitsBuilder implements ICspGenericTypeTraitsBuilder
     }
 
     @Override
-    public ICspGenericTypeTraitsBuilder addArray(Class<?> clazz, boolean reference, boolean fixedSizeArray)
+    public ICspGenericTypeTraitsBuilder addArray(Class<?> clazz, List<Boolean> dimensionReferenceFlags,
+        List<Boolean> dimensionFixedSizeFlags)
     {
         if (!clazz.isArray())
         {
@@ -96,10 +98,54 @@ final class CspGenericTypeTraitsBuilder implements ICspGenericTypeTraitsBuilder
                                                    + "methods!");
         }
         testStateNotDone();
-        ICspArrayTypeTraits newNode = new CspArrayTypeTraits(clazz, reference, fixedSizeArray);
-        if (newNode.hasPrimitiveTypeParameter())
+        int arrayDimensionsNumber = evalArrayDimensionsNumber(clazz);
+        if (arrayDimensionsNumber != dimensionReferenceFlags.size())
+        {
+            throw new IllegalArgumentException(clazz.getName() + " dimensions number differs from "
+                + " dimensionReferenceFlags.size()!");
+        }
+        if (arrayDimensionsNumber != dimensionFixedSizeFlags.size())
+        {
+            throw new IllegalArgumentException(clazz.getName() + " dimensions number differs from "
+                + " dimensionFixedSizeFlags.size()!");
+        }
+        ICspReferenceTypeTraits newNode;
+        boolean arrayHasPrimitiveTypeParameter = evalArrayHasPrimitiveTypeParameter(clazz);
+        if (arrayHasPrimitiveTypeParameter)
         {
             testRootNodeIsSet();
+            newNode = new CspArrayWithPrimitiveTypeParameterTypeTraits(clazz,
+                dimensionReferenceFlags, dimensionFixedSizeFlags);
+        }
+        else
+        {
+            newNode = new CspArrayWithGenericTypeParameterTypeTraits(clazz,
+                dimensionReferenceFlags, dimensionFixedSizeFlags);
+        }
+        commitNode(newNode);
+        return this;
+    }
+
+    @Override
+    public ICspGenericTypeTraitsBuilder addMultiLevelPointer(Class<?> clazz)
+    {
+        if (!clazz.isArray())
+        {
+            throw new IllegalArgumentException(clazz.getName() + " is not an array, but only arrays can substitute for "
+                                               + "pointers!");
+        }
+        testStateNotDone();
+        ICspReferenceTypeTraits newNode;
+        boolean arrayHasPrimitiveTypeParameter = evalArrayHasPrimitiveTypeParameter(clazz);
+        int arrayDimensionsNumber = evalArrayDimensionsNumber(clazz);
+        if (arrayHasPrimitiveTypeParameter)
+        {
+            testRootNodeIsSet();
+            newNode = new CspMultiLevelPointerWithPrimitiveTypeParameterTypeTraits(clazz, arrayDimensionsNumber);
+        }
+        else
+        {
+            newNode = new CspMultiLevelPointerWithGenericTypeParameterTypeTraits(clazz, arrayDimensionsNumber);
         }
         commitNode(newNode);
         return this;
@@ -151,5 +197,27 @@ final class CspGenericTypeTraitsBuilder implements ICspGenericTypeTraitsBuilder
             throw new IllegalArgumentException("No root node added! Only generic type or array with reference element "
                                                    + "type can be root node!");
         }
+    }
+
+    private static boolean evalArrayHasPrimitiveTypeParameter(Class<?> clazz)
+    {
+        Class<?> arrayType = clazz;
+        do
+        {
+            arrayType = arrayType.getComponentType();
+        } while (arrayType.isArray());
+        return arrayType.isPrimitive();
+    }
+
+    private static int evalArrayDimensionsNumber(Class<?> arrayClazz)
+    {
+        Class<?> arrayType = arrayClazz;
+        int dimensions = 0;
+        do
+        {
+            ++dimensions;
+            arrayType = arrayType.getComponentType();
+        } while (arrayType.isArray());
+        return dimensions;
     }
 }

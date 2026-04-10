@@ -28,50 +28,20 @@ package io.andreygs.jcsp.base.processing.traits.internal;
 /**
  * TODO: place description here
  */
-final class CspArrayTypeTraits extends CspGenericTypeTraits
-    implements ICspArrayTypeTraits
+public class CspMultiLevelPointerWithGenericTypeParameterTypeTraits extends CspGenericTypeTraits
+    implements ICspMultiLevelPointer
 {
-    private final boolean fixedSize;
-    private final boolean primitiveTypeParameter;
+    private final int pointerLevelNumber;
 
-    CspArrayTypeTraits(Class<?> arrayClazz, boolean reference, boolean fixedSize)
+    public CspMultiLevelPointerWithGenericTypeParameterTypeTraits(Class<?> clazz, int pointerLevelNumber)
     {
-        super(arrayClazz, reference, evalGenericsNumber(arrayClazz));
-        this.fixedSize = fixedSize;
-        this.primitiveTypeParameter = evalHasPrimitiveTypeParameter();
+        super(clazz, true, 1);
+        this.pointerLevelNumber = pointerLevelNumber;
     }
 
     @Override
-    public boolean isFixedSize()
+    public int getPointerLevelNumber()
     {
-        return fixedSize;
-    }
-
-    @Override
-    public boolean hasPrimitiveTypeParameter()
-    {
-        return primitiveTypeParameter;
-    }
-
-    private boolean evalHasPrimitiveTypeParameter()
-    {
-        Class<?> arrayType = getClazz();
-        do
-        {
-            arrayType = arrayType.getComponentType();
-        } while (arrayType.isArray());
-        return arrayType.isPrimitive();
-    }
-
-    private static int evalGenericsNumber(Class<?> arrayClazz)
-    {
-        Class<?> arrayType = arrayClazz;
-        int dimensions = 0;
-        do
-        {
-            ++dimensions;
-            arrayType = arrayType.getComponentType();
-        } while (arrayType.isArray());
-        return arrayType.isPrimitive() ? dimensions - 1 : dimensions;
+        return pointerLevelNumber;
     }
 }

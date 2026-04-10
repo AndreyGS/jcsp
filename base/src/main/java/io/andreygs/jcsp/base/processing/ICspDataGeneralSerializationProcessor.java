@@ -27,7 +27,7 @@ package io.andreygs.jcsp.base.processing;
 
 import io.andreygs.jcsp.base.processing.session.ICspDataSerializationSession;
 import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraits;
-import io.andreygs.jcsp.base.processing.traits.internal.ICspArrayTypeTraits;
+import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraitsBuilder;
 import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.CspRuntimeException;
 import io.andreygs.jcsp.base.types.ICspVersionable;
@@ -959,35 +959,9 @@ public interface ICspDataGeneralSerializationProcessor
      *    </ul>
      *    </li>
      *
-     *    <li>Serializing of container/array.
-     * <p>
-     *    Conditions (one of):
-     *    <ul>
-     *        <li>{@link ICspGenericTypeTraits#getClazz()} is implementing {@link java.util.Collection} or {@link java.util.Map}</li>
-     *        <li>cspObjectTypeTraits has type {@link ICspArrayTypeTraits}.</li>
-     *    </ul>
-     * <p>
-     *    Note: next steps will be done only if this is not container/array.
-     *
-     *    <li>Converting to temporary object for serialization using version convertor.
-     * <p>
-     *    Conditions:
-     *    <ol>
-     *        <li>Value instance type is implementing {@link ICspVersionable}.</li>
-     *        <li>Value private version is differing from target interface version (from context).</li>
-     *    </ol>
+     *    <li>Serializing of generic type by rules provided with cspGenericFieldTraits.
+     *    See {@link ICspGenericTypeTraitsBuilder}
      *    </li>
-     *
-     *    <li>Serialization of parent classes starting with the highest.
-     * <p>
-     *    Conditions:
-     *    <ol>
-     *        <li>Parent class has {@link io.andreygs.jcsp.base.processing.traits.annotations.CspSerializable}
-     *        attribute, or it has own {@link ICspDataSerializationProcessor} or inherited class explicitly serializes
-     *        its parent(s).</li>
-     *    </ol>
-     *
-     *    <li>Serialization of every serializable field by order specified by CSP Interface.</li>
      * </ol>
      *
      * @param value Generic or array to serialize.

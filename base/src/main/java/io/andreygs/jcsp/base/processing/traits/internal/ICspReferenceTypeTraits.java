@@ -27,9 +27,6 @@ package io.andreygs.jcsp.base.processing.traits.internal;
 
 import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraitsBuilder;
 
-import java.util.List;
-import java.util.Map;
-
 /**
  * CSP traits that can be applied to serialized/deserialized type with reference type.
  * <p>
@@ -38,12 +35,29 @@ import java.util.Map;
  * all necessary traits as parameters for all non-generic and single dimension array types, use of this interface and
  * all {@code traits} facility is only need when you need to set custom traits to the very specific handling of field
  * seerialization/deserialization.
+ * <p>
+ * This is common interface for describing reference type (not primitive) properties.<br/>
+ * Common properties are:
+ * <ul>
+ *     <li>{@link Class} type</li>
+ *     <li>Should object be serialized/deserialized as reference or not</li>
+ * </ul>
  *
  * @see ICspGenericTypeTraitsBuilder
  */
 public interface ICspReferenceTypeTraits
 {
+    /**
+     * Gets {@link Class} of object described by this type trait.
+     *
+     * @return {@link Class} of object.
+     */
     Class<?> getClazz();
 
+    /**
+     * Returns a flag indicating that object should be serialized/deserialized as reference or embedded structure.
+     *
+     * @return true if it should be serialized/deserialized as reference and false otherwise.
+     */
     boolean isReference();
 }

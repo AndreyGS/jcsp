@@ -25,12 +25,10 @@
 
 package io.andreygs.jcsp.base.processing.traits.internal;
 
-import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraits;
-
 /**
  * TODO: place description here
  */
-public interface ICspMultiLevelPointer extends ICspGenericTypeTraits
+public interface ICspMultiLevelPointer extends ICspReferenceTypeTraits
 {
-    boolean hasPrimitiveTypeParameter();
+    int getPointerLevelNumber();
 }
