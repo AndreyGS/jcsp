@@ -53,4 +53,17 @@ class CspReferenceTypeTraits
     {
         return reference;
     }
+
+    @Override
+    public ICspReferenceTypeTraits obtainInstanceWithOverriddenReferenceTrait(boolean reference)
+    {
+        if (this.reference != reference)
+        {
+            return new CspReferenceTypeTraits(clazz, reference);
+        }
+        else
+        {
+            return this;
+        }
+    }
 }

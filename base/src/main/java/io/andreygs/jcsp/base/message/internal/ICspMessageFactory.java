@@ -23,15 +23,24 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.session.internal;
+package io.andreygs.jcsp.base.message.internal;
 
-import io.andreygs.jcsp.base.message.ICspStatusMessage;
+import io.andreygs.jcsp.base.message.ICspDataMessage;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
+import io.andreygs.jcsp.base.types.CspCommonFlag;
+import io.andreygs.jcsp.base.types.CspDataFlag;
+import io.andreygs.jcsp.base.types.CspProtocolVersion;
+import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
+import io.andreygs.jcsp.base.types.ICspVersionable;
+
+import java.util.Set;
 
 /**
- * TODO: place description here
+ * Factory for creation CSP messages.
  */
-public interface ICspStatusProcessingSession<B extends ICspBuffer>
-    extends ICspCommonProcessingSession<B>, ICspStatusMessage
+public interface ICspMessageFactory
 {
+    ICspDataMessage createCspDataMessage(ICspBuffer cspBuffer, CspProtocolVersion cspProtocolVersion,
+        Set<CspCommonFlag> cspCommonFlags, ICspVersionable struct, Class<?> structClazz,
+        ICspInterfaceVersion cspInterfaceVersion, Set<CspDataFlag> cspDataFlags);
 }

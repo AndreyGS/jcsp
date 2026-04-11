@@ -31,8 +31,7 @@ import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBufferFactory;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
-import io.andreygs.jcsp.base.processing.session.ICspDataSerializationSession;
-import io.andreygs.jcsp.base.processing.session.internal.ICspSerializationSessionFactory;
+import io.andreygs.jcsp.base.message.internal.ICspMessageFactory;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
@@ -53,17 +52,17 @@ final class SerializationWorkflow
     private static final Set<CspCommonFlag> DEFAULT_CSP_COMMON_FLAGS = Set.of(CspCommonFlag.BIG_ENDIAN);
     private static final Set<CspDataFlag> DEFAULT_CSP_DATA_FLAGS = Set.of(CspDataFlag.ALLOW_UNMANAGED_POINTERS);
 
-    private final ICspDataGeneralSerializationProcessor cspDataGeneralSerializationProcessor;
     private final ICspSerializationBufferFactory cspSerializationBufferFactory;
-    private final ICspSerializationSessionFactory cspSerializationStateFactory;
+    private final ICspMessageFactory cspMessageFactory;
+    private final ICspDataGeneralSerializationProcessorFactory cspDataGeneralSerializationProcessorFactory;
 
     public SerializationWorkflow(ICspSerializationBufferFactory cspSerializationBufferFactory,
-                                 ICspDataGeneralSerializationProcessor cspDataGeneralSerializationProcessor,
-                                 ICspSerializationSessionFactory cspSerializationStateFactory)
+                                 ICspMessageFactory cspMessageFactory,
+                                 ICspDataGeneralSerializationProcessorFactory cspDataGeneralSerializationProcessorFactory)
     {
-        this.cspDataGeneralSerializationProcessor = cspDataGeneralSerializationProcessor;
         this.cspSerializationBufferFactory = cspSerializationBufferFactory;
-        this.cspSerializationStateFactory = cspSerializationStateFactory;
+        this.cspMessageFactory = cspMessageFactory;
+        this.cspDataGeneralSerializationProcessorFactory = cspDataGeneralSerializationProcessorFactory;
     }
 
     @Override
@@ -73,7 +72,7 @@ final class SerializationWorkflow
         @Nullable IBufferResizeStrategy bufferResizeStrategy,
         @Nullable CspProtocolVersion cspProtocolVersion,
         @Nullable Set<CspCommonFlag> cspCommonFlags,
-        ICspDataProcessorRegistry<ICspDataSerializationProcessor> cspDataSerializationProcessorRegistry,
+        ICspDataProcessorRegistry<ICspDataSerializationProcessor> cspProcessorRegistry,
         ICspVersionable cspVersionable,
         @Nullable ICspInterfaceVersion cspInterfaceVersion,
         @Nullable Set<CspDataFlag> cspDataFlags)
@@ -82,17 +81,17 @@ final class SerializationWorkflow
             cspSerializationBufferFactory.createCspSerializationBuffer(initialBufferCapacity, directBuffer, bufferResizeStrategy);
 
         // TODO construction of message should be made later (right before message body serialization).
-        ICspDataSerializationSession cspSerializationDataMessage
-                = cspSerializationStateFactory.createCspDataSerializationSession(cspSerializationBuffer,
-                                                                      cspProtocolVersion == null ? DEFAULT_CSP_PROTOCOL_VERSION : cspProtocolVersion,
-                                                                      cspCommonFlags == null ? DEFAULT_CSP_COMMON_FLAGS : cspCommonFlags,
-                                                                      cspDataGeneralSerializationProcessor,
-                                                                      cspDataSerializationProcessorRegistry,
-                                                                      null,
-                                                                      cspVersionable,
-                                                                      cspVersionable.getClass(),
-                                                                      cspInterfaceVersion == null ? cspVersionable.getInterfaceVersion() : cspInterfaceVersion,
-                                                                      cspDataFlags == null ? DEFAULT_CSP_DATA_FLAGS : cspDataFlags);
-        return cspSerializationDataMessage;
+        ICspDataMessage message
+                = cspMessageFactory.createCspDataMessage(cspSerializationBuffer,
+                                                         cspProtocolVersion == null ? DEFAULT_CSP_PROTOCOL_VERSION : cspProtocolVersion,
+                                                         cspCommonFlags == null ? DEFAULT_CSP_COMMON_FLAGS : cspCommonFlags,
+                                                         cspVersionable,
+                                                         cspVersionable.getClass(),
+                                                         cspInterfaceVersion == null ? cspVersionable.getInterfaceVersion() : cspInterfaceVersion,
+                                                         cspDataFlags == null ? DEFAULT_CSP_DATA_FLAGS : cspDataFlags);
+        ICspDataGeneralSerializationProcessor processor =
+            cspDataGeneralSerializationProcessorFactory.createGeneralSerializationProcessor(
+                cspSerializationBuffer, cspProcessorRegistry, message);
+        return message;
     }
 }

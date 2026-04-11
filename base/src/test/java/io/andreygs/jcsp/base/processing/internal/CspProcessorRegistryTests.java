@@ -52,14 +52,14 @@ public class CspProcessorRegistryTests
     public void registerProcessorTest()
     {
         ICspDataProcessorRegistry<ICspDataSerializationProcessor>
-            cspProcessorRegistrar = new CspDataProcessorRegistry<>();
+            cspProcessorRegistry = new CspDataProcessorRegistry<>();
 
-        Assertions.assertTrue(cspProcessorRegistrar.findProcessor(List.class).isEmpty(),
+        Assertions.assertTrue(cspProcessorRegistry.findProcessor(List.class).isEmpty(),
                               "Processor registered for " + List.class.getName() + "!");
 
-        cspProcessorRegistrar.registerProcessor(List.class, cspSerializationProcessor);
+        cspProcessorRegistry.registerProcessor(List.class, cspSerializationProcessor);
 
-        Assertions.assertTrue(cspProcessorRegistrar.findProcessor(List.class).isPresent(),
+        Assertions.assertTrue(cspProcessorRegistry.findProcessor(List.class).isPresent(),
                               "No processor registered for " + List.class.getName() + "!");
     }
 
@@ -68,10 +68,10 @@ public class CspProcessorRegistryTests
     public void registerProcessorNullClassTest()
     {
         ICspDataProcessorRegistry<ICspDataSerializationProcessor>
-            cspProcessorRegistrar = new CspDataProcessorRegistry<>();
+            cspProcessorRegistry = new CspDataProcessorRegistry<>();
 
         Assertions.assertThrows(IllegalArgumentException.class,
-                                () -> cspProcessorRegistrar.registerProcessor(null, cspSerializationProcessor));
+                                () -> cspProcessorRegistry.registerProcessor(null, cspSerializationProcessor));
     }
 
     @Test
@@ -79,24 +79,24 @@ public class CspProcessorRegistryTests
     public void registerProcessorNullProcessorTest()
     {
         ICspDataProcessorRegistry<ICspDataSerializationProcessor>
-            cspProcessorRegistrar = new CspDataProcessorRegistry<>();
+            cspProcessorRegistry = new CspDataProcessorRegistry<>();
 
         Assertions.assertThrows(IllegalArgumentException.class,
-                                () -> cspProcessorRegistrar.registerProcessor(List.class, null));
+                                () -> cspProcessorRegistry.registerProcessor(List.class, null));
     }
 
     @Test
     public void registerProcessorReplaceTest()
     {
         ICspDataProcessorRegistry<ICspDataSerializationProcessor>
-            cspProcessorRegistrar = new CspDataProcessorRegistry<>();
-        cspProcessorRegistrar.registerProcessor(List.class, cspSerializationProcessor);
+            cspProcessorRegistry = new CspDataProcessorRegistry<>();
+        cspProcessorRegistry.registerProcessor(List.class, cspSerializationProcessor);
 
         ICspDataSerializationProcessor cspSerializationProcessorNew = Mockito.mock(
             ICspDataSerializationProcessor.class);
-        cspProcessorRegistrar.registerProcessor(List.class, cspSerializationProcessorNew);
+        cspProcessorRegistry.registerProcessor(List.class, cspSerializationProcessorNew);
 
-        Assertions.assertEquals(cspSerializationProcessorNew, cspProcessorRegistrar.findProcessor(List.class).orElse(null),
+        Assertions.assertEquals(cspSerializationProcessorNew, cspProcessorRegistry.findProcessor(List.class).orElse(null),
                                 "Processor for " + List.class.getName() + " not replaced!");
     }
 
@@ -104,11 +104,11 @@ public class CspProcessorRegistryTests
     public void unregisterProcessorTest()
     {
         ICspDataProcessorRegistry<ICspDataDeserializationProcessor>
-            cspProcessorRegistrar = new CspDataProcessorRegistry<>();
-        cspProcessorRegistrar.registerProcessor(List.class, cspDeserializationProcessor);
-        cspProcessorRegistrar.unregisterProcessor(List.class);
+            cspProcessorRegistry = new CspDataProcessorRegistry<>();
+        cspProcessorRegistry.registerProcessor(List.class, cspDeserializationProcessor);
+        cspProcessorRegistry.unregisterProcessor(List.class);
 
-        Assertions.assertTrue(cspProcessorRegistrar.findProcessor(List.class).isEmpty(),
+        Assertions.assertTrue(cspProcessorRegistry.findProcessor(List.class).isEmpty(),
                               "Processor for " + List.class.getName() + "was not unregistered!");
     }
 
@@ -117,10 +117,10 @@ public class CspProcessorRegistryTests
     public void unregisterProcessorNullClassTest()
     {
         ICspDataProcessorRegistry<ICspDataSerializationProcessor>
-            cspProcessorRegistrar = new CspDataProcessorRegistry<>();
+            cspProcessorRegistry = new CspDataProcessorRegistry<>();
 
         Assertions.assertThrows(IllegalArgumentException.class,
-                                () -> cspProcessorRegistrar.unregisterProcessor(null));
+                                () -> cspProcessorRegistry.unregisterProcessor(null));
     }
 
     @Test
@@ -134,9 +134,9 @@ public class CspProcessorRegistryTests
     public void findProcessorNullClassTest()
     {
         ICspDataProcessorRegistry<ICspDataSerializationProcessor>
-            cspProcessorRegistrar = new CspDataProcessorRegistry<>();
+            cspProcessorRegistry = new CspDataProcessorRegistry<>();
 
         Assertions.assertThrows(IllegalArgumentException.class,
-                                () -> cspProcessorRegistrar.findProcessor(null));
+                                () -> cspProcessorRegistry.findProcessor(null));
     }
 }

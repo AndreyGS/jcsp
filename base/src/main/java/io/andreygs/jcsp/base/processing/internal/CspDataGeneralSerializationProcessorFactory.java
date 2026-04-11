@@ -23,37 +23,35 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.session.internal;
+package io.andreygs.jcsp.base.processing.internal;
 
+import io.andreygs.jcsp.base.message.ICspDataMessage;
 import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
-import io.andreygs.jcsp.base.processing.session.ICspDataSerializationSession;
-import io.andreygs.jcsp.base.types.CspCommonFlag;
-import io.andreygs.jcsp.base.types.CspDataFlag;
-import io.andreygs.jcsp.base.types.CspProtocolVersion;
-import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
-import io.andreygs.jcsp.base.types.ICspVersionable;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Map;
-import java.util.Set;
 
 /**
- * Factory for creation CSP message serialization sessions.
+ * TODO: place description here
  */
-public interface ICspSerializationSessionFactory
+public final class CspDataGeneralSerializationProcessorFactory
+    implements ICspDataGeneralSerializationProcessorFactory
 {
-    ICspDataSerializationSession createCspDataSerializationSession(
+    /**
+     * Default immutable cached instance of {@link ICspDataSerializationProcessorGeneratorProvider}.
+     * <p>
+     * Thread-safe.
+     */
+    private static final ICspDataSerializationProcessorGeneratorProvider
+        DEFAULT_DATA_SERIALIZATION_PROCESSOR_GENERATOR_PROVIDER = new CspDataSerializationProcessorGeneratorProvider();
+
+    @Override
+    public ICspDataGeneralSerializationProcessor createGeneralSerializationProcessor(
         ICspSerializationBuffer cspSerializationBuffer,
-        CspProtocolVersion cspProtocolVersion,
-        Set<CspCommonFlag> cspCommonFlags,
-        ICspDataGeneralSerializationProcessor cspDataGeneralSerializationProcessor,
-        ICspDataProcessorRegistry<ICspDataSerializationProcessor> cspSerializationProcessorRegistrar,
-        @Nullable Map<Object, Integer> referenceMap,
-        ICspVersionable struct,
-        Class<?> structClazz,
-        ICspInterfaceVersion cspInterfaceVersion,
-        Set<CspDataFlag> cspDataFlags);
+        ICspDataProcessorRegistry<ICspDataSerializationProcessor> cspProcessorRegistry,
+        ICspDataMessage cspDataMessage)
+    {
+        return new CspDataGeneralSerializationProcessor(cspSerializationBuffer, cspProcessorRegistry,
+            DEFAULT_DATA_SERIALIZATION_PROCESSOR_GENERATOR_PROVIDER.provideCspDataProcessorGenerator(), cspDataMessage);
+    }
 }

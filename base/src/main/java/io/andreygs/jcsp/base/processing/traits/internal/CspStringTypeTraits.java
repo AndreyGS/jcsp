@@ -25,6 +25,8 @@
 
 package io.andreygs.jcsp.base.processing.traits.internal;
 
+import io.andreygs.jcsp.base.processing.traits.ICspReferenceTypeTraits;
+
 import java.nio.charset.Charset;
 
 /**
@@ -39,6 +41,19 @@ final class CspStringTypeTraits extends CspReferenceTypeTraits
     {
         super(String.class, reference);
         this.charset = charset;
+    }
+
+    @Override
+    public ICspReferenceTypeTraits obtainInstanceWithOverriddenReferenceTrait(boolean reference)
+    {
+        if (isReference() != reference)
+        {
+            return new CspStringTypeTraits(reference, charset);
+        }
+        else
+        {
+            return this;
+        }
     }
 
     @Override

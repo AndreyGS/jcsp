@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,7 +22,36 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-@NotNullByDefault
-package io.andreygs.jcsp.base.processing.session;
 
-import org.jetbrains.annotations.NotNullByDefault;
+package io.andreygs.jcsp.base.message.internal;
+
+import io.andreygs.jcsp.base.message.ICspDataMessage;
+import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
+import io.andreygs.jcsp.base.types.CspCommonFlag;
+import io.andreygs.jcsp.base.types.CspDataFlag;
+import io.andreygs.jcsp.base.types.CspProtocolVersion;
+import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
+import io.andreygs.jcsp.base.types.ICspVersionable;
+
+import java.util.Set;
+
+/**
+ * Sole implementation of {@link ICspMessageFactory}.
+ * <p>
+ * Creates following class instances:
+ * <ul>
+ *     <li>{@link ICspDataMessage} -> {@link CspDataMessage}</li>
+ * </ul>
+ */
+public final class CspMessageFactory
+    implements ICspMessageFactory
+{
+    @Override
+    public ICspDataMessage createCspDataMessage(ICspBuffer cspBuffer, CspProtocolVersion cspProtocolVersion,
+        Set<CspCommonFlag> cspCommonFlags, ICspVersionable struct, Class<?> structClazz,
+        ICspInterfaceVersion cspInterfaceVersion, Set<CspDataFlag> cspDataFlags)
+    {
+        return new CspDataMessage(cspBuffer, cspProtocolVersion, cspCommonFlags, struct, structClazz,
+            cspInterfaceVersion, cspDataFlags);
+    }
+}

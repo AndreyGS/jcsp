@@ -25,323 +25,329 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
+import io.andreygs.jcsp.base.message.ICspDataMessage;
 import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
-import io.andreygs.jcsp.base.processing.session.ICspDataSerializationSession;
 import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraits;
+import io.andreygs.jcsp.base.processing.traits.ICspReferenceTypeTraits;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * The sole implementation of {@link ICspDataGeneralSerializationProcessor}.
  * <p>
- * It uses {@link ICspDataSerializationSession} to get respective serialization settings
- * and {@link ICspSerializationBuffer}.write(...) methods to write raw values of primitives and primitive arrays.
  *
  */
 final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSerializationProcessor
 {
-    private ICspDataProcessorGenerator<ICspDataSerializationProcessor> cspDataProcessorGenerator;
+    private final ICspSerializationBuffer cspSerializationBuffer;
+    private final ICspDataProcessorRegistry<ICspDataSerializationProcessor> cspProcessorRegistry;
+    private final ICspDataProcessorGenerator<ICspDataSerializationProcessor> cspDataProcessorGenerator;
+    private final ICspDataMessage cspDataMessage;
+    private @Nullable Stack<ICspGenericTypeTraits> cspGenericTypeTraits;
+    private final @Nullable Map<Object, Integer> referenceMap;
 
     CspDataGeneralSerializationProcessor(
-        ICspDataProcessorGenerator<ICspDataSerializationProcessor> cspDataProcessorGenerator)
+        ICspSerializationBuffer cspSerializationBuffer,
+        ICspDataProcessorRegistry<ICspDataSerializationProcessor> cspProcessorRegistry,
+        ICspDataProcessorGenerator<ICspDataSerializationProcessor> cspDataProcessorGenerator,
+        ICspDataMessage cspDataMessage)
     {
+        this.cspSerializationBuffer = cspSerializationBuffer;
+        this.cspProcessorRegistry = cspProcessorRegistry;
         this.cspDataProcessorGenerator = cspDataProcessorGenerator;
+        this.cspDataMessage = cspDataMessage;
+        referenceMap = cspDataMessage.isCheckRecursivePointers() ? new HashMap<Object, Integer>() : null;
     }
 
     @Override
-    public void serialize(boolean value, ICspDataSerializationSession session)
+    public void serialize(boolean value)
+    {
+    }
+
+    @Override
+    public void serializeByte(byte value)
     {
 
     }
 
     @Override
-    public void serializeByte(byte value, ICspDataSerializationSession session)
+    public void serializeShort(short value)
     {
 
     }
 
     @Override
-    public void serializeShort(short value, ICspDataSerializationSession session)
+    public void serializeInt(int value)
     {
 
     }
 
     @Override
-    public void serializeInt(int value, ICspDataSerializationSession session)
+    public void serializeLong(long value)
     {
 
     }
 
     @Override
-    public void serializeLong(long value, ICspDataSerializationSession session)
+    public void serializeChar(char value)
     {
 
     }
 
     @Override
-    public void serializeChar(char value, ICspDataSerializationSession session)
+    public void serializeFloat(float value)
     {
 
     }
 
     @Override
-    public void serializeFloat(float value, ICspDataSerializationSession session)
+    public void serializeDouble(double value)
     {
 
     }
 
     @Override
-    public void serializeDouble(double value, ICspDataSerializationSession session)
+    public void serialize(boolean[] value)
     {
 
     }
 
     @Override
-    public void serialize(boolean[] value, ICspDataSerializationSession session)
+    public void serialize(boolean @Nullable [] value, boolean reference, boolean fixedSize)
     {
 
     }
 
     @Override
-    public void serialize(boolean @Nullable [] value, boolean reference, boolean fixedSize,
-                          ICspDataSerializationSession session)
+    public void serialize(byte[] value)
     {
 
     }
 
     @Override
-    public void serialize(byte[] value, ICspDataSerializationSession session)
+    public void serialize(byte @Nullable [] value, boolean reference, boolean fixedSize)
     {
 
     }
 
     @Override
-    public void serialize(byte @Nullable [] value, boolean reference, boolean fixedSize,
-                          ICspDataSerializationSession session)
+    public void serialize(short[] value)
     {
 
     }
 
     @Override
-    public void serialize(short[] value, ICspDataSerializationSession session)
+    public void serialize(short @Nullable [] value, boolean reference, boolean fixedSize)
     {
 
     }
 
     @Override
-    public void serialize(short @Nullable [] value, boolean reference, boolean fixedSize,
-                          ICspDataSerializationSession session)
+    public void serialize(int[] value)
     {
 
     }
 
     @Override
-    public void serialize(int[] value, ICspDataSerializationSession session)
+    public void serialize(int @Nullable [] value, boolean reference, boolean fixedSize)
     {
 
     }
 
     @Override
-    public void serialize(int @Nullable [] value, boolean reference, boolean fixedSize,
-                          ICspDataSerializationSession session)
+    public void serialize(long[] value)
     {
 
     }
 
     @Override
-    public void serialize(long[] value, ICspDataSerializationSession session)
+    public void serialize(long @Nullable [] value, boolean reference, boolean fixedSize)
     {
 
     }
 
     @Override
-    public void serialize(long @Nullable [] value, boolean reference, boolean fixedSize,
-                          ICspDataSerializationSession session)
+    public void serialize(char[] value)
     {
 
     }
 
     @Override
-    public void serialize(char[] value, ICspDataSerializationSession session)
+    public void serialize(char @Nullable [] value, boolean reference, boolean fixedSize)
     {
 
     }
 
     @Override
-    public void serialize(char @Nullable [] value, boolean reference, boolean fixedSize,
-                          ICspDataSerializationSession session)
+    public void serialize(float[] value)
     {
 
     }
 
     @Override
-    public void serialize(float[] value, ICspDataSerializationSession session)
+    public void serialize(float @Nullable [] value, boolean reference, boolean fixedSize)
     {
 
     }
 
     @Override
-    public void serialize(float @Nullable [] value, boolean reference, boolean fixedSize,
-                          ICspDataSerializationSession session)
+    public void serialize(double[] value)
     {
 
     }
 
     @Override
-    public void serialize(double[] value, ICspDataSerializationSession session)
+    public void serialize(double @Nullable [] value, boolean reference, boolean fixedSize)
     {
 
     }
 
     @Override
-    public void serialize(double @Nullable [] value, boolean reference, boolean fixedSize,
-                          ICspDataSerializationSession session)
+    public void serialize(String value, Charset charset)
     {
 
     }
 
     @Override
-    public void serialize(String value, Charset charset, ICspDataSerializationSession session)
+    public void serialize(@Nullable String value, boolean reference, Charset charset)
     {
 
     }
 
     @Override
-    public void serialize(@Nullable String value, boolean reference, Charset charset,
-                          ICspDataSerializationSession session)
+    public void serialize(Object value, Class<?> clazz)
     {
 
     }
 
     @Override
-    public void serialize(Object value, Class<?> clazz, ICspDataSerializationSession session)
+    public void serialize(Object value, boolean reference, Class<?> clazz)
     {
 
     }
 
     @Override
-    public void serialize(Object value, boolean reference, Class<?> clazz, ICspDataSerializationSession session)
+    public <T> void serialize(T[] value, Class<?> elementClazz)
     {
 
     }
 
     @Override
-    public void serialize(@Nullable Object value, ICspGenericTypeTraits cspObjectTypeTraits,
-                          ICspDataSerializationSession session)
+    public <T> void serialize(T[] value, boolean reference, Class<?> elementClazz)
     {
 
     }
 
     @Override
-    public <T> void serialize(T[] value, Class<?> elementClazz, ICspDataSerializationSession session)
+    public void serialize(String[] value, Charset charset)
     {
 
     }
 
     @Override
-    public <T> void serialize(T[] value, boolean reference, Class<?> elementClazz,
-                              ICspDataSerializationSession session)
+    public void serialize(String[] value, boolean reference, Charset charset)
     {
 
     }
 
     @Override
-    public void serialize(String[] value, Charset charset, ICspDataSerializationSession session)
+    public <T> void serialize(Collection<T> value, Class<?> elementClazz)
     {
 
     }
 
     @Override
-    public void serialize(String[] value, boolean reference, Charset charset, ICspDataSerializationSession session)
+    public <T> void serialize(Collection<T> value, boolean reference, boolean valueAsReference, Class<?> elementClazz)
     {
 
     }
 
     @Override
-    public <T> void serialize(Collection<T> value, Class<?> elementClazz, ICspDataSerializationSession session)
+    public void serialize(Collection<String> value, Charset charset)
     {
 
     }
 
     @Override
-    public <T> void serialize(Collection<T> value, boolean reference, boolean valueAsReference, Class<?> elementClazz,
-                              ICspDataSerializationSession session)
+    public void serialize(Collection<String> value, boolean reference, boolean valueAsReference, Charset charset)
     {
 
     }
 
     @Override
-    public void serialize(Collection<String> value, Charset charset, ICspDataSerializationSession session)
-    {
-
-    }
-
-    @Override
-    public void serialize(Collection<String> value, boolean reference, boolean valueAsReference, Charset charset,
-                          ICspDataSerializationSession session)
-    {
-
-    }
-
-    @Override
-    public <K, V> void serialize(Map<K, V> value, Class<?> keyClazz, Class<?> valueClazz,
-                                 ICspDataSerializationSession session)
+    public <K, V> void serialize(Map<K, V> value, Class<?> keyClazz, Class<?> valueClazz)
     {
 
     }
 
     @Override
     public <K, V> void serialize(Map<K, V> value, boolean reference, boolean keyAsReference, boolean valueAsRefence,
-                                 Class<?> keyClazz, Class<?> valueClazz, ICspDataSerializationSession session)
+                                 Class<?> keyClazz, Class<?> valueClazz)
     {
 
     }
 
     @Override
-    public <K> void serialize(Map<K, String> value, Class<?> keyClazz, Charset valueCharset,
-                              ICspDataSerializationSession session)
+    public <K> void serialize(Map<K, String> value, Class<?> keyClazz, Charset valueCharset)
     {
 
     }
 
     @Override
     public <K> void serialize(Map<K, String> value, boolean reference, boolean keyAsReference, boolean valueAsRefence,
-                              Class<?> keyClazz, Charset valueCharset, ICspDataSerializationSession session)
+                              Class<?> keyClazz, Charset valueCharset)
     {
 
     }
 
     @Override
-    public <V> void serialize(Map<String, V> value, Charset keyCharset, Class<?> valueClazz,
-                              ICspDataSerializationSession session)
+    public <V> void serialize(Map<String, V> value, Charset keyCharset, Class<?> valueClazz)
     {
 
     }
 
     @Override
     public <V> void serialize(Map<String, V> value, boolean reference, boolean keyAsReference, boolean valueAsRefence,
-                              Charset keyCharset, Class<?> valueClazz, ICspDataSerializationSession session)
+                              Charset keyCharset, Class<?> valueClazz)
     {
 
     }
 
     @Override
-    public void serialize(Map<String, String> value, Charset keyCharset, Charset valueCharset,
-                          ICspDataSerializationSession session)
+    public void serialize(Map<String, String> value, Charset keyCharset, Charset valueCharset)
     {
 
     }
 
     @Override
     public void serialize(Map<String, String> value, boolean reference, boolean keyAsReference,
-                          boolean valueAsRefence, Charset keyCharset, Charset valueCharset,
-                          ICspDataSerializationSession session)
+                          boolean valueAsRefence, Charset keyCharset, Charset valueCharset)
     {
 
+    }
+
+    @Override
+    public void serializeCustomGenericType(@Nullable Object value, ICspGenericTypeTraits cspGenericTypeTraits)
+    {
+
+    }
+
+    @Override
+    public List<? extends ICspReferenceTypeTraits> peekGenericTypeParametersTraits()
+    {
+        if (cspGenericTypeTraits == null || cspGenericTypeTraits.empty())
+        {
+            throw new IllegalStateException("typeTraits are not present when they should be!");
+        }
+        return cspGenericTypeTraits.peek().getGenericTypeParametersTraits();
     }
 }

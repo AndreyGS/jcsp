@@ -1,11 +1,4 @@
 /**
- * Package containing states for CSP message serialziation and deserialization processes.
- * <p>
- * All states here are not contain any logic and are used only as containers of neccessary settings
- * that are need in serailization and deserialization processes. Besides that they are also represents
- * implementations of {@link io.andreygs.jcsp.base.message.ICspMessage} and when message build or extraction
- * is complete it returns to user with respective interface.
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -29,7 +22,22 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-@NotNullByDefault
-package io.andreygs.jcsp.base.processing.session.internal;
 
-import org.jetbrains.annotations.NotNullByDefault;
+package io.andreygs.jcsp.base.processing.internal;
+
+import io.andreygs.jcsp.base.message.ICspDataMessage;
+import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistry;
+import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
+import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
+
+/**
+ * TODO: place description here
+ */
+public interface ICspDataGeneralSerializationProcessorFactory
+{
+    ICspDataGeneralSerializationProcessor createGeneralSerializationProcessor(
+        ICspSerializationBuffer cspSerializationBuffer,
+        ICspDataProcessorRegistry<ICspDataSerializationProcessor> cspProcessorRegistry,
+        ICspDataMessage cspDataMessage);
+}

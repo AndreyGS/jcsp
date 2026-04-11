@@ -32,7 +32,7 @@ import io.andreygs.jcsp.base.types.CspRuntimeException;
  * <p>
  * It has immutable state.
  */
-interface ICspDataProcessorGenerator<P>
+public interface ICspDataProcessorGenerator<P>
 {
     /**
      * Generates data processor.

@@ -23,16 +23,42 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.session.internal;
+package io.andreygs.jcsp.base.message.internal;
 
-import io.andreygs.jcsp.base.message.ICspMessage;
+import io.andreygs.jcsp.base.message.ICspStatusMessage;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
+import io.andreygs.jcsp.base.types.CspCommonFlag;
+import io.andreygs.jcsp.base.types.CspMessageType;
+import io.andreygs.jcsp.base.types.CspProtocolVersion;
+import io.andreygs.jcsp.base.types.CspStatus;
+
+import java.util.Set;
 
 /**
  * TODO: place description here
  */
-interface ICspCommonProcessingSession<B extends ICspBuffer>
-    extends ICspMessage
+final class CspStatusMessage
+    extends AbstractCspMessage
+    implements ICspStatusMessage
 {
-    B getCspBuffer();
+    private final CspStatus cspStatus;
+
+    public CspStatusMessage(ICspBuffer cspBuffer, CspProtocolVersion cspProtocolVersion,
+        Set<CspCommonFlag> cspCommonFlags, CspStatus cspStatus)
+    {
+        super(cspBuffer, cspProtocolVersion, cspCommonFlags);
+        this.cspStatus = cspStatus;
+    }
+
+    @Override
+    public CspMessageType getCspMessageType()
+    {
+        return CspMessageType.STATUS;
+    }
+
+    @Override
+    public CspStatus getStatus()
+    {
+        return cspStatus;
+    }
 }

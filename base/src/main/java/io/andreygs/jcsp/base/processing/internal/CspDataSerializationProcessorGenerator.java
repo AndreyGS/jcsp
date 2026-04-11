@@ -25,8 +25,8 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
+import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
-import io.andreygs.jcsp.base.processing.session.ICspDataSerializationSession;
 import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraitsBuilderFactory;
 
 import java.lang.reflect.Field;
@@ -48,8 +48,7 @@ final class CspDataSerializationProcessorGenerator
     @Override
     protected void addParentClass(Class<?> parentClazz, List<ICspDataSerializationProcessor> callbacks)
     {
-        callbacks.add((value, session) ->
-                          session.getCspDataGeneralProcessor().serialize(value, parentClazz, session));
+        callbacks.add((value, generalProcessor) -> generalProcessor.serialize(value, parentClazz));
     }
 
     @Override
@@ -75,9 +74,9 @@ final class CspDataSerializationProcessorGenerator
         }
 
         @Override
-        public void serialize(Object value, ICspDataSerializationSession session)
+        public void serialize(Object value, ICspDataGeneralSerializationProcessor generalProcessor)
         {
-            callbacks.forEach(callback -> callback.serialize(value, session));
+            callbacks.forEach(callback -> callback.serialize(value, generalProcessor));
         }
     }
 }

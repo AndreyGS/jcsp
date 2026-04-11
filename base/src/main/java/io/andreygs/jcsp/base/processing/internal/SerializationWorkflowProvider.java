@@ -26,7 +26,7 @@
 package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.buffer.internal.CspSerializationBufferFactory;
-import io.andreygs.jcsp.base.processing.session.internal.CspSerializationSessionFactory;
+import io.andreygs.jcsp.base.message.internal.CspMessageFactory;
 
 /**
  * TODO: place description here
@@ -41,8 +41,8 @@ public final class SerializationWorkflowProvider
      */
     private static final ISerializationWorkflow DEFAULT_SERIALIZATION_WORKFLOW =
         new SerializationWorkflow(new CspSerializationBufferFactory(),
-                                  new CspDataGeneralSerializationProcessorProvider().provideGeneralSerializationProcessor(),
-                                  new CspSerializationSessionFactory());
+                                  new CspMessageFactory(),
+                                  new CspDataGeneralSerializationProcessorFactory());
     @Override
     public ISerializationWorkflow provideWorkflow()
     {

@@ -25,6 +25,8 @@
 
 package io.andreygs.jcsp.base.processing.traits.internal;
 
+import io.andreygs.jcsp.base.processing.traits.ICspReferenceTypeTraits;
+
 import java.util.List;
 
 /**
@@ -42,6 +44,31 @@ final class CspArrayWithGenericTypeParameterTypeTraits extends CspGenericTypeTra
         super(arrayClazz, dimensionReferenceFlags.get(0), 1);
         this.dimensionReferenceFlags = List.copyOf(dimensionReferenceFlags);
         this.dimensionFixedSizeFlags = List.copyOf(dimensionFixedSizeFlags);
+    }
+
+    private CspArrayWithGenericTypeParameterTypeTraits(Class<?> arrayClazz,
+        List<Boolean> dimensionReferenceFlags, List<Boolean> dimensionFixedSizeFlags, boolean noCopyTag)
+    {
+        super(arrayClazz, dimensionReferenceFlags.get(0), 1);
+        this.dimensionReferenceFlags = dimensionReferenceFlags;
+        this.dimensionFixedSizeFlags = dimensionFixedSizeFlags;
+    }
+
+    @Override
+    public ICspReferenceTypeTraits obtainInstanceWithOverriddenReferenceTrait(boolean reference)
+    {
+        if (isReference() != reference)
+        {
+            CspGenericTypeTraits cspGenericTypeTraits = new CspArrayWithGenericTypeParameterTypeTraits(getClazz(),
+                dimensionReferenceFlags, dimensionFixedSizeFlags, true);
+            List<? extends ICspReferenceTypeTraits> genericTypeParametersTraits = getGenericTypeParametersTraits();
+            genericTypeParametersTraits.forEach(cspGenericTypeTraits::addGenericTypeTraitsParameter);
+            return cspGenericTypeTraits;
+        }
+        else
+        {
+            return this;
+        }
     }
 
     @Override

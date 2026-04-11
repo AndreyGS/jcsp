@@ -23,8 +23,9 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.session.internal;
+package io.andreygs.jcsp.base.message.internal;
 
+import io.andreygs.jcsp.base.message.ICspMessage;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
@@ -36,30 +37,23 @@ import java.util.Set;
 /**
  * TODO: place description here
  */
-abstract class AbstractCspCommonProcessingSession<B extends ICspBuffer>
-    implements ICspCommonProcessingSession<B>
+abstract class AbstractCspMessage
+    implements ICspMessage
 {
-    private final B cspBuffer;
+    private final ICspBuffer cspBuffer;
     private final CspProtocolVersion cspProtocolVersion;
     private final boolean bitness32;
     private final boolean bigEndian;
     private final boolean endiannessDifference;
 
-    public AbstractCspCommonProcessingSession(B cspBuffer,
-                                              CspProtocolVersion cspProtocolVersion,
-                                              Set<CspCommonFlag> cspCommonFlags)
+    public AbstractCspMessage(ICspBuffer cspBuffer, CspProtocolVersion cspProtocolVersion,
+        Set<CspCommonFlag> cspCommonFlags)
     {
         this.cspBuffer = cspBuffer;
         this.cspProtocolVersion = cspProtocolVersion;
         this.bitness32 = cspCommonFlags.contains(CspCommonFlag.BITNESS_32);
         this.bigEndian = cspCommonFlags.contains(CspCommonFlag.BIG_ENDIAN);
         this.endiannessDifference =cspCommonFlags.contains(CspCommonFlag.ENDIANNESS_DIFFERENCE);
-    }
-
-    @Override
-    public B getCspBuffer()
-    {
-        return cspBuffer;
     }
 
     @Override

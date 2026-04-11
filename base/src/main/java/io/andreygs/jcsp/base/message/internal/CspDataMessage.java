@@ -23,36 +23,27 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.session.internal;
+package io.andreygs.jcsp.base.message.internal;
 
-import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistry;
+import io.andreygs.jcsp.base.message.ICspDataMessage;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
-import io.andreygs.jcsp.base.processing.traits.ICspReferenceTypeTraits;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.CspMessageType;
 import io.andreygs.jcsp.base.types.CspProtocolVersion;
 import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
 import io.andreygs.jcsp.base.types.ICspVersionable;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.Stack;
 
 /**
  * TODO: place description here
  */
-abstract class AbstractCspDataProcessingSession<B extends ICspBuffer, G, P, K, V>
-    extends AbstractCspCommonProcessingSession<B>
-    implements ICspDataProcessingSession<B, G, P, K, V>
+final class CspDataMessage
+    extends AbstractCspMessage
+    implements ICspDataMessage
 {
-    private final G cspGeneralProcessor;
-    private final ICspDataProcessorRegistry<P> cspProcessorRegistrar;
-    private @Nullable Stack<List<ICspReferenceTypeTraits>> typeTraits;
-    private final @Nullable Map<K, V> referenceMap;
     private final ICspVersionable struct;
     private final Class<?> structClazz;
     private final ICspInterfaceVersion cspInterfaceVersion;
@@ -63,21 +54,11 @@ abstract class AbstractCspDataProcessingSession<B extends ICspBuffer, G, P, K, V
     private final boolean simplyAssignableTagsOptimizationsAreTurnedOff;
     private final boolean checkRecursivePointersWhileMaintainingLinkStructure;
 
-    public AbstractCspDataProcessingSession(B cspBuffer,
-                                            CspProtocolVersion cspProtocolVersion,
-                                            Set<CspCommonFlag> cspCommonFlags,
-                                            G cspGeneralProcessor,
-                                            ICspDataProcessorRegistry<P> cspProcessorRegistrar,
-                                            @Nullable Map<K, V> referenceMap,
-                                            ICspVersionable struct,
-                                            Class<?> structClazz,
-                                            ICspInterfaceVersion cspInterfaceVersion,
-                                            Set<CspDataFlag> cspDataFlags)
+    public CspDataMessage(ICspBuffer cspBuffer, CspProtocolVersion cspProtocolVersion, Set<CspCommonFlag> cspCommonFlags,
+        ICspVersionable struct, Class<?> structClazz, ICspInterfaceVersion cspInterfaceVersion,
+        Set<CspDataFlag> cspDataFlags)
     {
         super(cspBuffer, cspProtocolVersion, cspCommonFlags);
-        this.cspGeneralProcessor = cspGeneralProcessor;
-        this.cspProcessorRegistrar = cspProcessorRegistrar;
-        this.referenceMap = referenceMap;
         this.struct = struct;
         this.structClazz = structClazz;
         this.cspInterfaceVersion = cspInterfaceVersion;
@@ -92,42 +73,9 @@ abstract class AbstractCspDataProcessingSession<B extends ICspBuffer, G, P, K, V
     }
 
     @Override
-    public G getCspDataGeneralProcessor()
-    {
-        return cspGeneralProcessor;
-    }
-
-    @Override
     public CspMessageType getCspMessageType()
     {
         return CspMessageType.DATA;
-    }
-
-    @Override
-    public ICspDataProcessorRegistry<P> getCspProcessorRegistrar()
-    {
-        return cspProcessorRegistrar;
-    }
-
-    @Override
-    public List<ICspReferenceTypeTraits> peekGenericTypeParameterTraits()
-    {
-        if (typeTraits == null)
-        {
-            throw new IllegalStateException("typeTraits are not initialized when they should already be!");
-        }
-        return typeTraits.peek();
-    }
-
-    @Override
-    public Map<K, V> getReferenceMap()
-    {
-        if (referenceMap == null)
-        {
-            throw new IllegalStateException("getReferenceMap is called when it shouldn't be called or "
-                                                + "reference map is not initialized when it should be initialized!");
-        }
-        return referenceMap;
     }
 
     @Override

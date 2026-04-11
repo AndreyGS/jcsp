@@ -40,8 +40,6 @@ package io.andreygs.jcsp.base.processing.traits;
  *     <li>{@link Class} type</li>
  *     <li>Should object be serialized/deserialized as reference or not</li>
  * </ul>
- *
- * @see ICspGenericTypeTraitsBuilder
  */
 public interface ICspReferenceTypeTraits
 {
@@ -60,7 +58,7 @@ public interface ICspReferenceTypeTraits
     boolean isReference();
 
     /**
-     * Copying current instance with overridden reference trait.
+     * Obtains instance of {@link ICspReferenceTypeTraits} with the same traits but with overridden reference trait.
      * <p>
      * This can be useful when processing generic object which itself has some generic field with at least one generic
      * type defined by class but wants to threat it always like reference or embedded object regardless of object type
@@ -82,7 +80,7 @@ public interface ICspReferenceTypeTraits
      * The given example is not a guide for action for every similar class processing, but only shows when and how you
      * can use this method if you ever need it.
      *
-     * @return copy of current instance that can be safely used without changing of original one.
+     * @return copy of or the same instance that can be safely used without changing of original one.
      */
-    ICspReferenceTypeTraits copyWithOverriddenReferenceTrait(boolean reference);
+    ICspReferenceTypeTraits obtainInstanceWithOverriddenReferenceTrait(boolean reference);
 }

@@ -25,6 +25,8 @@
 
 package io.andreygs.jcsp.base.processing.traits.internal;
 
+import io.andreygs.jcsp.base.processing.traits.ICspReferenceTypeTraits;
+
 /**
  * TODO: place description here
  */
@@ -37,6 +39,12 @@ final class CspMultiLevelPointerWithGenericTypeParameterTypeTraits extends CspGe
     {
         super(clazz, true, 1);
         this.pointerLevelNumber = pointerLevelNumber;
+    }
+
+    @Override
+    public ICspReferenceTypeTraits obtainInstanceWithOverriddenReferenceTrait(boolean reference)
+    {
+        return this;
     }
 
     @Override

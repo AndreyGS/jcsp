@@ -49,10 +49,27 @@ class CspGenericTypeTraits extends CspReferenceTypeTraits
     }
 
     @Override
+    public ICspReferenceTypeTraits obtainInstanceWithOverriddenReferenceTrait(boolean reference)
+    {
+        if (isReference() != reference)
+        {
+            CspGenericTypeTraits cspGenericTypeTraits = new CspGenericTypeTraits(getClazz(), reference,
+                typeParametersNumber);
+            cspGenericTypeTraits.genericTypeParametersTypeTraits.addAll(genericTypeParametersTypeTraits);
+            return cspGenericTypeTraits;
+        }
+        else
+        {
+            return this;
+        }
+    }
+
+    @Override
     public List<? extends ICspReferenceTypeTraits> getGenericTypeParametersTraits()
     {
         return Collections.unmodifiableList(genericTypeParametersTypeTraits);
     }
+
 
     @Override
     public boolean addGenericTypeTraitsParameter(ICspReferenceTypeTraits cspReferenceTypeTraits)

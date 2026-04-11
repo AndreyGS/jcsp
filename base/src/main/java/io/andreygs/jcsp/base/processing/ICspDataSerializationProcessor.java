@@ -25,12 +25,10 @@
 
 package io.andreygs.jcsp.base.processing;
 
-import io.andreygs.jcsp.base.processing.session.ICspDataSerializationSession;
-
 /**
  * TODO: place description here
  */
 public interface ICspDataSerializationProcessor
 {
-    void serialize(Object value, ICspDataSerializationSession session);
+    void serialize(Object value, ICspDataGeneralSerializationProcessor generalProcessor);
 }

@@ -25,6 +25,8 @@
 
 package io.andreygs.jcsp.base.processing.traits.internal;
 
+import io.andreygs.jcsp.base.processing.traits.ICspReferenceTypeTraits;
+
 import java.util.List;
 
 /**
@@ -42,6 +44,28 @@ final class CspArrayWithPrimitiveTypeParameterTypeTraits extends CspReferenceTyp
         super(arrayClazz, dimensionReferenceFlags.get(0));
         this.dimensionReferenceFlags = List.copyOf(dimensionReferenceFlags);
         this.dimensionFixedSizeFlags = List.copyOf(dimensionFixedSizeFlags);
+    }
+
+    private CspArrayWithPrimitiveTypeParameterTypeTraits(Class<?> arrayClazz,
+        List<Boolean> dimensionReferenceFlags, List<Boolean> dimensionFixedSizeFlags, boolean noCopyTag)
+    {
+        super(arrayClazz, dimensionReferenceFlags.get(0));
+        this.dimensionReferenceFlags = dimensionReferenceFlags;
+        this.dimensionFixedSizeFlags = dimensionFixedSizeFlags;
+    }
+
+    @Override
+    public ICspReferenceTypeTraits obtainInstanceWithOverriddenReferenceTrait(boolean reference)
+    {
+        if (isReference() != reference)
+        {
+            return new CspArrayWithPrimitiveTypeParameterTypeTraits(getClazz(), dimensionReferenceFlags,
+                dimensionFixedSizeFlags, true);
+        }
+        else
+        {
+            return this;
+        }
     }
 
     @Override
