@@ -48,7 +48,6 @@ final class CspDataSerializationSession
                                                 ICspDataSerializationProcessor, Object, Integer>
     implements ICspDataSerializationSession
 {
-
     public CspDataSerializationSession(ICspSerializationBuffer cspBuffer, CspProtocolVersion cspProtocolVersion,
                                        Set<CspCommonFlag> cspCommonFlags,
                                        ICspDataGeneralSerializationProcessor cspGeneralProcessor,

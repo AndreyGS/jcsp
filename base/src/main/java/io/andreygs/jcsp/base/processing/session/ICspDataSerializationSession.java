@@ -35,6 +35,6 @@ import io.andreygs.jcsp.base.processing.session.internal.ICspDataProcessingSessi
  */
 public interface ICspDataSerializationSession
     extends ICspDataProcessingSession<ICspSerializationBuffer, ICspDataGeneralSerializationProcessor,
-                                         ICspDataSerializationProcessor, Object, Integer>
+        ICspDataSerializationProcessor, Object, Integer>
 {
 }

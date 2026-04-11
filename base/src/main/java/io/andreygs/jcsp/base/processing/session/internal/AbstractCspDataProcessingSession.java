@@ -27,6 +27,7 @@ package io.andreygs.jcsp.base.processing.session.internal;
 
 import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
+import io.andreygs.jcsp.base.processing.traits.ICspReferenceTypeTraits;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.CspMessageType;
@@ -36,8 +37,10 @@ import io.andreygs.jcsp.base.types.ICspVersionable;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 /**
  * TODO: place description here
@@ -48,6 +51,7 @@ abstract class AbstractCspDataProcessingSession<B extends ICspBuffer, G, P, K, V
 {
     private final G cspGeneralProcessor;
     private final ICspDataProcessorRegistry<P> cspProcessorRegistrar;
+    private @Nullable Stack<List<ICspReferenceTypeTraits>> typeTraits;
     private final @Nullable Map<K, V> referenceMap;
     private final ICspVersionable struct;
     private final Class<?> structClazz;
@@ -106,9 +110,23 @@ abstract class AbstractCspDataProcessingSession<B extends ICspBuffer, G, P, K, V
     }
 
     @Override
-    @Nullable
+    public List<ICspReferenceTypeTraits> peekGenericTypeParameterTraits()
+    {
+        if (typeTraits == null)
+        {
+            throw new IllegalStateException("typeTraits are not initialized when they should already be!");
+        }
+        return typeTraits.peek();
+    }
+
+    @Override
     public Map<K, V> getReferenceMap()
     {
+        if (referenceMap == null)
+        {
+            throw new IllegalStateException("getReferenceMap is called when it shouldn't be called or "
+                                                + "reference map is not initialized when it should be initialized!");
+        }
         return referenceMap;
     }
 
@@ -134,7 +152,6 @@ abstract class AbstractCspDataProcessingSession<B extends ICspBuffer, G, P, K, V
     public Set<CspDataFlag> getCspDataFlags()
     {
         Set<CspDataFlag> cspDataFlags = EnumSet.noneOf(CspDataFlag.class);
-
         if (alignmentMayBeNotEqual)
         {
             cspDataFlags.add(CspDataFlag.ALIGNMENT_MAY_BE_NOT_EQUAL);
@@ -159,7 +176,6 @@ abstract class AbstractCspDataProcessingSession<B extends ICspBuffer, G, P, K, V
         {
             cspDataFlags.add(CspDataFlag.CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE);
         }
-
         return cspDataFlags;
     }
 

@@ -28,7 +28,6 @@ package io.andreygs.jcsp.base.processing.traits;
 import io.andreygs.jcsp.base.processing.traits.annotations.CspReference;
 import io.andreygs.jcsp.base.processing.traits.annotations.CspStringCharset;
 import io.andreygs.jcsp.base.processing.traits.annotations.CspFixedSizeArray;
-import io.andreygs.jcsp.base.processing.traits.internal.ICspReferenceTypeTraits;
 
 import java.nio.charset.Charset;
 import java.util.List;

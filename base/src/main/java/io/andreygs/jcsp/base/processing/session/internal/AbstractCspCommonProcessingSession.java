@@ -78,7 +78,6 @@ abstract class AbstractCspCommonProcessingSession<B extends ICspBuffer>
     public final Set<CspCommonFlag> getCspCommonFlags()
     {
         Set<CspCommonFlag> cspCommonFlags = EnumSet.noneOf(CspCommonFlag.class);
-
         if (bitness32)
         {
             cspCommonFlags.add(CspCommonFlag.BITNESS_32);
@@ -91,7 +90,6 @@ abstract class AbstractCspCommonProcessingSession<B extends ICspBuffer>
         {
             cspCommonFlags.add(CspCommonFlag.ENDIANNESS_DIFFERENCE);
         }
-
         return cspCommonFlags;
     }
 

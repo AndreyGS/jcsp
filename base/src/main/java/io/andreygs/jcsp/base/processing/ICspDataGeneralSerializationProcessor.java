@@ -28,6 +28,7 @@ package io.andreygs.jcsp.base.processing;
 import io.andreygs.jcsp.base.processing.session.ICspDataSerializationSession;
 import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraits;
 import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraitsBuilder;
+import io.andreygs.jcsp.base.processing.traits.ICspReferenceTypeTraits;
 import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.CspRuntimeException;
 import io.andreygs.jcsp.base.types.ICspVersionable;
@@ -35,6 +36,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -194,7 +196,7 @@ public interface ICspDataGeneralSerializationProcessor
      * by CSP interface.
      * <p>
      * Does the same thing as a call {@link #serialize(boolean[], boolean, boolean, ICspDataSerializationSession)}
-     * with false asReference and true fixedSize arguments.
+     * with false reference and true fixedSize arguments.
      *
      * @param value Value to serialize.
      * @param session Current serialization processing session
@@ -210,7 +212,7 @@ public interface ICspDataGeneralSerializationProcessor
      * <p>
      *    Conditions:
      *    <ul>
-     *        <li>asReference is set.</li>
+     *        <li>reference is set.</li>
      *    </ul>
      * <p>
      *    Notes:
@@ -219,7 +221,7 @@ public interface ICspDataGeneralSerializationProcessor
      *        in CSP reference.</li>
      *        <li>next steps will be done only if:
      *        <ol>
-     *            <li>asReference is not set or
+     *            <li>reference is not set or
      *            {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} is set or
      *            {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE} is set/</li>
      *            <li>This is the first object occurrence.</li>
@@ -241,30 +243,30 @@ public interface ICspDataGeneralSerializationProcessor
      * </ol>
      *
      * @param value Value to serialize.
-     * @param asReference Should field value be threatened as reference (CSP pointer).
-     *                    If true, then pointer mark will be added to serialized data, and if
-     *                    {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} or
-     *                    {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE}
-     *                    are set then only first occurrence of this object with the same option value
-     *                    will be serialized fully, all others would be referenced to the first one.
-     *                    If false, then no pointer mark to serialized data will be added, only size and elements will
-     *                    be serialized.
-     *                    <p>
-     *                    It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
+     * @param reference Should field value be threatened as reference (CSP pointer).
+     *                  If true, then pointer mark will be added to serialized data, and if
+     *                  {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} or
+     *                  {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE}
+     *                  are set then only first occurrence of this object with the same option value
+     *                  will be serialized fully, all others would be referenced to the first one.
+     *                  If false, then no pointer mark to serialized data will be added, only size and elements will
+     *                  be serialized.
+     *                  <p>
+     *                  It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
      * @param fixedSize If true, then it counts that this array has fixed size by its CSP Interface definition. So no
      *                  array length should be written and false otherwise.
      * @param session Current serialization processing session
-     * @throws CspRuntimeException if asReference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
+     * @throws CspRuntimeException if reference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(boolean @Nullable [] value, boolean asReference, boolean fixedSize,
-                   ICspDataSerializationSession session);
+    void serialize(boolean @Nullable [] value, boolean reference, boolean fixedSize,
+        ICspDataSerializationSession session);
 
     /**
      * Serializes byte[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
      * Does the same thing as a call {@link #serialize(byte[], boolean, boolean, ICspDataSerializationSession)}
-     * with false asReference and true fixedSize arguments.
+     * with false reference and true fixedSize arguments.
      *
      * @param value Value to serialize.
      * @param session Current serialization processing session
@@ -280,7 +282,7 @@ public interface ICspDataGeneralSerializationProcessor
      * <p>
      *    Conditions:
      *    <ul>
-     *        <li>asReference is set.</li>
+     *        <li>reference is set.</li>
      *    </ul>
      * <p>
      *    Notes:
@@ -289,7 +291,7 @@ public interface ICspDataGeneralSerializationProcessor
      *        in CSP reference.</li>
      *        <li>next steps will be done only if:
      *        <ol>
-     *            <li>asReference is not set or
+     *            <li>reference is not set or
      *            {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} is set or
      *            {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE} is set/</li>
      *            <li>This is the first object occurrence.</li>
@@ -318,30 +320,29 @@ public interface ICspDataGeneralSerializationProcessor
      * </ol>
      *
      * @param value Value to serialize.
-     * @param asReference Should field value be threatened as reference (CSP pointer).
-     *                    If true, then pointer mark will be added to serialized data, and if
-     *                    {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} or
-     *                    {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE}
-     *                    are set then only first occurrence of this object with the same option value
-     *                    will be serialized fully, all others would be referenced to the first one.
-     *                    If false, then no pointer mark to serialized data will be added, only size and elements will
-     *                    be serialized.
-     *                    <p>
-     *                    It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
+     * @param reference Should field value be threatened as reference (CSP pointer).
+     *                  If true, then pointer mark will be added to serialized data, and if
+     *                  {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} or
+     *                  {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE}
+     *                  are set then only first occurrence of this object with the same option value
+     *                  will be serialized fully, all others would be referenced to the first one.
+     *                  If false, then no pointer mark to serialized data will be added, only size and elements will
+     *                  be serialized.
+     *                  <p>
+     *                  It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
      * @param fixedSize If true, then it counts that this array has fixed size by its CSP Interface definition. So no
      *                  array length should be written and false otherwise.
      * @param session Current serialization processing session
-     * @throws CspRuntimeException if asReference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
+     * @throws CspRuntimeException if reference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(byte @Nullable [] value, boolean asReference, boolean fixedSize,
-                   ICspDataSerializationSession session);
+    void serialize(byte @Nullable [] value, boolean reference, boolean fixedSize, ICspDataSerializationSession session);
 
     /**
      * Serializes short[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
      * Does the same thing as a call {@link #serialize(short[], boolean, boolean, ICspDataSerializationSession)}
-     * with false asReference and true fixedSize arguments.
+     * with false reference and true fixedSize arguments.
      *
      * @param value Value to serialize.
      * @param session Current serialization processing session
@@ -357,7 +358,7 @@ public interface ICspDataGeneralSerializationProcessor
      * <p>
      *    Conditions:
      *    <ul>
-     *        <li>asReference is set.</li>
+     *        <li>reference is set.</li>
      *    </ul>
      * <p>
      *    Notes:
@@ -366,7 +367,7 @@ public interface ICspDataGeneralSerializationProcessor
      *        in CSP reference.</li>
      *        <li>next steps will be done only if:
      *        <ol>
-     *            <li>asReference is not set or
+     *            <li>reference is not set or
      *            {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} is set or
      *            {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE} is set/</li>
      *            <li>This is the first object occurrence.</li>
@@ -395,30 +396,30 @@ public interface ICspDataGeneralSerializationProcessor
      * </ol>
      *
      * @param value Value to serialize.
-     * @param asReference Should field value be threatened as reference (CSP pointer).
-     *                    If true, then pointer mark will be added to serialized data, and if
-     *                    {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} or
-     *                    {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE}
-     *                    are set then only first occurrence of this object with the same option value
-     *                    will be serialized fully, all others would be referenced to the first one.
-     *                    If false, then no pointer mark to serialized data will be added, only size and elements will
-     *                    be serialized.
-     *                    <p>
-     *                    It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
+     * @param reference Should field value be threatened as reference (CSP pointer).
+     *                  If true, then pointer mark will be added to serialized data, and if
+     *                  {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} or
+     *                  {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE}
+     *                  are set then only first occurrence of this object with the same option value
+     *                  will be serialized fully, all others would be referenced to the first one.
+     *                  If false, then no pointer mark to serialized data will be added, only size and elements will
+     *                  be serialized.
+     *                  <p>
+     *                  It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
      * @param fixedSize If true, then it counts that this array has fixed size by its CSP Interface definition. So no
      *                  array length should be written and false otherwise.
      * @param session Current serialization processing session
-     * @throws CspRuntimeException if asReference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
+     * @throws CspRuntimeException if reference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(short @Nullable [] value, boolean asReference, boolean fixedSize,
-                   ICspDataSerializationSession session);
+    void serialize(short @Nullable [] value, boolean reference, boolean fixedSize,
+        ICspDataSerializationSession session);
 
     /**
      * Serializes int[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
      * Does the same thing as a call {@link #serialize(int[], boolean, boolean, ICspDataSerializationSession)}
-     * with false asReference and true fixedSize arguments.
+     * with false reference and true fixedSize arguments.
      *
      * @param value Value to serialize.
      * @param session Current serialization processing session
@@ -434,7 +435,7 @@ public interface ICspDataGeneralSerializationProcessor
      * <p>
      *    Conditions:
      *    <ul>
-     *        <li>asReference is set.</li>
+     *        <li>reference is set.</li>
      *    </ul>
      * <p>
      *    Notes:
@@ -443,7 +444,7 @@ public interface ICspDataGeneralSerializationProcessor
      *        in CSP reference.</li>
      *        <li>next steps will be done only if:
      *        <ol>
-     *            <li>asReference is not set or
+     *            <li>reference is not set or
      *            {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} is set or
      *            {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE} is set/</li>
      *            <li>This is the first object occurrence.</li>
@@ -472,30 +473,30 @@ public interface ICspDataGeneralSerializationProcessor
      * </ol>
      *
      * @param value Value to serialize.
-     * @param asReference Should field value be threatened as reference (CSP pointer).
-     *                    If true, then pointer mark will be added to serialized data, and if
-     *                    {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} or
-     *                    {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE}
-     *                    are set then only first occurrence of this object with the same option value
-     *                    will be serialized fully, all others would be referenced to the first one.
-     *                    If false, then no pointer mark to serialized data will be added, only size and elements will
-     *                    be serialized.
-     *                    <p>
-     *                    It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
+     * @param reference Should field value be threatened as reference (CSP pointer).
+     *                  If true, then pointer mark will be added to serialized data, and if
+     *                  {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} or
+     *                  {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE}
+     *                  are set then only first occurrence of this object with the same option value
+     *                  will be serialized fully, all others would be referenced to the first one.
+     *                  If false, then no pointer mark to serialized data will be added, only size and elements will
+     *                  be serialized.
+     *                  <p>
+     *                  It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
      * @param fixedSize If true, then it counts that this array has fixed size by its CSP Interface definition. So no
      *                  array length should be written and false otherwise.
      * @param session Current serialization processing session
-     * @throws CspRuntimeException if asReference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
+     * @throws CspRuntimeException if reference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(int @Nullable [] value, boolean asReference, boolean fixedSize,
-                   ICspDataSerializationSession session);
+    void serialize(int @Nullable [] value, boolean reference, boolean fixedSize,
+        ICspDataSerializationSession session);
 
     /**
      * Serializes long[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
      * Does the same thing as a call {@link #serialize(long[], boolean, boolean, ICspDataSerializationSession)}
-     * with false asReference and true fixedSize arguments.
+     * with false reference and true fixedSize arguments.
      *
      * @param value Value to serialize.
      * @param session Current serialization processing session
@@ -511,7 +512,7 @@ public interface ICspDataGeneralSerializationProcessor
      * <p>
      *    Conditions:
      *    <ul>
-     *        <li>asReference is set.</li>
+     *        <li>reference is set.</li>
      *    </ul>
      * <p>
      *    Notes:
@@ -520,7 +521,7 @@ public interface ICspDataGeneralSerializationProcessor
      *        in CSP reference.</li>
      *        <li>next steps will be done only if:
      *        <ol>
-     *            <li>asReference is not set or
+     *            <li>reference is not set or
      *            {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} is set or
      *            {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE} is set/</li>
      *            <li>This is the first object occurrence.</li>
@@ -549,30 +550,30 @@ public interface ICspDataGeneralSerializationProcessor
      * </ol>
      *
      * @param value Value to serialize.
-     * @param asReference Should field value be threatened as reference (CSP pointer).
-     *                    If true, then pointer mark will be added to serialized data, and if
-     *                    {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} or
-     *                    {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE}
-     *                    are set then only first occurrence of this object with the same option value
-     *                    will be serialized fully, all others would be referenced to the first one.
-     *                    If false, then no pointer mark to serialized data will be added, only size and elements will
-     *                    be serialized.
-     *                    <p>
-     *                    It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
+     * @param reference Should field value be threatened as reference (CSP pointer).
+     *                  If true, then pointer mark will be added to serialized data, and if
+     *                  {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} or
+     *                  {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE}
+     *                  are set then only first occurrence of this object with the same option value
+     *                  will be serialized fully, all others would be referenced to the first one.
+     *                  If false, then no pointer mark to serialized data will be added, only size and elements will
+     *                  be serialized.
+     *                  <p>
+     *                  It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
      * @param fixedSize If true, then it counts that this array has fixed size by its CSP Interface definition. So no
      *                  array length should be written and false otherwise.
      * @param session Current serialization processing session
-     * @throws CspRuntimeException if asReference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
+     * @throws CspRuntimeException if reference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(long @Nullable [] value, boolean asReference, boolean fixedSize,
-                   ICspDataSerializationSession session);
+    void serialize(long @Nullable [] value, boolean reference, boolean fixedSize,
+        ICspDataSerializationSession session);
 
     /**
      * Serializes char[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
      * Does the same thing as a call {@link #serialize(char[], boolean, boolean, ICspDataSerializationSession)}
-     * with false asReference and true fixedSize arguments.
+     * with false reference and true fixedSize arguments.
      * <p>
      * Please, note that using Java char is not recommended in CSP in most cases. Use it only when you really
      * need utf-16 characters that are outside the internals of the {@link String} string and this is explicitly
@@ -592,7 +593,7 @@ public interface ICspDataGeneralSerializationProcessor
      * <p>
      *    Conditions:
      *    <ul>
-     *        <li>asReference is set.</li>
+     *        <li>reference is set.</li>
      *    </ul>
      * <p>
      *    Notes:
@@ -601,7 +602,7 @@ public interface ICspDataGeneralSerializationProcessor
      *        in CSP reference.</li>
      *        <li>next steps will be done only if:
      *        <ol>
-     *            <li>asReference is not set or
+     *            <li>reference is not set or
      *            {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} is set or
      *            {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE} is set/</li>
      *            <li>This is the first object occurrence.</li>
@@ -625,30 +626,30 @@ public interface ICspDataGeneralSerializationProcessor
      * specified in the CSP Interface. However, it seems highly unlikely that this would be the case.
      *
      * @param value Value to serialize.
-     * @param asReference Should field value be threatened as reference (CSP pointer).
-     *                    If true, then pointer mark will be added to serialized data, and if
-     *                    {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} or
-     *                    {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE}
-     *                    are set then only first occurrence of this object with the same option value
-     *                    will be serialized fully, all others would be referenced to the first one.
-     *                    If false, then no pointer mark to serialized data will be added, only size and elements will
-     *                    be serialized.
-     *                    <p>
-     *                    It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
+     * @param reference Should field value be threatened as reference (CSP pointer).
+     *                  If true, then pointer mark will be added to serialized data, and if
+     *                  {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} or
+     *                  {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE}
+     *                  are set then only first occurrence of this object with the same option value
+     *                  will be serialized fully, all others would be referenced to the first one.
+     *                  If false, then no pointer mark to serialized data will be added, only size and elements will
+     *                  be serialized.
+     *                  <p>
+     *                  It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
      * @param fixedSize If true, then it counts that this array has fixed size by its CSP Interface definition. So no
      *                  array length should be written and false otherwise.
      * @param session Current serialization processing session
-     * @throws CspRuntimeException if asReference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
+     * @throws CspRuntimeException if reference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(char @Nullable [] value, boolean asReference, boolean fixedSize,
-                   ICspDataSerializationSession session);
+    void serialize(char @Nullable [] value, boolean reference, boolean fixedSize,
+        ICspDataSerializationSession session);
 
     /**
      * Serializes float[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
      * Does the same thing as a call {@link #serialize(float[], boolean, boolean, ICspDataSerializationSession)}
-     * with false asReference and true fixedSize arguments.
+     * with false reference and true fixedSize arguments.
      *
      * @param value Value to serialize.
      * @param session Current serialization processing session
@@ -664,7 +665,7 @@ public interface ICspDataGeneralSerializationProcessor
      * <p>
      *    Conditions:
      *    <ul>
-     *        <li>asReference is set.</li>
+     *        <li>reference is set.</li>
      *    </ul>
      * <p>
      *    Notes:
@@ -673,7 +674,7 @@ public interface ICspDataGeneralSerializationProcessor
      *        in CSP reference.</li>
      *        <li>next steps will be done only if:
      *        <ol>
-     *            <li>asReference is not set or
+     *            <li>reference is not set or
      *            {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} is set or
      *            {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE} is set/</li>
      *            <li>This is the first object occurrence.</li>
@@ -694,30 +695,30 @@ public interface ICspDataGeneralSerializationProcessor
      * </ol>
      *
      * @param value Value to serialize.
-     * @param asReference Should field value be threatened as reference (CSP pointer).
-     *                    If true, then pointer mark will be added to serialized data, and if
-     *                    {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} or
-     *                    {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE}
-     *                    are set then only first occurrence of this object with the same option value
-     *                    will be serialized fully, all others would be referenced to the first one.
-     *                    If false, then no pointer mark to serialized data will be added, only size and elements will
-     *                    be serialized.
-     *                    <p>
-     *                    It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
+     * @param reference Should field value be threatened as reference (CSP pointer).
+     *                  If true, then pointer mark will be added to serialized data, and if
+     *                  {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} or
+     *                  {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE}
+     *                  are set then only first occurrence of this object with the same option value
+     *                  will be serialized fully, all others would be referenced to the first one.
+     *                  If false, then no pointer mark to serialized data will be added, only size and elements will
+     *                  be serialized.
+     *                  <p>
+     *                  It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
      * @param fixedSize If true, then it counts that this array has fixed size by its CSP Interface definition. So no
      *                  array length should be written and false otherwise.
      * @param session Current serialization processing session
-     * @throws CspRuntimeException if asReference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
+     * @throws CspRuntimeException if reference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(float @Nullable [] value, boolean asReference, boolean fixedSize,
-                   ICspDataSerializationSession session);
+    void serialize(float @Nullable [] value, boolean reference, boolean fixedSize,
+        ICspDataSerializationSession session);
 
     /**
      * Serializes double[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.
      * <p>
      * Does the same thing as a call {@link #serialize(double[], boolean, boolean, ICspDataSerializationSession)}
-     * with false asReference and true fixedSize arguments.
+     * with false reference and true fixedSize arguments.
      *
      * @param value Value to serialize.
      * @param session Current serialization processing session
@@ -733,7 +734,7 @@ public interface ICspDataGeneralSerializationProcessor
      * <p>
      *    Conditions:
      *    <ul>
-     *        <li>asReference is set.</li>
+     *        <li>reference is set.</li>
      *    </ul>
      * <p>
      *    Notes:
@@ -742,7 +743,7 @@ public interface ICspDataGeneralSerializationProcessor
      *        in CSP reference.</li>
      *        <li>next steps will be done only if:
      *        <ol>
-     *            <li>asReference is not set or
+     *            <li>reference is not set or
      *            {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} is set or
      *            {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE} is set/</li>
      *            <li>This is the first object occurrence.</li>
@@ -763,29 +764,29 @@ public interface ICspDataGeneralSerializationProcessor
      * </ol>
      *
      * @param value Value to serialize.
-     * @param asReference Should field value be threatened as reference (CSP pointer).
-     *                    If true, then pointer mark will be added to serialized data, and if
-     *                    {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} or
-     *                    {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE}
-     *                    are set then only first occurrence of this object with the same option value
-     *                    will be serialized fully, all others would be referenced to the first one.
-     *                    If false, then no pointer mark to serialized data will be added, only size and elements will
-     *                    be serialized.
-     *                    <p>
-     *                    It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
+     * @param reference Should field value be threatened as reference (CSP pointer).
+     *                  If true, then pointer mark will be added to serialized data, and if
+     *                  {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} or
+     *                  {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE}
+     *                  are set then only first occurrence of this object with the same option value
+     *                  will be serialized fully, all others would be referenced to the first one.
+     *                  If false, then no pointer mark to serialized data will be added, only size and elements will
+     *                  be serialized.
+     *                  <p>
+     *                  It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
      * @param fixedSize If true, then it counts that this array has fixed size by its CSP Interface definition. So no
      *                  array length should be written and false otherwise.
      * @param session Current serialization processing session
-     * @throws CspRuntimeException if asReference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
+     * @throws CspRuntimeException if reference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(double @Nullable [] value, boolean asReference, boolean fixedSize,
-                   ICspDataSerializationSession session);
+    void serialize(double @Nullable [] value, boolean reference, boolean fixedSize,
+        ICspDataSerializationSession session);
 
     /**
      * Serializes String not as a reference, but as an embedded structure.
      * <p>
      * Does the same thing as a call {@link #serialize(String, boolean, Charset, ICspDataSerializationSession)}
-     * with false asReference argument.
+     * with false reference argument.
      *
      * @param value Object to serialize.
      * @param charset Charset according to CSP Interface specification.
@@ -802,7 +803,7 @@ public interface ICspDataGeneralSerializationProcessor
      * <p>
      *    Conditions:
      *    <ul>
-     *        <li>asReference is set.</li>
+     *        <li>reference is set.</li>
      *    </ul>
      * <p>
      *    Notes:
@@ -811,7 +812,7 @@ public interface ICspDataGeneralSerializationProcessor
      *        in CSP reference.</li>
      *        <li>next steps will be done only if:
      *        <ol>
-     *            <li>asReference is not set or
+     *            <li>reference is not set or
      *            {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} is set or
      *            {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE} is set/</li>
      *            <li>This is the first object occurrence.</li>
@@ -828,21 +829,21 @@ public interface ICspDataGeneralSerializationProcessor
      * </ol>
      *
      * @param value Object to serialize.
-     * @param asReference Should field value be threatened as reference (CSP pointer).
-     *                    If true, then pointer mark will be added to serialized data, and if
-     *                    {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} or
-     *                    {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE}
-     *                    are set then only first occurrence of this object with the same option value
-     *                    will be serialized fully, all others would be referenced to the first one.
-     *                    If false, then no pointer mark to serialized data will be added, only size and elements will
-     *                    be serialized.
-     *                    <p>
-     *                    It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
+     * @param reference Should field value be threatened as reference (CSP pointer).
+     *                  If true, then pointer mark will be added to serialized data, and if
+     *                  {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} or
+     *                  {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE}
+     *                  are set then only first occurrence of this object with the same option value
+     *                  will be serialized fully, all others would be referenced to the first one.
+     *                  If false, then no pointer mark to serialized data will be added, only size and elements will
+     *                  be serialized.
+     *                  <p>
+     *                  It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
      * @param charset Charset according to CSP Interface specification.
      * @param session Current serialization processing session
-     * @throws CspRuntimeException if asReference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
+     * @throws CspRuntimeException if reference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(@Nullable String value, boolean asReference, Charset charset, ICspDataSerializationSession session);
+    void serialize(@Nullable String value, boolean reference, Charset charset, ICspDataSerializationSession session);
 
     /**
      * Serializes Object as an embedded structure.
@@ -850,7 +851,7 @@ public interface ICspDataGeneralSerializationProcessor
      * Object should not be any of: array, {@link String}, {@link Collection}, {@link Map}.
      * <p>
      * Does the same thing as a call {@link #serialize(Object, boolean, Class, ICspDataSerializationSession)}
-     * with false asReference argument.
+     * with false reference argument.
      *
      * @param value Object to serialize.
      * @param clazz The class that will be serialized. It is for choice which {@link ICspDataSerializationProcessor}
@@ -873,7 +874,7 @@ public interface ICspDataGeneralSerializationProcessor
      * <p>
      *    Conditions:
      *    <ul>
-     *        <li>{@link ICspGenericTypeTraits#isReference()} of cspObjectTypeTraits evals to true.</li>
+     *        <li>reference is set.</li>
      *    </ul>
      * <p>
      *    Notes:
@@ -882,47 +883,58 @@ public interface ICspDataGeneralSerializationProcessor
      *        in CSP reference.</li>
      *        <li>next steps will be done only if:
      *        <ol>
-     *            <li>asReference is not set or
+     *            <li>reference is not set or
      *            {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} is set or
      *            {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE} is set/</li>
      *            <li>This is the first object occurrence.</li>
      *        </ol>
      *        </li>
      *    </ul>
-     *    </li>
-     *    <li>Converting to temporary object for serialization using version convertor.
+     *
+     *    <li> Serialization of class with registered in {@link ICspDataProcessorRegistry}
+     *    {@link ICspDataSerializationProcessor} or if there is no such - with one auto generated by annotations.
+     *    In latest case, it will be generated in first time serialization process after program start, and saved in
+     *    provided to message builder {@link ICspDataProcessorRegistry} for subsequent uses.
      * <p>
-     *    Conditions:
+     *    The main steps of object serialization are:
      *    <ol>
-     *        <li>Value instance type is implementing {@link ICspVersionable}.</li>
-     *        <li>Value private version is differing from target interface version (from context).</li>
+     *        <li>Converting to temporary object for serialization using version convertor.
+     * <p>
+     *        Conditions:
+     *        <ol>
+     *            <li>Value instance type is implementing {@link ICspVersionable}.</li>
+     *            <li>Value private version is differing from target interface version (from context).</li>
+     *        </ol>
+     *        </li>
+     *
+     *        <li>Serialization of parent classes starting with the highest.
+     * <p>
+     *        Conditions:
+     *        <ol>
+     *            <li>Parent class has {@link io.andreygs.jcsp.base.processing.traits.annotations.CspSerializable}
+     *            attribute, or it has own {@link ICspDataSerializationProcessor} or inherited class explicitly
+     *            serializes its parent(s).</li>
+     *        </ol>
+     *        </li>
+     *
+     *        <li>Serialization of every serializable field by order specified by CSP Interface.</li>
      *    </ol>
      *    </li>
-     *
-     *    <li>Serialization of parent classes starting with the highest.
-     * <p>
-     *    Conditions:
-     *    <ol>
-     *        <li>Parent class has {@link io.andreygs.jcsp.base.processing.traits.annotations.CspSerializable}
-     *        attribute, or it has own {@link ICspDataSerializationProcessor} or inherited class explicitly serializes
-     *        its parent(s).</li>
-     *    </ol>
      *    </li>
-     *
-     *    <li>Serialization of every serializable field by order specified by CSP Interface.</li>
+
      * </ol>
      *
      * @param value Object to serialize.
-     * @param asReference Should field value be threatened as reference (CSP pointer).
-     *                    If true, then pointer mark will be added to serialized data, and if
-     *                    {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} or
-     *                    {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE}
-     *                    are set then only first occurrence of this object with the same option value
-     *                    will be serialized fully, all others would be referenced to the first one.
-     *                    If false, then no pointer mark to serialized data will be added, only size and elements will
-     *                    be serialized.
-     *                    <p>
-     *                    It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
+     * @param reference Should field value be threatened as reference (CSP pointer).
+     *                  If true, then pointer mark will be added to serialized data, and if
+     *                  {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} or
+     *                  {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE}
+     *                  are set then only first occurrence of this object with the same option value
+     *                  will be serialized fully, all others would be referenced to the first one.
+     *                  If false, then no pointer mark to serialized data will be added, only size and elements will
+     *                  be serialized.
+     *                  <p>
+     *                  It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
      * @param clazz The class that will be serialized. It is for choice which {@link ICspDataSerializationProcessor}
      *              shall be used, as long as value can implement different interfaces and inherits different classes
      *              (and some of them may be not part of CSP interface),
@@ -930,7 +942,49 @@ public interface ICspDataGeneralSerializationProcessor
      * @throws CspRuntimeException if some serialized object fields or their nested fields will be serialized
      * as references when {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(Object value, boolean asReference, Class<?> clazz, ICspDataSerializationSession session);
+    void serialize(Object value, boolean reference, Class<?> clazz, ICspDataSerializationSession session);
+
+    <T> void serialize(T[] value, Class<?> elementClazz, ICspDataSerializationSession session);
+
+    <T> void serialize(T[] value, boolean reference, Class<?> elementClazz, ICspDataSerializationSession session);
+
+    void serialize(String[] value, Charset charset, ICspDataSerializationSession session);
+
+    void serialize(String[] value, boolean reference, Charset charset, ICspDataSerializationSession session);
+
+    <T> void serialize(Collection<T> value, Class<?> elementClazz, ICspDataSerializationSession session);
+
+    <T> void serialize(Collection<T> value, boolean reference, boolean valueAsReference, Class<?> elementClazz,
+        ICspDataSerializationSession session);
+
+    void serialize(Collection<String> value, Charset charset, ICspDataSerializationSession session);
+
+    void serialize(Collection<String> value, boolean reference, boolean valueAsReference, Charset charset,
+        ICspDataSerializationSession session);
+
+    <K, V> void serialize(Map<K, V> value, Class<?> keyClazz, Class<?> valueClazz,
+        ICspDataSerializationSession session);
+
+    <K, V> void serialize(Map<K, V> value, boolean reference, boolean keyAsReference, boolean valueAsRefence,
+        Class<?> keyClazz, Class<?> valueClazz, ICspDataSerializationSession session);
+
+    <K> void serialize(Map<K, String> value, Class<?> keyClazz, Charset valueCharset,
+        ICspDataSerializationSession session);
+
+    <K> void serialize(Map<K, String> value, boolean reference, boolean keyAsReference, boolean valueAsRefence,
+        Class<?> keyClazz, Charset valueCharset, ICspDataSerializationSession session);
+
+    <V> void serialize(Map<String, V> value, Charset keyCharset, Class<?> valueClazz,
+        ICspDataSerializationSession session);
+
+    <V> void serialize(Map<String, V> value, boolean reference, boolean keyAsReference, boolean valueAsRefence,
+        Charset keyCharset, Class<?> valueClazz, ICspDataSerializationSession session);
+
+    void serialize(Map<String, String> value, Charset keyCharset, Charset valueCharset,
+        ICspDataSerializationSession session);
+
+    void serialize(Map<String, String> value, boolean reference, boolean keyAsReference, boolean valueAsRefence,
+        Charset keyCharset, Charset valueCharset, ICspDataSerializationSession session);
 
     /**
      * Serializes generic type or array with non-primitive element type.
@@ -941,7 +995,7 @@ public interface ICspDataGeneralSerializationProcessor
      * <p>
      *    Conditions:
      *    <ul>
-     *        <li>{@link ICspGenericTypeTraits#isReference()} of cspObjectTypeTraits evals to true.</li>
+     *        <li>reference is set.</li>
      *    </ul>
      * <p>
      *    Notes:
@@ -950,7 +1004,7 @@ public interface ICspDataGeneralSerializationProcessor
      *        in CSP reference.</li>
      *        <li>next steps will be done only if:
      *        <ol>
-     *            <li>asReference is not set or
+     *            <li>reference is not set or
      *            {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} is set or
      *            {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE} is set/</li>
      *            <li>This is the first object occurrence.</li>
@@ -959,60 +1013,30 @@ public interface ICspDataGeneralSerializationProcessor
      *    </ul>
      *    </li>
      *
-     *    <li>Serializing of generic type by rules provided with cspGenericFieldTraits.
+     *    <li>Serializing of generic type by rules provided with cspGenericTypeTraits.
      *    See {@link ICspGenericTypeTraitsBuilder}
      *    </li>
      * </ol>
      *
-     * @param value Generic or array to serialize.
-     * @param cspGenericFieldTraits Traits of value type according to CSP reference.
+     * @param value Object to serialize.
+     * @param reference Should field value be threatened as reference (CSP pointer).
+     *                  If true, then pointer mark will be added to serialized data, and if
+     *                  {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} or
+     *                  {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE}
+     *                  are set then only first occurrence of this object with the same option value
+     *                  will be serialized fully, all others would be referenced to the first one.
+     *                  If false, then no pointer mark to serialized data will be added, only size and elements will
+     *                  be serialized.
+     *                  <p>
+     *                  It can be set true only if {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} is set.
+     * @param clazz The class that will be serialized. It is for choice which {@link ICspDataSerializationProcessor}
+     *              shall be used, as long as value can implement different interfaces and inherits different classes
+     *              (and some of them may be not part of CSP interface),
+     * @param cspGenericTypeTraits Traits of generic type parameters of clazz according to CSP reference.
      * @param session Current serialization processing session
-     * @throws CspRuntimeException if asReference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
+     * @throws CspRuntimeException if reference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(@Nullable Object value, ICspGenericTypeTraits cspGenericFieldTraits,
-                   ICspDataSerializationSession session);
-
-
-    <T> void serialize(T[] value, Class<?> elementClazz, ICspDataSerializationSession session);
-
-    <T> void serialize(T[] value, boolean asReference, Class<?> elementClazz, ICspDataSerializationSession session);
-
-    void serialize(String[] value, Charset charset, ICspDataSerializationSession session);
-
-    void serialize(String[] value, boolean asReference, Charset charset, ICspDataSerializationSession session);
-
-    <T> void serialize(Collection<T> value, Class<?> elementClazz, ICspDataSerializationSession session);
-
-    <T> void serialize(Collection<T> value, boolean asReference, boolean valueAsReference, Class<?> elementClazz,
-                       ICspDataSerializationSession session);
-
-    void serialize(Collection<String> value, Charset charset, ICspDataSerializationSession session);
-
-    void serialize(Collection<String> value, boolean asReference, boolean valueAsReference, Charset charset,
-                   ICspDataSerializationSession session);
-
-    <K, V> void serialize(Map<K, V> value, Class<?> keyClazz, Class<?> valueClazz,
-                          ICspDataSerializationSession session);
-
-    <K, V> void serialize(Map<K, V> value, boolean asReference, boolean keyAsReference, boolean valueAsRefence,
-                          Class<?> keyClazz, Class<?> valueClazz, ICspDataSerializationSession session);
-
-    <K> void serialize(Map<K, String> value, Class<?> keyClazz, Charset valueCharset,
-                       ICspDataSerializationSession session);
-
-    <K> void serialize(Map<K, String> value, boolean asReference, boolean keyAsReference, boolean valueAsRefence,
-                          Class<?> keyClazz, Charset valueCharset, ICspDataSerializationSession session);
-
-    <V> void serialize(Map<String, V> value, Charset keyCharset, Class<?> valueClazz,
-                       ICspDataSerializationSession session);
-
-    <V> void serialize(Map<String, V> value, boolean asReference, boolean keyAsReference, boolean valueAsRefence,
-                       Charset keyCharset, Class<?> valueClazz, ICspDataSerializationSession session);
-
-    void serialize(Map<String, String> value, Charset keyCharset, Charset valueCharset,
-                   ICspDataSerializationSession session);
-
-    void serialize(Map<String, String> value, boolean asReference, boolean keyAsReference, boolean valueAsRefence,
-                  Charset keyCharset, Charset valueCharset, ICspDataSerializationSession session);
+    void serializeCustomGenericType(@Nullable Object value, boolean reference, Class<?> clazz,
+        List<ICspReferenceTypeTraits> cspGenericTypeTraits, ICspDataSerializationSession session);
 }
 

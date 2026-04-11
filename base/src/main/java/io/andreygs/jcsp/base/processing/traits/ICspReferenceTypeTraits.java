@@ -23,9 +23,7 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.traits.internal;
-
-import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraitsBuilder;
+package io.andreygs.jcsp.base.processing.traits;
 
 /**
  * CSP traits that can be applied to serialized/deserialized type with reference type.
@@ -55,9 +53,36 @@ public interface ICspReferenceTypeTraits
     Class<?> getClazz();
 
     /**
-     * Returns a flag indicating that object should be serialized/deserialized as reference or embedded structure.
+     * Returns the trait indicating that object should be serialized/deserialized as reference or embedded structure.
      *
      * @return true if it should be serialized/deserialized as reference and false otherwise.
      */
     boolean isReference();
+
+    /**
+     * Copying current instance with overridden reference trait.
+     * <p>
+     * This can be useful when processing generic object which itself has some generic field with at least one generic
+     * type defined by class but wants to threat it always like reference or embedded object regardless of object type
+     * trait.
+     * <p>
+     * Example of such class is:
+     * <pre>
+     *     class TrickyGeneric&lt;T>
+     *     {
+     *         T ownKey;
+     *         List&lt;T> relatedKeys;
+     *         ...
+     *     }
+     * </pre>
+     * Here {@link ICspReferenceTypeTraits} for T type can have reference trait equal to false. But relatedKeys can
+     * contain reference type elements, if they are refer to other keys, for instance. And if so, traits for this field
+     * can be obtained using this method.
+     * <p>
+     * The given example is not a guide for action for every similar class processing, but only shows when and how you
+     * can use this method if you ever need it.
+     *
+     * @return copy of current instance that can be safely used without changing of original one.
+     */
+    ICspReferenceTypeTraits copyWithOverriddenReferenceTrait(boolean reference);
 }

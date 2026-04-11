@@ -25,6 +25,8 @@
 
 package io.andreygs.jcsp.base.processing.traits.internal;
 
+import io.andreygs.jcsp.base.processing.traits.ICspReferenceTypeTraits;
+
 /**
  * TODO: place description here
  */
@@ -32,7 +34,6 @@ class CspReferenceTypeTraits
     implements ICspReferenceTypeTraits
 {
     private final Class<?> clazz;
-
     private final boolean reference;
 
     public CspReferenceTypeTraits(Class<?> clazz, boolean reference)

@@ -37,8 +37,8 @@ import java.lang.annotation.Target;
  * Make sense only for object types, not for primitives.
  * <p>
  * Note that word "reference" was chosen as more familiar to Java developers. But CSP specification has only "pointer"
- * term, and you should consider that when you meet "reference" or "asReference" words their meaning from CSP
- * perspective is single level pointers. For multi-level pointers you should take a look at {@link CspMultiLevelPointer}.
+ * term, and you should consider that when you meet "reference" word it has meaning from CSP perspective as a single
+ * level pointer. For multi-level pointer you should take a look at {@link CspMultiLevelPointer}.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

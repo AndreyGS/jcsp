@@ -25,8 +25,6 @@
 
 package io.andreygs.jcsp.base.processing.traits;
 
-import io.andreygs.jcsp.base.processing.traits.internal.ICspReferenceTypeTraits;
-
 import java.util.List;
 
 /**

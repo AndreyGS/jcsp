@@ -26,6 +26,7 @@
 package io.andreygs.jcsp.base.processing.traits.internal;
 
 import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraits;
+import io.andreygs.jcsp.base.processing.traits.ICspReferenceTypeTraits;
 
 import java.util.ArrayList;
 import java.util.Collections;

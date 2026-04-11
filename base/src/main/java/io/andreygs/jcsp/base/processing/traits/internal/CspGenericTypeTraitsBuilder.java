@@ -27,6 +27,7 @@ package io.andreygs.jcsp.base.processing.traits.internal;
 
 import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraits;
 import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraitsBuilder;
+import io.andreygs.jcsp.base.processing.traits.ICspReferenceTypeTraits;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;

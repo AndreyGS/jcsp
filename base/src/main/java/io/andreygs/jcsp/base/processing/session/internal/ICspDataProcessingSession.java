@@ -28,8 +28,10 @@ package io.andreygs.jcsp.base.processing.session.internal;
 import io.andreygs.jcsp.base.message.ICspDataMessage;
 import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspBuffer;
+import io.andreygs.jcsp.base.processing.traits.ICspReferenceTypeTraits;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,6 +41,10 @@ public interface ICspDataProcessingSession<B extends ICspBuffer, G, P, K, V>
     extends ICspCommonProcessingSession<B>, ICspDataMessage
 {
     G getCspDataGeneralProcessor();
+
     ICspDataProcessorRegistry<P> getCspProcessorRegistrar();
-    @Nullable Map<K, V> getReferenceMap();
+
+    List<ICspReferenceTypeTraits> peekGenericTypeParameterTraits();
+
+    Map<K, V> getReferenceMap();
 }
