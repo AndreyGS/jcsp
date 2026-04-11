@@ -25,12 +25,13 @@
 
 package io.andreygs.jcsp.base.processing.traits.internal;
 
+import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraits;
 import io.andreygs.jcsp.base.processing.traits.ICspReferenceTypeTraits;
 
 /**
  * TODO: place description here
  */
-interface ICspGenericTypeTraitsParameterAdder
+interface ICspGenericTypeTraitsParameterAdder extends ICspGenericTypeTraits
 {
     /**
      *

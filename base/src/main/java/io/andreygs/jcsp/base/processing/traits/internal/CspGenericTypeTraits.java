@@ -36,7 +36,7 @@ import java.util.List;
  * TODO: place description here
  */
 class CspGenericTypeTraits extends CspReferenceTypeTraits
-    implements ICspGenericTypeTraits, ICspGenericTypeTraitsParameterAdder
+    implements ICspGenericTypeTraitsParameterAdder
 {
     private final List<ICspReferenceTypeTraits> genericTypeParametersTypeTraits;
     private final int typeParametersNumber;
@@ -49,7 +49,7 @@ class CspGenericTypeTraits extends CspReferenceTypeTraits
     }
 
     @Override
-    public List<? extends ICspReferenceTypeTraits> getGenericTypeParametersFieldTraits()
+    public List<? extends ICspReferenceTypeTraits> getGenericTypeParametersTraits()
     {
         return Collections.unmodifiableList(genericTypeParametersTypeTraits);
     }

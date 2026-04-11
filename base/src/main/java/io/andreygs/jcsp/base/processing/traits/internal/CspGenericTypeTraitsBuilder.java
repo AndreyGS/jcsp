@@ -39,7 +39,7 @@ import java.util.Stack;
  */
 final class CspGenericTypeTraitsBuilder implements ICspGenericTypeTraitsBuilder
 {
-    private final Stack<ICspGenericTypeTraitsParameterAdder> cspGenericTypeTraitsParameterAdderStack =  new Stack<>();
+    private final Stack<ICspGenericTypeTraitsParameterAdder> cspGenericTypeTraitsParameterAdderStack = new Stack<>();
     private @Nullable ICspGenericTypeTraits rootCspGenericTypeTraits;
 
     @Override
@@ -51,8 +51,8 @@ final class CspGenericTypeTraitsBuilder implements ICspGenericTypeTraitsBuilder
         }
         if (clazz.isArray())
         {
-            throw new IllegalArgumentException(clazz.getName() + " is an array and it should be added using addArray() "
-                                                   + "method!");
+            throw new IllegalArgumentException(
+                clazz.getName() + " is an array and it should be added using addArray() " + "method!");
         }
         if (clazz == String.class)
         {
@@ -80,12 +80,13 @@ final class CspGenericTypeTraitsBuilder implements ICspGenericTypeTraitsBuilder
     {
         if (clazz.getTypeParameters().length < 1)
         {
-            throw new IllegalArgumentException(clazz.getName() + " is not generic and it should be added using another "
-                                                   + "methods!.");
+            throw new IllegalArgumentException(
+                clazz.getName() + " is not generic and it should be added using another " + "methods!.");
         }
         testStateNotDone();
-        ICspGenericTypeTraits newNode = new CspGenericTypeTraits(clazz, reference, clazz.getTypeParameters().length);
-        commitNode(newNode);
+        ICspGenericTypeTraitsParameterAdder newNode =
+            new CspGenericTypeTraits(clazz, reference, clazz.getTypeParameters().length);
+        commitGenericTypeNode(newNode);
         return this;
     }
 
@@ -95,35 +96,35 @@ final class CspGenericTypeTraitsBuilder implements ICspGenericTypeTraitsBuilder
     {
         if (!clazz.isArray())
         {
-            throw new IllegalArgumentException(clazz.getName() + " is not an array and it should be added using another "
-                                                   + "methods!");
+            throw new IllegalArgumentException(
+                clazz.getName() + " is not an array and it should be added using another " + "methods!");
         }
         testStateNotDone();
         int arrayDimensionsNumber = evalArrayDimensionsNumber(clazz);
         if (arrayDimensionsNumber != dimensionReferenceFlags.size())
         {
-            throw new IllegalArgumentException(clazz.getName() + " dimensions number differs from "
-                + " dimensionReferenceFlags.size()!");
+            throw new IllegalArgumentException(
+                clazz.getName() + " dimensions number differs from " + " dimensionReferenceFlags.size()!");
         }
         if (arrayDimensionsNumber != dimensionFixedSizeFlags.size())
         {
-            throw new IllegalArgumentException(clazz.getName() + " dimensions number differs from "
-                + " dimensionFixedSizeFlags.size()!");
+            throw new IllegalArgumentException(
+                clazz.getName() + " dimensions number differs from " + " dimensionFixedSizeFlags.size()!");
         }
-        ICspReferenceTypeTraits newNode;
         boolean arrayHasPrimitiveTypeParameter = evalArrayHasPrimitiveTypeParameter(clazz);
         if (arrayHasPrimitiveTypeParameter)
         {
             testRootNodeIsSet();
-            newNode = new CspArrayWithPrimitiveTypeParameterTypeTraits(clazz,
+            ICspReferenceTypeTraits newNode = new CspArrayWithPrimitiveTypeParameterTypeTraits(clazz,
                 dimensionReferenceFlags, dimensionFixedSizeFlags);
+            commitNode(newNode);
         }
         else
         {
-            newNode = new CspArrayWithGenericTypeParameterTypeTraits(clazz,
+            ICspGenericTypeTraitsParameterAdder newNode = new CspArrayWithGenericTypeParameterTypeTraits(clazz,
                 dimensionReferenceFlags, dimensionFixedSizeFlags);
+            commitGenericTypeNode(newNode);
         }
-        commitNode(newNode);
         return this;
     }
 
@@ -132,23 +133,25 @@ final class CspGenericTypeTraitsBuilder implements ICspGenericTypeTraitsBuilder
     {
         if (!clazz.isArray())
         {
-            throw new IllegalArgumentException(clazz.getName() + " is not an array, but only arrays can substitute for "
-                                               + "pointers!");
+            throw new IllegalArgumentException(
+                clazz.getName() + " is not an array, but only arrays can substitute for " + "pointers!");
         }
         testStateNotDone();
-        ICspReferenceTypeTraits newNode;
         boolean arrayHasPrimitiveTypeParameter = evalArrayHasPrimitiveTypeParameter(clazz);
         int arrayDimensionsNumber = evalArrayDimensionsNumber(clazz);
         if (arrayHasPrimitiveTypeParameter)
         {
             testRootNodeIsSet();
-            newNode = new CspMultiLevelPointerWithPrimitiveTypeParameterTypeTraits(clazz, arrayDimensionsNumber);
+            ICspReferenceTypeTraits newNode = new CspMultiLevelPointerWithPrimitiveTypeParameterTypeTraits(clazz,
+                arrayDimensionsNumber);
+            commitNode(newNode);
         }
         else
         {
-            newNode = new CspMultiLevelPointerWithGenericTypeParameterTypeTraits(clazz, arrayDimensionsNumber);
+            ICspGenericTypeTraitsParameterAdder newNode
+                = new CspMultiLevelPointerWithGenericTypeParameterTypeTraits(clazz, arrayDimensionsNumber);
+            commitGenericTypeNode(newNode);
         }
-        commitNode(newNode);
         return this;
     }
 
@@ -162,12 +165,23 @@ final class CspGenericTypeTraitsBuilder implements ICspGenericTypeTraitsBuilder
         return rootCspGenericTypeTraits;
     }
 
-    private void commitNode(ICspReferenceTypeTraits newNode)
+    private void setRootNodeIfNotSet(ICspGenericTypeTraits newNode)
     {
         if (rootCspGenericTypeTraits == null)
         {
-            rootCspGenericTypeTraits = (ICspGenericTypeTraits)newNode;
+            rootCspGenericTypeTraits = newNode;
         }
+    }
+
+    private void commitGenericTypeNode(ICspGenericTypeTraitsParameterAdder newNode)
+    {
+        setRootNodeIfNotSet(newNode);
+        commitNode(newNode);
+        cspGenericTypeTraitsParameterAdderStack.push(newNode);
+    }
+
+    private void commitNode(ICspReferenceTypeTraits newNode)
+    {
         if (!cspGenericTypeTraitsParameterAdderStack.empty())
         {
             ICspGenericTypeTraitsParameterAdder cspGenericTypeTraitsParameterAdder =
@@ -176,10 +190,6 @@ final class CspGenericTypeTraitsBuilder implements ICspGenericTypeTraitsBuilder
             {
                 cspGenericTypeTraitsParameterAdderStack.pop();
             }
-        }
-        if (newNode instanceof ICspGenericTypeTraitsParameterAdder cspGenericTypeTraitsParameterAdder)
-        {
-            cspGenericTypeTraitsParameterAdderStack.push(cspGenericTypeTraitsParameterAdder);
         }
     }
 
