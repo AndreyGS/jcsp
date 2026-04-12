@@ -23,20 +23,24 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.buffer.internal;
+package io.andreygs.jcsp.base.processing.annotations;
 
-import java.nio.ByteBuffer;
+import io.andreygs.jcsp.base.processing.ICspDataDeserializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Factory for creating {@link ICspDeserializationBuffer} instance.
+ * Tagging annotation, telling that {@link ICspDataSerializationProcessor} and {@link ICspDataDeserializationProcessor}
+ * can be auto generated using CSP annotations of class fields.
  */
-public interface ICspDeserializationBufferFactory
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE})
+public @interface CspProcessorAutoGeneratable
 {
-    /**
-     * Creates {@link ICspDeserializationBuffer} with provided ByteBuffer as source of CSP serialized message.
-     *
-     * @param byteBuffer Buffer that contains CSP serialized message.
-     * @return created instance of {@link ICspDeserializationBuffer}.
-     */
-    ICspDeserializationBuffer createBuffer(ByteBuffer byteBuffer);
 }

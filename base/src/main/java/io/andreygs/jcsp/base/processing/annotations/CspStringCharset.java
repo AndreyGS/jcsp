@@ -23,20 +23,30 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.buffer.internal;
+package io.andreygs.jcsp.base.processing.annotations;
 
-import java.nio.ByteBuffer;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Factory for creating {@link ICspDeserializationBuffer} instance.
+ * Indicates {@link String} charset according to CSP Interface.
+ * Make sense only for fields (or array types, or generic types) which has type {@link String}.
  */
-public interface ICspDeserializationBufferFactory
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD, ElementType.TYPE_PARAMETER, ElementType.TYPE_USE})
+public @interface CspStringCharset
 {
     /**
-     * Creates {@link ICspDeserializationBuffer} with provided ByteBuffer as source of CSP serialized message.
+     * Which charset should be used in serialization according to CSP Interface.
+     * <p>
+     * By default, {@link String} is serializing with this UTF-16BE charset.
      *
-     * @param byteBuffer Buffer that contains CSP serialized message.
-     * @return created instance of {@link ICspDeserializationBuffer}.
+     * @return charset according to CSP Interface. It will be used to build
+     * {@link java.nio.charset.Charset} instance, so it must be valid canonical name of the charset.
      */
-    ICspDeserializationBuffer createBuffer(ByteBuffer byteBuffer);
+    String charset();
 }

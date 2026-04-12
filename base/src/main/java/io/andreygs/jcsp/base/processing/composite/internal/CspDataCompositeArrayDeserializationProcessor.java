@@ -23,20 +23,39 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.buffer.internal;
+package io.andreygs.jcsp.base.processing.composite.internal;
 
-import java.nio.ByteBuffer;
+import io.andreygs.jcsp.base.processing.ICspDataGeneralDeserializationProcessor;
+import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeDeserializationProcessor;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * Factory for creating {@link ICspDeserializationBuffer} instance.
+ * TODO: place description here
  */
-public interface ICspDeserializationBufferFactory
+final class CspDataCompositeArrayDeserializationProcessor
+    extends AbstractCspDataCompositeArrayProcessor<ICspDataCompositeDeserializationProcessor>
+    implements ICspDataCompositeDeserializationProcessor, ICspDataCompositeDeserializationSubProcessorHolder
 {
-    /**
-     * Creates {@link ICspDeserializationBuffer} with provided ByteBuffer as source of CSP serialized message.
-     *
-     * @param byteBuffer Buffer that contains CSP serialized message.
-     * @return created instance of {@link ICspDeserializationBuffer}.
-     */
-    ICspDeserializationBuffer createBuffer(ByteBuffer byteBuffer);
+    CspDataCompositeArrayDeserializationProcessor(boolean reference, boolean fixedSize)
+    {
+        super(reference, fixedSize);
+    }
+
+    @Override
+    public @Nullable <T> T deserialize(ICspDataGeneralDeserializationProcessor generalDeserializationProcessor)
+    {
+        return null;
+    }
+
+    @Override
+    protected ICspDataCompositeDeserializationProcessor createCopyInstanceWithOverriddenReference(boolean reference)
+    {
+        return new CspDataCompositeArrayDeserializationProcessor(reference, isFixedSize());
+    }
+
+    @Override
+    protected ICspDataCompositeDeserializationProcessor getThisAsProcessor()
+    {
+        return this;
+    }
 }

@@ -23,20 +23,26 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.buffer.internal;
+package io.andreygs.jcsp.base.processing.annotations;
 
-import java.nio.ByteBuffer;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Factory for creating {@link ICspDeserializationBuffer} instance.
+ * Annotation indicates that this field is involved in the serialization process in the specified order starting with 0.
  */
-public interface ICspDeserializationBufferFactory
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD})
+public @interface CspSerializable
 {
     /**
-     * Creates {@link ICspDeserializationBuffer} with provided ByteBuffer as source of CSP serialized message.
+     * Order for field in class serialization/deserialization according to CSP Interface.
      *
-     * @param byteBuffer Buffer that contains CSP serialized message.
-     * @return created instance of {@link ICspDeserializationBuffer}.
+     * @return order of field in class serialization/deserialization. Must not be negative.
      */
-    ICspDeserializationBuffer createBuffer(ByteBuffer byteBuffer);
+    int order();
 }

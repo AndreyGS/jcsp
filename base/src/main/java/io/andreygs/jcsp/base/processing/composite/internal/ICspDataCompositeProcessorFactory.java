@@ -23,20 +23,22 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.buffer.internal;
+package io.andreygs.jcsp.base.processing.composite.internal;
 
-import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 
 /**
- * Factory for creating {@link ICspDeserializationBuffer} instance.
+ * TODO: place description here
  */
-public interface ICspDeserializationBufferFactory
+public interface ICspDataCompositeProcessorFactory<P, H extends ICspDataCompositeSubProcessorHolder<P>>
 {
-    /**
-     * Creates {@link ICspDeserializationBuffer} with provided ByteBuffer as source of CSP serialized message.
-     *
-     * @param byteBuffer Buffer that contains CSP serialized message.
-     * @return created instance of {@link ICspDeserializationBuffer}.
-     */
-    ICspDeserializationBuffer createBuffer(ByteBuffer byteBuffer);
+    H createArrayProcessor(boolean reference, boolean fixedSize);
+
+    P createArrayWithPrimitiveComponentProcessor(boolean reference, boolean fixedSize, Class<?> arrayClazz);
+
+    H createGenericProcessor(boolean reference, Class<?> clazz, int typeParametersNumber);
+
+    P createRandomObjectProcessor(boolean reference, Class<?> clazz);
+
+    P createStringProcessor(boolean reference, Charset charset);
 }

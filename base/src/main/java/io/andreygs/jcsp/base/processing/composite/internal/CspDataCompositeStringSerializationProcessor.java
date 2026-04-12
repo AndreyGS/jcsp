@@ -23,29 +23,41 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.internal;
+package io.andreygs.jcsp.base.processing.composite.internal;
 
-import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
-import io.andreygs.jcsp.base.processing.composite.internal.CspDataCompositeSerializationProcessorBuilderFactory;
+import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
+import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessor;
+import org.jetbrains.annotations.Nullable;
+
+import java.nio.charset.Charset;
 
 /**
  * TODO: place description here
  */
-final class CspDataSerializationProcessorGeneratorProvider
-    implements ICspDataSerializationProcessorGeneratorProvider
+final class CspDataCompositeStringSerializationProcessor
+    extends AbstractCspDataCompositeStringProcessor<ICspDataCompositeSerializationProcessor>
+    implements ICspDataCompositeSerializationProcessor
 {
-    /**
-     * Default immutable cached instance of {@link ICspDataProcessorGenerator}.
-     * <p>
-     * Thread-safe.
-     */
-    private static final ICspDataProcessorGenerator<ICspDataSerializationProcessor>
-        DEFAULT_DATA_SERIALIZATION_PROCESSOR_GENERATOR = new CspDataSerializationProcessorGenerator(
-            new CspDataCompositeSerializationProcessorBuilderFactory());
+    CspDataCompositeStringSerializationProcessor(boolean reference, Charset charset)
+    {
+        super(reference, charset);
+    }
 
     @Override
-    public ICspDataProcessorGenerator<ICspDataSerializationProcessor> provideCspDataProcessorGenerator()
+    public void serialize(@Nullable Object value, ICspDataGeneralSerializationProcessor generalSerializationProcessor)
     {
-        return DEFAULT_DATA_SERIALIZATION_PROCESSOR_GENERATOR;
+        generalSerializationProcessor.serialize((String)value, isReference(), getCharset());
+    }
+
+    @Override
+    protected ICspDataCompositeSerializationProcessor createCopyInstanceWithOverriddenReference(boolean reference)
+    {
+        return new CspDataCompositeStringSerializationProcessor(reference, getCharset());
+    }
+
+    @Override
+    protected ICspDataCompositeSerializationProcessor getThisAsProcessor()
+    {
+        return this;
     }
 }

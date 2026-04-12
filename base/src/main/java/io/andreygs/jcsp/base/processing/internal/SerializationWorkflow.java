@@ -78,7 +78,7 @@ final class SerializationWorkflow
         @Nullable Set<CspDataFlag> cspDataFlags)
     {
         ICspSerializationBuffer cspSerializationBuffer =
-            cspSerializationBufferFactory.createCspSerializationBuffer(initialBufferCapacity, directBuffer, bufferResizeStrategy);
+            cspSerializationBufferFactory.createBuffer(initialBufferCapacity, directBuffer, bufferResizeStrategy);
 
         // TODO construction of message should be made later (right before message body serialization).
         ICspDataMessage message

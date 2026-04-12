@@ -25,9 +25,8 @@
 
 package io.andreygs.jcsp.base.processing;
 
-import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraits;
-import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraitsBuilder;
-import io.andreygs.jcsp.base.processing.traits.ICspReferenceTypeTraits;
+import io.andreygs.jcsp.base.processing.annotations.CspSerializable;
+import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessor;
 import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.CspRuntimeException;
 import io.andreygs.jcsp.base.types.ICspVersionable;
@@ -864,7 +863,7 @@ public interface ICspDataGeneralSerializationProcessor
      * <p>
      *        Conditions:
      *        <ol>
-     *            <li>Parent class has {@link io.andreygs.jcsp.base.processing.traits.annotations.CspSerializable}
+     *            <li>Parent class has {@link CspSerializable}
      *            attribute, or it has own {@link ICspDataSerializationProcessor} or inherited class explicitly
      *            serializes its parent(s).</li>
      *        </ol>
@@ -894,82 +893,60 @@ public interface ICspDataGeneralSerializationProcessor
      * @throws CspRuntimeException if some serialized object fields or their nested fields will be serialized
      *                             as references when {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(Object value, boolean reference, Class<?> clazz);
+    void serialize(@Nullable Object value, boolean reference, Class<?> clazz);
 
     <T> void serialize(T[] value, Class<?> elementClazz);
 
-    <T> void serialize(T[] value, boolean reference, Class<?> elementClazz);
+    <T> void serialize(@Nullable T @Nullable [] value, boolean reference, boolean fixedSize,
+        boolean elementAsReference, Class<?> elementClazz);
 
     void serialize(String[] value, Charset charset);
 
-    void serialize(String[] value, boolean reference, Charset charset);
+    void serialize(@Nullable String @Nullable [] value, boolean reference, boolean fixedSize,
+        boolean elementAsReference, Charset charset);
 
     <T> void serialize(Collection<T> value, Class<?> elementClazz);
 
-    <T> void serialize(Collection<T> value, boolean reference, boolean valueAsReference, Class<?> elementClazz);
+    <T> void serialize(@Nullable Collection<@Nullable T> value, boolean reference, boolean elementAsReference,
+        Class<?> elementClazz);
 
     void serialize(Collection<String> value, Charset charset);
 
-    void serialize(Collection<String> value, boolean reference, boolean valueAsReference, Charset charset);
+    void serialize(@Nullable Collection<@Nullable String> value, boolean reference, boolean elementAsReference,
+        Charset charset);
 
     <K, V> void serialize(Map<K, V> value, Class<?> keyClazz, Class<?> valueClazz);
 
-    <K, V> void serialize(Map<K, V> value, boolean reference, boolean keyAsReference, boolean valueAsRefence,
-        Class<?> keyClazz, Class<?> valueClazz);
+    <K, V> void serialize(@Nullable Map<@Nullable K, @Nullable V> value, boolean reference, boolean keyAsReference,
+        boolean valueAsRefence, Class<?> keyClazz, Class<?> valueClazz);
 
     <K> void serialize(Map<K, String> value, Class<?> keyClazz, Charset valueCharset);
 
-    <K> void serialize(Map<K, String> value, boolean reference, boolean keyAsReference, boolean valueAsRefence,
-        Class<?> keyClazz, Charset valueCharset);
+    <K> void serialize(@Nullable Map<@Nullable K, @Nullable String> value, boolean reference, boolean keyAsReference,
+        boolean valueAsRefence, Class<?> keyClazz, Charset valueCharset);
 
     <V> void serialize(Map<String, V> value, Charset keyCharset, Class<?> valueClazz);
 
-    <V> void serialize(Map<String, V> value, boolean reference, boolean keyAsReference, boolean valueAsRefence,
-        Charset keyCharset, Class<?> valueClazz);
+    <V> void serialize(@Nullable Map<@Nullable String,@Nullable V> value, boolean reference, boolean keyAsReference,
+        boolean valueAsRefence, Charset keyCharset, Class<?> valueClazz);
 
     void serialize(Map<String, String> value, Charset keyCharset, Charset valueCharset);
 
-    void serialize(Map<String, String> value, boolean reference, boolean keyAsReference, boolean valueAsRefence,
-        Charset keyCharset, Charset valueCharset);
+    void serialize(@Nullable Map<@Nullable String, @Nullable String> value, boolean reference, boolean keyAsReference,
+        boolean valueAsRefence, Charset keyCharset, Charset valueCharset);
 
-    /**
-     * Serializes generic type or array with object component type.
-     * <p>
-     * This includes next steps:
-     * <ol>
-     *    <li>Writing pointer mark.
-     * <p>
-     *    Conditions:
-     *    <ul>
-     *        <li>{@link ICspGenericTypeTraits#isReference()} of cspObjectTypeTraits evals to true.</li>
-     *    </ul>
-     * <p>
-     *    Notes:
-     *    <ul>
-     *        <li>type, size and content of mark are depends on which CSP Data flags are set. See more information
-     *        in CSP reference.</li>
-     *        <li>next steps will be done only if:
-     *        <ol>
-     *            <li>reference is not set or
-     *            {@link CspDataFlag#CHECK_RECURSIVE_POINTERS} is set or
-     *            {@link CspDataFlag#CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE} is set/</li>
-     *            <li>This is the first object occurrence.</li>
-     *        </ol>
-     *        </li>
-     *    </ul>
-     *    </li>
-     *
-     *    <li>Serializing of generic type by rules provided with cspGenericTypeTraits.
-     *    See {@link ICspGenericTypeTraitsBuilder}
-     *    </li>
-     * </ol>
-     *
-     * @param value                Generic object or array with object component type to serialize.
-     * @param cspGenericTypeTraits Traits of value type parameters of clazz according to CSP reference.
-     * @throws CspRuntimeException if reference equal true and {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
-     */
-    void serializeCustomGenericType(@Nullable Object value, ICspGenericTypeTraits cspGenericTypeTraits);
+    void serializeComposite(@Nullable Object value, boolean reference, Class<?> clazz,
+        List<? extends ICspDataCompositeSerializationProcessor> genericTypeParameterProcessors);
 
-    List<? extends ICspReferenceTypeTraits> peekGenericTypeParametersTraits();
+    <T> void serializeComposite(@Nullable T @Nullable [] value, boolean reference, boolean fixedSize,
+        ICspDataCompositeSerializationProcessor componentProcessor);
+
+    <T> void serializeComposite(@Nullable Collection<@Nullable T> value, boolean reference,
+        ICspDataCompositeSerializationProcessor elementProcessor);
+
+    <K, V> void serializeComposite(@Nullable Map<@Nullable K, @Nullable V> value, boolean reference,
+        ICspDataCompositeSerializationProcessor keyProcessor, ICspDataCompositeSerializationProcessor valueProcessor);
+
+    List<ICspDataCompositeSerializationProcessor> peekCompositeProcessors();
 }
 

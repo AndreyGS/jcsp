@@ -61,9 +61,8 @@ public final class CspSerializationBufferFactory
     public static final IBufferResizeStrategy DEFAULT_BUFFER_RESIZE_STRATEGY = new DoublingBufferSizeStrategy();
 
     @Override
-    public ICspSerializationBuffer createCspSerializationBuffer(@Nullable Integer initialBufferCapacity,
-                                                                @Nullable Boolean directBuffer,
-                                                                @Nullable IBufferResizeStrategy bufferResizeStrategy)
+    public ICspSerializationBuffer createBuffer(@Nullable Integer initialBufferCapacity,
+        @Nullable Boolean directBuffer, @Nullable IBufferResizeStrategy bufferResizeStrategy)
     {
         int initialBufferCapacityLocal = initialBufferCapacity == null ? DEFAULT_CAPACITY_SIZE : initialBufferCapacity;
         boolean directBufferLocal = directBuffer == null || directBuffer;

@@ -32,37 +32,37 @@ import java.nio.charset.Charset;
  */
 public interface ICspDataGeneralDeserializationProcessor
 {
-    boolean deserialize(Object state, boolean value);
+    boolean deserialize(boolean value);
 
-    byte deserialize(Object state, byte value);
+    byte deserialize(byte value);
 
-    short deserialize(Object state, short value);
+    short deserialize(short value);
 
-    int deserialize(Object state, int value);
+    int deserialize(int value);
 
-    long deserialize(Object state, long value);
+    long deserialize(long value);
 
-    char deserialize(Object state, char value);
+    char deserialize(char value);
 
-    float deserialize(Object state, float value);
+    float deserialize(float value);
 
-    double deserialize(Object state, double value);
+    double deserialize(double value);
 
-    void deserialize(Object state, byte[] value);
+    void deserialize(byte[] value);
 
-    void deserialize(Object state, short[] value);
+    void deserialize(short[] value);
 
-    void deserialize(Object state, int[] value);
+    void deserialize(int[] value);
 
-    void deserialize(Object state, long[] value);
+    void deserialize(long[] value);
 
-    void deserialize(Object state, char[] value);
+    void deserialize(char[] value);
 
-    void deserialize(Object state, float[] value);
+    void deserialize(float[] value);
 
-    void deserialize(Object state, double[] value);
+    void deserialize(double[] value);
 
-    void deserialize(Object state, Charset charset, String value);
+    void deserialize(Charset charset, String value);
 
-    void deserialize(Object state, Object value);
+    void deserialize(Object value);
 }

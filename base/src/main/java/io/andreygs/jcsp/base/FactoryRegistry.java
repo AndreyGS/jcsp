@@ -28,9 +28,9 @@ package io.andreygs.jcsp.base;
 import io.andreygs.jcsp.base.message.ICspMessageBuilderFactory;
 import io.andreygs.jcsp.base.message.internal.CspMessageBuilderFactory;
 import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistryFactory;
+import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessorBuilderFactory;
+import io.andreygs.jcsp.base.processing.composite.internal.CspDataCompositeSerializationProcessorBuilderFactory;
 import io.andreygs.jcsp.base.processing.internal.CspDataProcessorRegistryFactory;
-import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraitsBuilderFactory;
-import io.andreygs.jcsp.base.processing.traits.internal.CspGenericTypeTraitsBuilderFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,11 +46,17 @@ public class FactoryRegistry
     {
         factories.put(ICspMessageBuilderFactory.class, new CspMessageBuilderFactory());
         factories.put(ICspDataProcessorRegistryFactory.class, new CspDataProcessorRegistryFactory());
-        factories.put(ICspGenericTypeTraitsBuilderFactory.class, new CspGenericTypeTraitsBuilderFactory());
+        factories.put(ICspDataCompositeSerializationProcessorBuilderFactory.class,
+            new CspDataCompositeSerializationProcessorBuilderFactory());
     }
 
     public static <F> F requireFactory(Class<F> factoryClazz)
     {
-        return factoryClazz.cast(factories.get(factoryClazz));
+        F factory = factoryClazz.cast(factories.get(factoryClazz));
+        if (factory == null)
+        {
+            throw new IllegalArgumentException("Factory for " + factoryClazz.getName() + " is not registered!");
+        }
+        return factory;
     }
 }

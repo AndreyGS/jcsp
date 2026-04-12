@@ -23,20 +23,25 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.buffer.internal;
+package io.andreygs.jcsp.base.processing.composite.internal;
 
-import java.nio.ByteBuffer;
+import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeProcessorBuilder;
+import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessor;
+import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessorBuilderFactory;
 
 /**
- * Factory for creating {@link ICspDeserializationBuffer} instance.
+ * TODO: place description here
  */
-public interface ICspDeserializationBufferFactory
+public final class CspDataCompositeSerializationProcessorBuilderFactory
+    implements ICspDataCompositeSerializationProcessorBuilderFactory
 {
-    /**
-     * Creates {@link ICspDeserializationBuffer} with provided ByteBuffer as source of CSP serialized message.
-     *
-     * @param byteBuffer Buffer that contains CSP serialized message.
-     * @return created instance of {@link ICspDeserializationBuffer}.
-     */
-    ICspDeserializationBuffer createBuffer(ByteBuffer byteBuffer);
+    private static final ICspDataCompositeProcessorFactory<ICspDataCompositeSerializationProcessor,
+                                                              ICspDataCompositeSerializationSubProcessorHolder>
+        DEFAULT_PROCESSOR_FACTORY = new CspDataCompositeSerializationProcessorFactory();
+
+    @Override
+    public ICspDataCompositeProcessorBuilder<ICspDataCompositeSerializationProcessor> createProcessorBuilder()
+    {
+        return new CspDataCompositeProcessorBuilder<>(DEFAULT_PROCESSOR_FACTORY);
+    }
 }

@@ -23,20 +23,40 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.buffer.internal;
+package io.andreygs.jcsp.base.processing.composite.internal;
 
-import java.nio.ByteBuffer;
+import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeProcessor;
 
 /**
- * Factory for creating {@link ICspDeserializationBuffer} instance.
+ * TODO: place description here
  */
-public interface ICspDeserializationBufferFactory
+abstract class AbstractCspDataCompositeObjectProcessor<P> implements ICspDataCompositeProcessor<P>
 {
-    /**
-     * Creates {@link ICspDeserializationBuffer} with provided ByteBuffer as source of CSP serialized message.
-     *
-     * @param byteBuffer Buffer that contains CSP serialized message.
-     * @return created instance of {@link ICspDeserializationBuffer}.
-     */
-    ICspDeserializationBuffer createBuffer(ByteBuffer byteBuffer);
+    private final boolean reference;
+
+    AbstractCspDataCompositeObjectProcessor(boolean reference)
+    {
+        this.reference = reference;
+    }
+
+    @Override
+    public final P overrideReferencePropertyInProcessor(boolean reference)
+    {
+        if (this.reference != reference)
+        {
+            return createCopyInstanceWithOverriddenReference(reference);
+        }
+        else
+        {
+            return getThisAsProcessor();
+        }
+    }
+
+    protected final boolean isReference()
+    {
+        return reference;
+    }
+
+    protected abstract P createCopyInstanceWithOverriddenReference(boolean reference);
+    protected abstract P getThisAsProcessor();
 }

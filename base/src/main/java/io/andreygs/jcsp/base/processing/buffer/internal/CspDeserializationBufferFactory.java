@@ -39,7 +39,7 @@ public final class CspDeserializationBufferFactory
     implements ICspDeserializationBufferFactory
 {
     @Override
-    public ICspDeserializationBuffer createCspDeserializationBuffer(ByteBuffer byteBuffer)
+    public ICspDeserializationBuffer createBuffer(ByteBuffer byteBuffer)
     {
         return new CspDeserializationBuffer(byteBuffer);
     }

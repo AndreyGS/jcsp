@@ -30,12 +30,12 @@ import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
-import io.andreygs.jcsp.base.processing.traits.ICspGenericTypeTraits;
-import io.andreygs.jcsp.base.processing.traits.ICspReferenceTypeTraits;
+import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessor;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +52,7 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     private final ICspDataProcessorRegistry<ICspDataSerializationProcessor> cspProcessorRegistry;
     private final ICspDataProcessorGenerator<ICspDataSerializationProcessor> cspDataProcessorGenerator;
     private final ICspDataMessage cspDataMessage;
-    private @Nullable Stack<ICspGenericTypeTraits> cspGenericTypeTraits;
+    private @Nullable Stack<List<ICspDataCompositeSerializationProcessor>> activeCompositeProcessors;
     private final @Nullable Map<Object, Integer> referenceMap;
 
     CspDataGeneralSerializationProcessor(
@@ -242,7 +242,8 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     }
 
     @Override
-    public <T> void serialize(T[] value, boolean reference, Class<?> elementClazz)
+    public <T> void serialize(@Nullable T @Nullable [] value, boolean reference, boolean fixedSize,
+        boolean elementAsReference, Class<?> elementClazz)
     {
 
     }
@@ -254,7 +255,8 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     }
 
     @Override
-    public void serialize(String[] value, boolean reference, Charset charset)
+    public void serialize(@Nullable String @Nullable [] value, boolean reference, boolean fixedSize,
+        boolean elementAsReference, Charset charset)
     {
 
     }
@@ -266,7 +268,7 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     }
 
     @Override
-    public <T> void serialize(Collection<T> value, boolean reference, boolean valueAsReference, Class<?> elementClazz)
+    public <T> void serialize(@Nullable Collection<@Nullable T> value, boolean reference, boolean valueAsReference, Class<?> elementClazz)
     {
 
     }
@@ -278,7 +280,7 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     }
 
     @Override
-    public void serialize(Collection<String> value, boolean reference, boolean valueAsReference, Charset charset)
+    public void serialize(@Nullable Collection<@Nullable String> value, boolean reference, boolean valueAsReference, Charset charset)
     {
 
     }
@@ -290,7 +292,7 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     }
 
     @Override
-    public <K, V> void serialize(Map<K, V> value, boolean reference, boolean keyAsReference, boolean valueAsRefence,
+    public <K, V> void serialize(@Nullable Map<@Nullable K,@Nullable V> value, boolean reference, boolean keyAsReference, boolean valueAsRefence,
                                  Class<?> keyClazz, Class<?> valueClazz)
     {
 
@@ -303,7 +305,7 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     }
 
     @Override
-    public <K> void serialize(Map<K, String> value, boolean reference, boolean keyAsReference, boolean valueAsRefence,
+    public <K> void serialize(@Nullable Map<@Nullable K, @Nullable String> value, boolean reference, boolean keyAsReference, boolean valueAsRefence,
                               Class<?> keyClazz, Charset valueCharset)
     {
 
@@ -316,7 +318,7 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     }
 
     @Override
-    public <V> void serialize(Map<String, V> value, boolean reference, boolean keyAsReference, boolean valueAsRefence,
+    public <V> void serialize(@Nullable Map<@Nullable String, @Nullable V> value, boolean reference, boolean keyAsReference, boolean valueAsRefence,
                               Charset keyCharset, Class<?> valueClazz)
     {
 
@@ -329,25 +331,47 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     }
 
     @Override
-    public void serialize(Map<String, String> value, boolean reference, boolean keyAsReference,
-                          boolean valueAsRefence, Charset keyCharset, Charset valueCharset)
+    public void serialize(@Nullable Map<@Nullable String, @Nullable String> value, boolean reference,
+        boolean keyAsReference, boolean valueAsRefence, Charset keyCharset, Charset valueCharset)
     {
 
     }
 
     @Override
-    public void serializeCustomGenericType(@Nullable Object value, ICspGenericTypeTraits cspGenericTypeTraits)
+    public void serializeComposite(@Nullable Object value, boolean reference, Class<?> clazz,
+        List<? extends ICspDataCompositeSerializationProcessor> genericTypeParameterProcessors)
     {
 
     }
 
     @Override
-    public List<? extends ICspReferenceTypeTraits> peekGenericTypeParametersTraits()
+    public <T> void serializeComposite(T @Nullable [] value, boolean reference, boolean fixedSize,
+        ICspDataCompositeSerializationProcessor componentProcessor)
     {
-        if (cspGenericTypeTraits == null || cspGenericTypeTraits.empty())
+
+    }
+
+    @Override
+    public <T> void serializeComposite(@Nullable Collection<T> value, boolean reference,
+        ICspDataCompositeSerializationProcessor elementProcessor)
+    {
+
+    }
+
+    @Override
+    public <K, V> void serializeComposite(@Nullable Map<K, V> value, boolean reference,
+        ICspDataCompositeSerializationProcessor keyProcessor, ICspDataCompositeSerializationProcessor valueProcessor)
+    {
+
+    }
+
+    @Override
+    public List<ICspDataCompositeSerializationProcessor> peekCompositeProcessors()
+    {
+        if (activeCompositeProcessors == null || activeCompositeProcessors.empty())
         {
             throw new IllegalStateException("typeTraits are not present when they should be!");
         }
-        return cspGenericTypeTraits.peek().getGenericTypeParametersTraits();
+        return Collections.unmodifiableList(activeCompositeProcessors.peek());
     }
 }

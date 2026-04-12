@@ -23,20 +23,26 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.buffer.internal;
+package io.andreygs.jcsp.base.processing.annotations;
 
-import java.nio.ByteBuffer;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Factory for creating {@link ICspDeserializationBuffer} instance.
+ * Tag that field should be threatened as CSP pointer (Java reference) and not as embedded instance.
+ * <p>
+ * Make sense only for object types, not for primitives.
+ * <p>
+ * Note that word "reference" was chosen as more familiar to Java developers. But CSP specification has only "pointer"
+ * term, and you should consider that when you meet "reference" word it has meaning from CSP perspective as a single
+ * level pointer. For multi-level pointer you should take a look at {@link CspMultiLevelPointer}.
  */
-public interface ICspDeserializationBufferFactory
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD, ElementType.TYPE_PARAMETER, ElementType.TYPE_USE})
+public @interface CspReference
 {
-    /**
-     * Creates {@link ICspDeserializationBuffer} with provided ByteBuffer as source of CSP serialized message.
-     *
-     * @param byteBuffer Buffer that contains CSP serialized message.
-     * @return created instance of {@link ICspDeserializationBuffer}.
-     */
-    ICspDeserializationBuffer createBuffer(ByteBuffer byteBuffer);
 }

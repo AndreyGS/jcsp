@@ -54,7 +54,6 @@ public interface ICspSerializationBufferFactory
      * @return created {@link ICspSerializationBuffer} instance.
      * @see ByteBuffer
      */
-    ICspSerializationBuffer createCspSerializationBuffer(@Nullable Integer initialBufferCapacity,
-                                                         @Nullable Boolean directBuffer,
-                                                         @Nullable IBufferResizeStrategy bufferResizeStrategy);
+    ICspSerializationBuffer createBuffer(@Nullable Integer initialBufferCapacity, @Nullable Boolean directBuffer,
+        @Nullable IBufferResizeStrategy bufferResizeStrategy);
 }

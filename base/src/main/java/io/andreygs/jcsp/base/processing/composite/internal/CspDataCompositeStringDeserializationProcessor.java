@@ -23,29 +23,42 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.internal;
+package io.andreygs.jcsp.base.processing.composite.internal;
 
-import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
-import io.andreygs.jcsp.base.processing.composite.internal.CspDataCompositeSerializationProcessorBuilderFactory;
+import io.andreygs.jcsp.base.processing.ICspDataGeneralDeserializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
+import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeDeserializationProcessor;
+import org.jetbrains.annotations.Nullable;
+
+import java.nio.charset.Charset;
 
 /**
  * TODO: place description here
  */
-final class CspDataSerializationProcessorGeneratorProvider
-    implements ICspDataSerializationProcessorGeneratorProvider
+final class CspDataCompositeStringDeserializationProcessor
+    extends AbstractCspDataCompositeStringProcessor<ICspDataCompositeDeserializationProcessor>
+    implements ICspDataCompositeDeserializationProcessor
 {
-    /**
-     * Default immutable cached instance of {@link ICspDataProcessorGenerator}.
-     * <p>
-     * Thread-safe.
-     */
-    private static final ICspDataProcessorGenerator<ICspDataSerializationProcessor>
-        DEFAULT_DATA_SERIALIZATION_PROCESSOR_GENERATOR = new CspDataSerializationProcessorGenerator(
-            new CspDataCompositeSerializationProcessorBuilderFactory());
+    CspDataCompositeStringDeserializationProcessor(boolean reference, Charset charset)
+    {
+        super(reference, charset);
+    }
 
     @Override
-    public ICspDataProcessorGenerator<ICspDataSerializationProcessor> provideCspDataProcessorGenerator()
+    public <T> @Nullable T deserialize(ICspDataGeneralDeserializationProcessor generalDeserializationProcessor)
     {
-        return DEFAULT_DATA_SERIALIZATION_PROCESSOR_GENERATOR;
+        return null;
+    }
+
+    @Override
+    protected ICspDataCompositeDeserializationProcessor createCopyInstanceWithOverriddenReference(boolean reference)
+    {
+        return new CspDataCompositeStringDeserializationProcessor(reference, getCharset());
+    }
+
+    @Override
+    protected ICspDataCompositeDeserializationProcessor getThisAsProcessor()
+    {
+        return this;
     }
 }

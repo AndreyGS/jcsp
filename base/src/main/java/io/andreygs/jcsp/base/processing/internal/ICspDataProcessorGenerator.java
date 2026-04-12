@@ -25,6 +25,7 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
+import io.andreygs.jcsp.base.processing.annotations.CspProcessorAutoGeneratable;
 import io.andreygs.jcsp.base.types.CspRuntimeException;
 
 /**
@@ -40,11 +41,11 @@ public interface ICspDataProcessorGenerator<P>
      * Pure method.
      *
      * @param structClazz Class for which processor should be generated. It must contain
-     *                    {@link io.andreygs.jcsp.base.processing.traits.annotations.CspProcessorAutoGeneratable}
+     *                    {@link CspProcessorAutoGeneratable}
      *                    annotation.
      * @return generated processor.
      * @throws CspRuntimeException with status {@link io.andreygs.jcsp.base.types.CspStatus#NO_SUCH_HANDLER} if
-     * provided class has no {@link io.andreygs.jcsp.base.processing.traits.annotations.CspProcessorAutoGeneratable}
+     * provided class has no {@link CspProcessorAutoGeneratable}
      * annotation.
      */
     P generateProcessor(Class<?> structClazz) throws CspRuntimeException;

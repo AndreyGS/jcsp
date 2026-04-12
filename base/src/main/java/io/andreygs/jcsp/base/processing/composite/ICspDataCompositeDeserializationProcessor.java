@@ -23,20 +23,16 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.buffer.internal;
+package io.andreygs.jcsp.base.processing.composite;
 
-import java.nio.ByteBuffer;
+import io.andreygs.jcsp.base.processing.ICspDataGeneralDeserializationProcessor;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * Factory for creating {@link ICspDeserializationBuffer} instance.
+ * TODO: place description here
  */
-public interface ICspDeserializationBufferFactory
+public interface ICspDataCompositeDeserializationProcessor
+    extends ICspDataCompositeProcessor<ICspDataCompositeDeserializationProcessor>
 {
-    /**
-     * Creates {@link ICspDeserializationBuffer} with provided ByteBuffer as source of CSP serialized message.
-     *
-     * @param byteBuffer Buffer that contains CSP serialized message.
-     * @return created instance of {@link ICspDeserializationBuffer}.
-     */
-    ICspDeserializationBuffer createBuffer(ByteBuffer byteBuffer);
+    <T> @Nullable T deserialize(ICspDataGeneralDeserializationProcessor generalDeserializationProcessor);
 }

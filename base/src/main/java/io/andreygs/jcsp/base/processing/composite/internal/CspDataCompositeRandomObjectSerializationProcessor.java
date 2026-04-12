@@ -23,20 +23,39 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.buffer.internal;
+package io.andreygs.jcsp.base.processing.composite.internal;
 
-import java.nio.ByteBuffer;
+import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
+import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessor;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * Factory for creating {@link ICspDeserializationBuffer} instance.
+ * TODO: place description here
  */
-public interface ICspDeserializationBufferFactory
+final class CspDataCompositeRandomObjectSerializationProcessor
+    extends AbstractCspDataCompositeRandomObjectProcessor<ICspDataCompositeSerializationProcessor>
+    implements ICspDataCompositeSerializationProcessor
 {
-    /**
-     * Creates {@link ICspDeserializationBuffer} with provided ByteBuffer as source of CSP serialized message.
-     *
-     * @param byteBuffer Buffer that contains CSP serialized message.
-     * @return created instance of {@link ICspDeserializationBuffer}.
-     */
-    ICspDeserializationBuffer createBuffer(ByteBuffer byteBuffer);
+    CspDataCompositeRandomObjectSerializationProcessor(boolean reference, Class<?> clazz)
+    {
+        super(reference, clazz);
+    }
+
+    @Override
+    public void serialize(@Nullable Object value, ICspDataGeneralSerializationProcessor generalSerializationProcessor)
+    {
+        generalSerializationProcessor.serialize(value, isReference(), getClazz());
+    }
+
+    @Override
+    protected ICspDataCompositeSerializationProcessor createCopyInstanceWithOverriddenReference(boolean reference)
+    {
+        return new CspDataCompositeRandomObjectSerializationProcessor(reference, getClazz());
+    }
+
+    @Override
+    protected ICspDataCompositeSerializationProcessor getThisAsProcessor()
+    {
+        return this;
+    }
 }
