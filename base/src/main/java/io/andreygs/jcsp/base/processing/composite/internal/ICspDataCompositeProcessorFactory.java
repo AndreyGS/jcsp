@@ -32,6 +32,10 @@ import java.nio.charset.Charset;
  */
 public interface ICspDataCompositeProcessorFactory<P, H extends ICspDataCompositeSubProcessorHolder<P>>
 {
+    H createCollectionProcessor(boolean reference);
+
+    H createMapProcessor(boolean reference);
+
     H createArrayProcessor(boolean reference, boolean fixedSize);
 
     P createArrayWithPrimitiveComponentProcessor(boolean reference, boolean fixedSize, Class<?> arrayClazz);

@@ -29,46 +29,32 @@ import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessor;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.Map;
-
 /**
  * TODO: place description here
  */
 final class CspDataCompositeGenericSerializationProcessor
     extends AbstractCspDataCompositeSubProcessorHolder<ICspDataCompositeSerializationProcessor>
-    implements ICspDataCompositeSerializationProcessor, ICspDataCompositeSerializationSubProcessorHolder
+    implements ICspDataCompositeSerializationSubProcessorHolder
 {
-    private final ICspDataCompositeProcessorSerializationDelegate compositeProcessorDelegate;
+    private final Class<?> clazz;
 
     CspDataCompositeGenericSerializationProcessor(boolean reference, Class<?> clazz, int typeParametersNumber)
     {
         super(reference, typeParametersNumber);
-        if (clazz.isAssignableFrom(Collection.class))
-        {
-            compositeProcessorDelegate = new CollectionCompositeProcessor();
-        }
-        else if (clazz.isAssignableFrom(Map.class))
-        {
-            compositeProcessorDelegate = new MapCompositeProcessor();
-        }
-        else
-        {
-            compositeProcessorDelegate = new RandomGenericCompositeProcessor(clazz);
-        }
+        this.clazz = clazz;
     }
 
     private CspDataCompositeGenericSerializationProcessor(CspDataCompositeGenericSerializationProcessor processor,
         boolean reference)
     {
         super(processor, reference);
-        this.compositeProcessorDelegate = processor.compositeProcessorDelegate;
+        this.clazz = processor.clazz;
     }
 
     @Override
     public void serialize(@Nullable Object value, ICspDataGeneralSerializationProcessor generalSerializationProcessor)
     {
-        compositeProcessorDelegate.serialize(value, generalSerializationProcessor);
+        generalSerializationProcessor.serializeComposite(value, isReference(), clazz, getSubProcessors());
     }
 
     @Override
@@ -81,48 +67,5 @@ final class CspDataCompositeGenericSerializationProcessor
     protected ICspDataCompositeSerializationProcessor getThisAsProcessor()
     {
         return this;
-    }
-
-    private interface ICspDataCompositeProcessorSerializationDelegate
-    {
-        void serialize(@Nullable Object value, ICspDataGeneralSerializationProcessor generalSerializationProcessor);
-    }
-
-    private class CollectionCompositeProcessor implements ICspDataCompositeProcessorSerializationDelegate
-    {
-        @Override
-        public void serialize(@Nullable Object value,
-            ICspDataGeneralSerializationProcessor generalSerializationProcessor)
-        {
-            generalSerializationProcessor.serializeComposite((Collection<?>)value, isReference(), getSubProcessor(0));
-        }
-    }
-
-    private class MapCompositeProcessor implements ICspDataCompositeProcessorSerializationDelegate
-    {
-        @Override
-        public void serialize(@Nullable Object value,
-            ICspDataGeneralSerializationProcessor generalSerializationProcessor)
-        {
-            generalSerializationProcessor.serializeComposite((Map<?, ?>)value, isReference(),
-                getSubProcessor(0), getSubProcessor(1));
-        }
-    }
-
-    private class RandomGenericCompositeProcessor implements ICspDataCompositeProcessorSerializationDelegate
-    {
-        private final Class<?> clazz;
-
-        private RandomGenericCompositeProcessor(Class<?> clazz)
-        {
-            this.clazz = clazz;
-        }
-
-        @Override
-        public void serialize(@Nullable Object value,
-            ICspDataGeneralSerializationProcessor generalSerializationProcessor)
-        {
-            generalSerializationProcessor.serializeComposite(value, isReference(), clazz, getSubProcessors());
-        }
     }
 }

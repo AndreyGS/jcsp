@@ -25,17 +25,38 @@
 
 package io.andreygs.jcsp.base.processing.composite.internal;
 
+import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessor;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Collection;
 
 /**
  * TODO: place description here
  */
-interface ICspDataCompositeSerializationSubProcessorHolder
-    extends ICspDataCompositeSubProcessorHolder<ICspDataCompositeSerializationProcessor>,
-            ICspDataCompositeSerializationProcessor
+final class CspDataCompositeCollectionSerializationProcessor
+    extends AbstractCspDataCompositeSubProcessorHolder<ICspDataCompositeSerializationProcessor>
+    implements ICspDataCompositeSerializationSubProcessorHolder
 {
+    CspDataCompositeCollectionSerializationProcessor(boolean reference)
+    {
+        super(reference, 1);
+    }
+
     @Override
-    default ICspDataCompositeSerializationProcessor getThisProcessor()
+    public void serialize(@Nullable Object value, ICspDataGeneralSerializationProcessor generalSerializationProcessor)
+    {
+        generalSerializationProcessor.serializeComposite((Collection<?>)value, isReference(), getSubProcessor(0));
+    }
+
+    @Override
+    protected ICspDataCompositeSerializationProcessor createCopyInstanceWithOverriddenReference(boolean reference)
+    {
+        return new CspDataCompositeCollectionSerializationProcessor(reference);
+    }
+
+    @Override
+    protected ICspDataCompositeSerializationProcessor getThisAsProcessor()
     {
         return this;
     }

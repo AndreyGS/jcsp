@@ -25,7 +25,6 @@
 
 package io.andreygs.jcsp.base.processing.composite.internal;
 
-import io.andreygs.jcsp.base.processing.ICspDataGeneralDeserializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessor;
 import org.jetbrains.annotations.Nullable;

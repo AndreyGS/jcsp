@@ -34,7 +34,7 @@ import org.jetbrains.annotations.Nullable;
  */
 final class CspDataCompositeArrayDeserializationProcessor
     extends AbstractCspDataCompositeArrayProcessor<ICspDataCompositeDeserializationProcessor>
-    implements ICspDataCompositeDeserializationProcessor, ICspDataCompositeDeserializationSubProcessorHolder
+    implements ICspDataCompositeDeserializationSubProcessorHolder
 {
     CspDataCompositeArrayDeserializationProcessor(boolean reference, boolean fixedSize)
     {

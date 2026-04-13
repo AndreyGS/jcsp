@@ -49,6 +49,24 @@ final class CspDataCompositeProcessorBuilder<P, H extends ICspDataCompositeSubPr
     }
 
     @Override
+    public ICspDataCompositeProcessorBuilder<P> addCollection(boolean reference)
+    {
+        testStateNotDone();
+        H newNode = processorFactory.createCollectionProcessor(reference);
+        commitNode(newNode);
+        return this;
+    }
+
+    @Override
+    public ICspDataCompositeProcessorBuilder<P> addMap(boolean reference)
+    {
+        testStateNotDone();
+        H newNode = processorFactory.createMapProcessor(reference);
+        commitNode(newNode);
+        return this;
+    }
+
+    @Override
     public ICspDataCompositeProcessorBuilder<P> addReference(boolean reference, Class<?> clazz)
     {
         if (clazz.getTypeParameters().length > 0)
@@ -89,7 +107,7 @@ final class CspDataCompositeProcessorBuilder<P, H extends ICspDataCompositeSubPr
                 clazz.getName() + " is not generic and it should be added using another " + "methods!.");
         }
         H newNode = processorFactory.createGenericProcessor(reference, clazz, clazz.getTypeParameters().length);
-        commitSubProcessHolderNode(newNode);
+        commitNode(newNode);
         return this;
     }
 
@@ -127,7 +145,7 @@ final class CspDataCompositeProcessorBuilder<P, H extends ICspDataCompositeSubPr
             {
                 H newNode = processorFactory.createArrayProcessor(
                     dimensionReferenceFlags.get(i),  dimensionFixedSizeFlags.get(i));
-                commitSubProcessHolderNode(newNode);
+                commitNode(newNode);
             }
         }
         return this;
@@ -153,7 +171,7 @@ final class CspDataCompositeProcessorBuilder<P, H extends ICspDataCompositeSubPr
             else
             {
                 H newNode = processorFactory.createArrayProcessor(true,  true);
-                commitSubProcessHolderNode(newNode);
+                commitNode(newNode);
             }
         }
         return this;
@@ -176,8 +194,9 @@ final class CspDataCompositeProcessorBuilder<P, H extends ICspDataCompositeSubPr
         return rootCompositeProcessor;
     }
 
-    private void commitSubProcessHolderNode(H newNode)
+    private void commitNode(H newNode)
     {
+        commitNode(newNode.getThisProcessor());
         subProcessHolders.push(newNode);
     }
 

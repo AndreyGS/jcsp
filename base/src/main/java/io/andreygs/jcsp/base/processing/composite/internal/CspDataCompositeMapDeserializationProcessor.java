@@ -25,17 +25,36 @@
 
 package io.andreygs.jcsp.base.processing.composite.internal;
 
-import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataGeneralDeserializationProcessor;
+import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeDeserializationProcessor;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * TODO: place description here
  */
-interface ICspDataCompositeSerializationSubProcessorHolder
-    extends ICspDataCompositeSubProcessorHolder<ICspDataCompositeSerializationProcessor>,
-            ICspDataCompositeSerializationProcessor
+final class CspDataCompositeMapDeserializationProcessor
+    extends AbstractCspDataCompositeSubProcessorHolder<ICspDataCompositeDeserializationProcessor>
+    implements ICspDataCompositeDeserializationSubProcessorHolder
 {
+    CspDataCompositeMapDeserializationProcessor(boolean reference)
+    {
+        super(reference, 2);
+    }
+
     @Override
-    default ICspDataCompositeSerializationProcessor getThisProcessor()
+    public @Nullable <T> T deserialize(ICspDataGeneralDeserializationProcessor generalDeserializationProcessor)
+    {
+        return null;
+    }
+
+    @Override
+    protected ICspDataCompositeDeserializationProcessor createCopyInstanceWithOverriddenReference(boolean reference)
+    {
+        return new CspDataCompositeMapDeserializationProcessor(reference);
+    }
+
+    @Override
+    protected ICspDataCompositeDeserializationProcessor getThisAsProcessor()
     {
         return this;
     }

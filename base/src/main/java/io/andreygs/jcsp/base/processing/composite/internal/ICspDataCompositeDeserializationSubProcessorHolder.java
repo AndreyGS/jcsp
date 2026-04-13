@@ -31,6 +31,12 @@ import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeDeserializati
  * TODO: place description here
  */
 interface ICspDataCompositeDeserializationSubProcessorHolder
-    extends ICspDataCompositeSubProcessorHolder<ICspDataCompositeDeserializationProcessor>
+    extends ICspDataCompositeSubProcessorHolder<ICspDataCompositeDeserializationProcessor>,
+            ICspDataCompositeDeserializationProcessor
 {
+    @Override
+    default ICspDataCompositeDeserializationProcessor getThisProcessor()
+    {
+        return this;
+    }
 }

@@ -33,6 +33,10 @@ import java.util.List;
  */
 public interface ICspDataCompositeProcessorBuilder<P>
 {
+    ICspDataCompositeProcessorBuilder<P> addCollection(boolean reference);
+
+    ICspDataCompositeProcessorBuilder<P> addMap(boolean reference);
+
     ICspDataCompositeProcessorBuilder<P> addReference(boolean reference, Class<?> clazz);
 
     ICspDataCompositeProcessorBuilder<P> addString(boolean reference, Charset charset);

@@ -32,8 +32,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Indicates {@link String} charset according to CSP Interface.
- * Make sense only for fields (or array types, or generic types) which has type {@link String}.
+ * Defines {@link String} charset according to CSP Interface.
+ * Make sense only for fields (or array components, or generic types) which has type {@link String}.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

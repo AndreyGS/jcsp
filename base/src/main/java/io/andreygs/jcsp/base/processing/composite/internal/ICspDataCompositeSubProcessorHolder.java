@@ -31,4 +31,6 @@ package io.andreygs.jcsp.base.processing.composite.internal;
 interface ICspDataCompositeSubProcessorHolder<P>
 {
     boolean addSubProcessor(P subProcessor);
+
+    P getThisProcessor();
 }

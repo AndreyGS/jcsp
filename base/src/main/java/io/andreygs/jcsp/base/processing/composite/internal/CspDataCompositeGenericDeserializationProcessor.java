@@ -29,45 +29,32 @@ import io.andreygs.jcsp.base.processing.ICspDataGeneralDeserializationProcessor;
 import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeDeserializationProcessor;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.Map;
-
 /**
  * TODO: place description here
  */
 final class CspDataCompositeGenericDeserializationProcessor
     extends AbstractCspDataCompositeSubProcessorHolder<ICspDataCompositeDeserializationProcessor>
-    implements ICspDataCompositeDeserializationProcessor, ICspDataCompositeDeserializationSubProcessorHolder
+    implements ICspDataCompositeDeserializationSubProcessorHolder
 {
-    private final ICspDataCompositeProcessorDeserializationDelegate compositeProcessorDelegate;
+    private final Class<?> clazz;
 
     CspDataCompositeGenericDeserializationProcessor(boolean reference, Class<?> clazz, int typeParametersNumber)
     {
         super(reference, typeParametersNumber);
-        if (clazz.isAssignableFrom(Collection.class))
-        {
-            compositeProcessorDelegate = new CollectionCompositeProcessor();
-        }
-        else if (clazz.isAssignableFrom(Map.class))
-        {
-            compositeProcessorDelegate = new MapCompositeProcessor();
-        }
-        else
-        {
-            compositeProcessorDelegate = new RandomGenericCompositeProcessor(clazz);
-        }
+        this.clazz = clazz;
     }
 
-    private CspDataCompositeGenericDeserializationProcessor(CspDataCompositeGenericDeserializationProcessor processor, boolean reference)
+    private CspDataCompositeGenericDeserializationProcessor(CspDataCompositeGenericDeserializationProcessor processor,
+        boolean reference)
     {
         super(processor, reference);
-        this.compositeProcessorDelegate = processor.compositeProcessorDelegate;
+        this.clazz = processor.clazz;
     }
 
     @Override
     public <T> @Nullable T deserialize(ICspDataGeneralDeserializationProcessor generalDeserializationProcessor)
     {
-        return compositeProcessorDelegate.deserialize(generalDeserializationProcessor);
+        return null;
     }
 
     @Override
@@ -80,44 +67,5 @@ final class CspDataCompositeGenericDeserializationProcessor
     protected ICspDataCompositeDeserializationProcessor getThisAsProcessor()
     {
         return this;
-    }
-
-    private interface ICspDataCompositeProcessorDeserializationDelegate
-    {
-        <T> @Nullable T deserialize(ICspDataGeneralDeserializationProcessor generalDeserializationProcessor);
-    }
-
-    private class CollectionCompositeProcessor implements ICspDataCompositeProcessorDeserializationDelegate
-    {
-        @Override
-        public <T> @Nullable T deserialize(ICspDataGeneralDeserializationProcessor generalDeserializationProcessor)
-        {
-            return null;
-        }
-    }
-
-    private class MapCompositeProcessor implements ICspDataCompositeProcessorDeserializationDelegate
-    {
-        @Override
-        public <T> @Nullable T deserialize(ICspDataGeneralDeserializationProcessor generalDeserializationProcessor)
-        {
-            return null;
-        }
-    }
-
-    private class RandomGenericCompositeProcessor implements ICspDataCompositeProcessorDeserializationDelegate
-    {
-        private final Class<?> clazz;
-
-        private RandomGenericCompositeProcessor(Class<?> clazz)
-        {
-            this.clazz = clazz;
-        }
-
-        @Override
-        public <T> @Nullable T deserialize(ICspDataGeneralDeserializationProcessor generalDeserializationProcessor)
-        {
-            return null;
-        }
     }
 }

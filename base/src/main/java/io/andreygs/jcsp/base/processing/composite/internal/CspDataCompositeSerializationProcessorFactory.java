@@ -37,6 +37,18 @@ final class CspDataCompositeSerializationProcessorFactory
                                                     ICspDataCompositeSerializationSubProcessorHolder>
 {
     @Override
+    public ICspDataCompositeSerializationSubProcessorHolder createCollectionProcessor(boolean reference)
+    {
+        return new CspDataCompositeCollectionSerializationProcessor(reference);
+    }
+
+    @Override
+    public ICspDataCompositeSerializationSubProcessorHolder createMapProcessor(boolean reference)
+    {
+        return new CspDataCompositeMapSerializationProcessor(reference);
+    }
+
+    @Override
     public ICspDataCompositeSerializationSubProcessorHolder createArrayProcessor(boolean reference, boolean fixedSize)
     {
         return new CspDataCompositeArraySerializationProcessor(reference, fixedSize);
