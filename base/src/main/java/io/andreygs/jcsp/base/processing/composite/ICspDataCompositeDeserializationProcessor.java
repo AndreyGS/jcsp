@@ -35,4 +35,6 @@ public interface ICspDataCompositeDeserializationProcessor
     extends ICspDataCompositeProcessor<ICspDataCompositeDeserializationProcessor>
 {
     <T> @Nullable T deserialize(ICspDataGeneralDeserializationProcessor generalDeserializationProcessor);
+
+    <T> void deserialize(T value, ICspDataGeneralDeserializationProcessor generalDeserializationProcessor);
 }
