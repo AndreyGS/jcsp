@@ -810,10 +810,11 @@ public interface ICspDataGeneralSerializationProcessor
      * @param clazz The class that will be serialized. It is for choice which {@link ICspDataSerializationProcessor}
      *              shall be used, as long as value can implement different interfaces and inherits different classes
      *              (and some of them may be not part of CSP interface),
+     * @param <T>       Type of object to serialize.
      * @throws CspRuntimeException if some serialized object fields or their nested fields will be serialized
      *                             as references when {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(Object value, Class<?> clazz);
+    <T> void serialize(T value, Class<?> clazz);
 
     /**
      * Serializes Object.
@@ -890,10 +891,11 @@ public interface ICspDataGeneralSerializationProcessor
      * @param clazz     The class that will be serialized. It is for choice which {@link ICspDataSerializationProcessor}
      *                  shall be used, as long as value can implement different interfaces and inherits different classes
      *                  (and some of them may be not part of CSP interface),
+     * @param <T>       Type of object to serialize.
      * @throws CspRuntimeException if some serialized object fields or their nested fields will be serialized
      *                             as references when {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
      */
-    void serialize(@Nullable Object value, boolean reference, Class<?> clazz);
+    <T> void serialize(@Nullable T value, boolean reference, Class<?> clazz);
 
     <T> void serialize(T[] value, Class<?> elementClazz);
 

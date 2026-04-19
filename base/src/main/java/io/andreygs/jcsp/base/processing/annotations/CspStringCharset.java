@@ -48,5 +48,5 @@ public @interface CspStringCharset
      * @return charset according to CSP Interface. It will be used to build
      * {@link java.nio.charset.Charset} instance, so it must be valid canonical name of the charset.
      */
-    String charset();
+    String value();
 }

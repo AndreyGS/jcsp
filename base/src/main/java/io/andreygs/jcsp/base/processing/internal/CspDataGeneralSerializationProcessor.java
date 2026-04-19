@@ -224,13 +224,13 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     }
 
     @Override
-    public void serialize(Object value, Class<?> clazz)
+    public <T> void serialize(T value, Class<?> clazz)
     {
 
     }
 
     @Override
-    public void serialize(Object value, boolean reference, Class<?> clazz)
+    public <T> void serialize(T value, boolean reference, Class<?> clazz)
     {
 
     }

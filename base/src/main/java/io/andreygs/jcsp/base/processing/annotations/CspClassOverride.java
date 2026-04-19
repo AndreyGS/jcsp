@@ -98,5 +98,5 @@ public @interface CspClassOverride
      * This is most useful when
      * @return effective clazz for serialization/deserialization.
      */
-    Class<?> asClazz();
+    Class<?> value();
 }

@@ -28,7 +28,7 @@ package io.andreygs.jcsp.base.processing;
 /**
  * TODO: place description here
  */
-public interface ICspDataDeserializationProcessor
+public interface ICspDataDeserializationProcessor<T>
 {
-    void deserialize(Object value, ICspDataGeneralDeserializationProcessor generalProcessor);
+    void deserialize(T value, ICspDataGeneralDeserializationProcessor generalProcessor);
 }

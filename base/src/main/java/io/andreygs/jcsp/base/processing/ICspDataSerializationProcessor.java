@@ -28,7 +28,7 @@ package io.andreygs.jcsp.base.processing;
 /**
  * TODO: place description here
  */
-public interface ICspDataSerializationProcessor
+public interface ICspDataSerializationProcessor<T>
 {
-    void serialize(Object value, ICspDataGeneralSerializationProcessor generalProcessor);
+    void serialize(T value, ICspDataGeneralSerializationProcessor generalProcessor);
 }
