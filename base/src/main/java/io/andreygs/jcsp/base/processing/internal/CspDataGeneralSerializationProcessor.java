@@ -49,7 +49,7 @@ import java.util.Stack;
 final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSerializationProcessor
 {
     private final ICspSerializationBuffer cspSerializationBuffer;
-    private final ICspDataProcessorRegistry<ICspDataSerializationProcessor> cspProcessorRegistry;
+    private final ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>> cspProcessorRegistry;
     private final ICspDataProcessorGenerator<ICspDataSerializationProcessor> cspDataProcessorGenerator;
     private final ICspDataMessage cspDataMessage;
     private @Nullable Stack<List<ICspDataCompositeSerializationProcessor>> activeCompositeProcessors;
@@ -57,7 +57,7 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
 
     CspDataGeneralSerializationProcessor(
         ICspSerializationBuffer cspSerializationBuffer,
-        ICspDataProcessorRegistry<ICspDataSerializationProcessor> cspProcessorRegistry,
+        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>> cspProcessorRegistry,
         ICspDataProcessorGenerator<ICspDataSerializationProcessor> cspDataProcessorGenerator,
         ICspDataMessage cspDataMessage)
     {

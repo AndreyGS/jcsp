@@ -25,6 +25,11 @@
 
 package io.andreygs.jcsp.base.processing.composite;
 
+import io.andreygs.jcsp.base.processing.annotations.CspClassOverride;
+import io.andreygs.jcsp.base.processing.annotations.CspFixedSizeArray;
+import io.andreygs.jcsp.base.processing.annotations.CspMultiLevelPointer;
+import io.andreygs.jcsp.base.processing.annotations.CspReference;
+import io.andreygs.jcsp.base.processing.annotations.CspStringCharset;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
@@ -42,24 +47,37 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * TODO: place description here
  */
-public abstract class AbstractCspTypeDescriptorHolder<T>
+public abstract class AbstractCspTypeDescriptorExtractor<T>
 {
+    public static final Set<Class<?>> VALID_RANDOM_REFERENCE_ANNOTATION_TYPES = Set.of(CspReference.class,
+        CspClassOverride.class);
+
+    public static final Set<Class<?>> VALID_STRING_ANNOTATION_TYPES = Set.of(CspReference.class,
+        CspStringCharset.class);
+
+    public static final Set<Class<?>> VALID_GENERIC_TYPE_ANNOTATION_TYPES = Set.of(CspReference.class,
+        CspClassOverride.class);
+
+    public static final Set<Class<?>> VALID_ARRAY_ANNOTATION_TYPES = Set.of(CspReference.class,
+        CspFixedSizeArray.class, CspMultiLevelPointer.class);
+
     private final CspTypeDescriptor cspTypeDescriptor;
 
-    protected AbstractCspTypeDescriptorHolder()
+    protected AbstractCspTypeDescriptorExtractor()
     {
         this(null);
     }
 
-    protected AbstractCspTypeDescriptorHolder(
+    protected AbstractCspTypeDescriptorExtractor(
         @Nullable Map<String, CspTypeDescriptor> genericParameterCspTypeDescriptors)
     {
         AnnotatedType annotatedType = extractAnnotatedType();
-        cspTypeDescriptor = createCspTypeDescriptor(annotatedType, genericParameterCspTypeDescriptors);
+        cspTypeDescriptor = requireCspTypeDescriptor(annotatedType, genericParameterCspTypeDescriptors);
     }
 
     public final CspTypeDescriptor getCspTypeDescriptor()
@@ -90,7 +108,7 @@ public abstract class AbstractCspTypeDescriptorHolder<T>
             annotatedParameterizedType.getAnnotations());
         Arrays.stream(annotatedParameterizedType.getAnnotatedActualTypeArguments()).forEach(
             annotatedType -> cspTypeDescriptor.nestedCspTypeDescriptors.add(
-                createCspTypeDescriptor(annotatedType, genericParameterCspTypeDescriptors)));
+                requireCspTypeDescriptor(annotatedType, genericParameterCspTypeDescriptors)));
         return cspTypeDescriptor;
     }
 
@@ -103,7 +121,7 @@ public abstract class AbstractCspTypeDescriptorHolder<T>
             Class<?> clazz = Array.newInstance(componentClazz, 0).getClass();
             return new CspTypeDescriptor(clazz, annotatedArrayType.getAnnotations());
         }
-        CspTypeDescriptor componentTypeDescriptor = createCspTypeDescriptor(annotatedComponentType,
+        CspTypeDescriptor componentTypeDescriptor = requireCspTypeDescriptor(annotatedComponentType,
             genericParameterCspTypeDescriptors);
         Class<?> clazz = Array.newInstance(componentTypeDescriptor.getClazz(), 0).getClass();
         CspTypeDescriptor cspTypeDescriptor = new CspTypeDescriptor(clazz, annotatedArrayType.getAnnotations());
@@ -111,7 +129,7 @@ public abstract class AbstractCspTypeDescriptorHolder<T>
         return cspTypeDescriptor;
     }
 
-    private static CspTypeDescriptor createCspTypeVariableTypeDescriptor(AnnotatedTypeVariable annotatedTypeVariable,
+    private static CspTypeDescriptor requireCspTypeVariableTypeDescriptor(AnnotatedTypeVariable annotatedTypeVariable,
         @Nullable Map<String, CspTypeDescriptor> genericParameterCspTypeDescriptors)
     {
         if (genericParameterCspTypeDescriptors == null)
@@ -120,15 +138,37 @@ public abstract class AbstractCspTypeDescriptorHolder<T>
         }
         TypeVariable<?> typeVariable = (TypeVariable<?>)annotatedTypeVariable.getType();
         String typeVariableName = typeVariable.getName();
+        boolean typeVariableReference = Arrays.stream(annotatedTypeVariable.getAnnotations()).anyMatch(
+            annotation -> annotation.annotationType() == CspReference.class);
+
         CspTypeDescriptor genericParamDescriptor = genericParameterCspTypeDescriptors.get(typeVariableName);
         if (genericParamDescriptor == null)
         {
             throw new IllegalArgumentException("Type variable " + typeVariable.getName() + " not found!");
         }
+
         return genericParamDescriptor;
     }
 
-    private static CspTypeDescriptor createCspTypeDescriptor(AnnotatedType annotatedType,
+    private static CspTypeDescriptor overrideCspReference(AnnotatedTypeVariable annotatedTypeVariable,
+        CspTypeDescriptor genericParamDescriptor)
+    {
+        Set<Annotation> typeVariableAnnotations = Set.of(annotatedTypeVariable.getAnnotations());
+        boolean typeVariableIsReference = typeVariableAnnotations.stream().anyMatch(
+            annotation -> annotation.annotationType() == CspReference.class);
+        boolean genericParamIsReference =
+            genericParamDescriptor.annotations.stream().anyMatch(
+                annotation -> annotation.annotationType() == CspReference.class);
+        if (typeVariableIsReference != genericParamIsReference)
+        {
+            if (!typeVariableIsReference)
+            {
+
+            }
+        }
+    }
+
+    private static CspTypeDescriptor requireCspTypeDescriptor(AnnotatedType annotatedType,
         @Nullable Map<String, CspTypeDescriptor> genericParameterCspTypeDescriptors)
     {
         if (annotatedType instanceof AnnotatedParameterizedType annotatedParameterizedType)
@@ -141,7 +181,7 @@ public abstract class AbstractCspTypeDescriptorHolder<T>
         }
         else if (annotatedType instanceof AnnotatedTypeVariable annotatedTypeVariable)
         {
-            return createCspTypeVariableTypeDescriptor(annotatedTypeVariable, genericParameterCspTypeDescriptors);
+            return requireCspTypeVariableTypeDescriptor(annotatedTypeVariable, genericParameterCspTypeDescriptors);
         }
         else if (annotatedType instanceof AnnotatedWildcardType annotatedWildcardType)
         {
@@ -158,16 +198,35 @@ public abstract class AbstractCspTypeDescriptorHolder<T>
         }
     }
 
-    public static class CspTypeDescriptor
+    public interface ICspTypeDescriptor
+    {
+        Class<?> getClazz();
+        Set<Annotation> getAnnotations();
+        List<ICspTypeDescriptor> getNestedCspTypeDescriptors();
+    }
+
+    private static class CspTypeVariableDescriptor
+    {
+        private final String name;
+        private final boolean reference;
+
+        private CspTypeVariableDescriptor(String name, boolean reference)
+        {
+            this.name = name;
+            this.reference = reference;
+        }
+    }
+
+    private static class CspTypeDescriptor implements ICspTypeDescriptor
     {
         private final Class<?> clazz;
-        private final List<Annotation> annotations;
-        private final List<CspTypeDescriptor> nestedCspTypeDescriptors = new ArrayList<>();
+        private final Set<Annotation> annotations;
+        private final List<ICspTypeDescriptor> nestedCspTypeDescriptors = new ArrayList<>();
 
         private CspTypeDescriptor(Class<?> clazz, Annotation[] annotations)
         {
             this.clazz = clazz;
-            this.annotations = List.of(annotations);
+            this.annotations = Set.of(annotations);
         }
 
         public final Class<?> getClazz()
@@ -175,12 +234,12 @@ public abstract class AbstractCspTypeDescriptorHolder<T>
             return clazz;
         }
 
-        public final List<Annotation> getAnnotations()
+        public final Set<Annotation> getAnnotations()
         {
             return annotations;
         }
 
-        public final List<CspTypeDescriptor> getNestedCspTypeDescriptors()
+        public final List<ICspTypeDescriptor> getNestedCspTypeDescriptors()
         {
             return Collections.unmodifiableList(nestedCspTypeDescriptors);
         }

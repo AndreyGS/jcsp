@@ -38,6 +38,6 @@ public interface ICspDataGeneralSerializationProcessorFactory
 {
     ICspDataGeneralSerializationProcessor createGeneralSerializationProcessor(
         ICspSerializationBuffer cspSerializationBuffer,
-        ICspDataProcessorRegistry<ICspDataSerializationProcessor> cspProcessorRegistry,
+        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>> cspProcessorRegistry,
         ICspDataMessage cspDataMessage);
 }

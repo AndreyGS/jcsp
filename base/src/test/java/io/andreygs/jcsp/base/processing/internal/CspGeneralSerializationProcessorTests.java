@@ -46,7 +46,7 @@ public class CspGeneralSerializationProcessorTests
     @Mock
     private ICspSerializationBuffer buffer;
     @Mock
-    private ICspDataProcessorRegistry<ICspDataSerializationProcessor> cspProcessorRegistry;
+    private ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>> cspProcessorRegistry;
     @Mock
     private ICspDataProcessorGenerator<ICspDataSerializationProcessor> processorGenerator;
     @Mock
