@@ -25,23 +25,17 @@
 
 package io.andreygs.jcsp.base.processing.composite.internal;
 
-import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeProcessorBuilder;
-import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessor;
-import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessorBuilderFactory;
+import io.andreygs.jcsp.base.common.internal.ResourceMessagesLoader;
 
 /**
  * TODO: place description here
  */
-public final class CspDataCompositeSerializationProcessorBuilderFactory
-    implements ICspDataCompositeSerializationProcessorBuilderFactory
+final class Messages
 {
-    private static final ICspDataCompositeSubProcessorFactory<ICspDataCompositeSerializationProcessor,
-                                                                  ICspDataCompositeSerializationSubProcessorHolder>
-        DEFAULT_PROCESSOR_FACTORY = new CspDataCompositeSerializationSubProcessorFactory();
+    public static String CspStatus_Error_in_structure_format_property__0__for_structure__1__not_set;
 
-    @Override
-    public ICspDataCompositeProcessorBuilder<ICspDataCompositeSerializationProcessor> createProcessorBuilder()
+    static
     {
-        return new CspDataCompositeProcessorBuilder<>(DEFAULT_PROCESSOR_FACTORY);
+        ResourceMessagesLoader.loadMessages(Messages.class);
     }
 }

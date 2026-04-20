@@ -23,25 +23,13 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.composite.internal;
-
-import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeProcessorBuilder;
-import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessor;
-import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessorBuilderFactory;
+package io.andreygs.jcsp.base.processing.composite;
 
 /**
  * TODO: place description here
  */
-public final class CspDataCompositeSerializationProcessorBuilderFactory
-    implements ICspDataCompositeSerializationProcessorBuilderFactory
+public interface ICspDataCompositeSerializationProcessorFactory
 {
-    private static final ICspDataCompositeSubProcessorFactory<ICspDataCompositeSerializationProcessor,
-                                                                  ICspDataCompositeSerializationSubProcessorHolder>
-        DEFAULT_PROCESSOR_FACTORY = new CspDataCompositeSerializationSubProcessorFactory();
-
-    @Override
-    public ICspDataCompositeProcessorBuilder<ICspDataCompositeSerializationProcessor> createProcessorBuilder()
-    {
-        return new CspDataCompositeProcessorBuilder<>(DEFAULT_PROCESSOR_FACTORY);
-    }
+    <T> ICspDataCompositeSerializationProcessor<T> createProcessor(
+        AbstractAnnotatedTypeExtractor<T> annotatedTypeExtractor);
 }

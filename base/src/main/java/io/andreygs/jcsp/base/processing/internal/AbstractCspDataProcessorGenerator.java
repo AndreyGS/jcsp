@@ -48,7 +48,7 @@ abstract class AbstractCspDataProcessorGenerator<P>
         if (!isAutoGeneratable(structClazz))
         {
             throw CspRuntimeException.createCspRuntimeException(CspStatus.NO_SUCH_HANDLER,
-                structClazz.getName() + " is not annotated with " + CspProcessorAutoGeneratable.class.getName(), null);
+                structClazz.getName() + " is not annotated with " + CspProcessorAutoGeneratable.class.getName());
         }
         List<P> callbacks = new ArrayList<>();
         return createProcessor(callbacks);

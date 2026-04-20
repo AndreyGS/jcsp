@@ -25,23 +25,12 @@
 
 package io.andreygs.jcsp.base.processing.composite.internal;
 
-import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeProcessorBuilder;
-import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessor;
-import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessorBuilderFactory;
+import java.lang.reflect.AnnotatedType;
 
 /**
  * TODO: place description here
  */
-public final class CspDataCompositeSerializationProcessorBuilderFactory
-    implements ICspDataCompositeSerializationProcessorBuilderFactory
+public interface ICspDataCompositeProcessorProducer<P>
 {
-    private static final ICspDataCompositeSubProcessorFactory<ICspDataCompositeSerializationProcessor,
-                                                                  ICspDataCompositeSerializationSubProcessorHolder>
-        DEFAULT_PROCESSOR_FACTORY = new CspDataCompositeSerializationSubProcessorFactory();
-
-    @Override
-    public ICspDataCompositeProcessorBuilder<ICspDataCompositeSerializationProcessor> createProcessorBuilder()
-    {
-        return new CspDataCompositeProcessorBuilder<>(DEFAULT_PROCESSOR_FACTORY);
-    }
+    P produceProcessor(AnnotatedType annotatedType);
 }

@@ -26,6 +26,7 @@
 package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.ICspDataDeserializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import org.junit.jupiter.api.Assertions;
@@ -49,6 +50,8 @@ public class CspProcessorRegistryTests
     private ICspDataDeserializationProcessor<?> cspDeserializationProcessor;
     @Mock
     private ICspDataSerializationProcessor<Instant> cspSerializationProcessorForInstant;
+    @Mock
+    private ICspDataGeneralSerializationProcessor cspDataGeneralSerializationProcessor;
 
     @Test
     public void registerProcessorTest()
@@ -92,7 +95,16 @@ public class CspProcessorRegistryTests
     {
         ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>>
             cspProcessorRegistry = new CspDataProcessorRegistry<>();
-        cspProcessorRegistry.registerProcessor(Instant.class, cspSerializationProcessor);
+
+        ICspDataSerializationProcessor<Instant> xxy = (value, generalSerializationProcessor) -> {
+        int i =1;
+    };
+        Instant instant = Instant.now();
+        Class<?> clazz = Instant.class;
+        cspProcessorRegistry.registerProcessor(Instant.class, xxy);
+        ICspDataSerializationProcessor<Instant> xxz =
+            (ICspDataSerializationProcessor<Instant>)cspProcessorRegistry.findProcessor(Instant.class).get();
+        xxz.serialize(instant, cspDataGeneralSerializationProcessor);
 /*
         new XXX<String>().registerProcessorTestZ();
         new AbstractCspTypeDescriptorHolder<List<String>>(){};*/

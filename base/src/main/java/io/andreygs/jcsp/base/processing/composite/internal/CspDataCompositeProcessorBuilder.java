@@ -39,11 +39,11 @@ import java.util.Stack;
 final class CspDataCompositeProcessorBuilder<P, H extends ICspDataCompositeSubProcessorHolder<P>>
     implements ICspDataCompositeProcessorBuilder<P>
 {
-    private final ICspDataCompositeProcessorFactory<P, H> processorFactory;
+    private final ICspDataCompositeSubProcessorFactory<P, H> processorFactory;
     private final Stack<H> subProcessHolders = new Stack<>();
     private @Nullable P rootCompositeProcessor;
 
-    CspDataCompositeProcessorBuilder(ICspDataCompositeProcessorFactory<P, H> processorFactory)
+    CspDataCompositeProcessorBuilder(ICspDataCompositeSubProcessorFactory<P, H> processorFactory)
     {
         this.processorFactory = processorFactory;
     }

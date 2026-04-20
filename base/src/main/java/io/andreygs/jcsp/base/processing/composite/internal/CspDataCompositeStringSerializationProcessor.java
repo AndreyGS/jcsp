@@ -35,29 +35,17 @@ import java.nio.charset.Charset;
  * TODO: place description here
  */
 final class CspDataCompositeStringSerializationProcessor
-    extends AbstractCspDataCompositeStringProcessor<ICspDataCompositeSerializationProcessor>
-    implements ICspDataCompositeSerializationProcessor
+    extends AbstractCspDataCompositeStringProcessor
+    implements ICspDataCompositeSerializationProcessor<String>
 {
-    CspDataCompositeStringSerializationProcessor(boolean reference, Charset charset)
+    CspDataCompositeStringSerializationProcessor(@Nullable String typeVariableName, boolean reference, Charset charset)
     {
-        super(reference, charset);
+        super(typeVariableName, reference, charset);
     }
 
     @Override
-    public void serialize(@Nullable Object value, ICspDataGeneralSerializationProcessor generalSerializationProcessor)
+    public void serialize(@Nullable String value, ICspDataGeneralSerializationProcessor generalSerializationProcessor)
     {
-        generalSerializationProcessor.serialize((String)value, isReference(), getCharset());
-    }
-
-    @Override
-    protected ICspDataCompositeSerializationProcessor createCopyInstanceWithOverriddenReference(boolean reference)
-    {
-        return new CspDataCompositeStringSerializationProcessor(reference, getCharset());
-    }
-
-    @Override
-    protected ICspDataCompositeSerializationProcessor getThisAsProcessor()
-    {
-        return this;
+        generalSerializationProcessor.serialize(value, isReference(), getCharset());
     }
 }

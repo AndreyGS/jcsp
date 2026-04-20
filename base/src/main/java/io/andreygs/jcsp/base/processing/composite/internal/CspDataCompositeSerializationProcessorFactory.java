@@ -25,58 +25,23 @@
 
 package io.andreygs.jcsp.base.processing.composite.internal;
 
+import io.andreygs.jcsp.base.processing.composite.AbstractAnnotatedTypeExtractor;
 import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessor;
+import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessorFactory;
 
-import java.nio.charset.Charset;
+import java.lang.reflect.AnnotatedType;
 
 /**
  * TODO: place description here
  */
-final class CspDataCompositeSerializationProcessorFactory
-    implements ICspDataCompositeProcessorFactory<ICspDataCompositeSerializationProcessor,
-                                                    ICspDataCompositeSerializationSubProcessorHolder>
+public class CspDataCompositeSerializationProcessorFactory
+    implements ICspDataCompositeSerializationProcessorFactory
 {
     @Override
-    public ICspDataCompositeSerializationSubProcessorHolder createCollectionProcessor(boolean reference)
+    public <T> ICspDataCompositeSerializationProcessor<T> createProcessor(
+        AbstractAnnotatedTypeExtractor<T> annotatedTypeExtractor)
     {
-        return new CspDataCompositeCollectionSerializationProcessor(reference);
-    }
-
-    @Override
-    public ICspDataCompositeSerializationSubProcessorHolder createMapProcessor(boolean reference)
-    {
-        return new CspDataCompositeMapSerializationProcessor(reference);
-    }
-
-    @Override
-    public ICspDataCompositeSerializationSubProcessorHolder createArrayProcessor(boolean reference, boolean fixedSize)
-    {
-        return new CspDataCompositeArraySerializationProcessor(reference, fixedSize);
-    }
-
-    @Override
-    public ICspDataCompositeSerializationProcessor createArrayWithPrimitiveComponentProcessor(boolean reference,
-        boolean fixedSize, Class<?> arrayClazz)
-    {
-        return new CspDataCompositeArrayWithPrimitiveComponentSerializationProcessor(reference, fixedSize, arrayClazz);
-    }
-
-    @Override
-    public ICspDataCompositeSerializationSubProcessorHolder createGenericProcessor(boolean reference, Class<?> clazz,
-        int typeParametersNumber)
-    {
-        return new CspDataCompositeGenericSerializationProcessor(reference, clazz, typeParametersNumber);
-    }
-
-    @Override
-    public ICspDataCompositeSerializationProcessor createRandomObjectProcessor(boolean reference, Class<?> clazz)
-    {
-        return new CspDataCompositeRandomObjectSerializationProcessor(reference, clazz);
-    }
-
-    @Override
-    public ICspDataCompositeSerializationProcessor createStringProcessor(boolean reference, Charset charset)
-    {
-        return new CspDataCompositeStringSerializationProcessor(reference, charset);
+        AnnotatedType annotatedType = annotatedTypeExtractor.getAnnotatedType();
+        return null;
     }
 }

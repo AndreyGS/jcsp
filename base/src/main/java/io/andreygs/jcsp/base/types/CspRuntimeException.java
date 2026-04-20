@@ -75,7 +75,25 @@ public class CspRuntimeException extends RuntimeException
      * @return created exception.
      * @throws IllegalArgumentException when status passed is not error status.
      */
-    public static CspRuntimeException createCspRuntimeException(CspStatus status, String additionalInfo, @Nullable Throwable cause)
+    public static CspRuntimeException createCspRuntimeException(CspStatus status, String additionalInfo)
+    {
+        if (!status.isErrorStatus())
+        {
+            throw new IllegalArgumentException("CSP Status is not error status");
+        }
+        return new CspRuntimeException(status, additionalInfo, null);
+    }
+
+    /**
+     * Creates an exception.
+     *
+     * @param status {@link  CspStatus#isErrorStatus() Error CSP status}.
+     * @param additionalInfo Additional info about an error.
+     * @param cause Exception that was cause of an error.
+     * @return created exception.
+     * @throws IllegalArgumentException when status passed is not error status.
+     */
+    public static CspRuntimeException createCspRuntimeException(CspStatus status, String additionalInfo, Throwable cause)
     {
         if (!status.isErrorStatus())
         {

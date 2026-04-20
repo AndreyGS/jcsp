@@ -52,7 +52,7 @@ import java.util.Set;
 /**
  * TODO: place description here
  */
-public abstract class AbstractCspTypeDescriptorExtractor<T>
+public abstract class AbstractAnnotatedTypeExtractor<T>
 {
     public static final Set<Class<?>> VALID_RANDOM_REFERENCE_ANNOTATION_TYPES = Set.of(CspReference.class,
         CspClassOverride.class);
@@ -68,16 +68,17 @@ public abstract class AbstractCspTypeDescriptorExtractor<T>
 
     private final CspTypeDescriptor cspTypeDescriptor;
 
-    protected AbstractCspTypeDescriptorExtractor()
+    private final AnnotatedType annotatedType;
+
+    protected AbstractAnnotatedTypeExtractor()
     {
-        this(null);
+        annotatedType = extractAnnotatedType();
+        cspTypeDescriptor = requireCspTypeDescriptor(annotatedType);
     }
 
-    protected AbstractCspTypeDescriptorExtractor(
-        @Nullable Map<String, CspTypeDescriptor> genericParameterCspTypeDescriptors)
+    public AnnotatedType getAnnotatedType()
     {
-        AnnotatedType annotatedType = extractAnnotatedType();
-        cspTypeDescriptor = requireCspTypeDescriptor(annotatedType, genericParameterCspTypeDescriptors);
+        return annotatedType;
     }
 
     public final CspTypeDescriptor getCspTypeDescriptor()
@@ -100,20 +101,19 @@ public abstract class AbstractCspTypeDescriptorExtractor<T>
         return new CspTypeDescriptor(clazz, annotatedType.getAnnotations());
     }
 
-    private static CspTypeDescriptor createCspParametrizedTypeDescriptor(AnnotatedParameterizedType annotatedParameterizedType,
-        @Nullable Map<String, CspTypeDescriptor> genericParameterCspTypeDescriptors)
+    private static CspTypeDescriptor createCspParametrizedTypeDescriptor(
+        AnnotatedParameterizedType annotatedParameterizedType)
     {
         ParameterizedType type = (ParameterizedType)annotatedParameterizedType.getType();
         CspTypeDescriptor cspTypeDescriptor = new CspTypeDescriptor((Class<?>)type.getRawType(),
             annotatedParameterizedType.getAnnotations());
         Arrays.stream(annotatedParameterizedType.getAnnotatedActualTypeArguments()).forEach(
             annotatedType -> cspTypeDescriptor.nestedCspTypeDescriptors.add(
-                requireCspTypeDescriptor(annotatedType, genericParameterCspTypeDescriptors)));
+                requireCspTypeDescriptor(annotatedType)));
         return cspTypeDescriptor;
     }
 
-    private static CspTypeDescriptor createCspGenericArrayTypeDescriptor(AnnotatedArrayType annotatedArrayType,
-        @Nullable Map<String, CspTypeDescriptor> genericParameterCspTypeDescriptors)
+    private static CspTypeDescriptor createCspGenericArrayTypeDescriptor(AnnotatedArrayType annotatedArrayType)
     {
         AnnotatedType annotatedComponentType = annotatedArrayType.getAnnotatedGenericComponentType();
         if (annotatedComponentType.getType() instanceof Class<?> componentClazz && componentClazz.isPrimitive())
@@ -121,21 +121,15 @@ public abstract class AbstractCspTypeDescriptorExtractor<T>
             Class<?> clazz = Array.newInstance(componentClazz, 0).getClass();
             return new CspTypeDescriptor(clazz, annotatedArrayType.getAnnotations());
         }
-        CspTypeDescriptor componentTypeDescriptor = requireCspTypeDescriptor(annotatedComponentType,
-            genericParameterCspTypeDescriptors);
+        CspTypeDescriptor componentTypeDescriptor = requireCspTypeDescriptor(annotatedComponentType);
         Class<?> clazz = Array.newInstance(componentTypeDescriptor.getClazz(), 0).getClass();
         CspTypeDescriptor cspTypeDescriptor = new CspTypeDescriptor(clazz, annotatedArrayType.getAnnotations());
         cspTypeDescriptor.nestedCspTypeDescriptors.add(componentTypeDescriptor);
         return cspTypeDescriptor;
     }
 
-    private static CspTypeDescriptor requireCspTypeVariableTypeDescriptor(AnnotatedTypeVariable annotatedTypeVariable,
-        @Nullable Map<String, CspTypeDescriptor> genericParameterCspTypeDescriptors)
+    private static CspTypeDescriptor requireCspTypeVariableTypeDescriptor(AnnotatedTypeVariable annotatedTypeVariable)
     {
-        if (genericParameterCspTypeDescriptors == null)
-        {
-            throw new IllegalArgumentException("genericCspTypeDescriptors cannot be null if there are TypeVariable<?>s!");
-        }
         TypeVariable<?> typeVariable = (TypeVariable<?>)annotatedTypeVariable.getType();
         String typeVariableName = typeVariable.getName();
         boolean typeVariableReference = Arrays.stream(annotatedTypeVariable.getAnnotations()).anyMatch(
@@ -149,7 +143,7 @@ public abstract class AbstractCspTypeDescriptorExtractor<T>
 
         return genericParamDescriptor;
     }
-
+/*
     private static CspTypeDescriptor overrideCspReference(AnnotatedTypeVariable annotatedTypeVariable,
         CspTypeDescriptor genericParamDescriptor)
     {
@@ -166,22 +160,21 @@ public abstract class AbstractCspTypeDescriptorExtractor<T>
 
             }
         }
-    }
+    }*/
 
-    private static CspTypeDescriptor requireCspTypeDescriptor(AnnotatedType annotatedType,
-        @Nullable Map<String, CspTypeDescriptor> genericParameterCspTypeDescriptors)
+    private static CspTypeDescriptor requireCspTypeDescriptor(AnnotatedType annotatedType)
     {
         if (annotatedType instanceof AnnotatedParameterizedType annotatedParameterizedType)
         {
-            return createCspParametrizedTypeDescriptor(annotatedParameterizedType, genericParameterCspTypeDescriptors);
+            return createCspParametrizedTypeDescriptor(annotatedParameterizedType);
         }
         else if (annotatedType instanceof AnnotatedArrayType annotatedArrayType)
         {
-            return createCspGenericArrayTypeDescriptor(annotatedArrayType, genericParameterCspTypeDescriptors);
+            return createCspGenericArrayTypeDescriptor(annotatedArrayType);
         }
         else if (annotatedType instanceof AnnotatedTypeVariable annotatedTypeVariable)
         {
-            return requireCspTypeVariableTypeDescriptor(annotatedTypeVariable, genericParameterCspTypeDescriptors);
+            return requireCspTypeVariableTypeDescriptor(annotatedTypeVariable);
         }
         else if (annotatedType instanceof AnnotatedWildcardType annotatedWildcardType)
         {

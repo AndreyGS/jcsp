@@ -59,6 +59,7 @@ final class Messages
     public static String CspProtocolVersion_1;
     public static String CspProtocolVersion_2;
     public static String CspProtocolVersion_Type;
+    public static String CspStatus_Error_in_structure_format;
     public static String CspStatus_No_Error;
     public static String CspStatus_No_Memory;
     public static String CspStatus_No_Such_Handler;

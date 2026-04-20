@@ -25,12 +25,14 @@
 
 package io.andreygs.jcsp.base.processing.composite.internal;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.nio.charset.Charset;
 
 /**
  * TODO: place description here
  */
-public interface ICspDataCompositeProcessorFactory<P, H extends ICspDataCompositeSubProcessorHolder<P>>
+public interface ICspDataCompositeSubProcessorFactory<P>
 {
     H createCollectionProcessor(boolean reference);
 
@@ -44,5 +46,5 @@ public interface ICspDataCompositeProcessorFactory<P, H extends ICspDataComposit
 
     P createRandomObjectProcessor(boolean reference, Class<?> clazz);
 
-    P createStringProcessor(boolean reference, Charset charset);
+    P createStringProcessor(@Nullable String typeVariableName, boolean reference, Charset charset);
 }

@@ -25,38 +25,31 @@
 
 package io.andreygs.jcsp.base.processing.composite.internal;
 
-import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeProcessor;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 /**
  * TODO: place description here
  */
-abstract class AbstractCspDataCompositeObjectProcessor<P> implements ICspDataCompositeProcessor<P>
+abstract class AbstractCspDataCompositeObjectProcessor
 {
+    private final @Nullable String typeVariableName;
     private final boolean reference;
 
-    AbstractCspDataCompositeObjectProcessor(boolean reference)
+    AbstractCspDataCompositeObjectProcessor(@Nullable String typeVariableName, boolean reference)
     {
+        this.typeVariableName = typeVariableName;
         this.reference = reference;
     }
 
-    @Override
-    public final P overrideReferencePropertyInProcessor(boolean reference)
+    protected final Optional<String> getTypeVariableName()
     {
-        if (this.reference != reference)
-        {
-            return createCopyInstanceWithOverriddenReference(reference);
-        }
-        else
-        {
-            return getThisAsProcessor();
-        }
+        return Optional.ofNullable(typeVariableName);
     }
 
     protected final boolean isReference()
     {
         return reference;
     }
-
-    protected abstract P createCopyInstanceWithOverriddenReference(boolean reference);
-    protected abstract P getThisAsProcessor();
 }

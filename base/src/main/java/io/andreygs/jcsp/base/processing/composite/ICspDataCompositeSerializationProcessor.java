@@ -31,8 +31,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * TODO: place description here
  */
-public interface ICspDataCompositeSerializationProcessor
-    extends ICspDataCompositeProcessor<ICspDataCompositeSerializationProcessor>
+public interface ICspDataCompositeSerializationProcessor<T>
 {
-    void serialize(@Nullable Object value, ICspDataGeneralSerializationProcessor generalSerializationProcessor);
+    void serialize(@Nullable T value, ICspDataGeneralSerializationProcessor generalSerializationProcessor);
 }
