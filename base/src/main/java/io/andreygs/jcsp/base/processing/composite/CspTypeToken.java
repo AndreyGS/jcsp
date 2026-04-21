@@ -30,7 +30,6 @@ import io.andreygs.jcsp.base.processing.annotations.CspFixedSizeArray;
 import io.andreygs.jcsp.base.processing.annotations.CspMultiLevelPointer;
 import io.andreygs.jcsp.base.processing.annotations.CspReference;
 import io.andreygs.jcsp.base.processing.annotations.CspStringCharset;
-import org.jetbrains.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedArrayType;
@@ -46,13 +45,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
  * TODO: place description here
  */
-public abstract class AbstractAnnotatedTypeExtractor<T>
+public abstract class CspTypeToken<T>
 {
     public static final Set<Class<?>> VALID_RANDOM_REFERENCE_ANNOTATION_TYPES = Set.of(CspReference.class,
         CspClassOverride.class);
@@ -70,7 +68,7 @@ public abstract class AbstractAnnotatedTypeExtractor<T>
 
     private final AnnotatedType annotatedType;
 
-    protected AbstractAnnotatedTypeExtractor()
+    protected CspTypeToken()
     {
         annotatedType = extractAnnotatedType();
         cspTypeDescriptor = requireCspTypeDescriptor(annotatedType);

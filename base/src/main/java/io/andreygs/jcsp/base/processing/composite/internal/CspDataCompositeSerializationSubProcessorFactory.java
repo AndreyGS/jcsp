@@ -25,7 +25,6 @@
 
 package io.andreygs.jcsp.base.processing.composite.internal;
 
-import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessor;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
@@ -69,9 +68,10 @@ final class CspDataCompositeSerializationSubProcessorFactory
     }
 
     @Override
-    public ICspDataCompositeSerializationProcessor createRandomObjectProcessor(boolean reference, Class<?> clazz)
+    public ICspDataCompositeSerializationProcessor<Object> createOrdinaryClassProcessor(@Nullable String typeVariableName,
+        boolean reference, Class<?> clazz)
     {
-        return new CspDataCompositeRandomObjectSerializationProcessor(reference, clazz);
+        return new CspDataCompositeOrdinaryClassSerializationProcessor(typeVariableName, reference, clazz);
     }
 
     @Override

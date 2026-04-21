@@ -23,10 +23,16 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing;
+package io.andreygs.jcsp.base.processing.internal;
 
+import io.andreygs.jcsp.base.processing.ICspDataDeserializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataGeneralDeserializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.base.processing.annotations.CspProcessorAutoGeneratable;
 
+import java.lang.reflect.AnnotatedType;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -55,7 +61,7 @@ import java.util.Optional;
  * each one for different CSP Interfaces (or modules) or/and if there are different policies
  * for work with different sources/targets of CSP interactions.
  * <p>
- * Please note that arrays of any type must not have separate processors.
+ * Please note that one-dimensional arrays of any type must not have separate processors.
  * <p>
  * Thread-safe.
  *
@@ -65,7 +71,7 @@ import java.util.Optional;
 public interface ICspDataProcessorRegistry<P>
 {
     /**
-     * Registers processor for later use.
+     * Registers processor for ordinary and generic (non-primitive, non-array) type for later use.
      * <p>
      * If class processor already have been registered, then new processor will override previous registration.
      * But if you want to have both processors - by one for different cases, for example -
@@ -78,17 +84,49 @@ public interface ICspDataProcessorRegistry<P>
     void registerProcessor(Class<?> clazz, P processor);
 
     /**
-     * Unregisters processor for chosen class.
+     * Registers processor for composite type for later use.
+     * <p>
+     * If class processor already have been registered, then new processor will override previous registration.
+     * But if you want to have both processors - by one for different cases, for example -
+     * you should create new registry, fill it with all necessary processors including current one
+     * and use different registries in requisite scenarios.
      *
-     * @param clazz Class which processor should be unregistered.
+     * @param compositeType Type which has non-trivial traits, like generic parameters and nested structure.
+     *                      For example: List&ltMap&lt@CspReference String, Integer[]>
+     * @param processor Processor that will be used in serialization or deserialization process.
      */
-    void unregisterProcessor(Class<?> clazz);
+    void registerProcessor(AnnotatedType compositeType, P processor);
 
     /**
-     * Finds already registered processor for chosen class.
+     * Finds already registered processor for chosen ordinary (non-primitive, non-generic, non-array) class.
      *
      * @param clazz Class which processor need to be found.
-     * @return optional processor value.
+     * @return optional processor.
      */
-    Optional<P> findProcessor(Class<?> clazz);
+    Optional<P> findOrdinaryProcessor(Class<?> clazz);
+
+    /**
+     * Finds already registered processor for chosen generic class.
+     *
+     * @param clazz Class for which you need to find the processor holder and its parameters.
+     * @return optional holder for class and its parameters.
+     */
+    Optional<IGenericProcessorHolder<P>> findGenericProcessor(Class<?> clazz);
+
+    /**
+     * Finds already registered processor for chosen composite type.
+     *
+     * @param compositeType Type which processor need to be found.
+     * @return optional processor.
+     */
+    Optional<P> findGenericProcessor(AnnotatedType compositeType);
+
+    void unregisterAllProcessors();
+
+    public interface IGenericProcessorHolder<P>
+    {
+        P getProcessor();
+
+        List<String> getTypeVariableNames();
+    }
 }

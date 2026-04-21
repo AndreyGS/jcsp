@@ -27,8 +27,6 @@ package io.andreygs.jcsp.base.processing.composite.internal;
 
 import io.andreygs.jcsp.base.processing.annotations.CspReference;
 import io.andreygs.jcsp.base.processing.annotations.CspStringCharset;
-import io.andreygs.jcsp.base.processing.composite.AbstractAnnotatedTypeExtractor;
-import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessor;
 import io.andreygs.jcsp.base.types.CspRuntimeException;
 import io.andreygs.jcsp.base.types.CspStatus;
 import org.jetbrains.annotations.Nullable;
@@ -60,7 +58,7 @@ class CspDataCompositeProcessorProducer<P> implements ICspDataCompositeProcessor
     @Override
     public P produceProcessor(AnnotatedType annotatedType)
     {
-        return null;
+        return produceProcessorSwitch(annotatedType, null);
     }
 
     private P produceProcessorSwitch(AnnotatedType annotatedType, @Nullable String typeVariableName)
@@ -88,12 +86,12 @@ class CspDataCompositeProcessorProducer<P> implements ICspDataCompositeProcessor
             {
                 throw new IllegalArgumentException("Unsupported type: " + type);
             }
-            return produceOrdinaryClassProcessor(annotatedType, clazz, typeVariableName);
+            return produceOrdinaryClassProcessor(annotatedType, typeVariableName, clazz);
         }
     }
 
-    private P produceOrdinaryClassProcessor(AnnotatedType annotatedType, Class<?> clazz,
-        @Nullable String typeVariableName)
+    private P produceOrdinaryClassProcessor(AnnotatedType annotatedType, @Nullable String typeVariableName,
+        Class<?> clazz)
     {
         Annotation[] annotations = annotatedType.getAnnotations();
         boolean reference = isReference(annotations);
@@ -101,7 +99,10 @@ class CspDataCompositeProcessorProducer<P> implements ICspDataCompositeProcessor
         {
             return subprocessorFactory.createStringProcessor(typeVariableName, reference, requireCharset(annotations));
         }
-        
+        else
+        {
+            return subprocessorFactory.createOrdinaryClassProcessor(typeVariableName, reference, clazz);
+        }
     }
 
     private boolean isReference(Annotation[] annotations)

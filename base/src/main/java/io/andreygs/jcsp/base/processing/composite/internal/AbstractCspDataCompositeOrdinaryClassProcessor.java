@@ -23,18 +23,25 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.composite;
+package io.andreygs.jcsp.base.processing.composite.internal;
 
-import io.andreygs.jcsp.base.processing.ICspDataGeneralDeserializationProcessor;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * TODO: place description here
  */
-public interface ICspDataCompositeDeserializationProcessor
-    extends ICspDataCompositeProcessor<ICspDataCompositeDeserializationProcessor>
+abstract class AbstractCspDataCompositeOrdinaryClassProcessor extends AbstractCspDataCompositeObjectProcessor
 {
-    <T> @Nullable T deserialize(ICspDataGeneralDeserializationProcessor generalDeserializationProcessor);
+    private final Class<?> clazz;
 
-    <T> void deserialize(T value, ICspDataGeneralDeserializationProcessor generalDeserializationProcessor);
+    AbstractCspDataCompositeOrdinaryClassProcessor(@Nullable String typeVariableName, boolean reference, Class<?> clazz)
+    {
+        super(typeVariableName, reference);
+        this.clazz = clazz;
+    }
+
+    protected final Class<?> getClazz()
+    {
+        return clazz;
+    }
 }

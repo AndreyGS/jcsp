@@ -25,8 +25,6 @@
 
 package io.andreygs.jcsp.base.processing.composite.internal;
 
-import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeDeserializationProcessor;
-
 /**
  * TODO: place description here
  */

@@ -25,37 +25,36 @@
 
 package io.andreygs.jcsp.base.processing.composite.internal;
 
-import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
-import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataGeneralDeserializationProcessor;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * TODO: place description here
  */
-final class CspDataCompositeRandomObjectSerializationProcessor
-    extends AbstractCspDataCompositeRandomObjectProcessor<ICspDataCompositeSerializationProcessor>
-    implements ICspDataCompositeSerializationProcessor
+final class CspDataCompositeOrdinaryClassDeserializationProcessor
+    extends AbstractCspDataCompositeOrdinaryClassProcessor<ICspDataCompositeDeserializationProcessor>
+    implements ICspDataCompositeDeserializationProcessor
 {
-    CspDataCompositeRandomObjectSerializationProcessor(boolean reference, Class<?> clazz)
+    CspDataCompositeOrdinaryClassDeserializationProcessor(boolean reference, Class<?> clazz)
     {
         super(reference, clazz);
     }
 
     @Override
-    public void serialize(@Nullable Object value, ICspDataGeneralSerializationProcessor generalSerializationProcessor)
+    public <T> @Nullable T deserialize(ICspDataGeneralDeserializationProcessor generalDeserializationProcessor)
     {
-        generalSerializationProcessor.serialize(value, isReference(), getClazz());
+        return null;
     }
 
     @Override
-    protected ICspDataCompositeSerializationProcessor createCopyInstanceWithOverriddenReference(boolean reference)
+    protected ICspDataCompositeDeserializationProcessor createCopyInstanceWithOverriddenReference(boolean reference)
     {
-        return new CspDataCompositeRandomObjectSerializationProcessor(reference, getClazz());
+        return new CspDataCompositeOrdinaryClassDeserializationProcessor(reference, getClazz());
     }
 
     @Override
-    protected ICspDataCompositeSerializationProcessor getThisAsProcessor()
+    protected ICspDataCompositeDeserializationProcessor getThisAsProcessor()
     {
-        return this;
+        return null;
     }
 }

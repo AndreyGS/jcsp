@@ -25,8 +25,6 @@
 
 package io.andreygs.jcsp.base.processing.composite.internal;
 
-import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeProcessorBuilder;
-
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
@@ -84,7 +82,7 @@ final class CspDataCompositeProcessorBuilder<P, H extends ICspDataCompositeSubPr
             throw new IllegalArgumentException("String class should be added using addString() method!");
         }
         testStateNotDone();
-        P newNode = processorFactory.createRandomObjectProcessor(reference, clazz);
+        P newNode = processorFactory.createOrdinaryClassProcessor(reference, clazz);
         commitNode(newNode);
         return this;
     }

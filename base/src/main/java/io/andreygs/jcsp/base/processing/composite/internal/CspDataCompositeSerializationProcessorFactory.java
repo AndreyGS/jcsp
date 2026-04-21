@@ -25,9 +25,7 @@
 
 package io.andreygs.jcsp.base.processing.composite.internal;
 
-import io.andreygs.jcsp.base.processing.composite.AbstractAnnotatedTypeExtractor;
-import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessor;
-import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessorFactory;
+import io.andreygs.jcsp.base.processing.composite.CspTypeToken;
 
 import java.lang.reflect.AnnotatedType;
 
@@ -39,7 +37,7 @@ public class CspDataCompositeSerializationProcessorFactory
 {
     @Override
     public <T> ICspDataCompositeSerializationProcessor<T> createProcessor(
-        AbstractAnnotatedTypeExtractor<T> annotatedTypeExtractor)
+        CspTypeToken<T> annotatedTypeExtractor)
     {
         AnnotatedType annotatedType = annotatedTypeExtractor.getAnnotatedType();
         return null;

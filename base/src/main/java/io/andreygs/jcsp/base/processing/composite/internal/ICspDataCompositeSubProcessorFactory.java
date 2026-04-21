@@ -44,7 +44,7 @@ public interface ICspDataCompositeSubProcessorFactory<P>
 
     H createGenericProcessor(boolean reference, Class<?> clazz, int typeParametersNumber);
 
-    P createRandomObjectProcessor(boolean reference, Class<?> clazz);
+    P createOrdinaryClassProcessor(@Nullable String typeVariableName, boolean reference, Class<?> clazz);
 
     P createStringProcessor(@Nullable String typeVariableName, boolean reference, Charset charset);
 }

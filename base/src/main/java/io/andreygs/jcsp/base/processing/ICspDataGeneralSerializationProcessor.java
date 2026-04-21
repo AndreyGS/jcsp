@@ -26,7 +26,8 @@
 package io.andreygs.jcsp.base.processing;
 
 import io.andreygs.jcsp.base.processing.annotations.CspSerializable;
-import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessor;
+import io.andreygs.jcsp.base.processing.composite.CspTypeToken;
+import io.andreygs.jcsp.base.processing.internal.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.CspRuntimeException;
 import io.andreygs.jcsp.base.types.ICspVersionable;
@@ -34,7 +35,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -937,18 +937,6 @@ public interface ICspDataGeneralSerializationProcessor
     void serialize(@Nullable Map<@Nullable String, @Nullable String> value, boolean reference, boolean keyAsReference,
         boolean valueAsRefence, Charset keyCharset, Charset valueCharset);
 
-    void serializeComposite(@Nullable Object value, boolean reference, Class<?> clazz,
-        List<? extends ICspDataCompositeSerializationProcessor> genericTypeParameterProcessors);
-
-    <T> void serializeComposite(@Nullable T @Nullable [] value, boolean reference, boolean fixedSize,
-        ICspDataCompositeSerializationProcessor componentProcessor);
-
-    <T> void serializeComposite(@Nullable Collection<@Nullable T> value, boolean reference,
-        ICspDataCompositeSerializationProcessor elementProcessor);
-
-    <K, V> void serializeComposite(@Nullable Map<@Nullable K, @Nullable V> value, boolean reference,
-        ICspDataCompositeSerializationProcessor keyProcessor, ICspDataCompositeSerializationProcessor valueProcessor);
-
-    List<ICspDataCompositeSerializationProcessor> peekCompositeProcessors();
+    <T> void serialize(@Nullable T value, CspTypeToken<T> typeExtractor);
 }
 

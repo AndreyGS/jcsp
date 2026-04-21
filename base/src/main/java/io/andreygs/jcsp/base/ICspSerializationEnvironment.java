@@ -23,15 +23,19 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.composite;
+package io.andreygs.jcsp.base;
 
-import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
-import org.jetbrains.annotations.Nullable;
+import io.andreygs.jcsp.base.message.ICspMessageBuilderFactory;
+import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 
 /**
  * TODO: place description here
  */
-public interface ICspDataCompositeSerializationProcessor<T>
+public interface ICspSerializationEnvironment
 {
-    void serialize(@Nullable T value, ICspDataGeneralSerializationProcessor generalSerializationProcessor);
+    <T> void registerSerializationProcessor(Class<T> clazz, ICspDataSerializationProcessor<T> processor);
+
+    ICspMessageBuilderFactory getMessageBuilderFactory();
+
+    void resetEnvironment();
 }

@@ -23,12 +23,40 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.composite;
+package io.andreygs.jcsp.base.internal;
+
+import io.andreygs.jcsp.base.ICspSerializationEnvironment;
+import io.andreygs.jcsp.base.message.ICspMessageBuilderFactory;
+import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
+import io.andreygs.jcsp.base.processing.internal.ICspDataProcessorRegistry;
 
 /**
  * TODO: place description here
  */
-public interface ICspDataCompositeSerializationProcessorBuilderFactory
+public class CspSerializationEnvironment implements ICspSerializationEnvironment
 {
-    ICspDataCompositeProcessorBuilder<ICspDataCompositeSerializationProcessor> createProcessorBuilder();
+    private final ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>> processorRegistry;
+
+    public CspSerializationEnvironment(ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>> processorRegistry)
+    {
+        this.processorRegistry = processorRegistry;
+    }
+
+    @Override
+    public <T> void registerSerializationProcessor(Class<T> clazz, ICspDataSerializationProcessor<T> processor)
+    {
+
+    }
+
+    @Override
+    public ICspMessageBuilderFactory getMessageBuilderFactory()
+    {
+        return null;
+    }
+
+    @Override
+    public void resetEnvironment()
+    {
+        processorRegistry.unregisterAllProcessors();
+    }
 }

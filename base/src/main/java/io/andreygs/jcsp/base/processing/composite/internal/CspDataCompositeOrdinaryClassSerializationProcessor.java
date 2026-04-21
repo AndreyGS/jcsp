@@ -23,32 +23,27 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.composite;
+package io.andreygs.jcsp.base.processing.composite.internal;
 
-import java.nio.charset.Charset;
-import java.util.List;
+import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * TODO: place description here
  */
-public interface ICspDataCompositeProcessorBuilder<P>
+final class CspDataCompositeOrdinaryClassSerializationProcessor
+    extends AbstractCspDataCompositeOrdinaryClassProcessor
+    implements ICspDataCompositeSerializationProcessor<Object>
 {
-    ICspDataCompositeProcessorBuilder<P> addCollection(boolean reference);
+    CspDataCompositeOrdinaryClassSerializationProcessor(@Nullable String typeVariableName, boolean reference,
+        Class<?> clazz)
+    {
+        super(typeVariableName, reference, clazz);
+    }
 
-    ICspDataCompositeProcessorBuilder<P> addMap(boolean reference);
-
-    ICspDataCompositeProcessorBuilder<P> addReference(boolean reference, Class<?> clazz);
-
-    ICspDataCompositeProcessorBuilder<P> addString(boolean reference, Charset charset);
-
-    ICspDataCompositeProcessorBuilder<P> addGeneric(boolean reference, Class<?> clazz);
-
-    ICspDataCompositeProcessorBuilder<P> addArray(Class<?> clazz, List<Boolean> dimensionReferenceFlags,
-        List<Boolean> dimensionFixedSizeFlags);
-
-    ICspDataCompositeProcessorBuilder<P> addMultiLevelPointer(Class<?> clazz);
-
-    ICspDataCompositeProcessorBuilder<P> addExistingProcessor(P processor);
-
-    P build();
+    @Override
+    public void serialize(@Nullable Object value, ICspDataGeneralSerializationProcessor generalSerializationProcessor)
+    {
+        generalSerializationProcessor.serialize(value, isReference(), getClazz());
+    }
 }

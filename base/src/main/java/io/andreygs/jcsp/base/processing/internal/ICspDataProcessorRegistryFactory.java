@@ -23,23 +23,22 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.composite.internal;
+package io.andreygs.jcsp.base.processing.internal;
+
+import io.andreygs.jcsp.base.processing.ICspDataDeserializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 
 /**
- * TODO: place description here
+ * Factory for creation {@link ICspDataProcessorRegistry}.
  */
-abstract class AbstractCspDataCompositeRandomObjectProcessor<P> extends AbstractCspDataCompositeObjectProcessor<P>
+public interface ICspDataProcessorRegistryFactory
 {
-    private final Class<?> clazz;
-
-    AbstractCspDataCompositeRandomObjectProcessor(boolean reference, Class<?> clazz)
-    {
-        super(reference);
-        this.clazz = clazz;
-    }
-
-    protected final Class<?> getClazz()
-    {
-        return clazz;
-    }
+    /**
+     * Creates {@link ICspDataProcessorRegistry}.
+     *
+     * @return created CSP processor registrar.
+     * @param <P> one of {@link ICspDataSerializationProcessor} or {@link ICspDataDeserializationProcessor},
+     *           depending on what kind of registrar should be created.
+     */
+    <P> ICspDataProcessorRegistry<P> createProcessorRegistry();
 }

@@ -25,68 +25,192 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
-import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.common.internal.ArgumentChecker;
 
-import java.util.HashMap;
+import java.lang.reflect.AnnotatedType;
+import java.lang.reflect.TypeVariable;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.WeakHashMap;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Sole implementation of {@link ICspDataProcessorRegistry}.
  * <p>
- * Uses RW lock to access to HashMap of classes with processors.
+ * Uses RW lock to access to WeakHashMap of classes with processors.
  */
 final class CspDataProcessorRegistry<P>
     implements ICspDataProcessorRegistry<P>
 {
-    private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
-    private final Map<Class<?>, P> processors = new HashMap<>();
+    private final ReadWriteLock rwLockForOrdinaryProcessors = new ReentrantReadWriteLock();
+    private final ReadWriteLock rwLockForGenericProcessors = new ReentrantReadWriteLock();
+    private final ReadWriteLock rwLockForCompositeProcessors = new ReentrantReadWriteLock();
+    private final Map<Class<?>, P> ordinaryProcessors = new WeakHashMap<>();
+    private final Map<Class<?>, IGenericProcessorHolder<P>> genericProcessors = new WeakHashMap<>();
+    private final Map<AnnotatedType, P> compositeProcessors = new WeakHashMap<>();
 
     @Override
     public void registerProcessor(Class<?> clazz, P processor)
     {
         ArgumentChecker.nonNull(clazz, processor);
-        rwLock.writeLock().lock();
-        try
+        if (clazz.isPrimitive() || clazz.isArray() || clazz.isEnum())
         {
-            processors.put(clazz, processor);
+            throw new IllegalArgumentException("Only ordinary and generic classes can be added!");
         }
-        finally
+        if (clazz.getTypeParameters().length == 0)
         {
-            rwLock.writeLock().unlock();
+            registerOrdinaryProcessor(clazz, processor);
         }
-    }
-
-    @Override
-    public void unregisterProcessor(Class<?> clazz)
-    {
-        ArgumentChecker.nonNull(clazz);
-        rwLock.writeLock().lock();
-        try
+        else
         {
-            processors.remove(clazz);
-        }
-        finally
-        {
-            rwLock.writeLock().unlock();
+            registerGenericProcessor(clazz, processor);
         }
     }
 
     @Override
-    public Optional<P> findProcessor(Class<?> clazz)
+    public void registerProcessor(AnnotatedType compositeType, P processor)
     {
-        ArgumentChecker.nonNull(clazz);
-        rwLock.readLock().lock();
+        ArgumentChecker.nonNull(compositeType, processor);
+        registerCompositeProcessor(compositeType, processor);
+    }
+
+    @Override
+    public Optional<P> findOrdinaryProcessor(Class<?> clazz)
+    {
+        rwLockForOrdinaryProcessors.readLock().lock();
         try
         {
-            return Optional.ofNullable(processors.get(clazz));
+            return Optional.ofNullable(ordinaryProcessors.get(clazz));
         }
         finally
         {
-            rwLock.readLock().unlock();
+            rwLockForOrdinaryProcessors.readLock().unlock();
+        }
+    }
+
+    @Override
+    public Optional<IGenericProcessorHolder<P>> findGenericProcessor(Class<?> clazz)
+    {
+        rwLockForGenericProcessors.readLock().lock();
+        try
+        {
+            return Optional.ofNullable(genericProcessors.get(clazz));
+        }
+        finally
+        {
+            rwLockForGenericProcessors.readLock().unlock();
+        }
+    }
+
+    @Override
+    public Optional<P> findGenericProcessor(AnnotatedType compositeType)
+    {
+        rwLockForCompositeProcessors.readLock().lock();
+        try
+        {
+            return Optional.ofNullable(compositeProcessors.get(compositeType));
+        }
+        finally
+        {
+            rwLockForCompositeProcessors.readLock().unlock();
+        }
+    }
+
+    @Override
+    public void unregisterAllProcessors()
+    {
+        rwLockForOrdinaryProcessors.writeLock().lock();
+        try
+        {
+            ordinaryProcessors.clear();
+        }
+        finally
+        {
+            rwLockForOrdinaryProcessors.writeLock().unlock();
+        }
+        try
+        {
+            genericProcessors.clear();
+        }
+        finally
+        {
+            rwLockForGenericProcessors.writeLock().unlock();
+        }
+        rwLockForCompositeProcessors.writeLock().lock();
+        try
+        {
+            compositeProcessors.clear();
+        }
+        finally
+        {
+            rwLockForCompositeProcessors.writeLock().unlock();
+        }
+    }
+
+    private void registerOrdinaryProcessor(Class<?> clazz, P processor)
+    {
+        rwLockForOrdinaryProcessors.writeLock().lock();
+        try
+        {
+            ordinaryProcessors.put(clazz, processor);
+        }
+        finally
+        {
+            rwLockForOrdinaryProcessors.writeLock().unlock();
+        }
+    }
+
+    private void registerGenericProcessor(Class<?> clazz, P processor)
+    {
+        TypeVariable<? extends Class<?>>[] typeVariables = clazz.getTypeParameters();
+        List<String> typeVariableNames = Arrays.stream(typeVariables).map(TypeVariable::getName).toList();
+        GenericProcessorHolder<P> genericProcessorHolder = new GenericProcessorHolder<>(processor, typeVariableNames);
+        rwLockForGenericProcessors.writeLock().lock();
+        try
+        {
+            genericProcessors.put(clazz, genericProcessorHolder);
+        }
+        finally
+        {
+            rwLockForGenericProcessors.writeLock().unlock();
+        }
+    }
+
+    private void registerCompositeProcessor(AnnotatedType compositeType, P processor)
+    {
+        rwLockForCompositeProcessors.writeLock().lock();
+        try
+        {
+            compositeProcessors.put(compositeType, processor);
+        }
+        finally
+        {
+            rwLockForCompositeProcessors.writeLock().unlock();
+        }
+    }
+
+    private static class GenericProcessorHolder<P> implements IGenericProcessorHolder<P>
+    {
+        private final P processor;
+        private final List<String> typeVariableNames;
+
+        public GenericProcessorHolder(P processor, List<String> typeVariableNames)
+        {
+            this.processor = processor;
+            this.typeVariableNames = typeVariableNames;
+        }
+
+        public P getProcessor()
+        {
+            return processor;
+        }
+
+        public List<String> getTypeVariableNames()
+        {
+            return typeVariableNames;
         }
     }
 }

@@ -27,8 +27,7 @@ package io.andreygs.jcsp.base;
 
 import io.andreygs.jcsp.base.message.ICspMessageBuilderFactory;
 import io.andreygs.jcsp.base.message.internal.CspMessageBuilderFactory;
-import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistryFactory;
-import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessorBuilderFactory;
+import io.andreygs.jcsp.base.processing.internal.ICspDataProcessorRegistryFactory;
 import io.andreygs.jcsp.base.processing.composite.internal.CspDataCompositeSerializationProcessorBuilderFactory;
 import io.andreygs.jcsp.base.processing.internal.CspDataProcessorRegistryFactory;
 

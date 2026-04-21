@@ -27,7 +27,6 @@ package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.ICspDataDeserializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
-import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -59,12 +58,12 @@ public class CspProcessorRegistryTests
         ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>>
             cspProcessorRegistry = new CspDataProcessorRegistry<>();
 
-        Assertions.assertTrue(cspProcessorRegistry.findProcessor(List.class).isEmpty(),
+        Assertions.assertTrue(cspProcessorRegistry.findOrdinaryProcessor(List.class).isEmpty(),
                               "Processor registered for " + List.class.getName() + "!");
 
         cspProcessorRegistry.registerProcessor(List.class, cspSerializationProcessor);
 
-        Assertions.assertTrue(cspProcessorRegistry.findProcessor(List.class).isPresent(),
+        Assertions.assertTrue(cspProcessorRegistry.findOrdinaryProcessor(List.class).isPresent(),
                               "No processor registered for " + List.class.getName() + "!");
     }
 
@@ -103,7 +102,7 @@ public class CspProcessorRegistryTests
         Class<?> clazz = Instant.class;
         cspProcessorRegistry.registerProcessor(Instant.class, xxy);
         ICspDataSerializationProcessor<Instant> xxz =
-            (ICspDataSerializationProcessor<Instant>)cspProcessorRegistry.findProcessor(Instant.class).get();
+            (ICspDataSerializationProcessor<Instant>)cspProcessorRegistry.findOrdinaryProcessor(Instant.class).get();
         xxz.serialize(instant, cspDataGeneralSerializationProcessor);
 /*
         new XXX<String>().registerProcessorTestZ();
@@ -111,7 +110,7 @@ public class CspProcessorRegistryTests
 
         cspProcessorRegistry.registerProcessor(Instant.class, cspSerializationProcessorForInstant);
 
-        Assertions.assertEquals(cspSerializationProcessorForInstant, cspProcessorRegistry.findProcessor(Instant.class).orElse(null),
+        Assertions.assertEquals(cspSerializationProcessorForInstant, cspProcessorRegistry.findOrdinaryProcessor(Instant.class).orElse(null),
                                 "Processor for " + Instant.class.getName() + " not replaced!");
     }
 
@@ -123,7 +122,7 @@ public class CspProcessorRegistryTests
         cspProcessorRegistry.registerProcessor(Instant.class, cspDeserializationProcessor);
         cspProcessorRegistry.unregisterProcessor(Instant.class);
 
-        Assertions.assertTrue(cspProcessorRegistry.findProcessor(Instant.class).isEmpty(),
+        Assertions.assertTrue(cspProcessorRegistry.findOrdinaryProcessor(Instant.class).isEmpty(),
                               "Processor for " + Instant.class.getName() + "was not unregistered!");
     }
 
@@ -152,7 +151,7 @@ public class CspProcessorRegistryTests
             cspProcessorRegistry = new CspDataProcessorRegistry<>();
 
         Assertions.assertThrows(IllegalArgumentException.class,
-                                () -> cspProcessorRegistry.findProcessor(null));
+                                () -> cspProcessorRegistry.findOrdinaryProcessor(null));
     }
 /*
     private static class XXX<T>
