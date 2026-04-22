@@ -23,21 +23,42 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
+package io.andreygs.jcsp.base.internal;
 
+import io.andreygs.jcsp.base.ICspSerializationSession;
 import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
-import io.andreygs.jcsp.base.processing.internal.ICspDataProcessorRegistry;
+import io.andreygs.jcsp.base.message.internal.ICspMessageBuilderFactory;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
+import io.andreygs.jcsp.base.processing.internal.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflow;
 
 /**
  * TODO: place description here
  */
-public final class  CspMessageBuilderFactory implements ICspMessageBuilderFactory
+public class CspSerializationSession implements ICspSerializationSession
 {
-    public ICspDataMessageBuilder createCspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
-        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>> cspSerializationProcessorRegistry)
+    private final ISerializationWorkflow serializationWorkflow;
+    private final ICspMessageBuilderFactory messageBuilderFactory;
+    private final ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>> processorRegistry;
+
+    public CspSerializationSession(ISerializationWorkflow serializationWorkflow,
+        ICspMessageBuilderFactory messageBuilderFactory,
+        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>> processorRegistry)
     {
-        return new CspDataMessageBuilder(serializationWorkflow, cspSerializationProcessorRegistry);
+        this.serializationWorkflow = serializationWorkflow;
+        this.messageBuilderFactory = messageBuilderFactory;
+        this.processorRegistry = processorRegistry;
+    }
+
+    @Override
+    public <T> void registerSerializationProcessor(Class<T> clazz, ICspDataSerializationProcessor<T> processor)
+    {
+        processorRegistry.registerProcessor(clazz, processor);
+    }
+
+    @Override
+    public ICspDataMessageBuilder createCspDataMessageBuilder()
+    {
+        return messageBuilderFactory.createCspDataMessageBuilder(serializationWorkflow, processorRegistry);
     }
 }

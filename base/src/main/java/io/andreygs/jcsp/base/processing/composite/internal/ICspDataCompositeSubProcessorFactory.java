@@ -32,9 +32,13 @@ import java.nio.charset.Charset;
 /**
  * TODO: place description here
  */
-public interface ICspDataCompositeSubProcessorFactory<P>
+interface ICspDataCompositeSubProcessorFactory<P>
 {
-    H createCollectionProcessor(boolean reference);
+    P createGeneralCollectionProcessor(boolean reference, P elementProcessor, Class<?> clazz);
+
+    P createCollectionProcessor(boolean reference, Class<?> elementClazz, boolean elementReference);
+
+    P createStringCollectionProcessor(boolean reference, boolean elementReference, Charset charset);
 
     H createMapProcessor(boolean reference);
 
@@ -44,7 +48,17 @@ public interface ICspDataCompositeSubProcessorFactory<P>
 
     H createGenericProcessor(boolean reference, Class<?> clazz, int typeParametersNumber);
 
-    P createOrdinaryClassProcessor(@Nullable String typeVariableName, boolean reference, Class<?> clazz);
+    P createOrdinaryClassProcessor(Class<?> clazz, boolean reference);
 
-    P createStringProcessor(@Nullable String typeVariableName, boolean reference, Charset charset);
+    P createStringProcessor(boolean reference, Charset charset);
+
+    Class<?> selectClassForProcessing(Class<?> declaredClazz,
+        ICspImplementationClassValues cspImplementationClassValues);
+
+    public interface ICspImplementationClassValues
+    {
+        @Nullable Class<?> getImplementationClazz();
+
+        boolean isDeserializationOnly();
+    }
 }

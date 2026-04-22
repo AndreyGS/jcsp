@@ -226,7 +226,7 @@ public class CspGeneralSerializationProcessorTests
     }
 
     @Test
-    public void serializeBooleanArrayAsReferenceTest()
+    public void serializeBooleanArrayReferenceTest()
     {
         boolean[] value = new boolean[] { true, false };
 
@@ -239,7 +239,7 @@ public class CspGeneralSerializationProcessorTests
     }
 
     @Test
-    public void serializeBooleanArrayNullAsReferenceTest()
+    public void serializeBooleanArrayNullReferenceTest()
     {
         Mockito.when(cspDataMessage.isAllowUnmanagedPointers()).thenReturn(true);
 
@@ -262,7 +262,7 @@ public class CspGeneralSerializationProcessorTests
     }
 
     @Test
-    public void serializeBooleanArrayAsReferenceNotFixedTest()
+    public void serializeBooleanArrayReferenceNotFixedTest()
     {
         Mockito.when(cspDataMessage.isAllowUnmanagedPointers()).thenReturn(true);
 

@@ -25,11 +25,7 @@
 
 package io.andreygs.jcsp.base;
 
-import io.andreygs.jcsp.base.message.ICspMessageBuilderFactory;
-import io.andreygs.jcsp.base.message.internal.CspMessageBuilderFactory;
-import io.andreygs.jcsp.base.processing.internal.ICspDataProcessorRegistryFactory;
-import io.andreygs.jcsp.base.processing.composite.internal.CspDataCompositeSerializationProcessorBuilderFactory;
-import io.andreygs.jcsp.base.processing.internal.CspDataProcessorRegistryFactory;
+import io.andreygs.jcsp.base.internal.CspSerializationSessionFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,10 +39,7 @@ public class FactoryRegistry
 
     static
     {
-        factories.put(ICspMessageBuilderFactory.class, new CspMessageBuilderFactory());
-        factories.put(ICspDataProcessorRegistryFactory.class, new CspDataProcessorRegistryFactory());
-        factories.put(ICspDataCompositeSerializationProcessorBuilderFactory.class,
-            new CspDataCompositeSerializationProcessorBuilderFactory());
+        factories.put(ICspSerializationSessionFactory.class, new CspSerializationSessionFactory());
     }
 
     public static <F> F requireFactory(Class<F> factoryClazz)

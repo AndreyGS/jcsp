@@ -26,19 +26,19 @@
 package io.andreygs.jcsp.base.processing.composite.internal;
 
 import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * TODO: place description here
  */
 final class CspDataCompositeOrdinaryClassSerializationProcessor
-    extends AbstractCspDataCompositeOrdinaryClassProcessor
-    implements ICspDataCompositeSerializationProcessor<Object>
+    extends AbstractCspDataCompositeCustomClassProcessor
+    implements ICspDataSerializationProcessor<Object>
 {
-    CspDataCompositeOrdinaryClassSerializationProcessor(@Nullable String typeVariableName, boolean reference,
-        Class<?> clazz)
+    CspDataCompositeOrdinaryClassSerializationProcessor(Class<?> declaredClazz, boolean reference)
     {
-        super(typeVariableName, reference, clazz);
+        super(declaredClazz, reference);
     }
 
     @Override

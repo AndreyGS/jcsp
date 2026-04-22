@@ -23,19 +23,18 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base;
+package io.andreygs.jcsp.base.message.internal;
 
-import io.andreygs.jcsp.base.message.ICspMessageBuilderFactory;
+import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
+import io.andreygs.jcsp.base.processing.internal.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
+import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflow;
 
 /**
  * TODO: place description here
  */
-public interface ICspSerializationEnvironment
+public interface ICspMessageBuilderFactory
 {
-    <T> void registerSerializationProcessor(Class<T> clazz, ICspDataSerializationProcessor<T> processor);
-
-    ICspMessageBuilderFactory getMessageBuilderFactory();
-
-    void resetEnvironment();
+    ICspDataMessageBuilder createCspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
+        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>> cspSerializationProcessorRegistrar);
 }

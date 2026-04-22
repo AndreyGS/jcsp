@@ -29,11 +29,11 @@ import io.andreygs.jcsp.base.message.ICspDataMessage;
 import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
+import io.andreygs.jcsp.base.processing.composite.CspTypeToken;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,15 +48,15 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
 {
     private final ICspSerializationBuffer cspSerializationBuffer;
     private final ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>> cspProcessorRegistry;
-    private final ICspDataProcessorGenerator<ICspDataSerializationProcessor> cspDataProcessorGenerator;
+    private final ICspDataProcessorGenerator<ICspDataSerializationProcessor<?>> cspDataProcessorGenerator;
     private final ICspDataMessage cspDataMessage;
-    private @Nullable Stack<List<ICspDataCompositeSerializationProcessor>> activeCompositeProcessors;
+    private @Nullable Stack<List<ICspDataSerializationProcessor<?>>> activeCompositeProcessors;
     private final @Nullable Map<Object, Integer> referenceMap;
 
     CspDataGeneralSerializationProcessor(
         ICspSerializationBuffer cspSerializationBuffer,
         ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>> cspProcessorRegistry,
-        ICspDataProcessorGenerator<ICspDataSerializationProcessor> cspDataProcessorGenerator,
+        ICspDataProcessorGenerator<ICspDataSerializationProcessor<?>> cspDataProcessorGenerator,
         ICspDataMessage cspDataMessage)
     {
         this.cspSerializationBuffer = cspSerializationBuffer;
@@ -241,7 +241,7 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
 
     @Override
     public <T> void serialize(@Nullable T @Nullable [] value, boolean reference, boolean fixedSize,
-        boolean elementAsReference, Class<?> elementClazz)
+        Class<?> elementClazz, boolean elementReference)
     {
 
     }
@@ -254,7 +254,7 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
 
     @Override
     public void serialize(@Nullable String @Nullable [] value, boolean reference, boolean fixedSize,
-        boolean elementAsReference, Charset charset)
+        boolean elementReference, Charset charset)
     {
 
     }
@@ -266,7 +266,8 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     }
 
     @Override
-    public <T> void serialize(@Nullable Collection<@Nullable T> value, boolean reference, boolean valueAsReference, Class<?> elementClazz)
+    public <T> void serialize(@Nullable Collection<@Nullable T> value, boolean reference, Class<?> elementClazz,
+        boolean valueReference)
     {
 
     }
@@ -278,7 +279,7 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     }
 
     @Override
-    public void serialize(@Nullable Collection<@Nullable String> value, boolean reference, boolean valueAsReference, Charset charset)
+    public void serialize(@Nullable Collection<@Nullable String> value, boolean reference, boolean valueReference, Charset charset)
     {
 
     }
@@ -290,8 +291,8 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     }
 
     @Override
-    public <K, V> void serialize(@Nullable Map<@Nullable K,@Nullable V> value, boolean reference, boolean keyAsReference, boolean valueAsRefence,
-                                 Class<?> keyClazz, Class<?> valueClazz)
+    public <K, V> void serialize(@Nullable Map<@Nullable K,@Nullable V> value, boolean reference, Class<?> keyClazz,
+        boolean keyReference, Class<?> valueClazz, boolean valueAsRefence)
     {
 
     }
@@ -303,8 +304,8 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     }
 
     @Override
-    public <K> void serialize(@Nullable Map<@Nullable K, @Nullable String> value, boolean reference, boolean keyAsReference, boolean valueAsRefence,
-                              Class<?> keyClazz, Charset valueCharset)
+    public <K> void serialize(@Nullable Map<@Nullable K, @Nullable String> value, boolean reference, Class<?> keyClazz,
+        boolean keyReference, boolean valueAsRefence, Charset valueCharset)
     {
 
     }
@@ -316,8 +317,8 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
     }
 
     @Override
-    public <V> void serialize(@Nullable Map<@Nullable String, @Nullable V> value, boolean reference, boolean keyAsReference, boolean valueAsRefence,
-                              Charset keyCharset, Class<?> valueClazz)
+    public <V> void serialize(@Nullable Map<@Nullable String, @Nullable V> value, boolean reference, boolean keyReference,
+        Charset keyCharset, Class<?> valueClazz, boolean valueAsRefence)
     {
 
     }
@@ -330,46 +331,14 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
 
     @Override
     public void serialize(@Nullable Map<@Nullable String, @Nullable String> value, boolean reference,
-        boolean keyAsReference, boolean valueAsRefence, Charset keyCharset, Charset valueCharset)
+        boolean keyReference, Charset keyCharset, boolean valueAsRefence, Charset valueCharset)
     {
 
     }
 
     @Override
-    public void serializeComposite(@Nullable Object value, boolean reference, Class<?> clazz,
-        List<? extends ICspDataCompositeSerializationProcessor> genericTypeParameterProcessors)
+    public <T> void serialize(@Nullable T value, CspTypeToken<T> cspTypeToken)
     {
 
-    }
-
-    @Override
-    public <T> void serializeComposite(T @Nullable [] value, boolean reference, boolean fixedSize,
-        ICspDataCompositeSerializationProcessor componentProcessor)
-    {
-
-    }
-
-    @Override
-    public <T> void serializeComposite(@Nullable Collection<T> value, boolean reference,
-        ICspDataCompositeSerializationProcessor elementProcessor)
-    {
-
-    }
-
-    @Override
-    public <K, V> void serializeComposite(@Nullable Map<K, V> value, boolean reference,
-        ICspDataCompositeSerializationProcessor keyProcessor, ICspDataCompositeSerializationProcessor valueProcessor)
-    {
-
-    }
-
-    @Override
-    public List<ICspDataCompositeSerializationProcessor> peekCompositeProcessors()
-    {
-        if (activeCompositeProcessors == null || activeCompositeProcessors.empty())
-        {
-            throw new IllegalStateException("typeTraits are not present when they should be!");
-        }
-        return Collections.unmodifiableList(activeCompositeProcessors.peek());
     }
 }

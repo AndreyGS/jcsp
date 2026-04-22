@@ -23,25 +23,26 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.composite.internal;
+package io.andreygs.jcsp.base.internal;
 
-import org.jetbrains.annotations.Nullable;
+import io.andreygs.jcsp.base.ICspSerializationSession;
+import io.andreygs.jcsp.base.ICspSerializationSessionFactory;
+import io.andreygs.jcsp.base.message.internal.CspMessageBuilderFactory;
+import io.andreygs.jcsp.base.processing.internal.CspDataProcessorRegistryFactory;
+import io.andreygs.jcsp.base.processing.internal.SerializationWorkflowProvider;
 
 /**
  * TODO: place description here
  */
-abstract class AbstractCspDataCompositeOrdinaryClassProcessor extends AbstractCspDataCompositeObjectProcessor
+public class CspSerializationSessionFactory
+    implements ICspSerializationSessionFactory
 {
-    private final Class<?> clazz;
-
-    AbstractCspDataCompositeOrdinaryClassProcessor(@Nullable String typeVariableName, boolean reference, Class<?> clazz)
+    @Override
+    public ICspSerializationSession createSession()
     {
-        super(typeVariableName, reference);
-        this.clazz = clazz;
-    }
-
-    protected final Class<?> getClazz()
-    {
-        return clazz;
+        return new CspSerializationSession(
+            new SerializationWorkflowProvider().provideWorkflow(),
+            new CspMessageBuilderFactory(),
+            new CspDataProcessorRegistryFactory().createProcessorRegistry());
     }
 }

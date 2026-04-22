@@ -28,19 +28,19 @@ package io.andreygs.jcsp.base.types;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Runtime exceptions with CSP statuses according to CSP references.
+ * TODO: place description here
  */
-public class CspRuntimeException extends RuntimeException
+public class CspException extends Exception
 {
     private final CspStatus cspStatus;
 
-    private CspRuntimeException(CspStatus cspStatus, @Nullable Throwable cause)
+    private CspException(CspStatus cspStatus, @Nullable Throwable cause)
     {
         super(cspStatus.toString(), cause);
         this.cspStatus = cspStatus;
     }
 
-    private CspRuntimeException(CspStatus cspStatus, String additionalInfo, @Nullable Throwable cause)
+    private CspException(CspStatus cspStatus, String additionalInfo, @Nullable Throwable cause)
     {
         super(cspStatus.toString() + ": " + additionalInfo, cause);
         this.cspStatus = cspStatus;
@@ -58,30 +58,13 @@ public class CspRuntimeException extends RuntimeException
      * @return created exception.
      * @throws IllegalArgumentException when status passed is not error status.
      */
-    public static CspRuntimeException createCspRuntimeException(CspStatus status)
+    public static CspException createCspException(CspStatus status)
     {
         if (!status.isErrorStatus())
         {
             throw new IllegalArgumentException("CSP Status is not error status");
         }
-        return new CspRuntimeException(status, null);
-    }
-
-    /**
-     * Creates an exception.
-     *
-     * @param status {@link  CspStatus#isErrorStatus() Error CSP status}.
-     * @param cause Exception that was cause of an error.
-     * @return created exception.
-     * @throws IllegalArgumentException when status passed is not error status.
-     */
-    public static CspRuntimeException createCspRuntimeException(CspStatus status, Throwable cause)
-    {
-        if (!status.isErrorStatus())
-        {
-            throw new IllegalArgumentException("CSP Status is not error status");
-        }
-        return new CspRuntimeException(status, cause);
+        return new CspException(status, null);
     }
 
     /**
@@ -92,13 +75,13 @@ public class CspRuntimeException extends RuntimeException
      * @return created exception.
      * @throws IllegalArgumentException when status passed is not error status.
      */
-    public static CspRuntimeException createCspRuntimeException(CspStatus status, String additionalInfo)
+    public static CspException createCspException(CspStatus status, String additionalInfo)
     {
         if (!status.isErrorStatus())
         {
             throw new IllegalArgumentException("CSP Status is not error status");
         }
-        return new CspRuntimeException(status, additionalInfo, null);
+        return new CspException(status, additionalInfo, null);
     }
 
     /**
@@ -110,12 +93,12 @@ public class CspRuntimeException extends RuntimeException
      * @return created exception.
      * @throws IllegalArgumentException when status passed is not error status.
      */
-    public static CspRuntimeException createCspRuntimeException(CspStatus status, String additionalInfo, Throwable cause)
+    public static CspException createCspException(CspStatus status, String additionalInfo, Throwable cause)
     {
         if (!status.isErrorStatus())
         {
             throw new IllegalArgumentException("CSP Status is not error status");
         }
-        return new CspRuntimeException(status, additionalInfo, cause);
+        return new CspException(status, additionalInfo, cause);
     }
 }

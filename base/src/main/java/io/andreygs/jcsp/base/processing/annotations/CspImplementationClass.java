@@ -32,39 +32,41 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Setting for overriding declared class in serialization and deserialization.
+ * Setting for overriding declared class in serialization and deserialization to some type that extends declared.
  * <p>
  * The most obvious case when it may be handy is for deserialization of collections and maps if they are not created
  * with owner instance creation.
  * <p>
  * Here an example of possible cases:
  * <pre>
- *     // file OverrideClassExample.java
+ *     // file CspImplementationClassExample.java
  *     &#64;CspProcessorAutoGeneratable
- *     public class OverrideClassExample
+ *     public class CspImplementationClassExample
  *     {
  *          &#64;CspSerializable(0)
- *          &#64;CspClassOverride(ArrayList.class)
- *          private List&lt;&#64;CspClassOverride(HashMap.class) Map&lt;String, Integer>> someListOfMaps;
+ *          &#64;CspImplementationClass(ArrayList.class)
+ *          private List&lt;&#64;CspImplementationClass(HashMap.class) Map&lt;String, Integer>> someListOfMaps;
  *
  *          &#64;CspSerializable(1)
- *          &#64;CspClassOverride(InnerClassExample.class)
- *          private IOverrideExample overrideExample;
+ *          &#64;CspImplementationClass(InnerClassExample.class)
+ *          private ICspImplementationClassExample implementationExample;
+ *
+ *          ...
  *     }
  *
- *     // file IOverrideExample.java
- *     public interface IOverrideExample
+ *     // file ICspImplementationClassExample.java
+ *     public interface ICspImplementationClassExample
  *     {
  *         void f();
  *     }
  *
- *     // file AnotherOverrideClassExample.java
- *     public static class AnotherOverrideClassExample implements IOverrideExample
+ *     // file AnotherCspImplementationClassExample.java
+ *     public static class AnotherCspImplementationClassExample implements ICspImplementationClassExample
  *     {
  *         &#64;Override
  *         void f()
  *         {
- *              System.out.println("AnotherOverrideClassExample");
+ *              System.out.println("AnotherCspImplementationClassExample");
  *         }
  *     }
  * </pre>
@@ -76,21 +78,23 @@ import java.lang.annotation.Target;
  * logic to decide which class (or interface, if candidate interface has its own processor) is suitable for
  * deserialization (or sometimes, serialization too).
  * <p>
- * Also, if you had to deal with non-trivial generics you should also look at
- * {@link io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessor} and
- * {@link io.andreygs.jcsp.base.processing.composite.ICspDataCompositeDeserializationProcessor}. If field of your
- * interest has such composite type and one or more of its components has interface types that need special handling
- * they are also can add to you desiring capability.
+ * Serialization of {@link java.util.Collection}, {@link java.util.Map} and their derivatives is using standard
+ * algorithm that is independent of specific implementation. But these and any other types can be serialized using
+ * processor of some other class if flag {@link #deserializationOnly} is not set.
  * <p>
- * Note, that by default serialization of {@link java.util.Collection}, {@link java.util.Map} and their derivatives
- * is using standard algorithm that is independent of specific implementation. Deserialization of fields with the same
- * types also using standard algorithm, but only if field was initialized by instance when object owner was created.
- * For other cases you should use this annotation or custom processors mentioned above.
+ * Deserialization of {@link java.util.Collection}, {@link java.util.Map} and their derivatives also using standard
+ * algorithm, if field was initialized by instance when object owner was created or upper processor. In other case
+ * {@link java.util.ArrayList} and {@link java.util.HashMap} will be used, if field or type is not annotated with this
+ * annotation.
+ * <p>
+ * Has no effect on {@link java.lang.String}, {@link java.lang.Byte}, {@link java.lang.Short},
+ * {@link java.lang.Integer}, {@link java.lang.Long}, {@link java.lang.Character}, {@link java.lang.Float},
+ * {@link java.lang.Double}, {@link java.lang.Boolean} and arrays, excluding their non-array elements.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.TYPE_PARAMETER, ElementType.TYPE_USE})
-public @interface CspClassOverride
+public @interface CspImplementationClass
 {
     /**
      * Class which overrides original one in serialiation/deserialization process.
@@ -99,4 +103,6 @@ public @interface CspClassOverride
      * @return effective clazz for serialization/deserialization.
      */
     Class<?> value();
+
+    boolean deserializationOnly() default true;
 }

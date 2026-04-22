@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
-import io.andreygs.jcsp.base.processing.annotations.CspClassOverride;
+import io.andreygs.jcsp.base.processing.annotations.CspImplementationClass;
 import io.andreygs.jcsp.base.processing.annotations.CspReference;
 import io.andreygs.jcsp.base.processing.annotations.CspStringCharset;
 import org.junit.jupiter.api.Assertions;
@@ -38,7 +38,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 /**
  * TODO: place description here
@@ -51,12 +50,12 @@ public class CspReferenceFieldTraitsTests
         Map<Class<?>, IGen<?>> map1 = new HashMap<>();
 
         TypeInfo typeInfo
-            = new AnnotatedTypeInfoExtractor<@CspClassOverride(HashMap.class) Map<@CspReference @CspStringCharset("UTF-16BE") String, List<Integer>>>()
+            = new AnnotatedTypeInfoExtractor<@CspImplementationClass(HashMap.class) Map<@CspReference @CspStringCharset("UTF-16BE") String, List<Integer>>>()
         {
         }.getTypeInfo();
         int i = 1;
         Map<String, List<Integer>> map = TestCast.testCast(
-            new AnnotatedTypeInfoExtractor<@CspClassOverride(HashMap.class) Map<@CspReference @CspStringCharset("UTF-16BE") String, List<Integer>>>()
+            new AnnotatedTypeInfoExtractor<@CspImplementationClass(HashMap.class) Map<@CspReference @CspStringCharset("UTF-16BE") String, List<Integer>>>()
             {
             });
         A<String> as = null;

@@ -30,6 +30,7 @@ import io.andreygs.jcsp.base.processing.composite.CspTypeToken;
 import io.andreygs.jcsp.base.processing.internal.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.CspRuntimeException;
+import io.andreygs.jcsp.base.types.CspStatus;
 import io.andreygs.jcsp.base.types.ICspVersionable;
 import org.jetbrains.annotations.Nullable;
 
@@ -810,9 +811,12 @@ public interface ICspDataGeneralSerializationProcessor
      * @param clazz The class that will be serialized. It is for choice which {@link ICspDataSerializationProcessor}
      *              shall be used, as long as value can implement different interfaces and inherits different classes
      *              (and some of them may be not part of CSP interface),
-     * @param <T>       Type of object to serialize.
-     * @throws CspRuntimeException if some serialized object fields or their nested fields will be serialized
-     *                             as references when {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
+     * @param <T>   Type of object to serialize.
+     * @throws CspRuntimeException if some serialized object fields or their nested fields should be serialized
+     *                             as references when {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set and status
+     *                             will be {@link CspStatus#POINTER_WHEN_NO_ALLOW_UNMANAGED_POINTERS_SET}.
+     *                             if there is no processor for clazz to handle serialization and status will be
+     *                             {@link CspStatus#NO_SUCH_HANDLER}.
      */
     <T> void serialize(T value, Class<?> clazz);
 
@@ -892,51 +896,54 @@ public interface ICspDataGeneralSerializationProcessor
      *                  shall be used, as long as value can implement different interfaces and inherits different classes
      *                  (and some of them may be not part of CSP interface),
      * @param <T>       Type of object to serialize.
-     * @throws CspRuntimeException if some serialized object fields or their nested fields will be serialized
-     *                             as references when {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set.
+     * @throws CspRuntimeException if some serialized object fields or their nested fields should be serialized
+     *                             as references when {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set and status
+     *                             will be {@link CspStatus#POINTER_WHEN_NO_ALLOW_UNMANAGED_POINTERS_SET}.
+     *                             if there is no processor for clazz to handle serialization and status will be
+     *                             {@link CspStatus#NO_SUCH_HANDLER}.
      */
     <T> void serialize(@Nullable T value, boolean reference, Class<?> clazz);
 
     <T> void serialize(T[] value, Class<?> elementClazz);
 
-    <T> void serialize(@Nullable T @Nullable [] value, boolean reference, boolean fixedSize,
-        boolean elementAsReference, Class<?> elementClazz);
+    <T> void serialize(@Nullable T @Nullable [] value, boolean reference, boolean fixedSize, Class<?> elementClazz,
+        boolean elementReference);
 
     void serialize(String[] value, Charset charset);
 
     void serialize(@Nullable String @Nullable [] value, boolean reference, boolean fixedSize,
-        boolean elementAsReference, Charset charset);
+        boolean elementReference, Charset charset);
 
     <T> void serialize(Collection<T> value, Class<?> elementClazz);
 
-    <T> void serialize(@Nullable Collection<@Nullable T> value, boolean reference, boolean elementAsReference,
-        Class<?> elementClazz);
+    <T> void serialize(@Nullable Collection<@Nullable T> value, boolean reference, Class<?> elementClazz,
+        boolean elementReference);
 
     void serialize(Collection<String> value, Charset charset);
 
-    void serialize(@Nullable Collection<@Nullable String> value, boolean reference, boolean elementAsReference,
+    void serialize(@Nullable Collection<@Nullable String> value, boolean reference, boolean elementReference,
         Charset charset);
 
     <K, V> void serialize(Map<K, V> value, Class<?> keyClazz, Class<?> valueClazz);
 
-    <K, V> void serialize(@Nullable Map<@Nullable K, @Nullable V> value, boolean reference, boolean keyAsReference,
-        boolean valueAsRefence, Class<?> keyClazz, Class<?> valueClazz);
+    <K, V> void serialize(@Nullable Map<@Nullable K, @Nullable V> value, boolean reference, Class<?> keyClazz,
+        boolean keyReference, Class<?> valueClazz, boolean valueRefence);
 
     <K> void serialize(Map<K, String> value, Class<?> keyClazz, Charset valueCharset);
 
-    <K> void serialize(@Nullable Map<@Nullable K, @Nullable String> value, boolean reference, boolean keyAsReference,
-        boolean valueAsRefence, Class<?> keyClazz, Charset valueCharset);
+    <K> void serialize(@Nullable Map<@Nullable K, @Nullable String> value, boolean reference, Class<?> keyClazz,
+        boolean keyReference, boolean valueRefence, Charset valueCharset);
 
     <V> void serialize(Map<String, V> value, Charset keyCharset, Class<?> valueClazz);
 
-    <V> void serialize(@Nullable Map<@Nullable String,@Nullable V> value, boolean reference, boolean keyAsReference,
-        boolean valueAsRefence, Charset keyCharset, Class<?> valueClazz);
+    <V> void serialize(@Nullable Map<@Nullable String,@Nullable V> value, boolean reference, boolean keyReference,
+        Charset keyCharset, Class<?> valueClazz, boolean valueRefence);
 
     void serialize(Map<String, String> value, Charset keyCharset, Charset valueCharset);
 
-    void serialize(@Nullable Map<@Nullable String, @Nullable String> value, boolean reference, boolean keyAsReference,
-        boolean valueAsRefence, Charset keyCharset, Charset valueCharset);
+    void serialize(@Nullable Map<@Nullable String, @Nullable String> value, boolean reference, boolean keyReference,
+        Charset keyCharset, boolean valueRefence, Charset valueCharset);
 
-    <T> void serialize(@Nullable T value, CspTypeToken<T> typeExtractor);
+    <T> void serialize(@Nullable T value, CspTypeToken<T> cspTypeToken);
 }
 

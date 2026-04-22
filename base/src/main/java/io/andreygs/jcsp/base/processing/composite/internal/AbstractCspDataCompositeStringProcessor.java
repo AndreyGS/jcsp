@@ -36,9 +36,9 @@ abstract class AbstractCspDataCompositeStringProcessor extends AbstractCspDataCo
 {
     private final Charset charset;
 
-    AbstractCspDataCompositeStringProcessor(@Nullable String typeVariableName, boolean reference, Charset charset)
+    AbstractCspDataCompositeStringProcessor(boolean reference, Charset charset)
     {
-        super(typeVariableName, reference);
+        super(reference);
         this.charset = charset;
     }
 

@@ -25,27 +25,16 @@
 
 package io.andreygs.jcsp.base.processing.composite.internal;
 
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Optional;
-
 /**
  * TODO: place description here
  */
 abstract class AbstractCspDataCompositeObjectProcessor
 {
-    private final @Nullable String typeVariableName;
     private final boolean reference;
 
-    AbstractCspDataCompositeObjectProcessor(@Nullable String typeVariableName, boolean reference)
+    AbstractCspDataCompositeObjectProcessor(boolean reference)
     {
-        this.typeVariableName = typeVariableName;
         this.reference = reference;
-    }
-
-    protected final Optional<String> getTypeVariableName()
-    {
-        return Optional.ofNullable(typeVariableName);
     }
 
     protected final boolean isReference()

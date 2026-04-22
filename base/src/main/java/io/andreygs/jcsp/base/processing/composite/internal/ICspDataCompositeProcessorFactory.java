@@ -30,7 +30,7 @@ import java.lang.reflect.AnnotatedType;
 /**
  * TODO: place description here
  */
-public interface ICspDataCompositeProcessorProducer<P>
+public interface ICspDataCompositeProcessorFactory<P>
 {
-    P produceProcessor(AnnotatedType annotatedType);
+    P createProcessor(AnnotatedType annotatedType);
 }

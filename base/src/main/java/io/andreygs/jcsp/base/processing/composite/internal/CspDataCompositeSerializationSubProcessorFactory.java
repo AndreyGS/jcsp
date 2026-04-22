@@ -25,20 +25,36 @@
 
 package io.andreygs.jcsp.base.processing.composite.internal;
 
+import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
+import java.util.Collection;
 
 /**
  * TODO: place description here
  */
 final class CspDataCompositeSerializationSubProcessorFactory
-    implements ICspDataCompositeSubProcessorFactory<ICspDataCompositeSerializationProcessor<?>>
+    implements ICspDataCompositeSubProcessorFactory<ICspDataSerializationProcessor<?>>
 {
     @Override
-    public ICspDataCompositeSerializationSubProcessorHolder createCollectionProcessor(boolean reference)
+    public ICspDataCompositeSerializationSubProcessorHolder createCollectionProcessor(boolean reference, Class<?> clazz)
     {
         return new CspDataCompositeCollectionSerializationProcessor(reference);
+    }
+
+    @Override
+    public ICspDataSerializationProcessor<Collection<?>> createCollectionProcessor(boolean reference,
+        Class<?> elementClazz, boolean elementReference)
+    {
+        return new CspDataCompositeCollectionSerializationProcessor(reference, elementClazz, elementReference);
+    }
+
+    @Override
+    public ICspDataSerializationProcessor<Collection<String>>
+        createStringCollectionProcessor(boolean reference, boolean elementReference, Charset charset)
+    {
+        return new CspDataCompositeStringCollectionSerializationProcessor(reference, elementReference, charset);
     }
 
     @Override
@@ -68,16 +84,25 @@ final class CspDataCompositeSerializationSubProcessorFactory
     }
 
     @Override
-    public ICspDataCompositeSerializationProcessor<Object> createOrdinaryClassProcessor(@Nullable String typeVariableName,
-        boolean reference, Class<?> clazz)
+    public ICspDataSerializationProcessor<Object> createOrdinaryClassProcessor(boolean reference,
+        Class<?> declaredClazz, ICspImplementationClassValues cspImplementationClassValues)
     {
-        return new CspDataCompositeOrdinaryClassSerializationProcessor(typeVariableName, reference, clazz);
+        return new CspDataCompositeOrdinaryClassSerializationProcessor(reference, declaredClazz);
     }
 
     @Override
-    public ICspDataCompositeSerializationProcessor<String> createStringProcessor(@Nullable String typeVariableName,
-        boolean reference, Charset charset)
+    public ICspDataSerializationProcessor<String> createStringProcessor(boolean reference, Charset charset)
     {
-        return new CspDataCompositeStringSerializationProcessor(typeVariableName, reference, charset);
+        return new CspDataCompositeStringSerializationProcessor(reference, charset);
+    }
+
+    @Override
+    public Class<?> selectClassForProcessing(Class<?> declaredClazz,
+        ICspImplementationClassValues cspImplementationClassValues)
+    {
+        return cspImplementationClassValues.isDeserializationOnly()
+                   || cspImplementationClassValues.getImplementationClazz() == null
+               ? declaredClazz
+               : cspImplementationClassValues.getImplementationClazz();
     }
 }

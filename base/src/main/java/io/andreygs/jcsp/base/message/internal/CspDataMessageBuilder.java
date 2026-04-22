@@ -47,15 +47,15 @@ import java.util.Set;
 final class CspDataMessageBuilder extends AbstractCspMessageBuilder
     implements ICspDataMessageBuilder
 {
-    private final ICspDataProcessorRegistry<ICspDataSerializationProcessor> cspSerializationProcessorRegistrar;
+    private final ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>> cspSerializationProcessorRegistry;
     private @Nullable ICspInterfaceVersion cspInterfaceVersion;
     private @Nullable Set<CspDataFlag> cspDataFlags;
 
     CspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
-                          ICspDataProcessorRegistry<ICspDataSerializationProcessor> cspSerializationProcessorRegistrar)
+                          ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>> cspSerializationProcessorRegistry)
     {
         super(serializationWorkflow);
-        this.cspSerializationProcessorRegistrar = cspSerializationProcessorRegistrar;
+        this.cspSerializationProcessorRegistry = cspSerializationProcessorRegistry;
     }
 
     @Override
@@ -122,6 +122,6 @@ final class CspDataMessageBuilder extends AbstractCspMessageBuilder
         ArgumentChecker.nonNull(cspVersionable);
         return getSerializationWorkflow().serializeDataMessage(
             getInitialBufferCapacity(), getDirectBuffer(), getBufferResizeStrategy(), getCspProtocolVersion(),
-            getCspCommonFlags(), cspSerializationProcessorRegistrar, cspVersionable, cspInterfaceVersion, cspDataFlags);
+            getCspCommonFlags(), cspSerializationProcessorRegistry, cspVersionable, cspInterfaceVersion, cspDataFlags);
     }
 }

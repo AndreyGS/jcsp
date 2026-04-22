@@ -25,21 +25,34 @@
 
 package io.andreygs.jcsp.base.processing.composite.internal;
 
-import io.andreygs.jcsp.base.processing.composite.CspTypeToken;
+import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
+import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.AnnotatedType;
+import java.nio.charset.Charset;
+import java.util.Collection;
 
 /**
  * TODO: place description here
  */
-public class CspDataCompositeSerializationProcessorFactory
-    implements ICspDataCompositeSerializationProcessorFactory
+final class CspDataCompositeStringCollectionSerializationProcessor
+    extends AbstractCspDataCompositeObjectProcessor
+    implements ICspDataSerializationProcessor<Collection<String>>
 {
-    @Override
-    public <T> ICspDataCompositeSerializationProcessor<T> createProcessor(
-        CspTypeToken<T> annotatedTypeExtractor)
+    private final boolean elementReference;
+    private final Charset charset;
+
+    CspDataCompositeStringCollectionSerializationProcessor(boolean reference, boolean elementReference, Charset charset)
     {
-        AnnotatedType annotatedType = annotatedTypeExtractor.getAnnotatedType();
-        return null;
+        super(reference);
+        this.elementReference = elementReference;
+        this.charset = charset;
+    }
+
+    @Override
+    public void serialize(@Nullable Collection<String> value,
+        ICspDataGeneralSerializationProcessor generalSerializationProcessor)
+    {
+        generalSerializationProcessor.serialize(value, isReference(), elementReference, charset);
     }
 }

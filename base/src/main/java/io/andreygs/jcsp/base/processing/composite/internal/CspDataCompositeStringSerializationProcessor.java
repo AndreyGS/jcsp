@@ -26,6 +26,7 @@
 package io.andreygs.jcsp.base.processing.composite.internal;
 
 import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
@@ -35,11 +36,11 @@ import java.nio.charset.Charset;
  */
 final class CspDataCompositeStringSerializationProcessor
     extends AbstractCspDataCompositeStringProcessor
-    implements ICspDataCompositeSerializationProcessor<String>
+    implements ICspDataSerializationProcessor<String>
 {
-    CspDataCompositeStringSerializationProcessor(@Nullable String typeVariableName, boolean reference, Charset charset)
+    CspDataCompositeStringSerializationProcessor(boolean reference, Charset charset)
     {
-        super(typeVariableName, reference, charset);
+        super(reference, charset);
     }
 
     @Override

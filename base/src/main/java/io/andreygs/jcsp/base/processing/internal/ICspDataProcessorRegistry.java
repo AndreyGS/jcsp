@@ -121,8 +121,6 @@ public interface ICspDataProcessorRegistry<P>
      */
     Optional<P> findGenericProcessor(AnnotatedType compositeType);
 
-    void unregisterAllProcessors();
-
     public interface IGenericProcessorHolder<P>
     {
         P getProcessor();

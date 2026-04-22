@@ -32,7 +32,7 @@ import org.jetbrains.annotations.Nullable;
  * TODO: place description here
  */
 final class CspDataCompositeOrdinaryClassDeserializationProcessor
-    extends AbstractCspDataCompositeOrdinaryClassProcessor<ICspDataCompositeDeserializationProcessor>
+    extends AbstractCspDataCompositeCustomClassProcessor<ICspDataCompositeDeserializationProcessor>
     implements ICspDataCompositeDeserializationProcessor
 {
     CspDataCompositeOrdinaryClassDeserializationProcessor(boolean reference, Class<?> clazz)

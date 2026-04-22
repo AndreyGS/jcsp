@@ -23,34 +23,12 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.composite.internal;
-
-import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
-import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Collection;
+package io.andreygs.jcsp.base;
 
 /**
  * TODO: place description here
  */
-final class CspDataCompositeCollectionSerializationProcessor
-    extends AbstractCspDataCompositeObjectProcessor
-    implements ICspDataSerializationProcessor<Collection<?>>
+public interface ICspSerializationSessionFactory
 {
-    private final boolean elementReference;
-    private final Class<?> elementClazz;
-
-    CspDataCompositeCollectionSerializationProcessor(boolean reference, boolean elementReference, Class<?> elementClazz)
-    {
-        super(reference);
-        this.elementReference = elementReference;
-        this.elementClazz = elementClazz;
-    }
-
-    @Override
-    public void serialize(@Nullable Collection<?> value, ICspDataGeneralSerializationProcessor generalSerializationProcessor)
-    {
-        generalSerializationProcessor.serialize((Collection<?>) value, isReference(), elementClazz, elementReference);
-    }
+    ICspSerializationSession createSession();
 }

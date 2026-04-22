@@ -119,37 +119,6 @@ final class CspDataProcessorRegistry<P>
         }
     }
 
-    @Override
-    public void unregisterAllProcessors()
-    {
-        rwLockForOrdinaryProcessors.writeLock().lock();
-        try
-        {
-            ordinaryProcessors.clear();
-        }
-        finally
-        {
-            rwLockForOrdinaryProcessors.writeLock().unlock();
-        }
-        try
-        {
-            genericProcessors.clear();
-        }
-        finally
-        {
-            rwLockForGenericProcessors.writeLock().unlock();
-        }
-        rwLockForCompositeProcessors.writeLock().lock();
-        try
-        {
-            compositeProcessors.clear();
-        }
-        finally
-        {
-            rwLockForCompositeProcessors.writeLock().unlock();
-        }
-    }
-
     private void registerOrdinaryProcessor(Class<?> clazz, P processor)
     {
         rwLockForOrdinaryProcessors.writeLock().lock();

@@ -23,40 +23,24 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.internal;
-
-import io.andreygs.jcsp.base.ICspSerializationEnvironment;
-import io.andreygs.jcsp.base.message.ICspMessageBuilderFactory;
-import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
-import io.andreygs.jcsp.base.processing.internal.ICspDataProcessorRegistry;
+package io.andreygs.jcsp.base.processing.composite.internal;
 
 /**
  * TODO: place description here
  */
-public class CspSerializationEnvironment implements ICspSerializationEnvironment
+abstract class AbstractCspDataCompositeCustomClassProcessor
+    extends AbstractCspDataCompositeObjectProcessor
 {
-    private final ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>> processorRegistry;
+    private final Class<?> clazz;
 
-    public CspSerializationEnvironment(ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>> processorRegistry)
+    AbstractCspDataCompositeCustomClassProcessor(Class<?> clazz, boolean reference)
     {
-        this.processorRegistry = processorRegistry;
+        super(reference);
+        this.clazz = clazz;
     }
 
-    @Override
-    public <T> void registerSerializationProcessor(Class<T> clazz, ICspDataSerializationProcessor<T> processor)
+    protected final Class<?> getClazz()
     {
-
-    }
-
-    @Override
-    public ICspMessageBuilderFactory getMessageBuilderFactory()
-    {
-        return null;
-    }
-
-    @Override
-    public void resetEnvironment()
-    {
-        processorRegistry.unregisterAllProcessors();
+        return clazz;
     }
 }
