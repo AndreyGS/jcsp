@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.base.processing;
 
-import io.andreygs.jcsp.base.processing.annotations.CspSerializable;
+import io.andreygs.jcsp.base.processing.annotations.CspField;
 import io.andreygs.jcsp.base.processing.composite.CspTypeToken;
 import io.andreygs.jcsp.base.processing.internal.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.types.CspDataFlag;
@@ -868,7 +868,7 @@ public interface ICspDataGeneralSerializationProcessor
      * <p>
      *        Conditions:
      *        <ol>
-     *            <li>Parent class has {@link CspSerializable}
+     *            <li>Parent class has {@link CspField}
      *            attribute, or it has own {@link ICspDataSerializationProcessor} or inherited class explicitly
      *            serializes its parent(s).</li>
      *        </ol>

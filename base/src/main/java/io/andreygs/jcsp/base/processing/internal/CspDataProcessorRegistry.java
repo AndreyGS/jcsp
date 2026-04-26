@@ -30,6 +30,7 @@ import io.andreygs.jcsp.base.common.internal.ArgumentChecker;
 import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -50,7 +51,7 @@ final class CspDataProcessorRegistry<P>
     private final ReadWriteLock rwLockForCompositeProcessors = new ReentrantReadWriteLock();
     private final Map<Class<?>, P> ordinaryProcessors = new WeakHashMap<>();
     private final Map<Class<?>, IGenericProcessorHolder<P>> genericProcessors = new WeakHashMap<>();
-    private final Map<AnnotatedType, P> compositeProcessors = new WeakHashMap<>();
+    private final Map<AnnotatedType, P> compositeProcessors = new HashMap<>();
 
     @Override
     public void registerProcessor(Class<?> clazz, P processor)

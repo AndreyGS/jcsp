@@ -26,7 +26,7 @@
 package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.annotations.CspProcessorAutoGeneratable;
-import io.andreygs.jcsp.base.processing.annotations.CspSerializable;
+import io.andreygs.jcsp.base.processing.annotations.CspField;
 import io.andreygs.jcsp.base.types.CspRuntimeException;
 import io.andreygs.jcsp.base.types.CspStatus;
 
@@ -74,8 +74,8 @@ abstract class AbstractCspDataProcessorGenerator<P>
         }
         Field[] fields = clazz.getDeclaredFields();
         Arrays.stream(fields)
-              .filter(field -> field.getAnnotation(CspSerializable.class) != null)
-              .sorted(Comparator.comparingInt(field -> field.getAnnotation(CspSerializable.class).order()))
+              .filter(field -> field.getAnnotation(CspField.class) != null)
+              .sorted(Comparator.comparingInt(field -> field.getAnnotation(CspField.class).order()))
               .forEach(field -> {
                   field.setAccessible(true);
                   addField(field, callbacks);

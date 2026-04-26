@@ -32,7 +32,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Tag that array field has variable size according to CSP interface.
+ * Annotation that array field has variable size according to CSP interface.
+ * <p>
  * Make sense only for array types.
  */
 @Documented
@@ -40,4 +41,10 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD, ElementType.TYPE_PARAMETER, ElementType.TYPE_USE})
 public @interface CspFixedSizeArray
 {
+    /**
+     * Size of array according to CSP interface.
+     *
+     * @return size of array.
+     */
+    int value();
 }

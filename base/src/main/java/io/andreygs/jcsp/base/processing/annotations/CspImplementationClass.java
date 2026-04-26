@@ -25,21 +25,19 @@
 
 package io.andreygs.jcsp.base.processing.annotations;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
 /**
- * Setting for overriding declared class in serialization and deserialization to some type that extends declared.
+ * Defines class that should be created when class instance is deserialized
  * <p>
  * The most obvious case when it may be handy is for deserialization of collections and maps if they are not created
- * with owner instance creation.
+ * with owner instance creation. And you should note that if some instance already created by its framing object before
+ * this processing starts, then this annotation would have no effect - that is, no new instance would be created.
+ * This is so because java-class definition is primary and CSP setting should not contradict to it. But, if you really
+ * need to set some special class as instance of some or another interface (or superclass), then you can register
+ * separate processor(s) to handle whole framing class instance as you wish. However, such scenario should be extremely
+ * rare.
  * <p>
- * Here an example of possible cases:
+ * Here an example of possible case:
  * <pre>
- *     // file CspImplementationClassExample.java
  *     &#64;CspProcessorAutoGeneratable
  *     public class CspImplementationClassExample
  *     {
@@ -47,62 +45,24 @@ import java.lang.annotation.Target;
  *          &#64;CspImplementationClass(ArrayList.class)
  *          private List&lt;&#64;CspImplementationClass(HashMap.class) Map&lt;String, Integer>> someListOfMaps;
  *
- *          &#64;CspSerializable(1)
- *          &#64;CspImplementationClass(InnerClassExample.class)
- *          private ICspImplementationClassExample implementationExample;
- *
  *          ...
  *     }
- *
- *     // file ICspImplementationClassExample.java
- *     public interface ICspImplementationClassExample
- *     {
- *         void f();
- *     }
- *
- *     // file AnotherCspImplementationClassExample.java
- *     public static class AnotherCspImplementationClassExample implements ICspImplementationClassExample
- *     {
- *         &#64;Override
- *         void f()
- *         {
- *              System.out.println("AnotherCspImplementationClassExample");
- *         }
- *     }
  * </pre>
- * Of course, you should have a very good reason to do this override on any type except {@link java.util.Collection}
- * or {@link java.util.Map} and their derivatives. And if you still need some of such, consider to make
- * {@link io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor} and (or)
- * {@link io.andreygs.jcsp.base.processing.ICspDataDeserializationProcessor} for type owning objects with such
- * interfaces or maybe even classes, or for interfaces (classes) themselves. In such processors you can apply additional
- * logic to decide which class (or interface, if candidate interface has its own processor) is suitable for
- * deserialization (or sometimes, serialization too).
+ * This applicable only for deserialization of non-immutable types and as a consequence has no effect on
+ * {@link java.lang.String}, {@link java.lang.Byte}, {@link java.lang.Short}, {@link java.lang.Integer},
+ * {@link java.lang.Long}, {@link java.lang.Character}, {@link java.lang.Float}, {@link java.lang.Double},
+ * {@link java.lang.Boolean} and arrays, excluding their non-array elements. Provided class should extend declared
+ * one. And it not dictates what processor will be used in deserialization - by default it defines by declared type or
+ * can be overridden by {@link CspOverrideProcessorClass}.
  * <p>
- * Serialization of {@link java.util.Collection}, {@link java.util.Map} and their derivatives is using standard
- * algorithm that is independent of specific implementation. But these and any other types can be serialized using
- * processor of some other class if flag {@link #deserializationOnly} is not set.
- * <p>
- * Deserialization of {@link java.util.Collection}, {@link java.util.Map} and their derivatives also using standard
- * algorithm, if field was initialized by instance when object owner was created or upper processor. In other case
- * {@link java.util.ArrayList} and {@link java.util.HashMap} will be used, if field or type is not annotated with this
- * annotation.
- * <p>
- * Has no effect on {@link java.lang.String}, {@link java.lang.Byte}, {@link java.lang.Short},
- * {@link java.lang.Integer}, {@link java.lang.Long}, {@link java.lang.Character}, {@link java.lang.Float},
- * {@link java.lang.Double}, {@link java.lang.Boolean} and arrays, excluding their non-array elements.
+ * Has no effect on serialization process.
  */
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.TYPE_PARAMETER, ElementType.TYPE_USE})
 public @interface CspImplementationClass
 {
     /**
-     * Class which overrides original one in serialiation/deserialization process.
-     * <p>
-     * This is most useful when
-     * @return effective clazz for serialization/deserialization.
+     * Class that should be created to deserialize instance.
+     *
+     * @return class that should be created to deserialize instance.
      */
     Class<?> value();
-
-    boolean deserializationOnly() default true;
 }

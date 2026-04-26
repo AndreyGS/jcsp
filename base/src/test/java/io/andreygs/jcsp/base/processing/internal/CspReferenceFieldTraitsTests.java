@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
-import io.andreygs.jcsp.base.processing.annotations.CspImplementationClass;
+import io.andreygs.jcsp.base.processing.annotations.CspOverrideProcessorClass;
 import io.andreygs.jcsp.base.processing.annotations.CspReference;
 import io.andreygs.jcsp.base.processing.annotations.CspStringCharset;
 import org.junit.jupiter.api.Assertions;
@@ -50,12 +50,12 @@ public class CspReferenceFieldTraitsTests
         Map<Class<?>, IGen<?>> map1 = new HashMap<>();
 
         TypeInfo typeInfo
-            = new AnnotatedTypeInfoExtractor<@CspImplementationClass(HashMap.class) Map<@CspReference @CspStringCharset("UTF-16BE") String, List<Integer>>>()
+            = new AnnotatedTypeInfoExtractor<@CspOverrideProcessorClass(HashMap.class) Map<@CspReference @CspStringCharset("UTF-16BE") String, List<Integer>>>()
         {
         }.getTypeInfo();
         int i = 1;
         Map<String, List<Integer>> map = TestCast.testCast(
-            new AnnotatedTypeInfoExtractor<@CspImplementationClass(HashMap.class) Map<@CspReference @CspStringCharset("UTF-16BE") String, List<Integer>>>()
+            new AnnotatedTypeInfoExtractor<@CspOverrideProcessorClass(HashMap.class) Map<@CspReference @CspStringCharset("UTF-16BE") String, List<Integer>>>()
             {
             });
         A<String> as = null;

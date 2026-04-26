@@ -25,15 +25,12 @@
 
 package io.andreygs.jcsp.base.processing.composite.internal;
 
-import io.andreygs.jcsp.base.processing.annotations.CspImplementationClass;
-import io.andreygs.jcsp.base.processing.annotations.CspReference;
-import io.andreygs.jcsp.base.processing.annotations.CspStringCharset;
+import io.andreygs.jcsp.base.processing.annotations.internal.CspAnnotationUtils;
 import io.andreygs.jcsp.base.processing.internal.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.types.CspRuntimeException;
 import io.andreygs.jcsp.base.types.CspStatus;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedArrayType;
 import java.lang.reflect.AnnotatedParameterizedType;
 import java.lang.reflect.AnnotatedType;
@@ -44,7 +41,6 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -56,11 +52,13 @@ import java.util.Optional;
  */
 class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorFactory<P>
 {
-    private final ICspDataCompositeSubProcessorFactory<P> subprocessorFactory;
+    private static final Class<?> UNBOUND_WILDCARD_CLAZZ = Object.class;
 
-    CspDataCompositeProcessorFactory(ICspDataCompositeSubProcessorFactory<P> subprocessorFactory)
+    private final ICspDataCompositeSubProcessorFactory<P> subProcessorFactory;
+
+    CspDataCompositeProcessorFactory(ICspDataCompositeSubProcessorFactory<P> subProcessorFactory)
     {
-        this.subprocessorFactory = subprocessorFactory;
+        this.subProcessorFactory = subProcessorFactory;
     }
 
     @Override
@@ -73,93 +71,445 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
     {
         if (annotatedType instanceof AnnotatedParameterizedType annotatedParameterizedType)
         {
-            return createProcessor(annotatedParameterizedType);
+            return createGenericProcessorSwitch(annotatedParameterizedType);
         }
         else if (annotatedType instanceof AnnotatedArrayType annotatedArrayType)
         {
-            return createProcessor(annotatedArrayType);
+            return createArrayProcessorSwitch(annotatedArrayType);
         }
         else if (annotatedType instanceof AnnotatedTypeVariable annotatedTypeVariable)
         {
-            return createProcessor(annotatedTypeVariable);
+            return createTypeVariableProcessor(annotatedTypeVariable);
         }
         else if (annotatedType instanceof AnnotatedWildcardType annotatedWildcardType)
         {
-            throw new IllegalArgumentException("Wildcard type cannot present in serialization!");
+            return createWildcardProcessorSwitch(annotatedWildcardType);
         }
         else
         {
             Type type = annotatedType.getType();
             if (!(type instanceof Class<?> declaredClazz))
             {
-                throw new IllegalArgumentException("Unsupported type: " + type);
+                throw CspRuntimeException.createCspRuntimeException(CspStatus.ERROR_IN_STRUCT_FORMAT,
+                    Messages.CspStatus_Error_in_struct_format_Unknown_type_category);
             }
+            return createSimpleProcessorSwitch(annotatedType, declaredClazz);
+        }
+    }
+
+    private P createSimpleProcessorSwitch(AnnotatedType annotatedType, Class<?> declaredClazz)
+    {
+        if (declaredClazz.isPrimitive())
+        {
+            return createPrimitiveProcessor(declaredClazz);
+        }
+        else if (declaredClazz == String.class)
+        {
+            return createStringProcessor(annotatedType);
+        }
+        else
+        {
             return createOrdinaryClassProcessor(annotatedType, declaredClazz);
         }
     }
 
-    private P createGenericProcessor(AnnotatedParameterizedType annotatedParameterizedType,
-        @Nullable String typeVariableName)
+    private P createGenericProcessorSwitch(AnnotatedParameterizedType annotatedParameterizedType)
     {
-        Annotation[] annotations = annotatedParameterizedType.getAnnotations();
-        boolean reference = isReference(annotations);
         ParameterizedType parameterizedType = (ParameterizedType)annotatedParameterizedType.getType();
         Class<?> declaredClazz = (Class<?>)parameterizedType.getRawType();
-        Class<?> clazz = selectProcessingClazz(declaredClazz, annotations);
-        AnnotatedType[] annotatedTypes = annotatedParameterizedType.getAnnotatedActualTypeArguments();
         if (Collection.class.isAssignableFrom(declaredClazz))
         {
-            return createCollectionProcessor(annotatedTypes, reference, clazz);
+            return createCollectionProcessorSwitch(annotatedParameterizedType, declaredClazz);
         }
-        Map<String, P> typeVariableNameAndProcessors =
-            getTypeVariableNameAndProcessors(annotatedTypes, declaredClazz);
+        else if (Map.class.isAssignableFrom(declaredClazz))
+        {
+            return createMapProcessorSwitch(annotatedParameterizedType, declaredClazz);
+        }
+        else
+        {
+            return createArbitraryGenericProcessor(annotatedParameterizedType, declaredClazz);
+        }
+    }
+
+    private P createArrayProcessorSwitch(AnnotatedArrayType annotatedArrayType)
+    {
+        AnnotatedType componentAnnotatedType = annotatedArrayType.getAnnotatedGenericComponentType();
+        Type componentType = componentAnnotatedType.getType();
+        if (componentType instanceof Class<?> componentClazz)
+        {
+            if (componentClazz.isPrimitive())
+            {
+                return createPrimitiveArrayProcessor(annotatedArrayType, componentClazz);
+            }
+            else if (componentClazz == String.class)
+            {
+                return createStringArrayProcessor(annotatedArrayType, componentAnnotatedType);
+            }
+            else
+            {
+                return createOrdinaryClassArrayProcessor(annotatedArrayType, componentAnnotatedType, componentClazz);
+            }
+        }
+        else
+        {
+            return createArrayProcessor(annotatedArrayType, componentAnnotatedType);
+        }
+    }
+
+    private P createWildcardProcessorSwitch(AnnotatedWildcardType annotatedWildcardType)
+    {
+        AnnotatedType[] lowerBoundAnnotatedTypes =  annotatedWildcardType.getAnnotatedLowerBounds();
+        AnnotatedType[] upperBoundAnnotatedTypes =  annotatedWildcardType.getAnnotatedUpperBounds();
+        if (lowerBoundAnnotatedTypes.length == 0 && upperBoundAnnotatedTypes.length == 0)
+        {
+            return createWildcardUnboundedProcessor(annotatedWildcardType);
+        }
+        else if (lowerBoundAnnotatedTypes.length > 0)
+        {
+            return createWildcardLowerBoundedProcessor(annotatedWildcardType, lowerBoundAnnotatedTypes);
+        }
+    }
+
+    private P createCollectionProcessorSwitch(AnnotatedParameterizedType annotatedParameterizedType,
+        Class<?> declaredClazz)
+    {
+        Class<?> processorClazz = selectProcessorClassForCollectionOrMap(annotatedParameterizedType, declaredClazz,
+            Collection.class);
+        if (processorClazz != Collection.class)
+        {
+            return createArbitraryGenericProcessor(annotatedParameterizedType, declaredClazz);
+        }
+        AnnotatedType[] annotatedTypes = annotatedParameterizedType.getAnnotatedActualTypeArguments();
+        if (annotatedTypes.length != 1)
+        {
+            throw CspRuntimeException.createCspRuntimeException(CspStatus.ERROR_IN_STRUCT_FORMAT,
+                Messages.CspStatus_Error_in_struct_format_Collection_has_invalid_type_arguments_number);
+        }
+        AnnotatedType elementAnnotatedType = annotatedTypes[0];
+        if (!(elementAnnotatedType.getType() instanceof Class<?> elementDeclaredClazz))
+        {
+            return createCollectionProcessor(annotatedParameterizedType, elementAnnotatedType);
+        }
+        if (elementDeclaredClazz == String.class)
+        {
+            return createStringCollectionProcessor(annotatedParameterizedType, elementAnnotatedType);
+        }
+        else
+        {
+            return createOrdinaryCollectionProcessor(annotatedParameterizedType, elementAnnotatedType,
+                elementDeclaredClazz);
+        }
+    }
+
+    private P createMapProcessorSwitch(AnnotatedParameterizedType annotatedParameterizedType,
+        Class<?> declaredClazz)
+    {
+        Class<?> processorClazz = selectProcessorClassForCollectionOrMap(annotatedParameterizedType, declaredClazz,
+            Map.class);
+        if (processorClazz != Map.class)
+        {
+            return createArbitraryGenericProcessor(annotatedParameterizedType, declaredClazz);
+        }
+        AnnotatedType[] annotatedTypes = annotatedParameterizedType.getAnnotatedActualTypeArguments();
+        if (annotatedTypes.length != 2)
+        {
+            throw CspRuntimeException.createCspRuntimeException(CspStatus.ERROR_IN_STRUCT_FORMAT,
+                Messages.CspStatus_Error_in_struct_format_Map_has_invalid_type_arguments_number);
+        }
+        AnnotatedType keyAnnotatedType = annotatedTypes[0];
+        AnnotatedType valueAnnotatedType = annotatedTypes[1];
+        if (!(keyAnnotatedType.getType() instanceof Class<?> keyDeclaredClazz
+            && valueAnnotatedType.getType() instanceof Class<?> valueDeclaredClazz))
+        {
+            return createMapProcessor(annotatedParameterizedType, keyAnnotatedType, valueAnnotatedType);
+        }
+        if (keyDeclaredClazz == String.class && valueDeclaredClazz == String.class)
+        {
+            return createStringStringMapProcessor(annotatedParameterizedType, keyAnnotatedType, valueAnnotatedType);
+        }
+        else if (keyDeclaredClazz == String.class)
+        {
+            return createStringKeyMapProcessor(annotatedParameterizedType, keyAnnotatedType, valueAnnotatedType,
+                valueDeclaredClazz);
+        }
+        else if (valueDeclaredClazz == String.class)
+        {
+            return createStringValueMapProcessor(annotatedParameterizedType, keyAnnotatedType, keyDeclaredClazz,
+                valueAnnotatedType);
+        }
+        else
+        {
+            return createOrdinaryMapProcessor(annotatedParameterizedType, keyAnnotatedType, keyDeclaredClazz,
+                valueAnnotatedType, valueDeclaredClazz);
+        }
+    }
+
+    private P createPrimitiveProcessor(Class<?> declaredClazz)
+    {
+        if (declaredClazz == boolean.class)
+        {
+            return subProcessorFactory.createPrimitiveBooleanProcessor();
+        }
+        else if (declaredClazz == byte.class)
+        {
+            return subProcessorFactory.createPrimitiveByteProcessor();
+        }
+        else if (declaredClazz == short.class)
+        {
+            return subProcessorFactory.createPrimitiveShortProcessor();
+        }
+        else if (declaredClazz == int.class)
+        {
+            return subProcessorFactory.createPrimitiveIntProcessor();
+        }
+        else if (declaredClazz == long.class)
+        {
+            return subProcessorFactory.createPrimitiveLongProcessor();
+        }
+        else if (declaredClazz == char.class)
+        {
+            return subProcessorFactory.createPrimitiveCharProcessor();
+        }
+        else if (declaredClazz == float.class)
+        {
+            return subProcessorFactory.createPrimitiveFloatProcessor();
+        }
+        else if (declaredClazz == double.class)
+        {
+            return subProcessorFactory.createPrimitiveDoubleProcessor();
+        }
+        else
+        {
+            throw CspRuntimeException.createCspRuntimeException(CspStatus.ERROR_IN_STRUCT_FORMAT,
+                MessageFormat.format(Messages.CspStatus_Error_in_struct_format_Primitive__0__is_not_supported,
+                    declaredClazz));
+        }
+    }
+
+    private P createStringProcessor(AnnotatedType annotatedType)
+    {
+        boolean reference = CspAnnotationUtils.isCspReference(annotatedType);
+        Charset charset = requireStringCharset(annotatedType);
+        return subProcessorFactory.createStringProcessor(reference, charset);
     }
 
     private P createOrdinaryClassProcessor(AnnotatedType annotatedType, Class<?> declaredClazz)
     {
-        Annotation[] annotations = annotatedType.getAnnotations();
-        boolean reference = isReference(annotations);
-        if (declaredClazz == String.class)
-        {
-            return subprocessorFactory.createStringProcessor(reference, requireCharset(annotations));
-        }
-        else
-        {
-            Class<?> clazz = selectProcessingClazz(declaredClazz, annotations);
-            return subprocessorFactory.createOrdinaryClassProcessor(clazz, reference);
-        }
+        Class<?> processorClazz = selectProcessorClass(annotatedType, declaredClazz);
+        boolean reference = CspAnnotationUtils.isCspReference(annotatedType);
+        @Nullable Class<?> implementationOverrideClazz = selectImplementationOverrideClass(annotatedType,
+            declaredClazz);
+        return subProcessorFactory.createOrdinaryClassProcessor(processorClazz, reference, implementationOverrideClazz);
     }
 
-    private P createCollectionProcessor(AnnotatedType[] annotatedTypes, boolean reference, Class<?> clazz)
+    private P createStringCollectionProcessor(AnnotatedType annotatedType, AnnotatedType elementAnnotatedType)
     {
-        if (annotatedTypes.length != 1)
-        {
-            throw new IllegalArgumentException("Only one type allowed for collection!");
-        }
-        AnnotatedType elementAnnotatedType = annotatedTypes[0];
-        Annotation[] elementAnnotations = elementAnnotatedType.getAnnotations();
-        boolean elementReference = isReference(elementAnnotations);
-        if (elementAnnotatedType.getType() instanceof Class<?> elementDeclaredClazz)
-        {
-            if (elementDeclaredClazz == String.class)
-            {
+        boolean reference = CspAnnotationUtils.isCspReference(annotatedType);
+        boolean elementReference = CspAnnotationUtils.isCspReference(elementAnnotatedType);
+        Charset elementCharset = requireStringCharset(elementAnnotatedType);
+        return subProcessorFactory.createStringCollectionProcessor(reference, elementReference, elementCharset);
+    }
 
-            }
-            else
-            {
-                Class<?> elementClazz =  selectProcessingClazz(elementDeclaredClazz, elementAnnotations);
-                return subprocessorFactory.createCollectionProcessor(reference, elementClazz, elementReference);
-            }
+    private P createOrdinaryCollectionProcessor(AnnotatedType annotatedType, AnnotatedType elementAnnotatedType,
+        Class<?> elementDeclaredClazz)
+    {
+        boolean reference = CspAnnotationUtils.isCspReference(annotatedType);
+        Class<?> elementProcessorClazz = selectProcessorClass(elementAnnotatedType, elementDeclaredClazz);
+        boolean elementReference = CspAnnotationUtils.isCspReference(elementAnnotatedType);
+        @Nullable Class<?> elementImplementationOverrideClazz = selectImplementationOverrideClass(elementAnnotatedType,
+            elementDeclaredClazz);
+        return subProcessorFactory.createOrdinaryCollectionProcessor(reference, elementProcessorClazz, elementReference,
+            elementImplementationOverrideClazz);
+    }
+
+    private P createCollectionProcessor(AnnotatedType annotatedType, AnnotatedType elementAnnotatedType)
+    {
+        boolean reference = CspAnnotationUtils.isCspReference(annotatedType);
+        P elementProcessor = createProcessorSwitch(elementAnnotatedType);
+        return subProcessorFactory.createCollectionProcessor(reference, elementProcessor);
+    }
+
+    private P createStringStringMapProcessor(AnnotatedType annotatedType, AnnotatedType keyAnnotatedType,
+        AnnotatedType valueAnnotatedType)
+    {
+        boolean reference = CspAnnotationUtils.isCspReference(annotatedType);
+        boolean keyReference = CspAnnotationUtils.isCspReference(keyAnnotatedType);
+        Charset keyCharset = requireStringCharset(keyAnnotatedType);
+        boolean valueReference = CspAnnotationUtils.isCspReference(valueAnnotatedType);
+        Charset valueCharset = requireStringCharset(valueAnnotatedType);
+        return subProcessorFactory.createStringStringMapProcessor(reference, keyReference, keyCharset, valueReference
+            , valueCharset);
+    }
+
+    private P createStringKeyMapProcessor(AnnotatedType annotatedType, AnnotatedType keyAnnotatedType,
+        AnnotatedType valueAnnotatedType, Class<?> valueDeclaredClazz)
+    {
+        boolean reference = CspAnnotationUtils.isCspReference(annotatedType);
+        boolean keyReference = CspAnnotationUtils.isCspReference(keyAnnotatedType);
+        Charset keyCharset = requireStringCharset(keyAnnotatedType);
+        Class<?> valueProcessorClazz = selectProcessorClass(valueAnnotatedType, valueDeclaredClazz);
+        boolean valueReference = CspAnnotationUtils.isCspReference(valueAnnotatedType);
+        @Nullable Class<?> valueImplementationOverrideClazz = selectImplementationOverrideClass(valueAnnotatedType,
+            valueDeclaredClazz);
+        return subProcessorFactory.createStringKeyMapProcessor(reference, keyReference, keyCharset, valueProcessorClazz,
+            valueReference, valueImplementationOverrideClazz);
+    }
+
+    private P createStringValueMapProcessor(AnnotatedType annotatedType, AnnotatedType keyAnnotatedType,
+        Class<?> keyDeclaredClazz, AnnotatedType valueAnnotatedType)
+    {
+        boolean reference = CspAnnotationUtils.isCspReference(annotatedType);
+        Class<?> keyProcessorClazz = selectProcessorClass(keyAnnotatedType, keyDeclaredClazz);
+        boolean keyReference = CspAnnotationUtils.isCspReference(keyAnnotatedType);
+        @Nullable Class<?> keyImplementationOverrideClazz = selectImplementationOverrideClass(keyAnnotatedType,
+            keyDeclaredClazz);
+        boolean valueReference = CspAnnotationUtils.isCspReference(valueAnnotatedType);
+        Charset valueCharset = requireStringCharset(valueAnnotatedType);
+        return subProcessorFactory.createStringValueMapProcessor(reference, keyProcessorClazz, keyReference,
+            keyImplementationOverrideClazz, valueReference, valueCharset);
+    }
+
+    private P createOrdinaryMapProcessor(AnnotatedType annotatedType, AnnotatedType keyAnnotatedType,
+        Class<?> keyDeclaredClazz, AnnotatedType valueAnnotatedType, Class<?> valueDeclaredClazz)
+    {
+        boolean reference = CspAnnotationUtils.isCspReference(annotatedType);
+        Class<?> keyProcessorClazz = selectProcessorClass(keyAnnotatedType, keyDeclaredClazz);
+        boolean keyReference = CspAnnotationUtils.isCspReference(keyAnnotatedType);
+        @Nullable Class<?> keyImplementationOverrideClazz = selectImplementationOverrideClass(keyAnnotatedType,
+            keyDeclaredClazz);
+        Class<?> valueProcessorClazz = selectProcessorClass(valueAnnotatedType, valueDeclaredClazz);
+        boolean valueReference = CspAnnotationUtils.isCspReference(valueAnnotatedType);
+        @Nullable Class<?> valueImplementationOverrideClazz = selectImplementationOverrideClass(valueAnnotatedType,
+            valueDeclaredClazz);
+        return subProcessorFactory.createOrdinaryMapProcessor(reference, keyProcessorClazz, keyReference,
+            keyImplementationOverrideClazz, valueProcessorClazz, valueReference, valueImplementationOverrideClazz);
+    }
+
+    private P createMapProcessor(AnnotatedType annotatedType, AnnotatedType keyAnnotatedType,
+        AnnotatedType valueAnnotatedType)
+    {
+        boolean reference = CspAnnotationUtils.isCspReference(annotatedType);
+        P keyProcessor = createProcessorSwitch(keyAnnotatedType);
+        P valueProcessor = createProcessorSwitch(valueAnnotatedType);
+        return subProcessorFactory.createMapProcessor(reference, keyProcessor, valueProcessor);
+    }
+
+    private P createArbitraryGenericProcessor(AnnotatedParameterizedType annotatedParameterizedType,
+        Class<?> declaredClazz)
+    {
+        Class<?> processorClazz = selectProcessorClass(annotatedParameterizedType, declaredClazz);
+        boolean reference = CspAnnotationUtils.isCspReference(annotatedParameterizedType);
+        @Nullable Class<?> implementationOverrideClazz = selectImplementationOverrideClass(annotatedParameterizedType,
+            declaredClazz);
+        Map<String, P> typeVariableNameAndProcessors =
+            getTypeVariableNameAndProcessors(annotatedParameterizedType, declaredClazz);
+        return subProcessorFactory.createArbitraryGenericProcessor(processorClazz, reference,
+            implementationOverrideClazz, typeVariableNameAndProcessors);
+    }
+
+    private P createPrimitiveArrayProcessor(AnnotatedArrayType annotatedArrayType, Class<?> declaredClazz)
+    {
+        boolean reference = CspAnnotationUtils.isCspReference(annotatedArrayType);
+        int fixedSize = CspAnnotationUtils.resolveCspFixedArraySize(annotatedArrayType);
+        if (declaredClazz == boolean[].class)
+        {
+            return subProcessorFactory.createPrimitiveBooleanArrayProcessor(reference, fixedSize);
+        }
+        else if (declaredClazz == byte[].class)
+        {
+            return subProcessorFactory.createPrimitiveByteArrayProcessor(reference, fixedSize);
+        }
+        else if (declaredClazz == short[].class)
+        {
+            return subProcessorFactory.createPrimitiveShortArrayProcessor(reference, fixedSize);
+        }
+        else if (declaredClazz == int[].class)
+        {
+            return subProcessorFactory.createPrimitiveIntArrayProcessor(reference, fixedSize);
+        }
+        else if (declaredClazz == long[].class)
+        {
+            return subProcessorFactory.createPrimitiveLongArrayProcessor(reference, fixedSize);
+        }
+        else if (declaredClazz == char[].class)
+        {
+            return subProcessorFactory.createPrimitiveCharArrayProcessor(reference, fixedSize);
+        }
+        else if (declaredClazz == float[].class)
+        {
+            return subProcessorFactory.createPrimitiveFloatArrayProcessor(reference, fixedSize);
+        }
+        else if (declaredClazz == double[].class)
+        {
+            return subProcessorFactory.createPrimitiveDoubleArrayProcessor(reference, fixedSize);
         }
         else
         {
-            P subProcessor = createProcessorSwitch(elementAnnotatedType);
+            throw CspRuntimeException.createCspRuntimeException(CspStatus.ERROR_IN_STRUCT_FORMAT,
+                MessageFormat.format(Messages.CspStatus_Error_in_struct_format_Primitive__0__is_not_supported,
+                    declaredClazz));
         }
     }
 
-    private Map<String, P> getTypeVariableNameAndProcessors(AnnotatedType[] annotatedTypes, Class<?> declaredClazz)
+    private P createStringArrayProcessor(AnnotatedArrayType annotatedArrayType, AnnotatedType componentAnnotatedType)
+    {
+        boolean reference = CspAnnotationUtils.isCspReference(annotatedArrayType);
+        int fixedSize = CspAnnotationUtils.resolveCspFixedArraySize(annotatedArrayType);
+        boolean componentReference = CspAnnotationUtils.isCspReference(componentAnnotatedType);
+        Charset componentCharset = requireStringCharset(componentAnnotatedType);
+        return subProcessorFactory.createStringArrayProcessor(reference, fixedSize, componentReference,
+            componentCharset);
+    }
+
+    private P createOrdinaryClassArrayProcessor(AnnotatedArrayType annotatedArrayType, AnnotatedType componentAnnotatedType,
+        Class<?> componentDeclaredClazz)
+    {
+        boolean reference = CspAnnotationUtils.isCspReference(annotatedArrayType);
+        int fixedSize = CspAnnotationUtils.resolveCspFixedArraySize(annotatedArrayType);
+        Class<?> componentProcessorClazz = selectProcessorClass(componentAnnotatedType, componentDeclaredClazz);
+        boolean componentReference = CspAnnotationUtils.isCspReference(componentAnnotatedType);
+        @Nullable Class<?> componentImplementationOverrideClazz = selectImplementationOverrideClass(
+            componentAnnotatedType, componentDeclaredClazz);
+        return subProcessorFactory.createOrdinaryClassArrayProcessor(reference, fixedSize, componentProcessorClazz,
+            componentReference, componentImplementationOverrideClazz);
+    }
+
+    private P createArrayProcessor(AnnotatedArrayType annotatedArrayType,
+        AnnotatedType componentAnnotatedType)
+    {
+        boolean reference = CspAnnotationUtils.isCspReference(annotatedArrayType);
+        int fixedSize = CspAnnotationUtils.resolveCspFixedArraySize(annotatedArrayType);
+        P componentProcessor = createProcessorSwitch(componentAnnotatedType);
+        return subProcessorFactory.createArrayProcessor(reference, fixedSize, componentProcessor);
+    }
+
+    private P createTypeVariableProcessor(AnnotatedTypeVariable annotatedTypeVariable)
+    {
+        boolean reference = CspAnnotationUtils.isCspReference(annotatedTypeVariable);
+        String typeVariableName = ((TypeVariable<?>)annotatedTypeVariable).getName();
+        return subProcessorFactory.createTypeVariableProcessor(reference, typeVariableName);
+    }
+
+    private P createWildcardUnboundedProcessor(AnnotatedWildcardType annotatedWildcardType)
+    {
+        Class<?> processorClazz = selectProcessorClassForUnboundedWildcard(annotatedWildcardType);
+        boolean reference = CspAnnotationUtils.isCspReference(annotatedWildcardType);
+        @Nullable Class<?> implementationOverrideClazz = selectImplementationOverrideClass(annotatedWildcardType,
+            UNBOUND_WILDCARD_CLAZZ);
+        return subProcessorFactory.createOrdinaryClassProcessor(processorClazz, reference, implementationOverrideClazz);
+    }
+
+    private P createWildcardLowerBoundedProcessor(AnnotatedWildcardType annotatedWildcardType,
+        AnnotatedType[] lowerBoundAnnotatedTypes)
+    {
+
+    }
+
+    private Map<String, P> getTypeVariableNameAndProcessors(AnnotatedParameterizedType annotatedParameterizedType,
+        Class<?> declaredClazz)
     {
         Map<String, P> typeVariableNameAndProcessors = new HashMap<>();
+        AnnotatedType[] annotatedTypes = annotatedParameterizedType.getAnnotatedActualTypeArguments();
         TypeVariable<? extends Class<?>>[] typeVariables = declaredClazz.getTypeParameters();
         for (int i = 0; i < typeVariables.length; ++i)
         {
@@ -169,40 +519,90 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
         return typeVariableNameAndProcessors;
     }
 
-    private Class<?> selectProcessingClazz(Class<?> declaredClazz, Annotation[] annotations)
+    private static Charset requireStringCharset(AnnotatedType annotatedType)
     {
-        Optional<Annotation> implementationClazzAnnotation = Arrays.stream(annotations).filter(
-            annotation -> annotation.annotationType().equals(CspImplementationClass.class)).findFirst();
-        if (implementationClazzAnnotation.isEmpty())
+        Optional<Charset> charset = CspAnnotationUtils.resolveCspStringCharset(annotatedType);
+        if (charset.isEmpty())
         {
-            return declaredClazz;
+            throw CspRuntimeException.createCspRuntimeException(CspStatus.ERROR_IN_STRUCT_FORMAT,
+                MessageFormat.format(Messages.CspStatus_Error_in_struct_format_Property__0__for_struct__1__not_set,
+                    "charset", "CSP String"));
         }
-        CspImplementationClass cspImplementationClass = (CspImplementationClass)implementationClazzAnnotation.get();
-        ICspDataCompositeSubProcessorFactory.ICspImplementationClassValues cspImplementationClassValues =
-            new CspImplementationClassValues(cspImplementationClass);
-        return subprocessorFactory.selectClassForProcessing(declaredClazz, cspImplementationClassValues);
+        return charset.get();
     }
 
-    private static boolean isReference(Annotation[] annotations)
+    private static Class<?> selectProcessorClass(AnnotatedType annotatedType, Class<?> declaredClazz)
     {
-        return Arrays.stream(annotations).anyMatch(
-            annotation -> annotation.annotationType().equals(CspReference.class));
-    }
-
-    private static Charset requireCharset(Annotation[] annotations)
-    {
-        Optional<Annotation> charsetAnnotation = Arrays.stream(annotations).filter(
-            annotation -> annotation.annotationType().equals(CspStringCharset.class)).findFirst();
-        if (charsetAnnotation.isEmpty())
+        Optional<Class<?>> overrideClazz = CspAnnotationUtils.resolveCspOverrideProcessorClass(annotatedType);
+        if (overrideClazz.isPresent() && !declaredClazz.isAssignableFrom(overrideClazz.get()))
         {
-            throw CspRuntimeException.createCspRuntimeException(CspStatus.ERROR_IN_STRUCTURE_FORMAT,
+            throw CspRuntimeException.createCspRuntimeException(CspStatus.ERROR_IN_STRUCT_FORMAT,
+                MessageFormat.format(Messages.CspStatus_Error_in_struct_format_Class__0__cannot_override_class__1,
+                    overrideClazz.get(), declaredClazz));
+        }
+        return overrideClazz.orElse(declaredClazz);
+    }
+
+    private static <T> Class<?> selectProcessorClassForCollectionOrMap(AnnotatedType annotatedType,
+        Class<?> declaredClazz, Class<T> baseClazz)
+    {
+        Optional<Class<?>> overrideClazz = CspAnnotationUtils.resolveCspOverrideProcessorClass(annotatedType);
+        if (overrideClazz.isPresent())
+        {
+            if (!declaredClazz.isAssignableFrom(overrideClazz.get()))
+            {
+                throw CspRuntimeException.createCspRuntimeException(CspStatus.ERROR_IN_STRUCT_FORMAT,
+                    MessageFormat.format(Messages.CspStatus_Error_in_struct_format_Class__0__cannot_override_class__1,
+                        overrideClazz.get(), declaredClazz));
+            }
+            return overrideClazz.get();
+        }
+        return baseClazz;
+    }
+
+    private static Class<?> selectProcessorClassForUnboundedWildcard(AnnotatedType annotatedType)
+    {
+        Optional<Class<?>> overrideClazz = CspAnnotationUtils.resolveCspOverrideProcessorClass(annotatedType);
+        if (overrideClazz.isEmpty())
+        {
+            throw CspRuntimeException.createCspRuntimeException(CspStatus.ERROR_IN_STRUCT_FORMAT,
+                Messages.CspStatus_Error_in_struct_format_Unbound_wildcard_type_cannot_be_processed);
+        }
+        if (overrideClazz.get().isPrimitive())
+        {
+            throw CspRuntimeException.createCspRuntimeException(CspStatus.ERROR_IN_STRUCT_FORMAT,
+                Messages.CspStatus_Error_in_struct_format_Wildcard_type_cannot_be_overridden_by_primitive);
+        }
+        else if (overrideClazz.get().isArray() || overrideClazz.get().getTypeParameters().length > 0)
+        {
+            throw CspRuntimeException.createCspRuntimeException(CspStatus.ERROR_IN_STRUCT_FORMAT,
+                Messages.CspStatus_Error_in_struct_format_Wildcard_type_cannot_be_overridden_by_this_type_using_annotation);
+        }
+        return overrideClazz.get();
+    }
+
+    private static Class<?> selectProcessorClassForLowerBoundedWildcard(AnnotatedType annotatedType,
+        AnnotatedType[] lowerBoundAnnotatedTypes)
+    {
+        Optional<Class<?>> overrideClazz = CspAnnotationUtils.resolveCspOverrideProcessorClass(annotatedType);
+        if (overrideClazz.isEmpty())
+        {
+            
+        }
+    }
+
+    private static @Nullable Class<?> selectImplementationOverrideClass(AnnotatedType annotatedType,
+        Class<?> declaredClazz)
+    {
+        Optional<Class<?>> implementationClazz = CspAnnotationUtils.resolveCspImplementationClass(annotatedType);
+        if (implementationClazz.isPresent() && !declaredClazz.isAssignableFrom(implementationClazz.get()))
+        {
+            throw CspRuntimeException.createCspRuntimeException(CspStatus.ERROR_IN_STRUCT_FORMAT,
                 MessageFormat.format(
-                    Messages.CspStatus_Error_in_structure_format_property__0__for_structure__1__not_set, "charset",
-                    "CSP String"));
+                    Messages.CspStatus_Error_in_struct_format_Class__0__cannot_be_implementation_of_class__1,
+                    implementationClazz.get(), declaredClazz));
         }
-        CspStringCharset cspStringCharset = (CspStringCharset)charsetAnnotation.get();
-        String charset = cspStringCharset.value();
-        return Charset.forName(cspStringCharset.value());
+        return implementationClazz.orElse(null);
     }
 
     private static class GenericProcessorHolder<P> implements ICspDataProcessorRegistry.IGenericProcessorHolder<P>
@@ -224,37 +624,6 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
         public List<String> getTypeVariableNames()
         {
             return typeVariableNames;
-        }
-    }
-
-    private static class CspImplementationClassValues
-        implements ICspDataCompositeSubProcessorFactory.ICspImplementationClassValues
-    {
-        public static final CspImplementationClassValues EMPTY_INSTANCE = new CspImplementationClassValues();
-
-        private final @Nullable Class<?> implementationClazz;
-        private final boolean deserializationOnly;
-
-        private CspImplementationClassValues()
-        {
-            implementationClazz = null;
-            deserializationOnly = false;
-        }
-
-        CspImplementationClassValues(CspImplementationClass cspImplementationClass)
-        {
-            this.implementationClazz = cspImplementationClass.value();
-            this.deserializationOnly = cspImplementationClass.deserializationOnly();
-        }
-
-        public @Nullable Class<?> getImplementationClazz()
-        {
-            return implementationClazz;
-        }
-
-        public boolean isDeserializationOnly()
-        {
-            return deserializationOnly;
         }
     }
 }

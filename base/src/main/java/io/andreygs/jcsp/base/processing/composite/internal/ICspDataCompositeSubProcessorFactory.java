@@ -28,37 +28,85 @@ package io.andreygs.jcsp.base.processing.composite.internal;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
+import java.util.Map;
 
 /**
  * TODO: place description here
  */
 interface ICspDataCompositeSubProcessorFactory<P>
 {
-    P createGeneralCollectionProcessor(boolean reference, P elementProcessor, Class<?> clazz);
+    P createPrimitiveBooleanProcessor();
 
-    P createCollectionProcessor(boolean reference, Class<?> elementClazz, boolean elementReference);
+    P createPrimitiveByteProcessor();
 
-    P createStringCollectionProcessor(boolean reference, boolean elementReference, Charset charset);
+    P createPrimitiveShortProcessor();
 
-    H createMapProcessor(boolean reference);
+    P createPrimitiveIntProcessor();
 
-    H createArrayProcessor(boolean reference, boolean fixedSize);
+    P createPrimitiveLongProcessor();
+
+    P createPrimitiveCharProcessor();
+
+    P createPrimitiveFloatProcessor();
+
+    P createPrimitiveDoubleProcessor();
+
+    P createStringProcessor(boolean reference, Charset charset);
+
+    P createOrdinaryClassProcessor(Class<?> clazz, boolean reference, @Nullable Class<?> implementationClazz);
+
+    P createStringCollectionProcessor(boolean reference, boolean elementReference, Charset elementCharset);
+
+    P createOrdinaryCollectionProcessor(boolean reference, Class<?> elementClazz, boolean elementReference,
+        @Nullable Class<?> elementImplementationClazz);
+
+    P createCollectionProcessor(boolean reference, P elementProcessor);
+
+    P createStringKeyMapProcessor(boolean reference, boolean keyReference, Charset keyCharset,
+        Class<?> valueClazz, boolean valueReference, @Nullable Class<?> valueImplementationClazz);
+
+    P createStringValueMapProcessor(boolean reference, Class<?> keyClazz, boolean keyReference,
+        @Nullable Class<?> keyImplementationClazz, boolean valueReference, Charset valueCharset);
+
+    P createOrdinaryMapProcessor(boolean reference, Class<?> keyClazz, boolean keyReference,
+        @Nullable Class<?> keyImplementationClazz, Class<?> valueClazz, boolean valueReference,
+        @Nullable Class<?> valueImplementationClazz);
+
+    P createStringStringMapProcessor(boolean reference, boolean keyReference, Charset keyCharset,
+        boolean valueReference, Charset valueCharset);
+
+    P createMapProcessor(boolean reference, P keyProcessor, P mapProcessor);
+
+    P createArbitraryGenericProcessor(Class<?> clazz, boolean reference, @Nullable Class<?> implementationClazz,
+        Map<String, P> typeVariableNameAndProcessors);
+
+    P createPrimitiveBooleanArrayProcessor(boolean reference, int fixedSize);
+
+    P createPrimitiveByteArrayProcessor(boolean reference, int fixedSize);
+
+    P createPrimitiveShortArrayProcessor(boolean reference, int fixedSize);
+
+    P createPrimitiveIntArrayProcessor(boolean reference, int fixedSize);
+
+    P createPrimitiveLongArrayProcessor(boolean reference, int fixedSize);
+
+    P createPrimitiveCharArrayProcessor(boolean reference, int fixedSize);
+
+    P createPrimitiveFloatArrayProcessor(boolean reference, int fixedSize);
+
+    P createPrimitiveDoubleArrayProcessor(boolean reference, int fixedSize);
+
+    P createStringArrayProcessor(boolean reference, int fixedSize, boolean componentReference,
+        Charset componentCharset);
+
+    P createOrdinaryClassArrayProcessor(boolean reference, int fixedSize, Class<?> componentClazz,
+        boolean componentReference, @Nullable Class<?> componentImplementationClazz);
+
+    P createArrayProcessor(boolean reference, int fixedSize, P componentProcessor);
+
+    P createTypeVariableProcessor(boolean reference, String typeVariableName);
 
     P createArrayWithPrimitiveComponentProcessor(boolean reference, boolean fixedSize, Class<?> arrayClazz);
 
     H createGenericProcessor(boolean reference, Class<?> clazz, int typeParametersNumber);
-
-    P createOrdinaryClassProcessor(Class<?> clazz, boolean reference);
-
-    P createStringProcessor(boolean reference, Charset charset);
-
-    Class<?> selectClassForProcessing(Class<?> declaredClazz,
-        ICspImplementationClassValues cspImplementationClassValues);
-
-    public interface ICspImplementationClassValues
-    {
-        @Nullable Class<?> getImplementationClazz();
-
-        boolean isDeserializationOnly();
-    }
 }

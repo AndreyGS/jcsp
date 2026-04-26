@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.base.processing.composite;
 
-import io.andreygs.jcsp.base.processing.annotations.CspImplementationClass;
+import io.andreygs.jcsp.base.processing.annotations.CspOverrideProcessorClass;
 import io.andreygs.jcsp.base.processing.annotations.CspFixedSizeArray;
 import io.andreygs.jcsp.base.processing.annotations.CspMultiLevelPointer;
 import io.andreygs.jcsp.base.processing.annotations.CspReference;
@@ -53,13 +53,13 @@ import java.util.Set;
 public abstract class CspTypeToken<T>
 {
     public static final Set<Class<?>> VALID_RANDOM_REFERENCE_ANNOTATION_TYPES = Set.of(CspReference.class,
-        CspImplementationClass.class);
+        CspOverrideProcessorClass.class);
 
     public static final Set<Class<?>> VALID_STRING_ANNOTATION_TYPES = Set.of(CspReference.class,
         CspStringCharset.class);
 
     public static final Set<Class<?>> VALID_GENERIC_TYPE_ANNOTATION_TYPES = Set.of(CspReference.class,
-        CspImplementationClass.class);
+        CspOverrideProcessorClass.class);
 
     public static final Set<Class<?>> VALID_ARRAY_ANNOTATION_TYPES = Set.of(CspReference.class,
         CspFixedSizeArray.class, CspMultiLevelPointer.class);
