@@ -105,8 +105,4 @@ interface ICspDataCompositeSubProcessorFactory<P>
     P createArrayProcessor(boolean reference, int fixedSize, P componentProcessor);
 
     P createTypeVariableProcessor(boolean reference, String typeVariableName);
-
-    P createArrayWithPrimitiveComponentProcessor(boolean reference, boolean fixedSize, Class<?> arrayClazz);
-
-    H createGenericProcessor(boolean reference, Class<?> clazz, int typeParametersNumber);
 }

@@ -26,7 +26,6 @@
 package io.andreygs.jcsp.base.processing.composite.internal;
 
 import io.andreygs.jcsp.base.processing.annotations.internal.CspAnnotationUtils;
-import io.andreygs.jcsp.base.processing.internal.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.types.CspRuntimeException;
 import io.andreygs.jcsp.base.types.CspStatus;
 import org.jetbrains.annotations.Nullable;
@@ -43,7 +42,6 @@ import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -52,8 +50,6 @@ import java.util.Optional;
  */
 class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorFactory<P>
 {
-    private static final Class<?> UNBOUND_WILDCARD_CLAZZ = Object.class;
-
     private final ICspDataCompositeSubProcessorFactory<P> subProcessorFactory;
 
     CspDataCompositeProcessorFactory(ICspDataCompositeSubProcessorFactory<P> subProcessorFactory)
@@ -64,14 +60,14 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
     @Override
     public P createProcessor(AnnotatedType annotatedType)
     {
-        return createProcessorSwitch(annotatedType);
+        return createProcessorSwitch(annotatedType, true);
     }
 
-    private P createProcessorSwitch(AnnotatedType annotatedType)
+    private P createProcessorSwitch(AnnotatedType annotatedType, boolean overrideWithUpperBound)
     {
         if (annotatedType instanceof AnnotatedParameterizedType annotatedParameterizedType)
         {
-            return createGenericProcessorSwitch(annotatedParameterizedType);
+            return createGenericProcessorSwitch(annotatedParameterizedType, overrideWithUpperBound);
         }
         else if (annotatedType instanceof AnnotatedArrayType annotatedArrayType)
         {
@@ -93,11 +89,12 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
                 throw CspRuntimeException.createCspRuntimeException(CspStatus.ERROR_IN_STRUCT_FORMAT,
                     Messages.CspStatus_Error_in_struct_format_Unknown_type_category);
             }
-            return createSimpleProcessorSwitch(annotatedType, declaredClazz);
+            return createSimpleProcessorSwitch(annotatedType, declaredClazz, overrideWithUpperBound);
         }
     }
 
-    private P createSimpleProcessorSwitch(AnnotatedType annotatedType, Class<?> declaredClazz)
+    private P createSimpleProcessorSwitch(AnnotatedType annotatedType, Class<?> declaredClazz,
+        boolean overrideWithUpperBound)
     {
         if (declaredClazz.isPrimitive())
         {
@@ -109,25 +106,26 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
         }
         else
         {
-            return createOrdinaryClassProcessor(annotatedType, declaredClazz);
+            return createOrdinaryClassProcessor(annotatedType, declaredClazz, overrideWithUpperBound);
         }
     }
 
-    private P createGenericProcessorSwitch(AnnotatedParameterizedType annotatedParameterizedType)
+    private P createGenericProcessorSwitch(AnnotatedParameterizedType annotatedParameterizedType,
+        boolean overrideWithUpperBound)
     {
         ParameterizedType parameterizedType = (ParameterizedType)annotatedParameterizedType.getType();
         Class<?> declaredClazz = (Class<?>)parameterizedType.getRawType();
         if (Collection.class.isAssignableFrom(declaredClazz))
         {
-            return createCollectionProcessorSwitch(annotatedParameterizedType, declaredClazz);
+            return createCollectionProcessorSwitch(annotatedParameterizedType, declaredClazz, overrideWithUpperBound);
         }
         else if (Map.class.isAssignableFrom(declaredClazz))
         {
-            return createMapProcessorSwitch(annotatedParameterizedType, declaredClazz);
+            return createMapProcessorSwitch(annotatedParameterizedType, declaredClazz, overrideWithUpperBound);
         }
         else
         {
-            return createArbitraryGenericProcessor(annotatedParameterizedType, declaredClazz);
+            return createArbitraryGenericProcessor(annotatedParameterizedType, declaredClazz, overrideWithUpperBound);
         }
     }
 
@@ -162,22 +160,27 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
         AnnotatedType[] upperBoundAnnotatedTypes =  annotatedWildcardType.getAnnotatedUpperBounds();
         if (lowerBoundAnnotatedTypes.length == 0 && upperBoundAnnotatedTypes.length == 0)
         {
-            return createWildcardUnboundedProcessor(annotatedWildcardType);
+            throw CspRuntimeException.createCspRuntimeException(CspStatus.ERROR_IN_STRUCT_FORMAT,
+                Messages.CspStatus_Error_in_struct_format_Unbound_wildcard_type_cannot_be_processed);
         }
-        else if (lowerBoundAnnotatedTypes.length > 0)
+        else if (lowerBoundAnnotatedTypes.length == 1)
         {
-            return createWildcardLowerBoundedProcessor(annotatedWildcardType, lowerBoundAnnotatedTypes);
+            return createProcessorSwitch(lowerBoundAnnotatedTypes[0], false);
+        }
+        else
+        {
+            return createProcessorSwitch(upperBoundAnnotatedTypes[0], true);
         }
     }
 
     private P createCollectionProcessorSwitch(AnnotatedParameterizedType annotatedParameterizedType,
-        Class<?> declaredClazz)
+        Class<?> declaredClazz, boolean overrideWithUpperBound)
     {
         Class<?> processorClazz = selectProcessorClassForCollectionOrMap(annotatedParameterizedType, declaredClazz,
-            Collection.class);
+            Collection.class, overrideWithUpperBound);
         if (processorClazz != Collection.class)
         {
-            return createArbitraryGenericProcessor(annotatedParameterizedType, declaredClazz);
+            return createArbitraryGenericProcessor(annotatedParameterizedType, declaredClazz, overrideWithUpperBound);
         }
         AnnotatedType[] annotatedTypes = annotatedParameterizedType.getAnnotatedActualTypeArguments();
         if (annotatedTypes.length != 1)
@@ -197,18 +200,18 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
         else
         {
             return createOrdinaryCollectionProcessor(annotatedParameterizedType, elementAnnotatedType,
-                elementDeclaredClazz);
+                elementDeclaredClazz, overrideWithUpperBound);
         }
     }
 
     private P createMapProcessorSwitch(AnnotatedParameterizedType annotatedParameterizedType,
-        Class<?> declaredClazz)
+        Class<?> declaredClazz, boolean overrideWithUpperBound)
     {
         Class<?> processorClazz = selectProcessorClassForCollectionOrMap(annotatedParameterizedType, declaredClazz,
-            Map.class);
+            Map.class, overrideWithUpperBound);
         if (processorClazz != Map.class)
         {
-            return createArbitraryGenericProcessor(annotatedParameterizedType, declaredClazz);
+            return createArbitraryGenericProcessor(annotatedParameterizedType, declaredClazz, overrideWithUpperBound);
         }
         AnnotatedType[] annotatedTypes = annotatedParameterizedType.getAnnotatedActualTypeArguments();
         if (annotatedTypes.length != 2)
@@ -293,9 +296,10 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
         return subProcessorFactory.createStringProcessor(reference, charset);
     }
 
-    private P createOrdinaryClassProcessor(AnnotatedType annotatedType, Class<?> declaredClazz)
+    private P createOrdinaryClassProcessor(AnnotatedType annotatedType, Class<?> declaredClazz,
+        boolean overrideWithUpperBound)
     {
-        Class<?> processorClazz = selectProcessorClass(annotatedType, declaredClazz);
+        Class<?> processorClazz = selectProcessorClass(annotatedType, declaredClazz, overrideWithUpperBound);
         boolean reference = CspAnnotationUtils.isCspReference(annotatedType);
         @Nullable Class<?> implementationOverrideClazz = selectImplementationOverrideClass(annotatedType,
             declaredClazz);
@@ -311,10 +315,11 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
     }
 
     private P createOrdinaryCollectionProcessor(AnnotatedType annotatedType, AnnotatedType elementAnnotatedType,
-        Class<?> elementDeclaredClazz)
+        Class<?> elementDeclaredClazz, boolean overrideWithUpperBound)
     {
         boolean reference = CspAnnotationUtils.isCspReference(annotatedType);
-        Class<?> elementProcessorClazz = selectProcessorClass(elementAnnotatedType, elementDeclaredClazz);
+        Class<?> elementProcessorClazz = selectProcessorClass(elementAnnotatedType, elementDeclaredClazz,
+            overrideWithUpperBound);
         boolean elementReference = CspAnnotationUtils.isCspReference(elementAnnotatedType);
         @Nullable Class<?> elementImplementationOverrideClazz = selectImplementationOverrideClass(elementAnnotatedType,
             elementDeclaredClazz);
@@ -325,7 +330,7 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
     private P createCollectionProcessor(AnnotatedType annotatedType, AnnotatedType elementAnnotatedType)
     {
         boolean reference = CspAnnotationUtils.isCspReference(annotatedType);
-        P elementProcessor = createProcessorSwitch(elementAnnotatedType);
+        P elementProcessor = createProcessorSwitch(elementAnnotatedType, true);
         return subProcessorFactory.createCollectionProcessor(reference, elementProcessor);
     }
 
@@ -347,7 +352,7 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
         boolean reference = CspAnnotationUtils.isCspReference(annotatedType);
         boolean keyReference = CspAnnotationUtils.isCspReference(keyAnnotatedType);
         Charset keyCharset = requireStringCharset(keyAnnotatedType);
-        Class<?> valueProcessorClazz = selectProcessorClass(valueAnnotatedType, valueDeclaredClazz);
+        Class<?> valueProcessorClazz = selectProcessorClass(valueAnnotatedType, valueDeclaredClazz, true);
         boolean valueReference = CspAnnotationUtils.isCspReference(valueAnnotatedType);
         @Nullable Class<?> valueImplementationOverrideClazz = selectImplementationOverrideClass(valueAnnotatedType,
             valueDeclaredClazz);
@@ -359,7 +364,7 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
         Class<?> keyDeclaredClazz, AnnotatedType valueAnnotatedType)
     {
         boolean reference = CspAnnotationUtils.isCspReference(annotatedType);
-        Class<?> keyProcessorClazz = selectProcessorClass(keyAnnotatedType, keyDeclaredClazz);
+        Class<?> keyProcessorClazz = selectProcessorClass(keyAnnotatedType, keyDeclaredClazz, true);
         boolean keyReference = CspAnnotationUtils.isCspReference(keyAnnotatedType);
         @Nullable Class<?> keyImplementationOverrideClazz = selectImplementationOverrideClass(keyAnnotatedType,
             keyDeclaredClazz);
@@ -373,11 +378,11 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
         Class<?> keyDeclaredClazz, AnnotatedType valueAnnotatedType, Class<?> valueDeclaredClazz)
     {
         boolean reference = CspAnnotationUtils.isCspReference(annotatedType);
-        Class<?> keyProcessorClazz = selectProcessorClass(keyAnnotatedType, keyDeclaredClazz);
+        Class<?> keyProcessorClazz = selectProcessorClass(keyAnnotatedType, keyDeclaredClazz, true);
         boolean keyReference = CspAnnotationUtils.isCspReference(keyAnnotatedType);
         @Nullable Class<?> keyImplementationOverrideClazz = selectImplementationOverrideClass(keyAnnotatedType,
             keyDeclaredClazz);
-        Class<?> valueProcessorClazz = selectProcessorClass(valueAnnotatedType, valueDeclaredClazz);
+        Class<?> valueProcessorClazz = selectProcessorClass(valueAnnotatedType, valueDeclaredClazz, true);
         boolean valueReference = CspAnnotationUtils.isCspReference(valueAnnotatedType);
         @Nullable Class<?> valueImplementationOverrideClazz = selectImplementationOverrideClass(valueAnnotatedType,
             valueDeclaredClazz);
@@ -389,15 +394,15 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
         AnnotatedType valueAnnotatedType)
     {
         boolean reference = CspAnnotationUtils.isCspReference(annotatedType);
-        P keyProcessor = createProcessorSwitch(keyAnnotatedType);
-        P valueProcessor = createProcessorSwitch(valueAnnotatedType);
+        P keyProcessor = createProcessorSwitch(keyAnnotatedType, true);
+        P valueProcessor = createProcessorSwitch(valueAnnotatedType, true);
         return subProcessorFactory.createMapProcessor(reference, keyProcessor, valueProcessor);
     }
 
     private P createArbitraryGenericProcessor(AnnotatedParameterizedType annotatedParameterizedType,
-        Class<?> declaredClazz)
+        Class<?> declaredClazz, boolean overrideWithUpperBound)
     {
-        Class<?> processorClazz = selectProcessorClass(annotatedParameterizedType, declaredClazz);
+        Class<?> processorClazz = selectProcessorClass(annotatedParameterizedType, declaredClazz, overrideWithUpperBound);
         boolean reference = CspAnnotationUtils.isCspReference(annotatedParameterizedType);
         @Nullable Class<?> implementationOverrideClazz = selectImplementationOverrideClass(annotatedParameterizedType,
             declaredClazz);
@@ -461,12 +466,12 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
             componentCharset);
     }
 
-    private P createOrdinaryClassArrayProcessor(AnnotatedArrayType annotatedArrayType, AnnotatedType componentAnnotatedType,
-        Class<?> componentDeclaredClazz)
+    private P createOrdinaryClassArrayProcessor(AnnotatedArrayType annotatedArrayType,
+        AnnotatedType componentAnnotatedType, Class<?> componentDeclaredClazz)
     {
         boolean reference = CspAnnotationUtils.isCspReference(annotatedArrayType);
         int fixedSize = CspAnnotationUtils.resolveCspFixedArraySize(annotatedArrayType);
-        Class<?> componentProcessorClazz = selectProcessorClass(componentAnnotatedType, componentDeclaredClazz);
+        Class<?> componentProcessorClazz = selectProcessorClass(componentAnnotatedType, componentDeclaredClazz, true);
         boolean componentReference = CspAnnotationUtils.isCspReference(componentAnnotatedType);
         @Nullable Class<?> componentImplementationOverrideClazz = selectImplementationOverrideClass(
             componentAnnotatedType, componentDeclaredClazz);
@@ -479,7 +484,7 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
     {
         boolean reference = CspAnnotationUtils.isCspReference(annotatedArrayType);
         int fixedSize = CspAnnotationUtils.resolveCspFixedArraySize(annotatedArrayType);
-        P componentProcessor = createProcessorSwitch(componentAnnotatedType);
+        P componentProcessor = createProcessorSwitch(componentAnnotatedType, true);
         return subProcessorFactory.createArrayProcessor(reference, fixedSize, componentProcessor);
     }
 
@@ -490,21 +495,6 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
         return subProcessorFactory.createTypeVariableProcessor(reference, typeVariableName);
     }
 
-    private P createWildcardUnboundedProcessor(AnnotatedWildcardType annotatedWildcardType)
-    {
-        Class<?> processorClazz = selectProcessorClassForUnboundedWildcard(annotatedWildcardType);
-        boolean reference = CspAnnotationUtils.isCspReference(annotatedWildcardType);
-        @Nullable Class<?> implementationOverrideClazz = selectImplementationOverrideClass(annotatedWildcardType,
-            UNBOUND_WILDCARD_CLAZZ);
-        return subProcessorFactory.createOrdinaryClassProcessor(processorClazz, reference, implementationOverrideClazz);
-    }
-
-    private P createWildcardLowerBoundedProcessor(AnnotatedWildcardType annotatedWildcardType,
-        AnnotatedType[] lowerBoundAnnotatedTypes)
-    {
-
-    }
-
     private Map<String, P> getTypeVariableNameAndProcessors(AnnotatedParameterizedType annotatedParameterizedType,
         Class<?> declaredClazz)
     {
@@ -513,8 +503,10 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
         TypeVariable<? extends Class<?>>[] typeVariables = declaredClazz.getTypeParameters();
         for (int i = 0; i < typeVariables.length; ++i)
         {
-            P subProcessor = createProcessorSwitch(annotatedTypes[i]);
-            typeVariableNameAndProcessors.put(typeVariables[i].getName(), subProcessor);
+            TypeVariable<? extends Class<?>> typeVariable = typeVariables[i];
+            AnnotatedType annotatedType = annotatedTypes[i];
+            P subProcessor = createProcessorSwitch(annotatedType, true);
+            typeVariableNameAndProcessors.put(typeVariable.getName(), subProcessor);
         }
         return typeVariableNameAndProcessors;
     }
@@ -531,10 +523,12 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
         return charset.get();
     }
 
-    private static Class<?> selectProcessorClass(AnnotatedType annotatedType, Class<?> declaredClazz)
+    private static Class<?> selectProcessorClass(AnnotatedType annotatedType, Class<?> declaredClazz,
+        boolean overrideWithUpperBound)
     {
         Optional<Class<?>> overrideClazz = CspAnnotationUtils.resolveCspOverrideProcessorClass(annotatedType);
-        if (overrideClazz.isPresent() && !declaredClazz.isAssignableFrom(overrideClazz.get()))
+        if (overrideClazz.isPresent()
+                && classCannotOverrideDeclaredClass(overrideClazz.get(), declaredClazz, overrideWithUpperBound))
         {
             throw CspRuntimeException.createCspRuntimeException(CspStatus.ERROR_IN_STRUCT_FORMAT,
                 MessageFormat.format(Messages.CspStatus_Error_in_struct_format_Class__0__cannot_override_class__1,
@@ -544,12 +538,12 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
     }
 
     private static <T> Class<?> selectProcessorClassForCollectionOrMap(AnnotatedType annotatedType,
-        Class<?> declaredClazz, Class<T> baseClazz)
+        Class<?> declaredClazz, Class<T> baseClazz, boolean overrideWithUpperBound)
     {
         Optional<Class<?>> overrideClazz = CspAnnotationUtils.resolveCspOverrideProcessorClass(annotatedType);
         if (overrideClazz.isPresent())
         {
-            if (!declaredClazz.isAssignableFrom(overrideClazz.get()))
+            if (classCannotOverrideDeclaredClass(overrideClazz.get(), declaredClazz, overrideWithUpperBound))
             {
                 throw CspRuntimeException.createCspRuntimeException(CspStatus.ERROR_IN_STRUCT_FORMAT,
                     MessageFormat.format(Messages.CspStatus_Error_in_struct_format_Class__0__cannot_override_class__1,
@@ -558,37 +552,6 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
             return overrideClazz.get();
         }
         return baseClazz;
-    }
-
-    private static Class<?> selectProcessorClassForUnboundedWildcard(AnnotatedType annotatedType)
-    {
-        Optional<Class<?>> overrideClazz = CspAnnotationUtils.resolveCspOverrideProcessorClass(annotatedType);
-        if (overrideClazz.isEmpty())
-        {
-            throw CspRuntimeException.createCspRuntimeException(CspStatus.ERROR_IN_STRUCT_FORMAT,
-                Messages.CspStatus_Error_in_struct_format_Unbound_wildcard_type_cannot_be_processed);
-        }
-        if (overrideClazz.get().isPrimitive())
-        {
-            throw CspRuntimeException.createCspRuntimeException(CspStatus.ERROR_IN_STRUCT_FORMAT,
-                Messages.CspStatus_Error_in_struct_format_Wildcard_type_cannot_be_overridden_by_primitive);
-        }
-        else if (overrideClazz.get().isArray() || overrideClazz.get().getTypeParameters().length > 0)
-        {
-            throw CspRuntimeException.createCspRuntimeException(CspStatus.ERROR_IN_STRUCT_FORMAT,
-                Messages.CspStatus_Error_in_struct_format_Wildcard_type_cannot_be_overridden_by_this_type_using_annotation);
-        }
-        return overrideClazz.get();
-    }
-
-    private static Class<?> selectProcessorClassForLowerBoundedWildcard(AnnotatedType annotatedType,
-        AnnotatedType[] lowerBoundAnnotatedTypes)
-    {
-        Optional<Class<?>> overrideClazz = CspAnnotationUtils.resolveCspOverrideProcessorClass(annotatedType);
-        if (overrideClazz.isEmpty())
-        {
-            
-        }
     }
 
     private static @Nullable Class<?> selectImplementationOverrideClass(AnnotatedType annotatedType,
@@ -605,25 +568,12 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
         return implementationClazz.orElse(null);
     }
 
-    private static class GenericProcessorHolder<P> implements ICspDataProcessorRegistry.IGenericProcessorHolder<P>
+    private static boolean classCannotOverrideDeclaredClass(Class<?> overrideClazz, Class<?> declaredClazz,
+        boolean upperBound)
     {
-        private final P processor;
-        private final List<String> typeVariableNames;
-
-        public GenericProcessorHolder(P processor, List<String> typeVariableNames)
-        {
-            this.processor = processor;
-            this.typeVariableNames = typeVariableNames;
-        }
-
-        public P getProcessor()
-        {
-            return processor;
-        }
-
-        public List<String> getTypeVariableNames()
-        {
-            return typeVariableNames;
-        }
+        boolean canOverride = upperBound
+                              ? declaredClazz.isAssignableFrom(overrideClazz)
+                              : overrideClazz.isAssignableFrom(declaredClazz);
+        return canOverride && declaredClazz.getTypeParameters().length != overrideClazz.getTypeParameters().length;
     }
 }

@@ -40,8 +40,6 @@ final class Messages
     public static String CspStatus_Error_in_struct_format_Property__0__for_struct__1__not_set;
     public static String CspStatus_Error_in_struct_format_Unbound_wildcard_type_cannot_be_processed;
     public static String CspStatus_Error_in_struct_format_Unknown_type_category;
-    public static String CspStatus_Error_in_struct_format_Wildcard_type_cannot_be_overridden_by_primitive;
-    public static String CspStatus_Error_in_struct_format_Wildcard_type_cannot_be_overridden_by_this_type_using_annotation;
 
     static
     {
