@@ -37,7 +37,7 @@ public class DoublingBufferSizeStrategyTests
     private final IBufferResizeStrategy strategy = new DoublingBufferSizeStrategy();
 
     @Test
-    public void calculateNewSizeTest()
+    public void testCalculateNewSize()
     {
         int currentCapacity = 4;
         int minimumRequiredSize = 1000000000;
@@ -46,7 +46,7 @@ public class DoublingBufferSizeStrategyTests
     }
 
     @Test
-    public void calculateNewSizeCurrentCapacityIsEqualMinimumRequiredSizeTest()
+    public void testCalculateNewSizeCurrentCapacityIsEqualMinimumRequiredSize()
     {
         int currentCapacity = 4;
         int minimumRequiredSize = 4;
@@ -56,7 +56,7 @@ public class DoublingBufferSizeStrategyTests
     }
 
     @Test
-    public void calculateNewSizeMinimumRequiredSizeIsVeryBigTest()
+    public void testCalculateNewSizeMinimumRequiredSizeIsVeryBig()
     {
         int currentCapacity = 4;
         int minimumRequiredSize = Integer.MAX_VALUE - 2;
@@ -65,7 +65,7 @@ public class DoublingBufferSizeStrategyTests
     }
 
     @Test
-    public void calculateNewSizeMinimumRequiredSizeIsMaxValueTest()
+    public void testCalculateNewSizeMinimumRequiredSizeIsMaxValue()
     {
         int currentCapacity = 4;
         int minimumRequiredSize = Integer.MAX_VALUE;
@@ -74,7 +74,7 @@ public class DoublingBufferSizeStrategyTests
     }
 
     @Test
-    public void calculateNewSizeCapacityIsNegativeTest()
+    public void testCalculateNewSizeCapacityIsNegative()
     {
         int currentCapacity = -1;
         int minimumRequiredSize = 1;
@@ -85,7 +85,7 @@ public class DoublingBufferSizeStrategyTests
     }
 
     @Test
-    public void calculateNewSizeMinimumRequiredSizeIsLessThanCurrentCapacityTest()
+    public void testCalculateNewSizeMinimumRequiredSizeIsLessThanCurrentCapacity()
     {
         int currentCapacity = 1;
         int minimumRequiredSize = 0;
@@ -96,7 +96,7 @@ public class DoublingBufferSizeStrategyTests
     }
 
     @Test
-    public void calculateNewSizeWhenCurrentIsZeroTest()
+    public void testCalculateNewSizeWhenCurrentIsZero()
     {
         int currentCapacity = 0;
         int minimumRequiredSize = 7;

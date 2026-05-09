@@ -23,18 +23,14 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.composite.internal;
+package io.andreygs.jcsp.base.processing.proxy.internal;
+
+import java.lang.reflect.AnnotatedType;
 
 /**
  * TODO: place description here
  */
-interface ICspDataCompositeSerializationSubProcessorHolder
-    extends ICspDataCompositeSubProcessorHolder<ICspDataCompositeSerializationProcessor>,
-            ICspDataCompositeSerializationProcessor
+public interface ICspDataProxyProcessorFactory<P>
 {
-    @Override
-    default ICspDataCompositeSerializationProcessor getThisProcessor()
-    {
-        return this;
-    }
+    P createFieldProxyProcessor(AnnotatedType annotatedType);
 }

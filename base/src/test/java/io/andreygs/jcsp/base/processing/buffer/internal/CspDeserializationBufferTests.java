@@ -48,7 +48,7 @@ public class CspDeserializationBufferTests
     private final String ARRAYS_NOT_EQUAL_FAIL = "Written and deserialized arrays are not equal!";
 
     @Test
-    public void getByteBufferTest()
+    public void testGetByteBuffer()
     {
         ByteBuffer byteBuffer = ByteBuffer.allocate(0);
         ICspBuffer cspBuffer = new CspDeserializationBuffer(byteBuffer);
@@ -56,7 +56,7 @@ public class CspDeserializationBufferTests
     }
 
     @Test
-    public void applyEndiannessTest()
+    public void testApplyEndianness()
     {
         ByteBuffer byteBuffer = ByteBuffer.allocate(0);
         ICspBuffer cspBuffer = new CspDeserializationBuffer(byteBuffer);
@@ -70,49 +70,49 @@ public class CspDeserializationBufferTests
     }
 
     @Test
-    public void readByteTest()
+    public void testReadByte()
     {
         readPrimitive((byte)1, (byte)105, ByteBuffer::put, ICspDeserializationBuffer::readByte);
     }
 
     @Test
-    public void readShortTest()
+    public void testReadShort()
     {
         readPrimitive((short)11, (short)1050, ByteBuffer::putShort, ICspDeserializationBuffer::readShort);
     }
 
     @Test
-    public void readIntTest()
+    public void testReadInt()
     {
         readPrimitive(111, 105000, ByteBuffer::putInt, ICspDeserializationBuffer::readInt);
     }
 
     @Test
-    public void readLongTest()
+    public void testReadLong()
     {
         readPrimitive((long)1111, 105000000000L, ByteBuffer::putLong, ICspDeserializationBuffer::readLong);
     }
 
     @Test
-    public void readCharTest()
+    public void testReadChar()
     {
         readPrimitive((char)11, (char)1050, ByteBuffer::putChar, ICspDeserializationBuffer::readChar);
     }
 
     @Test
-    public void readFloatTest()
+    public void testReadFloat()
     {
         readPrimitive(11.1F, 1050.0F, ByteBuffer::putFloat, ICspDeserializationBuffer::readFloat);
     }
 
     @Test
-    public void readDoubleTest()
+    public void testReadDouble()
     {
         readPrimitive(11.1D, 1050.01D, ByteBuffer::putDouble, ICspDeserializationBuffer::readDouble);
     }
 
     @Test
-    public void readByteArrayTest()
+    public void testreadByteArray()
     {
         ByteBuffer byteBuffer = ByteBuffer.allocate(128);
 
@@ -134,7 +134,7 @@ public class CspDeserializationBufferTests
     }
 
     @Test
-    public void readShortArrayTest()
+    public void testReadShortArray()
     {
         ByteBuffer byteBuffer = ByteBuffer.allocate(128);
         ShortBuffer shortBuffer = byteBuffer.asShortBuffer();
@@ -161,7 +161,7 @@ public class CspDeserializationBufferTests
     }
 
     @Test
-    public void readIntArrayTest()
+    public void testReadIntArray()
     {
         ByteBuffer byteBuffer = ByteBuffer.allocate(128);
         IntBuffer shortBuffer = byteBuffer.asIntBuffer();
@@ -188,7 +188,7 @@ public class CspDeserializationBufferTests
     }
 
     @Test
-    public void readLongArrayTest()
+    public void testReadLongArray()
     {
         ByteBuffer byteBuffer = ByteBuffer.allocate(128);
         LongBuffer shortBuffer = byteBuffer.asLongBuffer();
@@ -215,7 +215,7 @@ public class CspDeserializationBufferTests
     }
 
     @Test
-    public void readCharArrayTest()
+    public void testReadCharArray()
     {
         ByteBuffer byteBuffer = ByteBuffer.allocate(128);
         CharBuffer shortBuffer = byteBuffer.asCharBuffer();
@@ -242,7 +242,7 @@ public class CspDeserializationBufferTests
     }
 
     @Test
-    public void readFloatArrayTest()
+    public void testReadFloatArray()
     {
         ByteBuffer byteBuffer = ByteBuffer.allocate(128);
         FloatBuffer shortBuffer = byteBuffer.asFloatBuffer();
@@ -269,7 +269,7 @@ public class CspDeserializationBufferTests
     }
 
     @Test
-    public void readDoubleArrayTest()
+    public void testReadDoubleArray()
     {
         ByteBuffer byteBuffer = ByteBuffer.allocate(128);
         DoubleBuffer shortBuffer = byteBuffer.asDoubleBuffer();

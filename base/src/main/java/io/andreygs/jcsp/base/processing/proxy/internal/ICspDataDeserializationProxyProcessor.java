@@ -23,19 +23,15 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
+package io.andreygs.jcsp.base.processing.proxy.internal;
 
-import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
-import io.andreygs.jcsp.base.processing.internal.ICspDataProcessorRegistry;
-import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
-import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflow;
-import io.andreygs.jcsp.base.processing.proxy.internal.ICspDataSerializationProxyProcessor;
+import io.andreygs.jcsp.base.processing.internal.ICspDataGeneralDeserializationProxyProcessor;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * TODO: place description here
  */
-public interface ICspMessageBuilderFactory
+public interface ICspDataDeserializationProxyProcessor<T>
 {
-    ICspDataMessageBuilder createCspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
-        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>, ICspDataSerializationProxyProcessor<?>> cspSerializationProcessorRegistry);
+    @Nullable T deserialize(@Nullable T value, ICspDataGeneralDeserializationProxyProcessor generalProcessor);
 }

@@ -32,5 +32,5 @@ import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
  */
 interface ICspDataSerializationProcessorGeneratorProvider
 {
-    ICspDataProcessorGenerator<ICspDataSerializationProcessor> provideCspDataProcessorGenerator();
+    ICspDataProcessorGenerator<ICspDataSerializationProcessor<?>> provideCspDataProcessorGenerator();
 }

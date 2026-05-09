@@ -25,9 +25,6 @@
 
 package io.andreygs.jcsp.base.types;
 
-import io.andreygs.jcsp.base.types.CspCommonFlag;
-import io.andreygs.jcsp.base.types.CspDataFlag;
-import io.andreygs.jcsp.base.types.CspFlagUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -40,7 +37,7 @@ import java.util.stream.Stream;
 public class CspFlagUtilsTests
 {
     @Test
-    public void calculateFlagMaskStreamTest()
+    public void testCalculateFlagMaskStream()
     {
         int expected = CspDataFlag.ALLOW_UNMANAGED_POINTERS.getValue()
                            | CspDataFlag.ALIGNMENT_MAY_BE_NOT_EQUAL.getValue();
@@ -51,7 +48,7 @@ public class CspFlagUtilsTests
     }
 
     @Test
-    public void calculateFlagMaskArrayTest()
+    public void testCalculateFlagMaskArray()
     {
         int expected = CspDataFlag.ALLOW_UNMANAGED_POINTERS.getValue()
                            | CspDataFlag.ALIGNMENT_MAY_BE_NOT_EQUAL.getValue();
@@ -62,7 +59,7 @@ public class CspFlagUtilsTests
     }
 
     @Test
-    public void calculateFlagMaskListTest()
+    public void testCalculateFlagMaskList()
     {
         int expected = CspDataFlag.ALLOW_UNMANAGED_POINTERS.getValue()
                            | CspDataFlag.ALIGNMENT_MAY_BE_NOT_EQUAL.getValue();
@@ -73,7 +70,7 @@ public class CspFlagUtilsTests
     }
 
     @Test
-    public void isFlagSetTest()
+    public void testIsFlagSet()
     {
         boolean expected = true;
         int flagMask = CspDataFlag.ALLOW_UNMANAGED_POINTERS.getValue()
@@ -84,7 +81,7 @@ public class CspFlagUtilsTests
     }
 
     @Test
-    public void evaluateFlagsStringDescriptionDefaultWithFlagTest()
+    public void testEvaluateFlagsStringDescriptionDefaultWithFlag()
     {
         Set<CspCommonFlag> flags = Set.of(CspCommonFlag.BITNESS_32);
         StringBuilder descriptionBuilder = CspFlagUtils.evaluateFlagsStringDescription(CspCommonFlag.class, flags);
@@ -94,7 +91,7 @@ public class CspFlagUtilsTests
     }
 
     @Test
-    public void evaluateFlagsStringDescriptionDefaultWithoutFlagTest()
+    public void testEvaluateFlagsStringDescriptionDefaultWithoutFlag()
     {
         Set<CspCommonFlag> flags = Set.of();
         StringBuilder descriptionBuilder = CspFlagUtils.evaluateFlagsStringDescription(CspCommonFlag.class, flags);
@@ -104,7 +101,7 @@ public class CspFlagUtilsTests
     }
 
     @Test
-    public void evaluateFlagsStringDescriptionDefaultWithAllFlagsTest()
+    public void testEvaluateFlagsStringDescriptionDefaultWithAllFlags()
     {
         Set<CspCommonFlag> flags = Set.of(CspCommonFlag.BITNESS_32);
         StringBuilder descriptionBuilder = CspFlagUtils.evaluateFlagsStringDescription(CspCommonFlag.class, flags, false, true);
@@ -116,7 +113,7 @@ public class CspFlagUtilsTests
     }
 
     @Test
-    public void evaluateFlagsStringDescriptionWitNoFlagsAndNoHeaderTest()
+    public void testEvaluateFlagsStringDescriptionWitNoFlagsAndNoHeader()
     {
         Set<CspCommonFlag> flags = Set.of();
         StringBuilder descriptionBuilder = CspFlagUtils.evaluateFlagsStringDescription(CspCommonFlag.class, flags, true, false);

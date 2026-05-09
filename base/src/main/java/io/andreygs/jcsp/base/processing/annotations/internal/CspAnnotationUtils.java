@@ -30,8 +30,7 @@ import io.andreygs.jcsp.base.processing.annotations.CspFixedSizeArray;
 import io.andreygs.jcsp.base.processing.annotations.CspImplementationClass;
 import io.andreygs.jcsp.base.processing.annotations.CspOverrideProcessorClass;
 import io.andreygs.jcsp.base.processing.annotations.CspReference;
-import io.andreygs.jcsp.base.processing.annotations.CspStringCharset;
-import io.andreygs.jcsp.base.processing.composite.internal.AnnotatedTypeUtils;
+import io.andreygs.jcsp.base.processing.annotations.CspString;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedType;
@@ -81,8 +80,8 @@ public class CspAnnotationUtils
 
     public static Optional<Charset> resolveCspStringCharset(AnnotatedType annotatedType)
     {
-        Optional<CspStringCharset> cspStringCharsetOpt = findAnnotation(annotatedType, CspStringCharset.class);
-        return cspStringCharsetOpt.map(cspStringCharset -> Charset.forName(cspStringCharset.value()));
+        Optional<CspString> cspStringCharsetOpt = findAnnotation(annotatedType, CspString.class);
+        return cspStringCharsetOpt.map(cspString -> Charset.forName(cspString.value()));
     }
 
     private static <T> Optional<T> findAnnotation(AnnotatedType annotatedType, Class<T> annotationClazz)

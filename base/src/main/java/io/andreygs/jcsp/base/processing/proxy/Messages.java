@@ -23,14 +23,19 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.composite.internal;
+package io.andreygs.jcsp.base.processing.proxy;
+
+import io.andreygs.jcsp.base.common.internal.ResourceMessagesLoader;
 
 /**
  * TODO: place description here
  */
-interface ICspDataCompositeSubProcessorHolder<P>
+final class Messages
 {
-    boolean addSubProcessor(P subProcessor);
+    public static String CspTypeToken_Specific_token_class_must_be_generic;
 
-    P getThisProcessor();
+    static
+    {
+        ResourceMessagesLoader.loadMessages(Messages.class);
+    }
 }

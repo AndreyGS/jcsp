@@ -44,7 +44,7 @@ public @interface CspFixedSizeArray
     /**
      * Size of array according to CSP interface.
      *
-     * @return size of array.
+     * @return size of array. Always positive.
      */
     int value();
 }

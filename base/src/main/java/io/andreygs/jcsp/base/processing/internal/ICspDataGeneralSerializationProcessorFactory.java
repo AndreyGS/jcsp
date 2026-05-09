@@ -29,6 +29,7 @@ import io.andreygs.jcsp.base.message.ICspDataMessage;
 import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
+import io.andreygs.jcsp.base.processing.proxy.internal.ICspDataSerializationProxyProcessor;
 
 /**
  * TODO: place description here
@@ -37,6 +38,6 @@ public interface ICspDataGeneralSerializationProcessorFactory
 {
     ICspDataGeneralSerializationProcessor createGeneralSerializationProcessor(
         ICspSerializationBuffer cspSerializationBuffer,
-        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>> cspProcessorRegistry,
+        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>, ICspDataSerializationProxyProcessor<?>> cspProcessorRegistry,
         ICspDataMessage cspDataMessage);
 }

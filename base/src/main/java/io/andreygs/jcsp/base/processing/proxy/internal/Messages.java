@@ -23,14 +23,26 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.composite.internal;
+package io.andreygs.jcsp.base.processing.proxy.internal;
 
-import java.lang.reflect.AnnotatedType;
+import io.andreygs.jcsp.base.common.internal.ResourceMessagesLoader;
 
 /**
  * TODO: place description here
  */
-public interface ICspDataCompositeProcessorFactory<P>
+final class Messages
 {
-    P createProcessor(AnnotatedType annotatedType);
+    public static String CspStatus_Error_in_struct_format_Class__0__cannot_be_implementation_of_class__1;
+    public static String CspStatus_Error_in_struct_format_Class__0__cannot_override_class__1;
+    public static String CspStatus_Error_in_struct_format_Collection_has_invalid_type_arguments_number;
+    public static String CspStatus_Error_in_struct_format_Map_has_invalid_type_arguments_number;
+    public static String CspStatus_Error_in_struct_format_Primitive__0__is_not_supported;
+    public static String CspStatus_Error_in_struct_format_Property__0__for_struct__1__not_set;
+    public static String CspStatus_Error_in_struct_format_Unbound_wildcard_type_cannot_be_processed;
+    public static String CspStatus_Error_in_struct_format_Unknown_type_category;
+
+    static
+    {
+        ResourceMessagesLoader.loadMessages(Messages.class);
+    }
 }

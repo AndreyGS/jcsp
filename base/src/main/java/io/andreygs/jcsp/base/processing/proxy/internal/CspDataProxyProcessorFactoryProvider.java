@@ -23,19 +23,19 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
-
-import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
-import io.andreygs.jcsp.base.processing.internal.ICspDataProcessorRegistry;
-import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
-import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflow;
-import io.andreygs.jcsp.base.processing.proxy.internal.ICspDataSerializationProxyProcessor;
+package io.andreygs.jcsp.base.processing.proxy.internal;
 
 /**
  * TODO: place description here
  */
-public interface ICspMessageBuilderFactory
+public class CspDataProxyProcessorFactoryProvider
 {
-    ICspDataMessageBuilder createCspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
-        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>, ICspDataSerializationProxyProcessor<?>> cspSerializationProcessorRegistry);
+    private static final ICspDataProxyProcessorFactory<ICspDataSerializationProxyProcessor<?>>
+        DEFAULT_DATA_SERIALIZATION_PROXY_PROCESSOR_FACTORY =
+            new CspDataProxyProcessorFactory<>(new CspDataSerializationSpecificProxyProcessorFactory());
+
+    public ICspDataProxyProcessorFactory<ICspDataSerializationProxyProcessor<?>> provideCspDataSerializationProxyProcessorFactory()
+    {
+        return DEFAULT_DATA_SERIALIZATION_PROXY_PROCESSOR_FACTORY;
+    }
 }

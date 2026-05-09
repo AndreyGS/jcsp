@@ -29,7 +29,8 @@ import io.andreygs.jcsp.base.message.ICspDataMessage;
 import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
-import io.andreygs.jcsp.base.processing.composite.CspTypeToken;
+import io.andreygs.jcsp.base.processing.proxy.CspTypeToken;
+import io.andreygs.jcsp.base.processing.proxy.internal.ICspDataSerializationProxyProcessor;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
@@ -47,7 +48,7 @@ import java.util.Stack;
 final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSerializationProcessor
 {
     private final ICspSerializationBuffer cspSerializationBuffer;
-    private final ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>> cspProcessorRegistry;
+    private final ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>, ICspDataSerializationProxyProcessor<?>> cspProcessorRegistry;
     private final ICspDataProcessorGenerator<ICspDataSerializationProcessor<?>> cspDataProcessorGenerator;
     private final ICspDataMessage cspDataMessage;
     private @Nullable Stack<List<ICspDataSerializationProcessor<?>>> activeCompositeProcessors;
@@ -55,7 +56,7 @@ final class CspDataGeneralSerializationProcessor implements ICspDataGeneralSeria
 
     CspDataGeneralSerializationProcessor(
         ICspSerializationBuffer cspSerializationBuffer,
-        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>> cspProcessorRegistry,
+        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>, ICspDataSerializationProxyProcessor<?>> cspProcessorRegistry,
         ICspDataProcessorGenerator<ICspDataSerializationProcessor<?>> cspDataProcessorGenerator,
         ICspDataMessage cspDataMessage)
     {

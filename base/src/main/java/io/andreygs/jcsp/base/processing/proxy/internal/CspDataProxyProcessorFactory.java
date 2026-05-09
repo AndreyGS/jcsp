@@ -23,7 +23,7 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.composite.internal;
+package io.andreygs.jcsp.base.processing.proxy.internal;
 
 import io.andreygs.jcsp.base.processing.annotations.internal.CspAnnotationUtils;
 import io.andreygs.jcsp.base.types.CspRuntimeException;
@@ -48,17 +48,17 @@ import java.util.Optional;
 /**
  * TODO: place description here
  */
-class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorFactory<P>
+class CspDataProxyProcessorFactory<P> implements ICspDataProxyProcessorFactory<P>
 {
-    private final ICspDataCompositeSubProcessorFactory<P> subProcessorFactory;
+    private final ICspDataSpecificProxyProcessorFactory<P> proxyProcessorFactory;
 
-    CspDataCompositeProcessorFactory(ICspDataCompositeSubProcessorFactory<P> subProcessorFactory)
+    CspDataProxyProcessorFactory(ICspDataSpecificProxyProcessorFactory<P> proxyProcessorFactory)
     {
-        this.subProcessorFactory = subProcessorFactory;
+        this.proxyProcessorFactory = proxyProcessorFactory;
     }
 
     @Override
-    public P createProcessor(AnnotatedType annotatedType)
+    public P createFieldProxyProcessor(AnnotatedType annotatedType)
     {
         return createProcessorSwitch(annotatedType, true);
     }
@@ -251,35 +251,35 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
     {
         if (declaredClazz == boolean.class)
         {
-            return subProcessorFactory.createPrimitiveBooleanProcessor();
+            return proxyProcessorFactory.createPrimitiveBooleanProcessor();
         }
         else if (declaredClazz == byte.class)
         {
-            return subProcessorFactory.createPrimitiveByteProcessor();
+            return proxyProcessorFactory.createPrimitiveByteProcessor();
         }
         else if (declaredClazz == short.class)
         {
-            return subProcessorFactory.createPrimitiveShortProcessor();
+            return proxyProcessorFactory.createPrimitiveShortProcessor();
         }
         else if (declaredClazz == int.class)
         {
-            return subProcessorFactory.createPrimitiveIntProcessor();
+            return proxyProcessorFactory.createPrimitiveIntProcessor();
         }
         else if (declaredClazz == long.class)
         {
-            return subProcessorFactory.createPrimitiveLongProcessor();
+            return proxyProcessorFactory.createPrimitiveLongProcessor();
         }
         else if (declaredClazz == char.class)
         {
-            return subProcessorFactory.createPrimitiveCharProcessor();
+            return proxyProcessorFactory.createPrimitiveCharProcessor();
         }
         else if (declaredClazz == float.class)
         {
-            return subProcessorFactory.createPrimitiveFloatProcessor();
+            return proxyProcessorFactory.createPrimitiveFloatProcessor();
         }
         else if (declaredClazz == double.class)
         {
-            return subProcessorFactory.createPrimitiveDoubleProcessor();
+            return proxyProcessorFactory.createPrimitiveDoubleProcessor();
         }
         else
         {
@@ -293,7 +293,7 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
     {
         boolean reference = CspAnnotationUtils.isCspReference(annotatedType);
         Charset charset = requireStringCharset(annotatedType);
-        return subProcessorFactory.createStringProcessor(reference, charset);
+        return proxyProcessorFactory.createStringProcessor(reference, charset);
     }
 
     private P createOrdinaryClassProcessor(AnnotatedType annotatedType, Class<?> declaredClazz,
@@ -303,7 +303,8 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
         boolean reference = CspAnnotationUtils.isCspReference(annotatedType);
         @Nullable Class<?> implementationOverrideClazz = selectImplementationOverrideClass(annotatedType,
             declaredClazz);
-        return subProcessorFactory.createOrdinaryClassProcessor(processorClazz, reference, implementationOverrideClazz);
+        return proxyProcessorFactory.createOrdinaryClassProcessor(processorClazz, reference,
+            implementationOverrideClazz);
     }
 
     private P createStringCollectionProcessor(AnnotatedType annotatedType, AnnotatedType elementAnnotatedType)
@@ -311,7 +312,7 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
         boolean reference = CspAnnotationUtils.isCspReference(annotatedType);
         boolean elementReference = CspAnnotationUtils.isCspReference(elementAnnotatedType);
         Charset elementCharset = requireStringCharset(elementAnnotatedType);
-        return subProcessorFactory.createStringCollectionProcessor(reference, elementReference, elementCharset);
+        return proxyProcessorFactory.createStringCollectionProcessor(reference, elementReference, elementCharset);
     }
 
     private P createOrdinaryCollectionProcessor(AnnotatedType annotatedType, AnnotatedType elementAnnotatedType,
@@ -323,15 +324,15 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
         boolean elementReference = CspAnnotationUtils.isCspReference(elementAnnotatedType);
         @Nullable Class<?> elementImplementationOverrideClazz = selectImplementationOverrideClass(elementAnnotatedType,
             elementDeclaredClazz);
-        return subProcessorFactory.createOrdinaryCollectionProcessor(reference, elementProcessorClazz, elementReference,
-            elementImplementationOverrideClazz);
+        return proxyProcessorFactory.createOrdinaryCollectionProcessor(reference, elementProcessorClazz,
+            elementReference, elementImplementationOverrideClazz);
     }
 
     private P createCollectionProcessor(AnnotatedType annotatedType, AnnotatedType elementAnnotatedType)
     {
         boolean reference = CspAnnotationUtils.isCspReference(annotatedType);
         P elementProcessor = createProcessorSwitch(elementAnnotatedType, true);
-        return subProcessorFactory.createCollectionProcessor(reference, elementProcessor);
+        return proxyProcessorFactory.createCollectionProcessor(reference, elementProcessor);
     }
 
     private P createStringStringMapProcessor(AnnotatedType annotatedType, AnnotatedType keyAnnotatedType,
@@ -342,7 +343,7 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
         Charset keyCharset = requireStringCharset(keyAnnotatedType);
         boolean valueReference = CspAnnotationUtils.isCspReference(valueAnnotatedType);
         Charset valueCharset = requireStringCharset(valueAnnotatedType);
-        return subProcessorFactory.createStringStringMapProcessor(reference, keyReference, keyCharset, valueReference
+        return proxyProcessorFactory.createStringStringMapProcessor(reference, keyReference, keyCharset, valueReference
             , valueCharset);
     }
 
@@ -356,8 +357,8 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
         boolean valueReference = CspAnnotationUtils.isCspReference(valueAnnotatedType);
         @Nullable Class<?> valueImplementationOverrideClazz = selectImplementationOverrideClass(valueAnnotatedType,
             valueDeclaredClazz);
-        return subProcessorFactory.createStringKeyMapProcessor(reference, keyReference, keyCharset, valueProcessorClazz,
-            valueReference, valueImplementationOverrideClazz);
+        return proxyProcessorFactory.createStringKeyMapProcessor(reference, keyReference, keyCharset,
+            valueProcessorClazz, valueReference, valueImplementationOverrideClazz);
     }
 
     private P createStringValueMapProcessor(AnnotatedType annotatedType, AnnotatedType keyAnnotatedType,
@@ -370,7 +371,7 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
             keyDeclaredClazz);
         boolean valueReference = CspAnnotationUtils.isCspReference(valueAnnotatedType);
         Charset valueCharset = requireStringCharset(valueAnnotatedType);
-        return subProcessorFactory.createStringValueMapProcessor(reference, keyProcessorClazz, keyReference,
+        return proxyProcessorFactory.createStringValueMapProcessor(reference, keyProcessorClazz, keyReference,
             keyImplementationOverrideClazz, valueReference, valueCharset);
     }
 
@@ -386,7 +387,7 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
         boolean valueReference = CspAnnotationUtils.isCspReference(valueAnnotatedType);
         @Nullable Class<?> valueImplementationOverrideClazz = selectImplementationOverrideClass(valueAnnotatedType,
             valueDeclaredClazz);
-        return subProcessorFactory.createOrdinaryMapProcessor(reference, keyProcessorClazz, keyReference,
+        return proxyProcessorFactory.createOrdinaryMapProcessor(reference, keyProcessorClazz, keyReference,
             keyImplementationOverrideClazz, valueProcessorClazz, valueReference, valueImplementationOverrideClazz);
     }
 
@@ -396,19 +397,20 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
         boolean reference = CspAnnotationUtils.isCspReference(annotatedType);
         P keyProcessor = createProcessorSwitch(keyAnnotatedType, true);
         P valueProcessor = createProcessorSwitch(valueAnnotatedType, true);
-        return subProcessorFactory.createMapProcessor(reference, keyProcessor, valueProcessor);
+        return proxyProcessorFactory.createMapProcessor(reference, keyProcessor, valueProcessor);
     }
 
     private P createArbitraryGenericProcessor(AnnotatedParameterizedType annotatedParameterizedType,
         Class<?> declaredClazz, boolean overrideWithUpperBound)
     {
-        Class<?> processorClazz = selectProcessorClass(annotatedParameterizedType, declaredClazz, overrideWithUpperBound);
+        Class<?> processorClazz = selectProcessorClass(annotatedParameterizedType, declaredClazz,
+            overrideWithUpperBound);
         boolean reference = CspAnnotationUtils.isCspReference(annotatedParameterizedType);
         @Nullable Class<?> implementationOverrideClazz = selectImplementationOverrideClass(annotatedParameterizedType,
             declaredClazz);
         Map<String, P> typeVariableNameAndProcessors =
             getTypeVariableNameAndProcessors(annotatedParameterizedType, declaredClazz);
-        return subProcessorFactory.createArbitraryGenericProcessor(processorClazz, reference,
+        return proxyProcessorFactory.createArbitraryGenericProcessor(processorClazz, reference,
             implementationOverrideClazz, typeVariableNameAndProcessors);
     }
 
@@ -418,35 +420,35 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
         int fixedSize = CspAnnotationUtils.resolveCspFixedArraySize(annotatedArrayType);
         if (declaredClazz == boolean[].class)
         {
-            return subProcessorFactory.createPrimitiveBooleanArrayProcessor(reference, fixedSize);
+            return proxyProcessorFactory.createPrimitiveBooleanArrayProcessor(reference, fixedSize);
         }
         else if (declaredClazz == byte[].class)
         {
-            return subProcessorFactory.createPrimitiveByteArrayProcessor(reference, fixedSize);
+            return proxyProcessorFactory.createPrimitiveByteArrayProcessor(reference, fixedSize);
         }
         else if (declaredClazz == short[].class)
         {
-            return subProcessorFactory.createPrimitiveShortArrayProcessor(reference, fixedSize);
+            return proxyProcessorFactory.createPrimitiveShortArrayProcessor(reference, fixedSize);
         }
         else if (declaredClazz == int[].class)
         {
-            return subProcessorFactory.createPrimitiveIntArrayProcessor(reference, fixedSize);
+            return proxyProcessorFactory.createPrimitiveIntArrayProcessor(reference, fixedSize);
         }
         else if (declaredClazz == long[].class)
         {
-            return subProcessorFactory.createPrimitiveLongArrayProcessor(reference, fixedSize);
+            return proxyProcessorFactory.createPrimitiveLongArrayProcessor(reference, fixedSize);
         }
         else if (declaredClazz == char[].class)
         {
-            return subProcessorFactory.createPrimitiveCharArrayProcessor(reference, fixedSize);
+            return proxyProcessorFactory.createPrimitiveCharArrayProcessor(reference, fixedSize);
         }
         else if (declaredClazz == float[].class)
         {
-            return subProcessorFactory.createPrimitiveFloatArrayProcessor(reference, fixedSize);
+            return proxyProcessorFactory.createPrimitiveFloatArrayProcessor(reference, fixedSize);
         }
         else if (declaredClazz == double[].class)
         {
-            return subProcessorFactory.createPrimitiveDoubleArrayProcessor(reference, fixedSize);
+            return proxyProcessorFactory.createPrimitiveDoubleArrayProcessor(reference, fixedSize);
         }
         else
         {
@@ -462,7 +464,7 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
         int fixedSize = CspAnnotationUtils.resolveCspFixedArraySize(annotatedArrayType);
         boolean componentReference = CspAnnotationUtils.isCspReference(componentAnnotatedType);
         Charset componentCharset = requireStringCharset(componentAnnotatedType);
-        return subProcessorFactory.createStringArrayProcessor(reference, fixedSize, componentReference,
+        return proxyProcessorFactory.createStringArrayProcessor(reference, fixedSize, componentReference,
             componentCharset);
     }
 
@@ -475,7 +477,7 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
         boolean componentReference = CspAnnotationUtils.isCspReference(componentAnnotatedType);
         @Nullable Class<?> componentImplementationOverrideClazz = selectImplementationOverrideClass(
             componentAnnotatedType, componentDeclaredClazz);
-        return subProcessorFactory.createOrdinaryClassArrayProcessor(reference, fixedSize, componentProcessorClazz,
+        return proxyProcessorFactory.createOrdinaryClassArrayProcessor(reference, fixedSize, componentProcessorClazz,
             componentReference, componentImplementationOverrideClazz);
     }
 
@@ -485,14 +487,14 @@ class CspDataCompositeProcessorFactory<P> implements ICspDataCompositeProcessorF
         boolean reference = CspAnnotationUtils.isCspReference(annotatedArrayType);
         int fixedSize = CspAnnotationUtils.resolveCspFixedArraySize(annotatedArrayType);
         P componentProcessor = createProcessorSwitch(componentAnnotatedType, true);
-        return subProcessorFactory.createArrayProcessor(reference, fixedSize, componentProcessor);
+        return proxyProcessorFactory.createArrayProcessor(reference, fixedSize, componentProcessor);
     }
 
     private P createTypeVariableProcessor(AnnotatedTypeVariable annotatedTypeVariable)
     {
         boolean reference = CspAnnotationUtils.isCspReference(annotatedTypeVariable);
         String typeVariableName = ((TypeVariable<?>)annotatedTypeVariable).getName();
-        return subProcessorFactory.createTypeVariableProcessor(reference, typeVariableName);
+        return proxyProcessorFactory.createTypeVariableProcessor(reference, typeVariableName);
     }
 
     private Map<String, P> getTypeVariableNameAndProcessors(AnnotatedParameterizedType annotatedParameterizedType,

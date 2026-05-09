@@ -29,6 +29,7 @@ import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
 import io.andreygs.jcsp.base.processing.internal.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflow;
+import io.andreygs.jcsp.base.processing.proxy.internal.ICspDataSerializationProxyProcessor;
 
 /**
  * TODO: place description here
@@ -36,7 +37,7 @@ import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflow;
 public final class  CspMessageBuilderFactory implements ICspMessageBuilderFactory
 {
     public ICspDataMessageBuilder createCspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
-        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>> cspSerializationProcessorRegistry)
+        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>, ICspDataSerializationProxyProcessor<?>> cspSerializationProcessorRegistry)
     {
         return new CspDataMessageBuilder(serializationWorkflow, cspSerializationProcessorRegistry);
     }

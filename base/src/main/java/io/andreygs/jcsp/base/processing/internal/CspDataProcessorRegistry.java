@@ -30,28 +30,22 @@ import io.andreygs.jcsp.base.common.internal.ArgumentChecker;
 import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.WeakHashMap;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Sole implementation of {@link ICspDataProcessorRegistry}.
  * <p>
  * Uses RW lock to access to WeakHashMap of classes with processors.
  */
-final class CspDataProcessorRegistry<P>
-    implements ICspDataProcessorRegistry<P>
+final class CspDataProcessorRegistry<P, PP>
+    implements ICspDataProcessorRegistry<P, PP>
 {
-    private final ReadWriteLock rwLockForOrdinaryProcessors = new ReentrantReadWriteLock();
-    private final ReadWriteLock rwLockForGenericProcessors = new ReentrantReadWriteLock();
-    private final ReadWriteLock rwLockForCompositeProcessors = new ReentrantReadWriteLock();
-    private final Map<Class<?>, P> ordinaryProcessors = new WeakHashMap<>();
-    private final Map<Class<?>, IGenericProcessorHolder<P>> genericProcessors = new WeakHashMap<>();
-    private final Map<AnnotatedType, P> compositeProcessors = new HashMap<>();
+    private final Map<Class<?>, P> ordinaryProcessors = new ConcurrentHashMap<>();
+    private final Map<Class<?>, IGenericProcessorHolder<P>> genericProcessors = new ConcurrentHashMap<>();
+    private final Map<AnnotatedType, PP> proxyProcessors = new ConcurrentHashMap<>();
 
     @Override
     public void registerProcessor(Class<?> clazz, P processor)
@@ -63,103 +57,59 @@ final class CspDataProcessorRegistry<P>
         }
         if (clazz.getTypeParameters().length == 0)
         {
-            registerOrdinaryProcessor(clazz, processor);
+            ordinaryProcessors.put(clazz, processor);
         }
         else
         {
-            registerGenericProcessor(clazz, processor);
+            TypeVariable<? extends Class<?>>[] typeVariables = clazz.getTypeParameters();
+            List<String> typeVariableNames = Arrays.stream(typeVariables).map(TypeVariable::getName).toList();
+            GenericProcessorHolder<P> genericProcessorHolder = new GenericProcessorHolder<>(processor, typeVariableNames);
+            genericProcessors.put(clazz, genericProcessorHolder);
         }
     }
 
     @Override
-    public void registerProcessor(AnnotatedType compositeType, P processor)
+    public void registerProxyProcessor(AnnotatedType annotatedType, PP proxyProcessor)
     {
-        ArgumentChecker.nonNull(compositeType, processor);
-        registerCompositeProcessor(compositeType, processor);
+        ArgumentChecker.nonNull(annotatedType, proxyProcessor);
+        proxyProcessors.put(annotatedType, proxyProcessor);
     }
 
     @Override
     public Optional<P> findOrdinaryProcessor(Class<?> clazz)
     {
-        rwLockForOrdinaryProcessors.readLock().lock();
-        try
-        {
-            return Optional.ofNullable(ordinaryProcessors.get(clazz));
-        }
-        finally
-        {
-            rwLockForOrdinaryProcessors.readLock().unlock();
-        }
+         return Optional.ofNullable(ordinaryProcessors.get(clazz));
     }
 
     @Override
     public Optional<IGenericProcessorHolder<P>> findGenericProcessor(Class<?> clazz)
     {
-        rwLockForGenericProcessors.readLock().lock();
-        try
+        return Optional.ofNullable(genericProcessors.get(clazz));
+    }
+
+    @Override
+    public Optional<PP> findGenericProcessor(AnnotatedType annotatedType)
+    {
+        return Optional.ofNullable(proxyProcessors.get(annotatedType));
+    }
+
+    @Override
+    public void unregisterProcessor(Class<?> clazz)
+    {
+        if (clazz.getTypeParameters().length == 0)
         {
-            return Optional.ofNullable(genericProcessors.get(clazz));
+            ordinaryProcessors.remove(clazz);
         }
-        finally
+        else
         {
-            rwLockForGenericProcessors.readLock().unlock();
+            genericProcessors.remove(clazz);
         }
     }
 
     @Override
-    public Optional<P> findGenericProcessor(AnnotatedType compositeType)
+    public void unregisterProxyProcessor(AnnotatedType annotatedType)
     {
-        rwLockForCompositeProcessors.readLock().lock();
-        try
-        {
-            return Optional.ofNullable(compositeProcessors.get(compositeType));
-        }
-        finally
-        {
-            rwLockForCompositeProcessors.readLock().unlock();
-        }
-    }
-
-    private void registerOrdinaryProcessor(Class<?> clazz, P processor)
-    {
-        rwLockForOrdinaryProcessors.writeLock().lock();
-        try
-        {
-            ordinaryProcessors.put(clazz, processor);
-        }
-        finally
-        {
-            rwLockForOrdinaryProcessors.writeLock().unlock();
-        }
-    }
-
-    private void registerGenericProcessor(Class<?> clazz, P processor)
-    {
-        TypeVariable<? extends Class<?>>[] typeVariables = clazz.getTypeParameters();
-        List<String> typeVariableNames = Arrays.stream(typeVariables).map(TypeVariable::getName).toList();
-        GenericProcessorHolder<P> genericProcessorHolder = new GenericProcessorHolder<>(processor, typeVariableNames);
-        rwLockForGenericProcessors.writeLock().lock();
-        try
-        {
-            genericProcessors.put(clazz, genericProcessorHolder);
-        }
-        finally
-        {
-            rwLockForGenericProcessors.writeLock().unlock();
-        }
-    }
-
-    private void registerCompositeProcessor(AnnotatedType compositeType, P processor)
-    {
-        rwLockForCompositeProcessors.writeLock().lock();
-        try
-        {
-            compositeProcessors.put(compositeType, processor);
-        }
-        finally
-        {
-            rwLockForCompositeProcessors.writeLock().unlock();
-        }
+        proxyProcessors.remove(annotatedType);
     }
 
     private static class GenericProcessorHolder<P> implements IGenericProcessorHolder<P>

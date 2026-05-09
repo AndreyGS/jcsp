@@ -1,4 +1,6 @@
 /**
+ * TODO: place brief description here
+ *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -22,30 +24,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+@NotNullByDefault
+package io.andreygs.jcsp.base.processing.proxy;
 
-package io.andreygs.jcsp.base.processing.annotations;
-
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-/**
- * Tag that field should be threatened as CSP multi-level pointer.
- * <p>
- * It should only be applied to multidimensional one-sized for every dimension arrays.
- * For example String[1][1][1] would be threatened as string*** (on C pseudo notation).
- * String[1] despite it is one dimensional array can also be annotated by this.
- * However, it is not recommended to make such fields for single level pointer emulation - there is more
- * simple and java-friendly {@link CspReference} annotation that will do the same with simple String type declaration.
- * <p>
- * You should note that here using "pointer" word unlike other places in jcsp project. This is because you cannot
- * express meaning of multi-level pointer in "reference" term. Plus, this kind of field type should be extremely rare.
- */
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.TYPE_PARAMETER, ElementType.TYPE_USE})
-public @interface CspMultiLevelPointer
-{
-}
+import org.jetbrains.annotations.NotNullByDefault;

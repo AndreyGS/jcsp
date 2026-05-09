@@ -27,6 +27,8 @@ package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.ICspDataDeserializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
+import io.andreygs.jcsp.base.processing.proxy.internal.ICspDataDeserializationProxyProcessor;
+import io.andreygs.jcsp.base.processing.proxy.internal.ICspDataSerializationProxyProcessor;
 
 /**
  * Factory for creation {@link ICspDataProcessorRegistry}.
@@ -38,7 +40,9 @@ public interface ICspDataProcessorRegistryFactory
      *
      * @return created CSP processor registrar.
      * @param <P> one of {@link ICspDataSerializationProcessor} or {@link ICspDataDeserializationProcessor},
-     *           depending on what kind of registrar should be created.
+     *            depending on what kind of registry is created.
+     * @param <PP> one of {@link ICspDataSerializationProxyProcessor} or {@link ICspDataDeserializationProxyProcessor},
+     *             depending on what kind of registry is created.
      */
-    <P> ICspDataProcessorRegistry<P> createProcessorRegistry();
+    <P, PP> ICspDataProcessorRegistry<P, PP> createProcessorRegistry();
 }

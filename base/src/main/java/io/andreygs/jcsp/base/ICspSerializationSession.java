@@ -28,12 +28,18 @@ package io.andreygs.jcsp.base;
 import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 
+import java.lang.reflect.AnnotatedType;
+
 /**
  * TODO: place description here
  */
 public interface ICspSerializationSession
 {
     <T> void registerSerializationProcessor(Class<T> clazz, ICspDataSerializationProcessor<T> processor);
+
+    void unregisterSerializationProcessor(Class<?> clazz);
+
+    void unregisterSerializationProxyProcessor(AnnotatedType annotatedType);
 
     ICspDataMessageBuilder createCspDataMessageBuilder();
 }

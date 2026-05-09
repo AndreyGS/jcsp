@@ -34,7 +34,7 @@ public final class CspDataProcessorRegistryFactory
     implements ICspDataProcessorRegistryFactory
 {
     @Override
-    public <P> ICspDataProcessorRegistry<P> createProcessorRegistry()
+    public <P, PP> ICspDataProcessorRegistry<P, PP> createProcessorRegistry()
     {
         return new CspDataProcessorRegistry<>();
     }

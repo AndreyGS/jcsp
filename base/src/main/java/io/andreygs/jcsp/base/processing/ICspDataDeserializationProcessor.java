@@ -25,14 +25,10 @@
 
 package io.andreygs.jcsp.base.processing;
 
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Optional;
-
 /**
  * TODO: place description here
  */
 public interface ICspDataDeserializationProcessor<T>
 {
-    Optional<T> deserialize(@Nullable T value, ICspDataGeneralDeserializationProcessor generalProcessor);
+    T deserialize(T value, ICspDataGeneralDeserializationProcessor generalProcessor);
 }

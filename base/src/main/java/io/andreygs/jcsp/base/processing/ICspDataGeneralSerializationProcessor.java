@@ -26,7 +26,7 @@
 package io.andreygs.jcsp.base.processing;
 
 import io.andreygs.jcsp.base.processing.annotations.CspField;
-import io.andreygs.jcsp.base.processing.composite.CspTypeToken;
+import io.andreygs.jcsp.base.processing.proxy.CspTypeToken;
 import io.andreygs.jcsp.base.processing.internal.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.CspRuntimeException;

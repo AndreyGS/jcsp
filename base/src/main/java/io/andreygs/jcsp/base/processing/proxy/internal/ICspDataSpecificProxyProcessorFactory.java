@@ -23,7 +23,7 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.composite.internal;
+package io.andreygs.jcsp.base.processing.proxy.internal;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  * TODO: place description here
  */
-interface ICspDataCompositeSubProcessorFactory<P>
+interface ICspDataSpecificProxyProcessorFactory<P>
 {
     P createPrimitiveBooleanProcessor();
 

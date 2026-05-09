@@ -23,18 +23,11 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.composite.internal;
+package io.andreygs.jcsp.base.processing.internal;
 
 /**
  * TODO: place description here
  */
-interface ICspDataCompositeDeserializationSubProcessorHolder
-    extends ICspDataCompositeSubProcessorHolder<ICspDataCompositeDeserializationProcessor>,
-            ICspDataCompositeDeserializationProcessor
+public interface ICspDataGeneralSerializationProxyProcessor
 {
-    @Override
-    default ICspDataCompositeDeserializationProcessor getThisProcessor()
-    {
-        return this;
-    }
 }

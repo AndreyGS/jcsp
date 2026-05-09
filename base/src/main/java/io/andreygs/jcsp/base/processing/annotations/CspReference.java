@@ -38,7 +38,8 @@ import java.lang.annotation.Target;
  * <p>
  * Note that word "reference" was chosen as more familiar to Java developers. But CSP specification has only "pointer"
  * term, and you should consider that when you meet "reference" word it has meaning from CSP perspective as a single
- * level pointer. For multi-level pointer you should take a look at {@link CspMultiLevelPointer}.
+ * level pointer. For multi-level pointer you should use this annotation in conjunction with arrays (including
+ * multidimensional) with 1 element per dimension.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

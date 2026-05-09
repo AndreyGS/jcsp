@@ -49,7 +49,7 @@ public class CspSerializationBufferTests
     private final String ARRAYS_NOT_EQUAL_FAIL = "Serialized and read arrays are not equal!";
 
     @Test
-    public void getByteBufferTest()
+    public void testGetByteBuffer()
     {
         ICspBuffer cspBuffer = new CspSerializationBuffer(0, false,
                                                           CspSerializationBufferFactory.DEFAULT_BUFFER_RESIZE_STRATEGY);
@@ -57,7 +57,7 @@ public class CspSerializationBufferTests
     }
 
     @Test
-    public void applyEndiannessTest()
+    public void testApplyEndianness()
     {
         ICspBuffer cspBuffer = new CspSerializationBuffer(0, false,
                                                           CspSerializationBufferFactory.DEFAULT_BUFFER_RESIZE_STRATEGY);
@@ -71,7 +71,7 @@ public class CspSerializationBufferTests
     }
 
     @Test
-    public void isDirectBufferTest()
+    public void testIsDirectBuffer()
     {
         ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(0,
                                                                                       true);
@@ -82,7 +82,7 @@ public class CspSerializationBufferTests
     }
 
     @Test
-    public void createCspSerializationBufferTest()
+    public void testCreateCspSerializationBuffer()
     {
         int capacitySize = 0;
         boolean directBuffer = false;
@@ -103,49 +103,49 @@ public class CspSerializationBufferTests
     }
 
     @Test
-    public void writeByteTest()
+    public void testWriteByte()
     {
         writePrimitive((byte) 100, (byte) 101, ICspSerializationBuffer::writeByte, ByteBuffer::get);
     }
 
     @Test
-    public void writeShortTest()
+    public void testWriteShort()
     {
         writePrimitive((short) 10000, (short) 10001, ICspSerializationBuffer::writeShort, ByteBuffer::getShort);
     }
 
     @Test
-    public void writeIntTest()
+    public void testWriteInt()
     {
         writePrimitive(10000000, 10000001, ICspSerializationBuffer::writeInt, ByteBuffer::getInt);
     }
 
     @Test
-    public void writeLongTest()
+    public void testWriteLong()
     {
         writePrimitive(10000000000L, 10000000001L, ICspSerializationBuffer::writeLong, ByteBuffer::getLong);
     }
 
     @Test
-    public void writeCharTest()
+    public void testWriteChar()
     {
         writePrimitive('a', 'b', ICspSerializationBuffer::writeChar, ByteBuffer::getChar);
     }
 
     @Test
-    public void writeFloatTest()
+    public void testWriteFloat()
     {
         writePrimitive(10000000F, 10000001F, ICspSerializationBuffer::writeFloat, ByteBuffer::getFloat);
     }
 
     @Test
-    public void writeDoubleTest()
+    public void testWriteDouble()
     {
         writePrimitive(1000000000000000000D, 1000000000000000001D, ICspSerializationBuffer::writeDouble, ByteBuffer::getDouble);
     }
 
     @Test
-    public void writeByteArrayTest()
+    public void testWriteByteArray()
     {
         ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(0, true);
 
@@ -167,7 +167,7 @@ public class CspSerializationBufferTests
     }
 
     @Test
-    public void writeShortArrayTest()
+    public void testWriteShortArray()
     {
         ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(0, true);
 
@@ -190,7 +190,7 @@ public class CspSerializationBufferTests
     }
 
     @Test
-    public void writeIntArrayTest()
+    public void testWriteIntArray()
     {
         ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(0, true);
 
@@ -214,7 +214,7 @@ public class CspSerializationBufferTests
 
 
     @Test
-    public void writeLongArrayTest()
+    public void testWriteLongArray()
     {
         ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(0, true);
 
@@ -237,7 +237,7 @@ public class CspSerializationBufferTests
     }
 
     @Test
-    public void writeCharArrayTest()
+    public void testWriteCharArray()
     {
         ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(0, true);
 
@@ -260,7 +260,7 @@ public class CspSerializationBufferTests
     }
 
     @Test
-    public void writeFloatArrayTest()
+    public void testWriteFloatArray()
     {
         ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(0, true);
 
@@ -283,7 +283,7 @@ public class CspSerializationBufferTests
     }
 
     @Test
-    public void writeDoubleArrayTest()
+    public void testWriteDoubleArray()
     {
         ICspSerializationBuffer cspSerializationBuffer = createCspSerializationBuffer(0, true);
 
@@ -306,7 +306,7 @@ public class CspSerializationBufferTests
     }
 
     @Test
-    public void commitBufferTest()
+    public void testCommitBuffer()
     {
         int capacitySize = 16;
 

@@ -29,7 +29,7 @@ package io.andreygs.jcsp.base.processing.composite.internal;
  * TODO: place description here
  */
 abstract class AbstractCspDataCompositeArrayWithPrimitiveComponentProcessor<P>
-    extends AbstractCspDataCompositeObjectProcessor<P>
+    extends AbstractCspDataCompositeObjectProcessor
 {
     private final boolean fixedSize;
 

@@ -23,19 +23,30 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
+package io.andreygs.jcsp.base.processing.proxy.internal;
 
-import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
-import io.andreygs.jcsp.base.processing.internal.ICspDataProcessorRegistry;
+import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
-import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflow;
-import io.andreygs.jcsp.base.processing.proxy.internal.ICspDataSerializationProxyProcessor;
+import io.andreygs.jcsp.base.processing.annotations.CspCreateProcessor;
+import io.andreygs.jcsp.base.processing.internal.ICspDataGeneralSerializationProxyProcessor;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * TODO: place description here
+ * Processor which proxies CSP type properties for call one of {@link ICspDataGeneralSerializationProcessor} methods.
+ * <p>
+ * The primary intents of proxying properties is for autogenerate {@link ICspDataSerializationProcessor} for type
+ * annotated with {@link CspCreateProcessor} and for proper serialization of java generic types.
+ * <p>
+ * First intent actually is only for internal use by jcsp library, but the latter is handy for use by clients that wants
+ * for serialize their generics with use of supplied by them {@link ICspDataSerializationProcessor} for such generics.
  */
-public interface ICspMessageBuilderFactory
+public interface ICspDataSerializationProxyProcessor<T>
 {
-    ICspDataMessageBuilder createCspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
-        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>, ICspDataSerializationProxyProcessor<?>> cspSerializationProcessorRegistry);
+    /**
+     * Serialize a value.
+     *
+     * @param value Value to be serialized.
+     * @param generalProcessor General-purpose CSP serialization processor for CSP Data Message Body.
+     */
+    void serialize(@Nullable T value, ICspDataGeneralSerializationProxyProcessor generalProcessor);
 }

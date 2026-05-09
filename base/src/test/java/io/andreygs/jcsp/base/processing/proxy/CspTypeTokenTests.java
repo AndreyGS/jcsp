@@ -23,24 +23,26 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.annotations;
+package io.andreygs.jcsp.base.processing.proxy;
 
-import io.andreygs.jcsp.base.processing.ICspDataDeserializationProcessor;
-import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
-
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
- * Tagging annotation, telling that {@link ICspDataSerializationProcessor} and {@link ICspDataDeserializationProcessor}
- * can be auto generated using CSP annotations of class fields.
+ * TODO: place description here
  */
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE})
-public @interface CspProcessorAutoGeneratable
+public class CspTypeTokenTests
 {
+    @Test
+    public void testNotGenericSubType()
+    {
+        class TestClass extends CspTypeToken<Integer>
+        {
+        }
+        class TestClass2 extends TestClass
+        {
+        }
+        Assertions.assertThrows(IllegalArgumentException.class, TestClass2::new,
+            "CspTypeToken has non generic subtype");
+    }
 }

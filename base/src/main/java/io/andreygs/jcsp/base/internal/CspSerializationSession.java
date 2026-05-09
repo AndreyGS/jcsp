@@ -31,6 +31,9 @@ import io.andreygs.jcsp.base.message.internal.ICspMessageBuilderFactory;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.base.processing.internal.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflow;
+import io.andreygs.jcsp.base.processing.proxy.internal.ICspDataSerializationProxyProcessor;
+
+import java.lang.reflect.AnnotatedType;
 
 /**
  * TODO: place description here
@@ -39,11 +42,11 @@ public class CspSerializationSession implements ICspSerializationSession
 {
     private final ISerializationWorkflow serializationWorkflow;
     private final ICspMessageBuilderFactory messageBuilderFactory;
-    private final ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>> processorRegistry;
+    private final ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>, ICspDataSerializationProxyProcessor<?>> processorRegistry;
 
     public CspSerializationSession(ISerializationWorkflow serializationWorkflow,
         ICspMessageBuilderFactory messageBuilderFactory,
-        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>> processorRegistry)
+        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>, ICspDataSerializationProxyProcessor<?>> processorRegistry)
     {
         this.serializationWorkflow = serializationWorkflow;
         this.messageBuilderFactory = messageBuilderFactory;
@@ -54,6 +57,18 @@ public class CspSerializationSession implements ICspSerializationSession
     public <T> void registerSerializationProcessor(Class<T> clazz, ICspDataSerializationProcessor<T> processor)
     {
         processorRegistry.registerProcessor(clazz, processor);
+    }
+
+    @Override
+    public void unregisterSerializationProcessor(Class<?> clazz)
+    {
+        processorRegistry.unregisterProcessor(clazz);
+    }
+
+    @Override
+    public void unregisterSerializationProxyProcessor(AnnotatedType annotatedType)
+    {
+        processorRegistry.unregisterProxyProcessor(annotatedType);
     }
 
     @Override

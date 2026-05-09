@@ -23,21 +23,28 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.processing.composite.internal;
+package io.andreygs.jcsp.base.processing.annotations;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * TODO: place description here
+ * Defines {@link String} charset according to CSP Interface.
+ * Make sense only for fields (or array components, or generic types) which has type {@link String}.
  */
-public final class CspDataCompositeSerializationProcessorBuilderFactory
-    implements ICspDataCompositeSerializationProcessorBuilderFactory
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD, ElementType.TYPE_PARAMETER, ElementType.TYPE_USE})
+public @interface CspString
 {
-    private static final ICspDataCompositeSubProcessorFactory<ICspDataCompositeSerializationProcessor,
-                                                                  ICspDataCompositeSerializationSubProcessorHolder>
-        DEFAULT_PROCESSOR_FACTORY = new CspDataCompositeSerializationSubProcessorFactory();
-
-    @Override
-    public ICspDataCompositeProcessorBuilder<ICspDataCompositeSerializationProcessor> createProcessorBuilder()
-    {
-        return new CspDataCompositeProcessorBuilder<>(DEFAULT_PROCESSOR_FACTORY);
-    }
+    /**
+     * Which charset should be used in serialization according to CSP Interface.
+     *
+     * @return charset according to CSP Interface. It will be used to build
+     * {@link java.nio.charset.Charset} instance, so it is a valid canonical name of the charset.
+     */
+    String value();
 }
