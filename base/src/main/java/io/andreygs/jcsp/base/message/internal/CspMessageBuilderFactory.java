@@ -25,33 +25,20 @@
 
 package io.andreygs.jcsp.base.message.internal;
 
-import io.andreygs.jcsp.base.message.ICspMessageBuilderFactory;
 import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
-import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistry;
+import io.andreygs.jcsp.base.processing.internal.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
-import io.andreygs.jcsp.base.common.internal.ArgumentChecker;
 import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflow;
-import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflowProvider;
-import io.andreygs.jcsp.base.processing.internal.SerializationWorkflowProvider;
+import io.andreygs.jcsp.base.processing.proxy.internal.ICspDataSerializationProxyProcessor;
 
 /**
  * TODO: place description here
  */
-public final class CspMessageBuilderFactory implements ICspMessageBuilderFactory
+public final class  CspMessageBuilderFactory implements ICspMessageBuilderFactory
 {
-    /**
-     * Default immutable cached instance of {@link ISerializationWorkflowProvider}.
-     * <p>
-     * Thread-safe.
-     */
-    private static final ISerializationWorkflow DEFAULT_SERIALIZATION_WORKFLOW =
-        new SerializationWorkflowProvider().provideWorkflow();
-
-    public ICspDataMessageBuilder createCspDataMessageBuilder(
-        ICspDataProcessorRegistry<ICspDataSerializationProcessor> cspSerializationProcessorRegistrar)
-        throws IllegalArgumentException
+    public ICspDataMessageBuilder createCspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
+        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>, ICspDataSerializationProxyProcessor<?>> cspSerializationProcessorRegistry)
     {
-        ArgumentChecker.nonNull(cspSerializationProcessorRegistrar);
-        return new CspDataMessageBuilder(DEFAULT_SERIALIZATION_WORKFLOW, cspSerializationProcessorRegistrar);
+        return new CspDataMessageBuilder(serializationWorkflow, cspSerializationProcessorRegistry);
     }
 }

@@ -48,7 +48,12 @@ public enum CspStatus
     /**
      * Error in attempting to serialize a pointer when the CSP Data flag "Allow unmanaged pointers" is not set.
      */
-    POINTER_WHEN_NO_ALLOW_UNMANAGED_POINTERS_SET(-23, Messages.CspStatus_Pointer_When_No_Allow_Unmanaged_Pointers_Set);
+    POINTER_WHEN_NO_ALLOW_UNMANAGED_POINTERS_SET(-25, Messages.CspStatus_Pointer_When_No_Allow_Unmanaged_Pointers_Set),
+
+    /**
+     * Error in struct format (when it non-compliant with CSP).
+     */
+    ERROR_IN_STRUCT_FORMAT(-26, Messages.CspStatus_Error_in_struct_format);
 
     private final int code;
     private final String message;

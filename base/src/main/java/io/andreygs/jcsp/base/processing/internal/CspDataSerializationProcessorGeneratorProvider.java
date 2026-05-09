@@ -26,7 +26,7 @@
 package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
-import io.andreygs.jcsp.base.processing.composite.internal.CspDataCompositeSerializationProcessorBuilderFactory;
+import io.andreygs.jcsp.base.processing.proxy.internal.CspDataProxyProcessorFactoryProvider;
 
 /**
  * TODO: place description here
@@ -39,12 +39,12 @@ final class CspDataSerializationProcessorGeneratorProvider
      * <p>
      * Thread-safe.
      */
-    private static final ICspDataProcessorGenerator<ICspDataSerializationProcessor>
+    private static final ICspDataProcessorGenerator<ICspDataSerializationProcessor<?>>
         DEFAULT_DATA_SERIALIZATION_PROCESSOR_GENERATOR = new CspDataSerializationProcessorGenerator(
-            new CspDataCompositeSerializationProcessorBuilderFactory());
+            new CspDataProxyProcessorFactoryProvider().provideCspDataSerializationProxyProcessorFactory());
 
     @Override
-    public ICspDataProcessorGenerator<ICspDataSerializationProcessor> provideCspDataProcessorGenerator()
+    public ICspDataProcessorGenerator<ICspDataSerializationProcessor<?>> provideCspDataProcessorGenerator()
     {
         return DEFAULT_DATA_SERIALIZATION_PROCESSOR_GENERATOR;
     }

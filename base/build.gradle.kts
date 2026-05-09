@@ -10,6 +10,14 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
+sourceSets {
+    main {
+        java {
+            exclude("io/andreygs/jcsp/base/processing/composite/**")
+        }
+    }
+}
+
 repositories {
     mavenCentral()
 }

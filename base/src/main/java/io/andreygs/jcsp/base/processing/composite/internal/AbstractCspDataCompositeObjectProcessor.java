@@ -25,12 +25,10 @@
 
 package io.andreygs.jcsp.base.processing.composite.internal;
 
-import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeProcessor;
-
 /**
  * TODO: place description here
  */
-abstract class AbstractCspDataCompositeObjectProcessor<P> implements ICspDataCompositeProcessor<P>
+abstract class AbstractCspDataCompositeObjectProcessor
 {
     private final boolean reference;
 
@@ -39,24 +37,8 @@ abstract class AbstractCspDataCompositeObjectProcessor<P> implements ICspDataCom
         this.reference = reference;
     }
 
-    @Override
-    public final P overrideReferencePropertyInProcessor(boolean reference)
-    {
-        if (this.reference != reference)
-        {
-            return createCopyInstanceWithOverriddenReference(reference);
-        }
-        else
-        {
-            return getThisAsProcessor();
-        }
-    }
-
     protected final boolean isReference()
     {
         return reference;
     }
-
-    protected abstract P createCopyInstanceWithOverriddenReference(boolean reference);
-    protected abstract P getThisAsProcessor();
 }

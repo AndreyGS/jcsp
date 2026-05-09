@@ -26,7 +26,6 @@
 package io.andreygs.jcsp.base.processing.composite.internal;
 
 import io.andreygs.jcsp.base.processing.ICspDataGeneralDeserializationProcessor;
-import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeDeserializationProcessor;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;

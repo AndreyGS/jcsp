@@ -25,8 +25,8 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
-import io.andreygs.jcsp.base.processing.annotations.CspProcessorAutoGeneratable;
-import io.andreygs.jcsp.base.processing.annotations.CspSerializable;
+import io.andreygs.jcsp.base.processing.annotations.CspCreateProcessor;
+import io.andreygs.jcsp.base.processing.annotations.CspField;
 import io.andreygs.jcsp.base.types.CspRuntimeException;
 import io.andreygs.jcsp.base.types.CspStatus;
 
@@ -39,7 +39,7 @@ import java.util.List;
 /**
  * TODO: place description here
  */
-abstract class AbstractCspDataProcessorGenerator<P>
+abstract class AbstractCspDataProcessorGenerator<P, PP>
     implements ICspDataProcessorGenerator<P>
 {
     @Override
@@ -48,37 +48,38 @@ abstract class AbstractCspDataProcessorGenerator<P>
         if (!isAutoGeneratable(structClazz))
         {
             throw CspRuntimeException.createCspRuntimeException(CspStatus.NO_SUCH_HANDLER,
-                structClazz.getName() + " is not annotated with " + CspProcessorAutoGeneratable.class.getName(), null);
+                structClazz.getName() + " is not annotated with " + CspCreateProcessor.class.getName());
         }
-        List<P> callbacks = new ArrayList<>();
-        return createProcessor(callbacks);
+        List<PP> proxyProcessors = new ArrayList<>();
+        return createProcessor(proxyProcessors);
     }
 
-    protected abstract void addParentClass(Class<?> parentClazz, List<P> callbacks);
+    protected abstract void addParentClass(Class<?> parentClazz, List<PP> proxyProcessors);
 
-    protected abstract void addField(Field field, List<P> callbacks);
+    protected abstract void addField(Field field, List<PP> proxyProcessors);
 
-    protected abstract P createProcessor(List<P> callbacks);
+    protected abstract P createProcessor(List<PP> proxyProcessors);
 
     private boolean isAutoGeneratable(Class<?> clazz)
     {
-        return clazz.isAnnotationPresent(CspProcessorAutoGeneratable.class);
+        return clazz.isAnnotationPresent(CspCreateProcessor.class);
     }
 
-    private void produceCallbacks(Class<?> clazz, List<P> callbacks)
+    private void produceProxyProcessors(Class<?> clazz, List<PP> proxyProcessors)
     {
         Class<?> parentClazz = clazz.getSuperclass();
         if (isAutoGeneratable(parentClazz))
         {
-            addParentClass(parentClazz, callbacks);
+            addParentClass(parentClazz, proxyProcessors);
         }
+        /*
         Field[] fields = clazz.getDeclaredFields();
         Arrays.stream(fields)
-              .filter(field -> field.getAnnotation(CspSerializable.class) != null)
-              .sorted(Comparator.comparingInt(field -> field.getAnnotation(CspSerializable.class).order()))
+              .filter(field -> field.getAnnotation(CspField.class) != null)
+              .sorted(Comparator.comparingInt(field -> field.getAnnotation(CspField.class).order()))
               .forEach(field -> {
                   field.setAccessible(true);
                   addField(field, callbacks);
-              });
+              });*/
     }
 }

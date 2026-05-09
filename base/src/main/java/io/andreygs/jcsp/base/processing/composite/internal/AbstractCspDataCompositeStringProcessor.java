@@ -25,12 +25,14 @@
 
 package io.andreygs.jcsp.base.processing.composite.internal;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.nio.charset.Charset;
 
 /**
  * TODO: place description here
  */
-abstract class AbstractCspDataCompositeStringProcessor<P> extends AbstractCspDataCompositeObjectProcessor<P>
+abstract class AbstractCspDataCompositeStringProcessor extends AbstractCspDataCompositeObjectProcessor
 {
     private final Charset charset;
 

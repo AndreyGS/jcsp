@@ -25,9 +25,6 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
-import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistry;
-import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistryFactory;
-
 /**
  * Internal implementation of {@link ICspDataProcessorRegistryFactory}.
  * <p>
@@ -37,7 +34,7 @@ public final class CspDataProcessorRegistryFactory
     implements ICspDataProcessorRegistryFactory
 {
     @Override
-    public <P> ICspDataProcessorRegistry<P> createProcessorRegistry()
+    public <P, PP> ICspDataProcessorRegistry<P, PP> createProcessorRegistry()
     {
         return new CspDataProcessorRegistry<>();
     }

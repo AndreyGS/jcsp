@@ -26,7 +26,7 @@
 package io.andreygs.jcsp.base.processing.composite.internal;
 
 import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
-import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
@@ -35,8 +35,8 @@ import java.nio.charset.Charset;
  * TODO: place description here
  */
 final class CspDataCompositeStringSerializationProcessor
-    extends AbstractCspDataCompositeStringProcessor<ICspDataCompositeSerializationProcessor>
-    implements ICspDataCompositeSerializationProcessor
+    extends AbstractCspDataCompositeStringProcessor
+    implements ICspDataSerializationProcessor<String>
 {
     CspDataCompositeStringSerializationProcessor(boolean reference, Charset charset)
     {
@@ -44,20 +44,8 @@ final class CspDataCompositeStringSerializationProcessor
     }
 
     @Override
-    public void serialize(@Nullable Object value, ICspDataGeneralSerializationProcessor generalSerializationProcessor)
+    public void serialize(@Nullable String value, ICspDataGeneralSerializationProcessor generalSerializationProcessor)
     {
-        generalSerializationProcessor.serialize((String)value, isReference(), getCharset());
-    }
-
-    @Override
-    protected ICspDataCompositeSerializationProcessor createCopyInstanceWithOverriddenReference(boolean reference)
-    {
-        return new CspDataCompositeStringSerializationProcessor(reference, getCharset());
-    }
-
-    @Override
-    protected ICspDataCompositeSerializationProcessor getThisAsProcessor()
-    {
-        return this;
+        generalSerializationProcessor.serialize(value, isReference(), getCharset());
     }
 }

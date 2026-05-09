@@ -26,8 +26,9 @@
 package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.ICspDataDeserializationProcessor;
-import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistry;
+import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
+import io.andreygs.jcsp.base.processing.proxy.internal.ICspDataSerializationProxyProcessor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -51,25 +52,25 @@ public class CspProcessorRegistryTests
     private ICspDataSerializationProcessor<Instant> cspSerializationProcessorForInstant;
 
     @Test
-    public void registerProcessorTest()
+    public void testRegisterProcessor()
     {
-        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>>
+        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>, ICspDataSerializationProxyProcessor<?>>
             cspProcessorRegistry = new CspDataProcessorRegistry<>();
 
-        Assertions.assertTrue(cspProcessorRegistry.findProcessor(List.class).isEmpty(),
+        Assertions.assertTrue(cspProcessorRegistry.findOrdinaryProcessor(List.class).isEmpty(),
                               "Processor registered for " + List.class.getName() + "!");
 
         cspProcessorRegistry.registerProcessor(List.class, cspSerializationProcessor);
 
-        Assertions.assertTrue(cspProcessorRegistry.findProcessor(List.class).isPresent(),
+        Assertions.assertTrue(cspProcessorRegistry.findOrdinaryProcessor(List.class).isPresent(),
                               "No processor registered for " + List.class.getName() + "!");
     }
 
     @Test
     @SuppressWarnings("DataFlowIssue")
-    public void registerProcessorNullClassTest()
+    public void testRegisterProcessorNullClass()
     {
-        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>>
+        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>, ICspDataSerializationProxyProcessor<?>>
             cspProcessorRegistry = new CspDataProcessorRegistry<>();
 
         Assertions.assertThrows(IllegalArgumentException.class,
@@ -78,9 +79,9 @@ public class CspProcessorRegistryTests
 
     @Test
     @SuppressWarnings("DataFlowIssue")
-    public void registerProcessorNullProcessorTest()
+    public void testRegisterProcessorNullProcessor()
     {
-        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>>
+        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>, ICspDataSerializationProxyProcessor<?>>
             cspProcessorRegistry = new CspDataProcessorRegistry<>();
 
         Assertions.assertThrows(IllegalArgumentException.class,
@@ -88,38 +89,36 @@ public class CspProcessorRegistryTests
     }
 
     @Test
-    public void registerProcessorReplaceTest()
+    public void testRegisterProcessorReplace()
     {
-        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>>
+        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>, ICspDataSerializationProxyProcessor<?>>
             cspProcessorRegistry = new CspDataProcessorRegistry<>();
-        cspProcessorRegistry.registerProcessor(Instant.class, cspSerializationProcessor);
-/*
-        new XXX<String>().registerProcessorTestZ();
-        new AbstractCspTypeDescriptorHolder<List<String>>(){};*/
 
-        cspProcessorRegistry.registerProcessor(Instant.class, cspSerializationProcessorForInstant);
+        Class<?> clazz = Instant.class;
+        cspProcessorRegistry.registerProcessor(clazz, (value, generalProcessor) -> {});
+        cspProcessorRegistry.registerProcessor(clazz, cspSerializationProcessorForInstant);
 
-        Assertions.assertEquals(cspSerializationProcessorForInstant, cspProcessorRegistry.findProcessor(Instant.class).orElse(null),
-                                "Processor for " + Instant.class.getName() + " not replaced!");
+        Assertions.assertEquals(cspSerializationProcessorForInstant, cspProcessorRegistry.findOrdinaryProcessor(clazz).orElse(null),
+                                "Processor for " + clazz.getName() + " not replaced!");
     }
 
     @Test
-    public void unregisterProcessorTest()
+    public void testUnregisterProcessor()
     {
-        ICspDataProcessorRegistry<ICspDataDeserializationProcessor<?>>
+        ICspDataProcessorRegistry<ICspDataDeserializationProcessor<?>, ICspDataSerializationProxyProcessor<?>>
             cspProcessorRegistry = new CspDataProcessorRegistry<>();
         cspProcessorRegistry.registerProcessor(Instant.class, cspDeserializationProcessor);
         cspProcessorRegistry.unregisterProcessor(Instant.class);
 
-        Assertions.assertTrue(cspProcessorRegistry.findProcessor(Instant.class).isEmpty(),
+        Assertions.assertTrue(cspProcessorRegistry.findOrdinaryProcessor(Instant.class).isEmpty(),
                               "Processor for " + Instant.class.getName() + "was not unregistered!");
     }
 
     @Test
     @SuppressWarnings("DataFlowIssue")
-    public void unregisterProcessorNullClassTest()
+    public void testUnregisterProcessorNullClass()
     {
-        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>>
+        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>, ICspDataSerializationProxyProcessor<?>>
             cspProcessorRegistry = new CspDataProcessorRegistry<>();
 
         Assertions.assertThrows(IllegalArgumentException.class,
@@ -127,42 +126,19 @@ public class CspProcessorRegistryTests
     }
 
     @Test
-    public void findProcessorTest()
+    public void testfindProcessor()
     {
-        registerProcessorTest();
+        testRegisterProcessor();
     }
 
     @Test
     @SuppressWarnings("DataFlowIssue")
-    public void findProcessorNullClassTest()
+    public void testfindProcessorNullClass()
     {
-        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>>
+        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>, ICspDataSerializationProxyProcessor<?>>
             cspProcessorRegistry = new CspDataProcessorRegistry<>();
 
         Assertions.assertThrows(IllegalArgumentException.class,
-                                () -> cspProcessorRegistry.findProcessor(null));
+                                () -> cspProcessorRegistry.findOrdinaryProcessor(null));
     }
-/*
-    private static class XXX<T>
-    {
-        void registerProcessorTestZ()
-        {
-            TypeVariable<Class<XXX>>[] typeParameters = XXX.class.getTypeParameters();
-            Map<String, AbstractCspTypeDescriptorHolder.CspTypeDescriptor> map = new HashMap<>();
-            var test = new AbstractCspTypeDescriptorHolder<Map<String, @CspReference String>>(){};
-            map.put(typeParameters[0].getName(), test.getCspTypeDescriptor());
-            var holder = new AbstractCspTypeDescriptorHolder<@CspReference Map<@CspReference T, Map<int[],
-                                                                            @CspReference Integer @CspFixedSizeArray [] @CspFixedSizeArray []>>>(map){};
-
-            int i = 1;
-        }
-    }
-
-    private static class ProcessorTestZ<T> extends AbstractCspTypeDescriptorHolder<T>
-    {
-        ProcessorTestZ(@Nullable Map<String, CspTypeDescriptor> genericParameterCspTypeDescriptors)
-        {
-            super(genericParameterCspTypeDescriptors);
-        }
-    }*/
 }

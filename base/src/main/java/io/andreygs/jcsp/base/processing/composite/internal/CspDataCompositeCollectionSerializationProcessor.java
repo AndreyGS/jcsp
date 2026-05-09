@@ -26,7 +26,7 @@
 package io.andreygs.jcsp.base.processing.composite.internal;
 
 import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
-import io.andreygs.jcsp.base.processing.composite.ICspDataCompositeSerializationProcessor;
+import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -35,29 +35,22 @@ import java.util.Collection;
  * TODO: place description here
  */
 final class CspDataCompositeCollectionSerializationProcessor
-    extends AbstractCspDataCompositeSubProcessorHolder<ICspDataCompositeSerializationProcessor>
-    implements ICspDataCompositeSerializationSubProcessorHolder
+    extends AbstractCspDataCompositeObjectProcessor
+    implements ICspDataSerializationProcessor<Collection<?>>
 {
-    CspDataCompositeCollectionSerializationProcessor(boolean reference)
+    private final boolean elementReference;
+    private final Class<?> elementClazz;
+
+    CspDataCompositeCollectionSerializationProcessor(boolean reference, boolean elementReference, Class<?> elementClazz)
     {
-        super(reference, 1);
+        super(reference);
+        this.elementReference = elementReference;
+        this.elementClazz = elementClazz;
     }
 
     @Override
-    public void serialize(@Nullable Object value, ICspDataGeneralSerializationProcessor generalSerializationProcessor)
+    public void serialize(@Nullable Collection<?> value, ICspDataGeneralSerializationProcessor generalSerializationProcessor)
     {
-        generalSerializationProcessor.serializeComposite((Collection<?>)value, isReference(), getSubProcessor(0));
-    }
-
-    @Override
-    protected ICspDataCompositeSerializationProcessor createCopyInstanceWithOverriddenReference(boolean reference)
-    {
-        return new CspDataCompositeCollectionSerializationProcessor(reference);
-    }
-
-    @Override
-    protected ICspDataCompositeSerializationProcessor getThisAsProcessor()
-    {
-        return this;
+        generalSerializationProcessor.serialize((Collection<?>) value, isReference(), elementClazz, elementReference);
     }
 }

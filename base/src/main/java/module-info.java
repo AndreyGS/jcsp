@@ -30,6 +30,7 @@ module io.andreygs.jcsp.base {
     exports io.andreygs.jcsp.base.message;
     exports io.andreygs.jcsp.base.processing;
     exports io.andreygs.jcsp.base.processing.buffer;
-    exports io.andreygs.jcsp.base.processing.composite;
+    exports io.andreygs.jcsp.base.processing.proxy;
     exports io.andreygs.jcsp.base.types;
+    exports io.andreygs.jcsp.base;
 }

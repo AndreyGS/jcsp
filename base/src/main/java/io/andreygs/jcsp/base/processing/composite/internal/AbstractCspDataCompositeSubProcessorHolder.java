@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * TODO: place description here
  */
-abstract class AbstractCspDataCompositeSubProcessorHolder<P> extends AbstractCspDataCompositeObjectProcessor<P>
+abstract class AbstractCspDataCompositeSubProcessorHolder<P> extends AbstractCspDataCompositeObjectProcessor
     implements ICspDataCompositeSubProcessorHolder<P>
 {
     private final List<P> subProcessors;

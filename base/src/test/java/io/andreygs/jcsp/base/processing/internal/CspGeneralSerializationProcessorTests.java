@@ -26,9 +26,9 @@
 package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.message.ICspDataMessage;
-import io.andreygs.jcsp.base.processing.ICspDataProcessorRegistry;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
+import io.andreygs.jcsp.base.processing.proxy.internal.ICspDataSerializationProxyProcessor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,9 +46,9 @@ public class CspGeneralSerializationProcessorTests
     @Mock
     private ICspSerializationBuffer buffer;
     @Mock
-    private ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>> cspProcessorRegistry;
+    private ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>, ICspDataSerializationProxyProcessor<?>> cspProcessorRegistry;
     @Mock
-    private ICspDataProcessorGenerator<ICspDataSerializationProcessor> processorGenerator;
+    private ICspDataProcessorGenerator<ICspDataSerializationProcessor<?>> processorGenerator;
     @Mock
     private ICspDataMessage cspDataMessage;
 
@@ -62,21 +62,21 @@ public class CspGeneralSerializationProcessorTests
     }
 
     @Test
-    public void serializeBooleanTrueTest()
+    public void testSerializeBooleanTrue()
     {
         cspDataGeneralSerializationProcessor.serialize(true);
         Mockito.verify(buffer).writeByte((byte) 1);
     }
 
     @Test
-    public void serializeBooleanFalseTest()
+    public void testSerializeBooleanFalse()
     {
         cspDataGeneralSerializationProcessor.serialize(false);
         Mockito.verify(buffer).writeByte((byte) 0);
     }
 
     @Test
-    public void serializeByteSizeOfIntegersAreEqualTest()
+    public void testSerializeByteSizeOfIntegersAreEqual()
     {
         byte value = 11;
         byte sizeOfInteger = 1;
@@ -87,7 +87,7 @@ public class CspGeneralSerializationProcessorTests
     }
 
     @Test
-    public void serializeByteSizeOfIntegersAreNotEqualTest()
+    public void testSerializeByteSizeOfIntegersAreNotEqual()
     {
         byte value = 11;
         byte sizeOfInteger = 1;
@@ -100,7 +100,7 @@ public class CspGeneralSerializationProcessorTests
     }
 
     @Test
-    public void serializeShortSizeOfIntegersAreEqualTest()
+    public void testSerializeShortSizeOfIntegersAreEqual()
     {
         short value = 1111;
         byte sizeOfInteger = 2;
@@ -111,7 +111,7 @@ public class CspGeneralSerializationProcessorTests
     }
 
     @Test
-    public void serializeShortSizeOfIntegersAreNotEqualTest()
+    public void testSerializeShortSizeOfIntegersAreNotEqual()
     {
         short value = 1111;
         byte sizeOfInteger = 2;
@@ -124,7 +124,7 @@ public class CspGeneralSerializationProcessorTests
     }
 
     @Test
-    public void serializeIntSizeOfIntegersAreEqualTest()
+    public void testSerializeIntSizeOfIntegersAreEqual()
     {
         int value = 111111;
         byte sizeOfInteger = 4;
@@ -135,7 +135,7 @@ public class CspGeneralSerializationProcessorTests
     }
 
     @Test
-    public void serializeIntSizeOfIntegersAreNotEqualTest()
+    public void testSerializeIntSizeOfIntegersAreNotEqual()
     {
         int value = 111111;
         byte sizeOfInteger = 4;
@@ -148,7 +148,7 @@ public class CspGeneralSerializationProcessorTests
     }
 
     @Test
-    public void serializeLongSizeOfIntegersAreEqualTest()
+    public void testSerializeLongSizeOfIntegersAreEqual()
     {
         long value = 1111111111L;
         byte sizeOfInteger = 8;
@@ -159,7 +159,7 @@ public class CspGeneralSerializationProcessorTests
     }
 
     @Test
-    public void serializeLongSizeOfIntegersAreNotEqualTest()
+    public void testSerializeLongSizeOfIntegersAreNotEqual()
     {
         long value = 1111111111L;
         byte sizeOfInteger = 8;
@@ -172,7 +172,7 @@ public class CspGeneralSerializationProcessorTests
     }
 
     @Test
-    public void serializeCharTest()
+    public void testSerializeChar()
     {
         char value = 'a';
 
@@ -181,7 +181,7 @@ public class CspGeneralSerializationProcessorTests
     }
 
     @Test
-    public void serializeFloatTest()
+    public void testSerializeFloat()
     {
         float value = 1.11F;
 
@@ -190,7 +190,7 @@ public class CspGeneralSerializationProcessorTests
     }
 
     @Test
-    public void serializeDoubleTest()
+    public void testSerializeDouble()
     {
         double value = 1.11;
 
@@ -199,7 +199,7 @@ public class CspGeneralSerializationProcessorTests
     }
 
     @Test
-    public void serializeBooleanArrayTest()
+    public void testSerializeBooleanArray()
     {
         boolean[] value = new boolean[] { true, false };
 
@@ -210,7 +210,7 @@ public class CspGeneralSerializationProcessorTests
 
     @Test
     @SuppressWarnings("DataFlowIssue")
-    public void serializeBooleanArrayNullTest()
+    public void testSerializeBooleanArrayNull()
     {
         Assertions.assertThrows(IllegalArgumentException.class,
                                 () -> cspDataGeneralSerializationProcessor.serialize((boolean[])null));
@@ -218,7 +218,7 @@ public class CspGeneralSerializationProcessorTests
 
     @Test
     @SuppressWarnings("DataFlowIssue")
-    public void serializeBooleanArrayContextNullTest()
+    public void testSerializeBooleanArrayContextNull()
     {
         boolean[] value = new boolean[] { true, false };
 
@@ -227,7 +227,7 @@ public class CspGeneralSerializationProcessorTests
     }
 
     @Test
-    public void serializeBooleanArrayAsReferenceTest()
+    public void testSerializeBooleanArrayReference()
     {
         boolean[] value = new boolean[] { true, false };
 
@@ -240,7 +240,7 @@ public class CspGeneralSerializationProcessorTests
     }
 
     @Test
-    public void serializeBooleanArrayNullAsReferenceTest()
+    public void testSerializeBooleanArrayNullReference()
     {
         Mockito.when(cspDataMessage.isAllowUnmanagedPointers()).thenReturn(true);
 
@@ -250,7 +250,7 @@ public class CspGeneralSerializationProcessorTests
     }
 
     @Test
-    public void serializeBooleanArrayNotFixedTest()
+    public void testSerializeBooleanArrayNotFixed()
     {
         boolean[] value = new boolean[] { true, false };
 
@@ -263,7 +263,7 @@ public class CspGeneralSerializationProcessorTests
     }
 
     @Test
-    public void serializeBooleanArrayAsReferenceNotFixedTest()
+    public void testSerializeBooleanArrayReferenceNotFixed()
     {
         Mockito.when(cspDataMessage.isAllowUnmanagedPointers()).thenReturn(true);
 
