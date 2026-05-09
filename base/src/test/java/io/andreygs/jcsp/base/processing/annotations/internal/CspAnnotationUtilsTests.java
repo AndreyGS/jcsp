@@ -67,9 +67,13 @@ public class CspAnnotationUtilsTests
             throw new RuntimeException("Test corrupted - one of the fields in 'TestClass' are absent!");
         }
 
-        assertThat(CspAnnotationUtils.resolveCspFieldOrder(field0)).isEqualTo(0);
-        assertThat(CspAnnotationUtils.resolveCspFieldOrder(field1)).isEqualTo(1);
-        assertThat(CspAnnotationUtils.resolveCspFieldOrder(nonCspField0)).isEqualTo(CspAnnotationUtils.NON_CSP_FIELD);
-        assertThat(CspAnnotationUtils.resolveCspFieldOrder(field2)).isEqualTo(2);
+        assertThat(CspAnnotationUtils.resolveCspFieldOrder(field0))
+            .isEqualTo(0);
+        assertThat(CspAnnotationUtils.resolveCspFieldOrder(field1))
+            .isEqualTo(1);
+        assertThat(CspAnnotationUtils.resolveCspFieldOrder(nonCspField0))
+            .isEqualTo(CspAnnotationUtils.NON_CSP_FIELD);
+        assertThat(CspAnnotationUtils.resolveCspFieldOrder(field2))
+            .isEqualTo(2);
     }
 }

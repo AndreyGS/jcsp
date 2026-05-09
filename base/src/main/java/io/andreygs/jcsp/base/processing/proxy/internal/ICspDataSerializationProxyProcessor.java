@@ -28,7 +28,7 @@ package io.andreygs.jcsp.base.processing.proxy.internal;
 import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
 import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.base.processing.annotations.CspCreateProcessor;
-import io.andreygs.jcsp.base.processing.internal.ICspDataGeneralSerializationProxyProcessor;
+import io.andreygs.jcsp.base.processing.internal.ICspDataExtendedGeneralSerializationProcessor;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -48,5 +48,5 @@ public interface ICspDataSerializationProxyProcessor<T>
      * @param value Value to be serialized.
      * @param generalProcessor General-purpose CSP serialization processor for CSP Data Message Body.
      */
-    void serialize(@Nullable T value, ICspDataGeneralSerializationProxyProcessor generalProcessor);
+    void serialize(@Nullable T value, ICspDataExtendedGeneralSerializationProcessor generalProcessor);
 }

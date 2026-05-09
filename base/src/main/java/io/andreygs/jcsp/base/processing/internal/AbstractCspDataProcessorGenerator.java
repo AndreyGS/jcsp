@@ -26,14 +26,12 @@
 package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.processing.annotations.CspCreateProcessor;
-import io.andreygs.jcsp.base.processing.annotations.CspField;
+import io.andreygs.jcsp.base.processing.annotations.internal.CspAnnotationUtils;
 import io.andreygs.jcsp.base.types.CspRuntimeException;
 import io.andreygs.jcsp.base.types.CspStatus;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -45,7 +43,7 @@ abstract class AbstractCspDataProcessorGenerator<P, PP>
     @Override
     public P generateProcessor(Class<?> structClazz)
     {
-        if (!isAutoGeneratable(structClazz))
+        if (!CspAnnotationUtils.shouldCreateProcessor(structClazz))
         {
             throw CspRuntimeException.createCspRuntimeException(CspStatus.NO_SUCH_HANDLER,
                 structClazz.getName() + " is not annotated with " + CspCreateProcessor.class.getName());
@@ -60,15 +58,10 @@ abstract class AbstractCspDataProcessorGenerator<P, PP>
 
     protected abstract P createProcessor(List<PP> proxyProcessors);
 
-    private boolean isAutoGeneratable(Class<?> clazz)
-    {
-        return clazz.isAnnotationPresent(CspCreateProcessor.class);
-    }
-
     private void produceProxyProcessors(Class<?> clazz, List<PP> proxyProcessors)
     {
         Class<?> parentClazz = clazz.getSuperclass();
-        if (isAutoGeneratable(parentClazz))
+        if (CspAnnotationUtils.shouldCreateProcessor(parentClazz))
         {
             addParentClass(parentClazz, proxyProcessors);
         }

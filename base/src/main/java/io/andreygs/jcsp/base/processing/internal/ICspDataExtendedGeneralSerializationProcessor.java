@@ -25,9 +25,12 @@
 
 package io.andreygs.jcsp.base.processing.internal;
 
+import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
+
 /**
  * TODO: place description here
  */
-public interface ICspDataGeneralSerializationProxyProcessor
+public interface ICspDataExtendedGeneralSerializationProcessor
+    extends ICspDataGeneralSerializationProcessor
 {
 }

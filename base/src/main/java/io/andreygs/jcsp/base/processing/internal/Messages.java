@@ -33,6 +33,7 @@ import io.andreygs.jcsp.base.common.internal.ResourceMessagesLoader;
 final class Messages
 {
     public static String CspStatus_No_Such_Handler_ext_No_specialized_processor_for__0__;
+    public static String ICspDataGeneralSerializationProcessor_instance_is_not_extended;
 
     static
     {

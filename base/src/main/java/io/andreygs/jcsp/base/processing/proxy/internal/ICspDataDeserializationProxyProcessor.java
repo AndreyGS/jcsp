@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.base.processing.proxy.internal;
 
-import io.andreygs.jcsp.base.processing.internal.ICspDataGeneralDeserializationProxyProcessor;
+import io.andreygs.jcsp.base.processing.internal.ICspDataExtendedGeneralDeserializationProcessor;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -33,5 +33,5 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface ICspDataDeserializationProxyProcessor<T>
 {
-    @Nullable T deserialize(@Nullable T value, ICspDataGeneralDeserializationProxyProcessor generalProcessor);
+    @Nullable T deserialize(@Nullable T value, ICspDataExtendedGeneralDeserializationProcessor generalProcessor);
 }

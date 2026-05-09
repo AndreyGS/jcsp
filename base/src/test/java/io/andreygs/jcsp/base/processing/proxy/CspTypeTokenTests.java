@@ -56,7 +56,8 @@ public class CspTypeTokenTests
         {
         }
 
-        assertThatThrownBy(TestClass2::new).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(TestClass2::new)
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -81,6 +82,7 @@ public class CspTypeTokenTests
         }
         AnnotatedType referenceAnnotatedType = field.getAnnotatedType();
 
-        assertThat(annotatedType).isEqualTo(referenceAnnotatedType);
+        assertThat(annotatedType)
+            .isEqualTo(referenceAnnotatedType);
     }
 }
