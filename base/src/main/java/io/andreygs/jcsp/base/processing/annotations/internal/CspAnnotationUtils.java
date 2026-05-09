@@ -25,6 +25,7 @@
 
 package io.andreygs.jcsp.base.processing.annotations.internal;
 
+import io.andreygs.jcsp.base.processing.annotations.CspCreateProcessor;
 import io.andreygs.jcsp.base.processing.annotations.CspField;
 import io.andreygs.jcsp.base.processing.annotations.CspFixedSizeArray;
 import io.andreygs.jcsp.base.processing.annotations.CspImplementationClass;
@@ -32,10 +33,9 @@ import io.andreygs.jcsp.base.processing.annotations.CspOverrideProcessorClass;
 import io.andreygs.jcsp.base.processing.annotations.CspReference;
 import io.andreygs.jcsp.base.processing.annotations.CspString;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedType;
+import java.lang.reflect.Field;
 import java.nio.charset.Charset;
-import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -43,59 +43,49 @@ import java.util.Optional;
  */
 public class CspAnnotationUtils
 {
-    public static final int NOT_CSP_FIELD = -1;
+    public static final int NON_CSP_FIELD = -1;
     public static final int CSP_ARRAY_NOT_FIXED_SIZED = -1;
 
-    public static int resolveCspFieldOrder(AnnotatedType annotatedType)
+    public static boolean shouldCreateProcessor(Class<?> clazz)
     {
-        Optional<CspField> cspFieldOrder = findAnnotation(annotatedType, CspField.class);
-        return cspFieldOrder.map(CspField::value).orElse(NOT_CSP_FIELD);
+        return clazz.getDeclaredAnnotation(CspCreateProcessor.class) != null;
+    }
+
+    public static int resolveCspFieldOrder(Field field)
+    {
+        Optional<CspField> cspFieldOrder = Optional.ofNullable(field.getDeclaredAnnotation(CspField.class));
+        return cspFieldOrder.map(CspField::value).orElse(NON_CSP_FIELD);
     }
 
     public static int resolveCspFixedArraySize(AnnotatedType annotatedType)
     {
-        Optional<CspFixedSizeArray> cspFixedSizeArray = findAnnotation(annotatedType, CspFixedSizeArray.class);
+        Optional<CspFixedSizeArray> cspFixedSizeArray =
+            Optional.ofNullable(annotatedType.getDeclaredAnnotation(CspFixedSizeArray.class));
         return cspFixedSizeArray.map(CspFixedSizeArray::value).orElse(CSP_ARRAY_NOT_FIXED_SIZED);
     }
 
     public static Optional<Class<?>> resolveCspImplementationClass(AnnotatedType annotatedType)
     {
-        Optional<CspImplementationClass> cspOverrideProcessor = findAnnotation(annotatedType,
-            CspImplementationClass.class);
+        Optional<CspImplementationClass> cspOverrideProcessor =
+            Optional.ofNullable(annotatedType.getDeclaredAnnotation(CspImplementationClass.class));
         return cspOverrideProcessor.map(CspImplementationClass::value);
     }
 
     public static Optional<Class<?>> resolveCspOverrideProcessorClass(AnnotatedType annotatedType)
     {
-        Optional<CspOverrideProcessorClass> cspOverrideProcessorClass = findAnnotation(annotatedType,
-            CspOverrideProcessorClass.class);
+        Optional<CspOverrideProcessorClass> cspOverrideProcessorClass =
+            Optional.ofNullable(annotatedType.getDeclaredAnnotation(CspOverrideProcessorClass.class));
         return cspOverrideProcessorClass.map(CspOverrideProcessorClass::value);
     }
 
     public static boolean isCspReference(AnnotatedType annotatedType)
     {
-        Optional<CspReference> cspReference = findAnnotation(annotatedType, CspReference.class);
-        return cspReference.isPresent();
+        return annotatedType.getDeclaredAnnotation(CspReference.class) != null;
     }
 
     public static Optional<Charset> resolveCspStringCharset(AnnotatedType annotatedType)
     {
-        Optional<CspString> cspStringCharsetOpt = findAnnotation(annotatedType, CspString.class);
-        return cspStringCharsetOpt.map(cspString -> Charset.forName(cspString.value()));
-    }
-
-    private static <T> Optional<T> findAnnotation(AnnotatedType annotatedType, Class<T> annotationClazz)
-    {
-        Annotation[] annotations =  annotatedType.getAnnotations();
-        Optional<Annotation> annotationOpt = Arrays.stream(annotations)
-                                                   .filter(annotation -> annotation.annotationType().equals(annotationClazz))
-                                                   .findFirst();
-        if (annotationOpt.isEmpty())
-        {
-            return Optional.empty();
-        }
-        @SuppressWarnings("unchecked")
-        T annotation = (T)annotationOpt.get();
-        return Optional.of(annotation);
+        Optional<CspString> cspStringOpt = Optional.ofNullable(annotatedType.getDeclaredAnnotation(CspString.class));
+        return cspStringOpt.map(cspString -> Charset.forName(cspString.value()));
     }
 }

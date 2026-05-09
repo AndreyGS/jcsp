@@ -31,6 +31,7 @@ dependencies {
     testImplementation("org.apache.commons:commons-lang3:3.18.0")
     testImplementation(platform("org.junit:junit-bom:5.14.2"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.14.2")
+    testImplementation("org.assertj:assertj-core:4.0.0-M1")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     testImplementation(mockitoLib)

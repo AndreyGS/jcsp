@@ -25,11 +25,24 @@
 
 package io.andreygs.jcsp.base.processing.proxy;
 
-import org.junit.jupiter.api.Assertions;
+import io.andreygs.jcsp.base.processing.annotations.CspField;
+import io.andreygs.jcsp.base.processing.annotations.CspFixedSizeArray;
+import io.andreygs.jcsp.base.processing.annotations.CspImplementationClass;
+import io.andreygs.jcsp.base.processing.annotations.CspReference;
+import io.andreygs.jcsp.base.processing.annotations.CspString;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.AnnotatedType;
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 /**
- * TODO: place description here
+ * Unit-tests for {@link CspTypeToken}.
  */
 public class CspTypeTokenTests
 {
@@ -42,7 +55,32 @@ public class CspTypeTokenTests
         class TestClass2 extends TestClass
         {
         }
-        Assertions.assertThrows(IllegalArgumentException.class, TestClass2::new,
-            "CspTypeToken has non generic subtype");
+
+        assertThatThrownBy(TestClass2::new).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void testCorrectness()
+    {
+        class TestClass
+        {
+            @CspField(0)
+            public List<Map<@CspReference @CspString("UTF16-BE") String, @CspImplementationClass(ConcurrentHashMap.class) Map<int @CspFixedSizeArray(1) @CspReference [], Long>>> list;
+        }
+        AnnotatedType annotatedType =
+            new CspTypeToken<List<Map<@CspReference @CspString("UTF16-BE") String, @CspImplementationClass(ConcurrentHashMap.class) Map<int @CspFixedSizeArray(1) @CspReference [], Long>>>>(){}.getAnnotatedType();
+
+        Field field;
+        try
+        {
+            field = TestClass.class.getDeclaredField("list");
+        }
+        catch (NoSuchFieldException e)
+        {
+            throw new RuntimeException("Test corrupted - no field with name 'list' was found in 'TestClass'!");
+        }
+        AnnotatedType referenceAnnotatedType = field.getAnnotatedType();
+
+        assertThat(annotatedType).isEqualTo(referenceAnnotatedType);
     }
 }

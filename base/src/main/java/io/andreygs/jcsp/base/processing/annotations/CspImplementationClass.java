@@ -25,6 +25,12 @@
 
 package io.andreygs.jcsp.base.processing.annotations;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 /**
  * Defines class that should be created when class instance is deserialized
  * <p>
@@ -55,8 +61,15 @@ package io.andreygs.jcsp.base.processing.annotations;
  * one. And it not dictates what processor will be used in deserialization - by default it defines by declared type or
  * can be overridden by {@link CspOverrideProcessorClass}.
  * <p>
+ * If no {@link CspImplementationClass} annotation is added to {@link java.util.Collection} or {@link java.util.Map}
+ * field, and no instance was already created on framing class creation on deserialization process, then
+ * {@link java.util.ArrayList} or {@link java.util.HashMap} respectively will be used as implementation class.
+ * <p>
  * Has no effect on serialization process.
  */
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD, ElementType.TYPE_PARAMETER, ElementType.TYPE_USE})
 public @interface CspImplementationClass
 {
     /**
