@@ -23,22 +23,21 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
+package io.andreygs.jcsp.base.processing.data.internal;
 
-import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
-import io.andreygs.jcsp.base.processing.data.internal.ICspProcessorRegistry;
+import io.andreygs.jcsp.base.message.ICspDataMessage;
+import io.andreygs.jcsp.base.processing.data.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.processing.data.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflow;
+import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.data.types.internal.ICspTypeSerializationProcessor;
 
 /**
  * TODO: place description here
  */
-public final class  CspMessageBuilderFactory implements ICspMessageBuilderFactory
+public interface ICspSerializationProcessorFactory
 {
-    public ICspDataMessageBuilder createCspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>> cspSerializationProcessorRegistry)
-    {
-        return new CspDataMessageBuilder(serializationWorkflow, cspSerializationProcessorRegistry);
-    }
+    ICspSerializationProcessor createGeneralSerializationProcessor(
+        ICspSerializationBuffer cspSerializationBuffer,
+        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>> cspProcessorRegistry,
+        ICspDataMessage cspDataMessage);
 }

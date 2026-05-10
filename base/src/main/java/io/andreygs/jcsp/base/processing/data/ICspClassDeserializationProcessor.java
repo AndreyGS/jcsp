@@ -23,22 +23,12 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
-
-import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
-import io.andreygs.jcsp.base.processing.data.internal.ICspProcessorRegistry;
-import io.andreygs.jcsp.base.processing.data.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflow;
-import io.andreygs.jcsp.base.processing.data.types.internal.ICspTypeSerializationProcessor;
+package io.andreygs.jcsp.base.processing.data;
 
 /**
  * TODO: place description here
  */
-public final class  CspMessageBuilderFactory implements ICspMessageBuilderFactory
+public interface ICspClassDeserializationProcessor<T>
 {
-    public ICspDataMessageBuilder createCspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>> cspSerializationProcessorRegistry)
-    {
-        return new CspDataMessageBuilder(serializationWorkflow, cspSerializationProcessorRegistry);
-    }
+    T deserialize(T value, ICspDeserializationProcessor generalProcessor);
 }

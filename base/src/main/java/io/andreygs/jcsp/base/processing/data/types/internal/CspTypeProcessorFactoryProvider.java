@@ -23,22 +23,19 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
-
-import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
-import io.andreygs.jcsp.base.processing.data.internal.ICspProcessorRegistry;
-import io.andreygs.jcsp.base.processing.data.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflow;
-import io.andreygs.jcsp.base.processing.data.types.internal.ICspTypeSerializationProcessor;
+package io.andreygs.jcsp.base.processing.data.types.internal;
 
 /**
  * TODO: place description here
  */
-public final class  CspMessageBuilderFactory implements ICspMessageBuilderFactory
+public class CspTypeProcessorFactoryProvider
 {
-    public ICspDataMessageBuilder createCspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>> cspSerializationProcessorRegistry)
+    private static final ICspTypeProcessorFactory<ICspTypeSerializationProcessor<?>>
+        DEFAULT_DATA_SERIALIZATION_PROXY_PROCESSOR_FACTORY =
+            new CspTypeProcessorFactory<>(new CspTypeSerializationSpecificProcessorFactory());
+
+    public ICspTypeProcessorFactory<ICspTypeSerializationProcessor<?>> provideCspDataSerializationProxyProcessorFactory()
     {
-        return new CspDataMessageBuilder(serializationWorkflow, cspSerializationProcessorRegistry);
+        return DEFAULT_DATA_SERIALIZATION_PROXY_PROCESSOR_FACTORY;
     }
 }

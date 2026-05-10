@@ -1,4 +1,6 @@
 /**
+ * TODO: place brief description here
+ *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -22,23 +24,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+@NotNullByDefault
+package io.andreygs.jcsp.base.processing.data.types.annotations.internal;
 
-package io.andreygs.jcsp.base.message.internal;
-
-import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
-import io.andreygs.jcsp.base.processing.data.internal.ICspProcessorRegistry;
-import io.andreygs.jcsp.base.processing.data.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflow;
-import io.andreygs.jcsp.base.processing.data.types.internal.ICspTypeSerializationProcessor;
-
-/**
- * TODO: place description here
- */
-public final class  CspMessageBuilderFactory implements ICspMessageBuilderFactory
-{
-    public ICspDataMessageBuilder createCspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>> cspSerializationProcessorRegistry)
-    {
-        return new CspDataMessageBuilder(serializationWorkflow, cspSerializationProcessorRegistry);
-    }
-}
+import org.jetbrains.annotations.NotNullByDefault;

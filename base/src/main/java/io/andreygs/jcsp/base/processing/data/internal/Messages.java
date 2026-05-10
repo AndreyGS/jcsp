@@ -23,22 +23,19 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
+package io.andreygs.jcsp.base.processing.data.internal;
 
-import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
-import io.andreygs.jcsp.base.processing.data.internal.ICspProcessorRegistry;
-import io.andreygs.jcsp.base.processing.data.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflow;
-import io.andreygs.jcsp.base.processing.data.types.internal.ICspTypeSerializationProcessor;
+import io.andreygs.jcsp.base.common.internal.ResourceMessagesLoader;
 
 /**
  * TODO: place description here
  */
-public final class  CspMessageBuilderFactory implements ICspMessageBuilderFactory
+final class Messages
 {
-    public ICspDataMessageBuilder createCspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>> cspSerializationProcessorRegistry)
+    public static String CspStatus_No_Such_Handler_ext_No_specialized_processor_for__0__;
+
+    static
     {
-        return new CspDataMessageBuilder(serializationWorkflow, cspSerializationProcessorRegistry);
+        ResourceMessagesLoader.loadMessages(Messages.class);
     }
 }

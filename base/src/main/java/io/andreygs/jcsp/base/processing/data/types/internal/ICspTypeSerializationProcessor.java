@@ -23,22 +23,30 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
+package io.andreygs.jcsp.base.processing.data.types.internal;
 
-import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
-import io.andreygs.jcsp.base.processing.data.internal.ICspProcessorRegistry;
 import io.andreygs.jcsp.base.processing.data.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflow;
-import io.andreygs.jcsp.base.processing.data.types.internal.ICspTypeSerializationProcessor;
+import io.andreygs.jcsp.base.processing.data.internal.ICspExtendedSerializationProcessor;
+import io.andreygs.jcsp.base.processing.data.types.annotations.CspCreateProcessor;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * TODO: place description here
+ * Processor which encapsulate CSP type properties for call one of {@link ICspExtendedSerializationProcessor} methods.
+ * <p>
+ * The primary intents of encapsulate properties is for autogeneration of {@link ICspClassSerializationProcessor} for
+ * type annotated with {@link CspCreateProcessor} and for proper serialization of java generic types.
+ * <p>
+ * First intent actually is only for internal use by jcsp library, but the latter is handy for use by clients that wants
+ * for serialize their generics.
  */
-public final class  CspMessageBuilderFactory implements ICspMessageBuilderFactory
+public interface ICspTypeSerializationProcessor<T>
 {
-    public ICspDataMessageBuilder createCspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>> cspSerializationProcessorRegistry)
-    {
-        return new CspDataMessageBuilder(serializationWorkflow, cspSerializationProcessorRegistry);
-    }
+    /**
+     * Serialize a value.
+     *
+     * @param value Value to be serialized.
+     * @param cspExtendedSerializationProcessor Extended general-purpose CSP serialization processor for CSP Data
+     *                                          Message Body.
+     */
+    void serialize(@Nullable T value, ICspExtendedSerializationProcessor cspExtendedSerializationProcessor);
 }

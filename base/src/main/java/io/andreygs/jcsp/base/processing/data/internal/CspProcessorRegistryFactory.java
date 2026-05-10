@@ -23,22 +23,19 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
-
-import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
-import io.andreygs.jcsp.base.processing.data.internal.ICspProcessorRegistry;
-import io.andreygs.jcsp.base.processing.data.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflow;
-import io.andreygs.jcsp.base.processing.data.types.internal.ICspTypeSerializationProcessor;
+package io.andreygs.jcsp.base.processing.data.internal;
 
 /**
- * TODO: place description here
+ * Internal implementation of {@link ICspProcessorRegistryFactory}.
+ * <p>
+ * Creates default CSP processor registrar.
  */
-public final class  CspMessageBuilderFactory implements ICspMessageBuilderFactory
+public final class CspProcessorRegistryFactory
+    implements ICspProcessorRegistryFactory
 {
-    public ICspDataMessageBuilder createCspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>> cspSerializationProcessorRegistry)
+    @Override
+    public <P, TP> ICspProcessorRegistry<P, TP> createProcessorRegistry()
     {
-        return new CspDataMessageBuilder(serializationWorkflow, cspSerializationProcessorRegistry);
+        return new CspProcessorRegistry<>();
     }
 }

@@ -40,6 +40,8 @@ import java.nio.ShortBuffer;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Unit-tests for {@link CspDeserializationBuffer}.
  */
@@ -52,7 +54,9 @@ public class CspDeserializationBufferTests
     {
         ByteBuffer byteBuffer = ByteBuffer.allocate(0);
         ICspBuffer cspBuffer = new CspDeserializationBuffer(byteBuffer);
-        Assertions.assertNotNull(cspBuffer.getByteBuffer(), "ByteBuffer should not be null");
+
+        ByteBuffer result = cspBuffer.getByteBuffer();
+        assertThat(result).isNotNull();
     }
 
     @Test
@@ -63,6 +67,7 @@ public class CspDeserializationBufferTests
         cspBuffer.applyEndianness(ByteOrder.BIG_ENDIAN);
 
         String applyEndiannessTestFailed = "Endianness applying to buffer was failed!";
+        
         Assertions.assertEquals(ByteOrder.BIG_ENDIAN, cspBuffer.getByteBuffer().order(), applyEndiannessTestFailed);
 
         cspBuffer.applyEndianness(ByteOrder.LITTLE_ENDIAN);

@@ -23,22 +23,30 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
+package io.andreygs.jcsp.base.processing.data.internal;
 
-import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
-import io.andreygs.jcsp.base.processing.data.internal.ICspProcessorRegistry;
 import io.andreygs.jcsp.base.processing.data.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflow;
-import io.andreygs.jcsp.base.processing.data.types.internal.ICspTypeSerializationProcessor;
+import io.andreygs.jcsp.base.processing.data.types.internal.CspTypeProcessorFactoryProvider;
+import io.andreygs.jcsp.base.processing.internal.ICspDataSerializationProcessorGeneratorProvider;
 
 /**
  * TODO: place description here
  */
-public final class  CspMessageBuilderFactory implements ICspMessageBuilderFactory
+final class CspClassSerializationProcessorGeneratorProvider
+    implements ICspDataSerializationProcessorGeneratorProvider
 {
-    public ICspDataMessageBuilder createCspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>> cspSerializationProcessorRegistry)
+    /**
+     * Default immutable cached instance of {@link ICspClassProcessorGenerator}.
+     * <p>
+     * Thread-safe.
+     */
+    private static final ICspClassProcessorGenerator<ICspClassSerializationProcessor<?>>
+        DEFAULT_DATA_SERIALIZATION_PROCESSOR_GENERATOR = new CspClassSerializationProcessorGenerator(
+            new CspTypeProcessorFactoryProvider().provideCspDataSerializationProxyProcessorFactory());
+
+    @Override
+    public ICspClassProcessorGenerator<ICspClassSerializationProcessor<?>> provideCspDataProcessorGenerator()
     {
-        return new CspDataMessageBuilder(serializationWorkflow, cspSerializationProcessorRegistry);
+        return DEFAULT_DATA_SERIALIZATION_PROCESSOR_GENERATOR;
     }
 }

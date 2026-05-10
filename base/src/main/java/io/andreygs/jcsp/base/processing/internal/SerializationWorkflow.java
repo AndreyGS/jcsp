@@ -26,12 +26,14 @@
 package io.andreygs.jcsp.base.processing.internal;
 
 import io.andreygs.jcsp.base.message.ICspDataMessage;
-import io.andreygs.jcsp.base.processing.ICspDataGeneralSerializationProcessor;
+import io.andreygs.jcsp.base.processing.data.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBuffer;
 import io.andreygs.jcsp.base.processing.buffer.internal.ICspSerializationBufferFactory;
-import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
+import io.andreygs.jcsp.base.processing.data.ICspClassSerializationProcessor;
 import io.andreygs.jcsp.base.message.internal.ICspMessageFactory;
-import io.andreygs.jcsp.base.processing.proxy.internal.ICspDataSerializationProxyProcessor;
+import io.andreygs.jcsp.base.processing.data.internal.ICspSerializationProcessorFactory;
+import io.andreygs.jcsp.base.processing.data.internal.ICspProcessorRegistry;
+import io.andreygs.jcsp.base.processing.data.types.internal.ICspTypeSerializationProcessor;
 import io.andreygs.jcsp.base.types.CspCommonFlag;
 import io.andreygs.jcsp.base.types.CspDataFlag;
 import io.andreygs.jcsp.base.types.ICspInterfaceVersion;
@@ -54,11 +56,11 @@ final class SerializationWorkflow
 
     private final ICspSerializationBufferFactory cspSerializationBufferFactory;
     private final ICspMessageFactory cspMessageFactory;
-    private final ICspDataGeneralSerializationProcessorFactory cspDataGeneralSerializationProcessorFactory;
+    private final ICspSerializationProcessorFactory cspDataGeneralSerializationProcessorFactory;
 
     public SerializationWorkflow(ICspSerializationBufferFactory cspSerializationBufferFactory,
                                  ICspMessageFactory cspMessageFactory,
-                                 ICspDataGeneralSerializationProcessorFactory cspDataGeneralSerializationProcessorFactory)
+                                 ICspSerializationProcessorFactory cspDataGeneralSerializationProcessorFactory)
     {
         this.cspSerializationBufferFactory = cspSerializationBufferFactory;
         this.cspMessageFactory = cspMessageFactory;
@@ -72,7 +74,7 @@ final class SerializationWorkflow
         @Nullable IBufferResizeStrategy bufferResizeStrategy,
         @Nullable CspProtocolVersion cspProtocolVersion,
         @Nullable Set<CspCommonFlag> cspCommonFlags,
-        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>, ICspDataSerializationProxyProcessor<?>> cspProcessorRegistry,
+        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>> cspProcessorRegistry,
         ICspVersionable cspVersionable,
         @Nullable ICspInterfaceVersion cspInterfaceVersion,
         @Nullable Set<CspDataFlag> cspDataFlags)
@@ -89,7 +91,7 @@ final class SerializationWorkflow
                                                          cspVersionable.getClass(),
                                                          cspInterfaceVersion == null ? cspVersionable.getInterfaceVersion() : cspInterfaceVersion,
                                                          cspDataFlags == null ? DEFAULT_CSP_DATA_FLAGS : cspDataFlags);
-        ICspDataGeneralSerializationProcessor processor =
+        ICspSerializationProcessor processor =
             cspDataGeneralSerializationProcessorFactory.createGeneralSerializationProcessor(
                 cspSerializationBuffer, cspProcessorRegistry, message);
         return message;

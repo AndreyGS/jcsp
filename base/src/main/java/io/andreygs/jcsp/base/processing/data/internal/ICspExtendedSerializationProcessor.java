@@ -23,22 +23,29 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
+package io.andreygs.jcsp.base.processing.data.internal;
 
-import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
-import io.andreygs.jcsp.base.processing.data.internal.ICspProcessorRegistry;
-import io.andreygs.jcsp.base.processing.data.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflow;
+import io.andreygs.jcsp.base.processing.data.ICspSerializationProcessor;
 import io.andreygs.jcsp.base.processing.data.types.internal.ICspTypeSerializationProcessor;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * TODO: place description here
  */
-public final class  CspMessageBuilderFactory implements ICspMessageBuilderFactory
+public interface ICspExtendedSerializationProcessor extends ICspSerializationProcessor
 {
-    public ICspDataMessageBuilder createCspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>> cspSerializationProcessorRegistry)
-    {
-        return new CspDataMessageBuilder(serializationWorkflow, cspSerializationProcessorRegistry);
-    }
+    void serialize(@Nullable Object value, boolean reference,
+        Map<String, ICspTypeSerializationProcessor<?>> genericTypeProcessors);
+
+    void serialize(@Nullable Object @Nullable [] value, boolean reference, boolean fixedSize,
+        ICspTypeSerializationProcessor<?> itemTypeProcessor);
+
+    void serialize(@Nullable Collection<@Nullable Object> value, boolean reference,
+        ICspTypeSerializationProcessor<?> itemTypeProcessor);
+
+    void serialize(@Nullable Map<@Nullable Object, @Nullable Object> value, boolean reference,
+        ICspTypeSerializationProcessor<?> valueTypeProcessor, ICspTypeSerializationProcessor<?> keyTypeProcessor);
 }

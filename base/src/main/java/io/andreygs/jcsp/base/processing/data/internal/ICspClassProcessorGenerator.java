@@ -23,22 +23,30 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
+package io.andreygs.jcsp.base.processing.data.internal;
 
-import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
-import io.andreygs.jcsp.base.processing.data.internal.ICspProcessorRegistry;
-import io.andreygs.jcsp.base.processing.data.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflow;
-import io.andreygs.jcsp.base.processing.data.types.internal.ICspTypeSerializationProcessor;
+import io.andreygs.jcsp.base.processing.data.types.annotations.CspCreateProcessor;
+import io.andreygs.jcsp.base.types.CspRuntimeException;
+import io.andreygs.jcsp.base.types.CspStatus;
 
 /**
- * TODO: place description here
+ * Generator of serialization and deserialization data processors.
+ * <p>
+ * It has immutable state.
  */
-public final class  CspMessageBuilderFactory implements ICspMessageBuilderFactory
+public interface ICspClassProcessorGenerator<P>
 {
-    public ICspDataMessageBuilder createCspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>> cspSerializationProcessorRegistry)
-    {
-        return new CspDataMessageBuilder(serializationWorkflow, cspSerializationProcessorRegistry);
-    }
+    /**
+     * Generates data processor.
+     * <p>
+     * Pure method.
+     *
+     * @param structClazz Class for which processor should be generated. It must contain
+     *                    {@link CspCreateProcessor}
+     *                    annotation.
+     * @return generated processor.
+     * @throws CspRuntimeException with status {@link CspStatus#NO_SUCH_HANDLER} if provided class has no
+     * {@link CspCreateProcessor} annotation.
+     */
+    P generateProcessor(Class<?> structClazz) throws CspRuntimeException;
 }

@@ -25,8 +25,9 @@
 
 package io.andreygs.jcsp.base.processing.annotations.internal;
 
-import io.andreygs.jcsp.base.processing.annotations.CspCreateProcessor;
-import io.andreygs.jcsp.base.processing.annotations.CspField;
+import io.andreygs.jcsp.base.processing.data.types.annotations.CspCreateProcessor;
+import io.andreygs.jcsp.base.processing.data.types.annotations.CspField;
+import io.andreygs.jcsp.base.processing.data.types.annotations.internal.CspAnnotationUtils;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;

@@ -28,7 +28,7 @@ package io.andreygs.jcsp.base.internal;
 import io.andreygs.jcsp.base.ICspSerializationSession;
 import io.andreygs.jcsp.base.ICspSerializationSessionFactory;
 import io.andreygs.jcsp.base.message.internal.CspMessageBuilderFactory;
-import io.andreygs.jcsp.base.processing.internal.CspDataProcessorRegistryFactory;
+import io.andreygs.jcsp.base.processing.data.internal.CspProcessorRegistryFactory;
 import io.andreygs.jcsp.base.processing.internal.SerializationWorkflowProvider;
 
 /**
@@ -43,6 +43,6 @@ public class CspSerializationSessionFactory
         return new CspSerializationSession(
             new SerializationWorkflowProvider().provideWorkflow(),
             new CspMessageBuilderFactory(),
-            new CspDataProcessorRegistryFactory().createProcessorRegistry());
+            new CspProcessorRegistryFactory().createProcessorRegistry());
     }
 }

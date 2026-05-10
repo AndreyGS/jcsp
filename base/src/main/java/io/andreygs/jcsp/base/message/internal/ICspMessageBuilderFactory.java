@@ -26,10 +26,10 @@
 package io.andreygs.jcsp.base.message.internal;
 
 import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
-import io.andreygs.jcsp.base.processing.internal.ICspDataProcessorRegistry;
-import io.andreygs.jcsp.base.processing.ICspDataSerializationProcessor;
+import io.andreygs.jcsp.base.processing.data.internal.ICspProcessorRegistry;
+import io.andreygs.jcsp.base.processing.data.ICspClassSerializationProcessor;
 import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflow;
-import io.andreygs.jcsp.base.processing.proxy.internal.ICspDataSerializationProxyProcessor;
+import io.andreygs.jcsp.base.processing.data.types.internal.ICspTypeSerializationProcessor;
 
 /**
  * TODO: place description here
@@ -37,5 +37,5 @@ import io.andreygs.jcsp.base.processing.proxy.internal.ICspDataSerializationProx
 public interface ICspMessageBuilderFactory
 {
     ICspDataMessageBuilder createCspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
-        ICspDataProcessorRegistry<ICspDataSerializationProcessor<?>, ICspDataSerializationProxyProcessor<?>> cspSerializationProcessorRegistry);
+        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>> cspSerializationProcessorRegistry);
 }

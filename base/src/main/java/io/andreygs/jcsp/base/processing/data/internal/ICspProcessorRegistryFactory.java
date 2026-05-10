@@ -23,22 +23,26 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
+package io.andreygs.jcsp.base.processing.data.internal;
 
-import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
-import io.andreygs.jcsp.base.processing.data.internal.ICspProcessorRegistry;
+import io.andreygs.jcsp.base.processing.data.ICspClassDeserializationProcessor;
 import io.andreygs.jcsp.base.processing.data.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflow;
+import io.andreygs.jcsp.base.processing.data.types.internal.ICspTypeDeserializationProcessor;
 import io.andreygs.jcsp.base.processing.data.types.internal.ICspTypeSerializationProcessor;
 
 /**
- * TODO: place description here
+ * Factory for creation {@link ICspProcessorRegistry}.
  */
-public final class  CspMessageBuilderFactory implements ICspMessageBuilderFactory
+public interface ICspProcessorRegistryFactory
 {
-    public ICspDataMessageBuilder createCspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>> cspSerializationProcessorRegistry)
-    {
-        return new CspDataMessageBuilder(serializationWorkflow, cspSerializationProcessorRegistry);
-    }
+    /**
+     * Creates {@link ICspProcessorRegistry}.
+     *
+     * @return created CSP processor registrar.
+     * @param <P> one of {@link ICspClassSerializationProcessor} or {@link ICspClassDeserializationProcessor},
+     *            depending on what kind of registry is created.
+     * @param <TP> one of {@link ICspTypeSerializationProcessor} or {@link ICspTypeDeserializationProcessor},
+     *             depending on what kind of registry is created.
+     */
+    <P, TP> ICspProcessorRegistry<P, TP> createProcessorRegistry();
 }

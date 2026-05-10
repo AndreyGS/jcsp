@@ -23,22 +23,27 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.base.message.internal;
+package io.andreygs.jcsp.base.processing.data.types.annotations;
 
-import io.andreygs.jcsp.base.message.ICspDataMessageBuilder;
-import io.andreygs.jcsp.base.processing.data.internal.ICspProcessorRegistry;
-import io.andreygs.jcsp.base.processing.data.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.base.processing.internal.ISerializationWorkflow;
-import io.andreygs.jcsp.base.processing.data.types.internal.ICspTypeSerializationProcessor;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * TODO: place description here
+ * Tag that field should be threatened as CSP pointer (Java reference) and not as embedded instance.
+ * <p>
+ * Make sense only for object types, not for primitives.
+ * <p>
+ * Note that word "reference" was chosen as more familiar to Java developers. But CSP specification has only "pointer"
+ * term, and you should consider that when you meet "reference" word it has meaning from CSP perspective as a single
+ * level pointer. For multi-level pointer you should use this annotation in conjunction with arrays (including
+ * multidimensional) with 1 element per dimension.
  */
-public final class  CspMessageBuilderFactory implements ICspMessageBuilderFactory
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE_PARAMETER, ElementType.TYPE_USE})
+public @interface CspReference
 {
-    public ICspDataMessageBuilder createCspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>> cspSerializationProcessorRegistry)
-    {
-        return new CspDataMessageBuilder(serializationWorkflow, cspSerializationProcessorRegistry);
-    }
 }
