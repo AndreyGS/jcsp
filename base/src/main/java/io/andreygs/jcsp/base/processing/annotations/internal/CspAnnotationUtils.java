@@ -39,31 +39,52 @@ import java.nio.charset.Charset;
 import java.util.Optional;
 
 /**
- * TODO: place description here
+ * Utils for getting settings for CSP serialization from CSP annotations.
+ * <p>
+ * Does not have any annotation value checking logic.
  */
 public class CspAnnotationUtils
 {
-    public static final int NON_CSP_FIELD = -1;
-    public static final int CSP_ARRAY_NOT_FIXED_SIZED = -1;
-
-    public static boolean shouldCreateProcessor(Class<?> clazz)
+    /**
+     * Does clazz is annotated with {@link CspCreateProcessor} annotation.
+     *
+     * @param clazz Clazz to test.
+     * @return true if clazz is annotated with {@link CspCreateProcessor} annotation and false otherwise.
+     */
+    public static boolean isCspCreateProcessor(Class<?> clazz)
     {
         return clazz.getDeclaredAnnotation(CspCreateProcessor.class) != null;
     }
 
-    public static int resolveCspFieldOrder(Field field)
+    /**
+     * Resolves serialization sequence number of field that is serialized with CSP.
+     *
+     * @param field Field possibly annotated with {@link CspField} which sequence number should be resolved.
+     * @return sequence number of CSP serialization belonging field that is set by {@link CspField} annotation or
+     * {@link Optional#empty()} if field should not be serialized with CSP.
+     */
+    public static Optional<Integer> resolveCspFieldSequence(Field field)
     {
-        Optional<CspField> cspFieldOrder = Optional.ofNullable(field.getDeclaredAnnotation(CspField.class));
-        return cspFieldOrder.map(CspField::value).orElse(NON_CSP_FIELD);
+        Optional<CspField> cspFieldSequence = Optional.ofNullable(field.getDeclaredAnnotation(CspField.class));
+        return cspFieldSequence.map(CspField::value);
     }
 
-    public static int resolveCspFixedArraySize(AnnotatedType annotatedType)
+    /**
+     * Resolves fixed array size.
+     * <p>
+     * Make sense to use it only for array types - for all others is meaningless.
+     *
+     * @param annotatedType Array type possibly annotated with {@link CspFixedSizeArray}.
+     * @return array fixed size or {@link Optional#empty()} if type does not have {@link CspFixedSizeArray} annotation.
+     */
+    public static Optional<Integer> resolveCspFixedArraySize(AnnotatedType annotatedType)
     {
         Optional<CspFixedSizeArray> cspFixedSizeArray =
             Optional.ofNullable(annotatedType.getDeclaredAnnotation(CspFixedSizeArray.class));
-        return cspFixedSizeArray.map(CspFixedSizeArray::value).orElse(CSP_ARRAY_NOT_FIXED_SIZED);
+        return cspFixedSizeArray.map(CspFixedSizeArray::value);
     }
 
+    
     public static Optional<Class<?>> resolveCspImplementationClass(AnnotatedType annotatedType)
     {
         Optional<CspImplementationClass> cspOverrideProcessor =

@@ -417,38 +417,38 @@ class CspDataProxyProcessorFactory<P> implements ICspDataProxyProcessorFactory<P
     private P createPrimitiveArrayProcessor(AnnotatedArrayType annotatedArrayType, Class<?> declaredClazz)
     {
         boolean reference = CspAnnotationUtils.isCspReference(annotatedArrayType);
-        int fixedSize = CspAnnotationUtils.resolveCspFixedArraySize(annotatedArrayType);
+        Optional<Integer> fixedSize = CspAnnotationUtils.resolveCspFixedArraySize(annotatedArrayType);
         if (declaredClazz == boolean[].class)
         {
-            return proxyProcessorFactory.createPrimitiveBooleanArrayProcessor(reference, fixedSize);
+            return proxyProcessorFactory.createPrimitiveBooleanArrayProcessor(reference, fixedSize.get());
         }
         else if (declaredClazz == byte[].class)
         {
-            return proxyProcessorFactory.createPrimitiveByteArrayProcessor(reference, fixedSize);
+            return proxyProcessorFactory.createPrimitiveByteArrayProcessor(reference, fixedSize.get());
         }
         else if (declaredClazz == short[].class)
         {
-            return proxyProcessorFactory.createPrimitiveShortArrayProcessor(reference, fixedSize);
+            return proxyProcessorFactory.createPrimitiveShortArrayProcessor(reference, fixedSize.get());
         }
         else if (declaredClazz == int[].class)
         {
-            return proxyProcessorFactory.createPrimitiveIntArrayProcessor(reference, fixedSize);
+            return proxyProcessorFactory.createPrimitiveIntArrayProcessor(reference, fixedSize.get());
         }
         else if (declaredClazz == long[].class)
         {
-            return proxyProcessorFactory.createPrimitiveLongArrayProcessor(reference, fixedSize);
+            return proxyProcessorFactory.createPrimitiveLongArrayProcessor(reference, fixedSize.get());
         }
         else if (declaredClazz == char[].class)
         {
-            return proxyProcessorFactory.createPrimitiveCharArrayProcessor(reference, fixedSize);
+            return proxyProcessorFactory.createPrimitiveCharArrayProcessor(reference, fixedSize.get());
         }
         else if (declaredClazz == float[].class)
         {
-            return proxyProcessorFactory.createPrimitiveFloatArrayProcessor(reference, fixedSize);
+            return proxyProcessorFactory.createPrimitiveFloatArrayProcessor(reference, fixedSize.get());
         }
         else if (declaredClazz == double[].class)
         {
-            return proxyProcessorFactory.createPrimitiveDoubleArrayProcessor(reference, fixedSize);
+            return proxyProcessorFactory.createPrimitiveDoubleArrayProcessor(reference, fixedSize.get());
         }
         else
         {
@@ -461,7 +461,7 @@ class CspDataProxyProcessorFactory<P> implements ICspDataProxyProcessorFactory<P
     private P createStringArrayProcessor(AnnotatedArrayType annotatedArrayType, AnnotatedType componentAnnotatedType)
     {
         boolean reference = CspAnnotationUtils.isCspReference(annotatedArrayType);
-        int fixedSize = CspAnnotationUtils.resolveCspFixedArraySize(annotatedArrayType);
+        int fixedSize = CspAnnotationUtils.resolveCspFixedArraySize(annotatedArrayType).get();
         boolean componentReference = CspAnnotationUtils.isCspReference(componentAnnotatedType);
         Charset componentCharset = requireStringCharset(componentAnnotatedType);
         return proxyProcessorFactory.createStringArrayProcessor(reference, fixedSize, componentReference,
@@ -472,7 +472,7 @@ class CspDataProxyProcessorFactory<P> implements ICspDataProxyProcessorFactory<P
         AnnotatedType componentAnnotatedType, Class<?> componentDeclaredClazz)
     {
         boolean reference = CspAnnotationUtils.isCspReference(annotatedArrayType);
-        int fixedSize = CspAnnotationUtils.resolveCspFixedArraySize(annotatedArrayType);
+        int fixedSize = CspAnnotationUtils.resolveCspFixedArraySize(annotatedArrayType).get();
         Class<?> componentProcessorClazz = selectProcessorClass(componentAnnotatedType, componentDeclaredClazz, true);
         boolean componentReference = CspAnnotationUtils.isCspReference(componentAnnotatedType);
         @Nullable Class<?> componentImplementationOverrideClazz = selectImplementationOverrideClass(
@@ -485,7 +485,7 @@ class CspDataProxyProcessorFactory<P> implements ICspDataProxyProcessorFactory<P
         AnnotatedType componentAnnotatedType)
     {
         boolean reference = CspAnnotationUtils.isCspReference(annotatedArrayType);
-        int fixedSize = CspAnnotationUtils.resolveCspFixedArraySize(annotatedArrayType);
+        int fixedSize = CspAnnotationUtils.resolveCspFixedArraySize(annotatedArrayType).get();
         P componentProcessor = createProcessorSwitch(componentAnnotatedType, true);
         return proxyProcessorFactory.createArrayProcessor(reference, fixedSize, componentProcessor);
     }

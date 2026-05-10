@@ -25,10 +25,12 @@
 
 package io.andreygs.jcsp.base.processing.annotations.internal;
 
+import io.andreygs.jcsp.base.processing.annotations.CspCreateProcessor;
 import io.andreygs.jcsp.base.processing.annotations.CspField;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -38,7 +40,30 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CspAnnotationUtilsTests
 {
     @Test
-    public void testResolveCspFieldOrder()
+    public void testIsCspCreateProcessorAnnotationExists()
+    {
+        @CspCreateProcessor
+        class TestClass
+        {
+        }
+
+        boolean result = CspAnnotationUtils.isCspCreateProcessor(TestClass.class);
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    public void testIsCspCreateProcessorAnnotationNotExists()
+    {
+        class TestClass
+        {
+        }
+
+        boolean result = CspAnnotationUtils.isCspCreateProcessor(TestClass.class);
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    public void testResolveCspFieldSequence()
     {
         class TestClass
         {
@@ -67,13 +92,14 @@ public class CspAnnotationUtilsTests
             throw new RuntimeException("Test corrupted - one of the fields in 'TestClass' are absent!");
         }
 
-        assertThat(CspAnnotationUtils.resolveCspFieldOrder(field0))
-            .isEqualTo(0);
-        assertThat(CspAnnotationUtils.resolveCspFieldOrder(field1))
-            .isEqualTo(1);
-        assertThat(CspAnnotationUtils.resolveCspFieldOrder(nonCspField0))
-            .isEqualTo(CspAnnotationUtils.NON_CSP_FIELD);
-        assertThat(CspAnnotationUtils.resolveCspFieldOrder(field2))
-            .isEqualTo(2);
+        Optional<Integer> orderField0 = CspAnnotationUtils.resolveCspFieldSequence(field0);
+        Optional<Integer> orderField1 = CspAnnotationUtils.resolveCspFieldSequence(field1);
+        Optional<Integer> orderNonCspField0 = CspAnnotationUtils.resolveCspFieldSequence(nonCspField0);
+        Optional<Integer> orderField2 = CspAnnotationUtils.resolveCspFieldSequence(field2);
+
+        assertThat(orderField0).contains(0);
+        assertThat(orderField1).contains(1);
+        assertThat(orderNonCspField0).isEmpty();
+        assertThat(orderField2).contains(2);
     }
 }

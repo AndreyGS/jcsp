@@ -43,7 +43,7 @@ abstract class AbstractCspDataProcessorGenerator<P, PP>
     @Override
     public P generateProcessor(Class<?> structClazz)
     {
-        if (!CspAnnotationUtils.shouldCreateProcessor(structClazz))
+        if (!CspAnnotationUtils.isCspCreateProcessor(structClazz))
         {
             throw CspRuntimeException.createCspRuntimeException(CspStatus.NO_SUCH_HANDLER,
                 structClazz.getName() + " is not annotated with " + CspCreateProcessor.class.getName());
@@ -61,7 +61,7 @@ abstract class AbstractCspDataProcessorGenerator<P, PP>
     private void produceProxyProcessors(Class<?> clazz, List<PP> proxyProcessors)
     {
         Class<?> parentClazz = clazz.getSuperclass();
-        if (CspAnnotationUtils.shouldCreateProcessor(parentClazz))
+        if (CspAnnotationUtils.isCspCreateProcessor(parentClazz))
         {
             addParentClass(parentClazz, proxyProcessors);
         }
