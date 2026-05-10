@@ -25,9 +25,11 @@
 
 package io.andreygs.jcsp.processing.data.internal;
 
-import io.andreygs.jcsp.processing.data.ICspClassDeserializationProcessor;
-import io.andreygs.jcsp.processing.data.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.processing.data.types.internal.ICspTypeSerializationProcessor;
+import io.andreygs.jcsp.api.processing.data.ICspClassDeserializationProcessor;
+import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.CspProcessorRegistry;
+import io.andreygs.jcsp.internal.processing.data.ICspProcessorRegistry;
+import io.andreygs.jcsp.internal.processing.data.types.ICspTypeSerializationProcessor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -125,14 +127,14 @@ public class CspProcessorRegistryTests
     }
 
     @Test
-    public void testfindProcessor()
+    public void testFindProcessor()
     {
         testRegisterProcessor();
     }
 
     @Test
     @SuppressWarnings("DataFlowIssue")
-    public void testfindProcessorNullClass()
+    public void testFindProcessorNullClass()
     {
         ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>>
             cspProcessorRegistry = new CspProcessorRegistry<>();

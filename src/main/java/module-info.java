@@ -27,11 +27,14 @@
 module io.andreygs.jcsp.base {
     requires transitive org.jetbrains.annotations;
 
-    exports io.andreygs.jcsp.message;
-    exports io.andreygs.jcsp.processing;
-    exports io.andreygs.jcsp.processing.buffer;
-    exports io.andreygs.jcsp.types;
-    exports io.andreygs.jcsp;
-    exports io.andreygs.jcsp.processing.data;
-    exports io.andreygs.jcsp.processing.data.types;
+    exports io.andreygs.jcsp.api.controller;
+    exports io.andreygs.jcsp.api.factories.controller;
+    exports io.andreygs.jcsp.api.model.buffers;
+    exports io.andreygs.jcsp.api.model.exceptions;
+    exports io.andreygs.jcsp.api.model.protocol;
+    exports io.andreygs.jcsp.api.model.protocol.utils;
+    exports io.andreygs.jcsp.api.model.protocol.messages;
+    exports io.andreygs.jcsp.api.model.protocol.messages.builders;
+    exports io.andreygs.jcsp.api.processing;
+    exports io.andreygs.jcsp.api.processing.data;
 }

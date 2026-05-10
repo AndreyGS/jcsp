@@ -25,10 +25,13 @@
 
 package io.andreygs.jcsp.processing.data.internal;
 
-import io.andreygs.jcsp.message.ICspDataMessage;
-import io.andreygs.jcsp.processing.data.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.processing.buffer.internal.ICspSerializationBuffer;
-import io.andreygs.jcsp.processing.data.types.internal.ICspTypeSerializationProcessor;
+import io.andreygs.jcsp.api.model.protocol.messages.ICspDataMessage;
+import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
+import io.andreygs.jcsp.internal.model.buffers.ICspSerializationBuffer;
+import io.andreygs.jcsp.internal.processing.data.CspSerializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.ICspClassProcessorGenerator;
+import io.andreygs.jcsp.internal.processing.data.ICspProcessorRegistry;
+import io.andreygs.jcsp.internal.processing.data.types.ICspTypeSerializationProcessor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

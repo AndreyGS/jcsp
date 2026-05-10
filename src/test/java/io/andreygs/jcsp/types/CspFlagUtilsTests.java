@@ -25,6 +25,9 @@
 
 package io.andreygs.jcsp.types;
 
+import io.andreygs.jcsp.api.model.protocol.CspCommonFlag;
+import io.andreygs.jcsp.api.model.protocol.CspDataFlag;
+import io.andreygs.jcsp.api.model.protocol.utils.CspFlagUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

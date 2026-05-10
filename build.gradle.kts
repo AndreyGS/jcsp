@@ -14,7 +14,7 @@ java {
 sourceSets {
     main {
         java {
-            exclude("io/andreygs/jcsp/processing/composite/**")
+            exclude("io/andreygs/jcsp/internal/processing/data/types/model/**")
         }
     }
 }

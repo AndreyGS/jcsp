@@ -26,6 +26,9 @@
 package io.andreygs.jcsp.processing.buffer.internal;
 
 import io.andreygs.jcsp.CommonUtils;
+import io.andreygs.jcsp.internal.model.buffers.CspDeserializationBuffer;
+import io.andreygs.jcsp.internal.model.buffers.ICspBuffer;
+import io.andreygs.jcsp.internal.model.buffers.ICspDeserializationBuffer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

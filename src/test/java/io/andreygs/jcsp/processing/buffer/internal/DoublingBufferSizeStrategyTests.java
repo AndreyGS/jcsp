@@ -25,7 +25,8 @@
 
 package io.andreygs.jcsp.processing.buffer.internal;
 
-import io.andreygs.jcsp.processing.buffer.IBufferResizeStrategy;
+import io.andreygs.jcsp.internal.model.buffers.DoublingBufferSizeStrategy;
+import io.andreygs.jcsp.api.model.buffers.IBufferResizeStrategy;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
