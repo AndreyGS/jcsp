@@ -25,21 +25,21 @@
 
 package io.andreygs.jcsp.internal.processing;
 
-import io.andreygs.jcsp.api.model.protocol.messages.ICspDataMessage;
+import io.andreygs.jcsp.api.model.protocol.message.ICspDataMessage;
 import io.andreygs.jcsp.api.processing.data.ICspSerializationProcessor;
-import io.andreygs.jcsp.internal.model.buffers.ICspSerializationBuffer;
-import io.andreygs.jcsp.internal.factories.model.processing.buffers.ICspSerializationBufferFactory;
+import io.andreygs.jcsp.internal.model.buffer.ICspSerializationBuffer;
+import io.andreygs.jcsp.internal.factory.model.processing.buffer.ICspSerializationBufferFactory;
 import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.internal.factories.model.messages.ICspMessageFactory;
-import io.andreygs.jcsp.internal.factories.processing.data.ICspSerializationProcessorFactory;
+import io.andreygs.jcsp.internal.factory.model.message.ICspMessageFactory;
+import io.andreygs.jcsp.internal.factory.processing.data.ICspSerializationProcessorFactory;
 import io.andreygs.jcsp.internal.processing.data.ICspProcessorRegistry;
-import io.andreygs.jcsp.internal.processing.data.types.ICspTypeSerializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 import io.andreygs.jcsp.api.model.protocol.CspCommonFlag;
 import io.andreygs.jcsp.api.model.protocol.CspDataFlag;
 import io.andreygs.jcsp.api.model.protocol.ICspInterfaceVersion;
 import io.andreygs.jcsp.api.model.protocol.CspProtocolVersion;
 import io.andreygs.jcsp.api.model.protocol.ICspVersionable;
-import io.andreygs.jcsp.api.model.buffers.IBufferResizeStrategy;
+import io.andreygs.jcsp.api.model.buffer.IBufferResizeStrategy;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;

@@ -25,8 +25,8 @@
 
 package io.andreygs.jcsp.internal.model.protocol.messages;
 
-import io.andreygs.jcsp.api.model.protocol.messages.ICspDataMessage;
-import io.andreygs.jcsp.internal.model.buffers.ICspBuffer;
+import io.andreygs.jcsp.api.model.protocol.message.ICspDataMessage;
+import io.andreygs.jcsp.internal.model.buffer.ICspBuffer;
 import io.andreygs.jcsp.api.model.protocol.CspCommonFlag;
 import io.andreygs.jcsp.api.model.protocol.CspDataFlag;
 import io.andreygs.jcsp.api.model.protocol.CspMessageType;

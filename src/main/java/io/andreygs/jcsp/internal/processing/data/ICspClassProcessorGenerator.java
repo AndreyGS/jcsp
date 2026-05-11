@@ -25,8 +25,8 @@
 
 package io.andreygs.jcsp.internal.processing.data;
 
-import io.andreygs.jcsp.api.model.annotations.CspCreateProcessor;
-import io.andreygs.jcsp.api.model.exceptions.CspRuntimeException;
+import io.andreygs.jcsp.api.model.annotation.CspCreateProcessor;
+import io.andreygs.jcsp.api.model.exception.CspRuntimeException;
 import io.andreygs.jcsp.api.model.protocol.CspStatus;
 
 /**

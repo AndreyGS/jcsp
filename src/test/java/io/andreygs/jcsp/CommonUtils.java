@@ -25,10 +25,7 @@
 
 package io.andreygs.jcsp;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import java.lang.reflect.Field;
-import java.nio.ByteBuffer;
 
 /**
  * TODO: place description here

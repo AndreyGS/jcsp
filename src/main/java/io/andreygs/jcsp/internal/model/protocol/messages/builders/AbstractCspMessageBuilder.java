@@ -25,12 +25,12 @@
 
 package io.andreygs.jcsp.internal.model.protocol.messages.builders;
 
-import io.andreygs.jcsp.api.model.protocol.messages.builders.ICspMessageBuilder;
+import io.andreygs.jcsp.api.model.protocol.message.builder.ICspMessageBuilder;
 import io.andreygs.jcsp.internal.processing.ISerializationWorkflow;
 import io.andreygs.jcsp.api.model.protocol.CspCommonFlag;
 import io.andreygs.jcsp.api.model.protocol.CspProtocolVersion;
 import io.andreygs.jcsp.internal.model.utils.ArgumentChecker;
-import io.andreygs.jcsp.api.model.buffers.IBufferResizeStrategy;
+import io.andreygs.jcsp.api.model.buffer.IBufferResizeStrategy;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;

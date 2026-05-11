@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.api.factories.controller;
 
-import io.andreygs.jcsp.internal.factories.controller.CspSerializationSessionFactory;
+import io.andreygs.jcsp.internal.factory.controller.CspSerializationSessionFactory;
 
 import java.util.HashMap;
 import java.util.Map;

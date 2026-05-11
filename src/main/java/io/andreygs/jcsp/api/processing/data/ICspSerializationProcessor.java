@@ -28,7 +28,7 @@ package io.andreygs.jcsp.api.processing.data;
 import io.andreygs.jcsp.api.processing.ICspPrimitiveSerializationProcessor;
 import io.andreygs.jcsp.api.model.protocol.utils.CspTypeToken;
 import io.andreygs.jcsp.api.model.protocol.CspDataFlag;
-import io.andreygs.jcsp.api.model.exceptions.CspRuntimeException;
+import io.andreygs.jcsp.api.model.exception.CspRuntimeException;
 import io.andreygs.jcsp.api.model.protocol.CspStatus;
 import org.jetbrains.annotations.Nullable;
 

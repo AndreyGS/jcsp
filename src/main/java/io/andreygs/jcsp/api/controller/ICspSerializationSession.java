@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.api.controller;
 
-import io.andreygs.jcsp.api.model.protocol.messages.builders.ICspDataMessageBuilder;
+import io.andreygs.jcsp.api.model.protocol.message.builder.ICspDataMessageBuilder;
 import io.andreygs.jcsp.api.model.protocol.utils.CspTypeToken;
 import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
 

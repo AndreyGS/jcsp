@@ -25,19 +25,19 @@
 
 package io.andreygs.jcsp.internal.model.protocol.messages.builders;
 
-import io.andreygs.jcsp.api.model.protocol.messages.ICspDataMessage;
-import io.andreygs.jcsp.api.model.protocol.messages.builders.ICspDataMessageBuilder;
+import io.andreygs.jcsp.api.model.protocol.message.ICspDataMessage;
+import io.andreygs.jcsp.api.model.protocol.message.builder.ICspDataMessageBuilder;
 import io.andreygs.jcsp.internal.processing.data.ICspProcessorRegistry;
 import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
 import io.andreygs.jcsp.internal.processing.ISerializationWorkflow;
-import io.andreygs.jcsp.internal.processing.data.types.ICspTypeSerializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 import io.andreygs.jcsp.api.model.protocol.CspCommonFlag;
 import io.andreygs.jcsp.api.model.protocol.CspDataFlag;
 import io.andreygs.jcsp.api.model.protocol.ICspInterfaceVersion;
 import io.andreygs.jcsp.api.model.protocol.CspProtocolVersion;
 import io.andreygs.jcsp.api.model.protocol.ICspVersionable;
 import io.andreygs.jcsp.internal.model.utils.ArgumentChecker;
-import io.andreygs.jcsp.api.model.buffers.IBufferResizeStrategy;
+import io.andreygs.jcsp.api.model.buffer.IBufferResizeStrategy;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;

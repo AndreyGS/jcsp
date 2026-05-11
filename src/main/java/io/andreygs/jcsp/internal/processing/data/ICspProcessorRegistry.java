@@ -30,9 +30,9 @@ import io.andreygs.jcsp.api.processing.data.ICspClassDeserializationProcessor;
 import io.andreygs.jcsp.api.processing.data.ICspDeserializationProcessor;
 import io.andreygs.jcsp.api.processing.data.ICspSerializationProcessor;
 import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.api.model.annotations.CspCreateProcessor;
-import io.andreygs.jcsp.internal.processing.data.types.ICspTypeDeserializationProcessor;
-import io.andreygs.jcsp.internal.processing.data.types.ICspTypeSerializationProcessor;
+import io.andreygs.jcsp.api.model.annotation.CspCreateProcessor;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeDeserializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 
 import java.lang.reflect.AnnotatedType;
 import java.util.List;
