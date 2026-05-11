@@ -35,6 +35,8 @@ import io.andreygs.jcsp.internal.processing.data.type.ICspTypeDeserializationPro
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 
 import java.lang.reflect.AnnotatedType;
+import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -86,7 +88,8 @@ public interface ICspProcessorRegistry<P, TP>
      *
      * @param clazz Class that processor should handle.
      * @param processor Processor that will be used in serialization or deserialization process.
-     * @throws IllegalArgumentException if clazz is primitive, array or enum.
+     * @throws IllegalArgumentException if clazz is primitive or array, also if clazz is one of forbidden to override
+     * classes: {@link String}, {@link Collection}, {@link Map}.
      */
     void registerClassProcessor(Class<?> clazz, P processor);
 
@@ -107,7 +110,7 @@ public interface ICspProcessorRegistry<P, TP>
      * @param clazz Class which processor need to be found.
      * @return optional processor.
      */
-    Optional<P> findOrdinaryProcessor(Class<?> clazz);
+    Optional<P> findOrdinaryClassProcessor(Class<?> clazz);
 
     /**
      * Finds already registered processor for chosen generic class.
@@ -115,7 +118,7 @@ public interface ICspProcessorRegistry<P, TP>
      * @param clazz Class for which you need to find the processor holder and its parameters.
      * @return optional holder for class and its parameters.
      */
-    Optional<IGenericClassProcessorHolder<P>> findGenericProcessor(Class<?> clazz);
+    Optional<IGenericClassProcessorHolder<P>> findGenericClassProcessor(Class<?> clazz);
 
     /**
      * Finds already registered processor for chosen type.
@@ -134,9 +137,8 @@ public interface ICspProcessorRegistry<P, TP>
 
     /**
      * Unregisters processor for provided type token.
-     * .
      *
-     * @param cspTypeToken Type token for processor.
+     * @param annotatedType Type of processor.
      */
-    void unregisterTypeProcessor(CspTypeToken<?> cspTypeToken);
+    void unregisterTypeProcessor(AnnotatedType annotatedType);
 }

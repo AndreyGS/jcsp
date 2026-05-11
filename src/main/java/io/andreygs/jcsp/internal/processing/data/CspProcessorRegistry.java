@@ -25,14 +25,12 @@
 
 package io.andreygs.jcsp.internal.processing.data;
 
-import io.andreygs.jcsp.api.model.protocol.utils.CspTypeToken;
-
 import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -51,11 +49,13 @@ public final class CspProcessorRegistry<P, TP>
     @Override
     public void registerClassProcessor(Class<?> clazz, P classProcessor)
     {
-        Objects.requireNonNull(clazz, "clazz");
-        Objects.requireNonNull(classProcessor, "classProcessor");
-        if (clazz.isPrimitive() || clazz.isArray() || clazz.isEnum())
+        if (clazz.isPrimitive() || clazz.isArray())
         {
-            throw new IllegalArgumentException("Only ordinary and generic classes can be added!");
+            throw new IllegalArgumentException(Messages.CspProcessorRegistry_Illegal_type_group);
+        }
+        if (clazz == String.class || clazz == Collection.class || clazz == Map.class)
+        {
+            throw new IllegalArgumentException(Messages.CspProcessorRegistry_Illegal_class);
         }
         if (clazz.getTypeParameters().length == 0)
         {
@@ -74,18 +74,17 @@ public final class CspProcessorRegistry<P, TP>
     @Override
     public void registerTypeProcessor(AnnotatedType annotatedType, TP typeProcessor)
     {
-        typeProcessors.put(Objects.requireNonNull(annotatedType, "annotatedType"),
-            Objects.requireNonNull(typeProcessor, "typeProcessor"));
+        typeProcessors.put(annotatedType, typeProcessor);
     }
 
     @Override
-    public Optional<P> findOrdinaryProcessor(Class<?> clazz)
+    public Optional<P> findOrdinaryClassProcessor(Class<?> clazz)
     {
          return Optional.ofNullable(ordinaryClassProcessors.get(clazz));
     }
 
     @Override
-    public Optional<IGenericClassProcessorHolder<P>> findGenericProcessor(Class<?> clazz)
+    public Optional<IGenericClassProcessorHolder<P>> findGenericClassProcessor(Class<?> clazz)
     {
         return Optional.ofNullable(genericClassProcessors.get(clazz));
     }
@@ -110,9 +109,9 @@ public final class CspProcessorRegistry<P, TP>
     }
 
     @Override
-    public void unregisterTypeProcessor(CspTypeToken<?> cspTypeToken)
+    public void unregisterTypeProcessor(AnnotatedType annotatedType)
     {
-        typeProcessors.remove(cspTypeToken.getAnnotatedType());
+        typeProcessors.remove(annotatedType);
     }
 
     private static class GenericClassProcessorHolder<P> implements IGenericClassProcessorHolder<P>

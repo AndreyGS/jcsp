@@ -25,17 +25,26 @@
 
 package io.andreygs.jcsp.internal.processing.data;
 
+import io.andreygs.jcsp.api.model.annotation.CspFixedSizeArray;
+import io.andreygs.jcsp.api.model.annotation.CspImplementationClass;
+import io.andreygs.jcsp.api.model.annotation.CspReference;
+import io.andreygs.jcsp.api.model.annotation.CspString;
+import io.andreygs.jcsp.api.model.protocol.utils.CspTypeToken;
 import io.andreygs.jcsp.api.processing.data.ICspClassDeserializationProcessor;
 import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeDeserializationProcessor;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.Instant;
+import java.lang.reflect.AnnotatedType;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -47,23 +56,102 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class CspProcessorRegistryTests
 {
     @Mock
-    private ICspClassSerializationProcessor<?> cspSerializationProcessor;
+    private ICspClassSerializationProcessor<?> classSerializationProcessor;
     @Mock
-    private ICspClassDeserializationProcessor<?> cspDeserializationProcessor;
+    private ICspClassDeserializationProcessor<?> classDeserializationProcessor;
     @Mock
-    private ICspClassSerializationProcessor<Instant> cspSerializationProcessorForInstant;
+    private ICspTypeSerializationProcessor typeSerializationProcessor;
+    @Mock
+    private ICspTypeDeserializationProcessor typeDeserializationProcessor;
 
     @Test
-    public void testRegisterClassProcessor()
+    public void testRegisterClassProcessorOrdinary()
     {
         ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
             cspProcessorRegistry = new CspProcessorRegistry<>();
 
-        assertThat(cspProcessorRegistry.findOrdinaryProcessor(List.class)).isEmpty();
+        assertThat(cspProcessorRegistry.findOrdinaryClassProcessor(TestClass1.class)).isEmpty();
+        assertThat(cspProcessorRegistry.findOrdinaryClassProcessor(TestClass2.class)).isEmpty();
+        assertThat(cspProcessorRegistry.findOrdinaryClassProcessor(TestClass3.class)).isEmpty();
+        assertThat(cspProcessorRegistry.findOrdinaryClassProcessor(TestClass4.class)).isEmpty();
 
-        cspProcessorRegistry.registerClassProcessor(List.class, cspSerializationProcessor);
+        ICspClassSerializationProcessor<?> classProcessor2 = (value, processor) -> {};
+        ICspClassSerializationProcessor<?> classProcessor3 = (value, processor) -> {};
+        ICspClassSerializationProcessor<?> classProcessor4 = (value, processor) -> {};
 
-        assertThat(cspProcessorRegistry.findGenericProcessor(List.class)).isPresent();
+        cspProcessorRegistry.registerClassProcessor(TestClass1.class, classSerializationProcessor);
+        cspProcessorRegistry.registerClassProcessor(TestClass2.class, classProcessor2);
+        cspProcessorRegistry.registerClassProcessor(TestClass3.class, classProcessor3);
+        cspProcessorRegistry.registerClassProcessor(TestClass4.class, classProcessor4);
+
+        assertThat(cspProcessorRegistry.findOrdinaryClassProcessor(TestClass1.class))
+            .contains(classSerializationProcessor);
+        assertThat(cspProcessorRegistry.findOrdinaryClassProcessor(TestClass2.class))
+            .contains(classProcessor2);
+        assertThat(cspProcessorRegistry.findOrdinaryClassProcessor(TestClass3.class))
+            .contains(classProcessor3);
+        assertThat(cspProcessorRegistry.findOrdinaryClassProcessor(TestClass4.class))
+            .contains(classProcessor4);
+    }
+
+    @Test
+    public void testRegisterClassProcessorGeneric()
+    {
+        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
+            cspProcessorRegistry = new CspProcessorRegistry<>();
+
+        assertThat(cspProcessorRegistry.findOrdinaryClassProcessor(TestGenericClass1.class)).isEmpty();
+        assertThat(cspProcessorRegistry.findOrdinaryClassProcessor(TestGenericClass2.class)).isEmpty();
+        assertThat(cspProcessorRegistry.findOrdinaryClassProcessor(TestGenericClass3.class)).isEmpty();
+        assertThat(cspProcessorRegistry.findOrdinaryClassProcessor(TestGenericClass4.class)).isEmpty();
+
+        ICspClassSerializationProcessor<?> classProcessor2 = (value, processor) -> {};
+        ICspClassSerializationProcessor<?> classProcessor3 = (value, processor) -> {};
+        ICspClassSerializationProcessor<?> classProcessor4 = (value, processor) -> {};
+
+        cspProcessorRegistry.registerClassProcessor(TestGenericClass1.class, classSerializationProcessor);
+        cspProcessorRegistry.registerClassProcessor(TestGenericClass2.class, classProcessor2);
+        cspProcessorRegistry.registerClassProcessor(TestGenericClass3.class, classProcessor3);
+        cspProcessorRegistry.registerClassProcessor(TestGenericClass4.class, classProcessor4);
+
+        Optional<IGenericClassProcessorHolder<ICspClassSerializationProcessor<?>>> classProcessorHolder1 =
+            cspProcessorRegistry.findGenericClassProcessor(TestGenericClass1.class);
+        Optional<IGenericClassProcessorHolder<ICspClassSerializationProcessor<?>>> classProcessorHolder2 =
+            cspProcessorRegistry.findGenericClassProcessor(TestGenericClass2.class);
+        Optional<IGenericClassProcessorHolder<ICspClassSerializationProcessor<?>>> classProcessorHolder3 =
+            cspProcessorRegistry.findGenericClassProcessor(TestGenericClass3.class);
+        Optional<IGenericClassProcessorHolder<ICspClassSerializationProcessor<?>>> classProcessorHolder4 =
+            cspProcessorRegistry.findGenericClassProcessor(TestGenericClass4.class);
+
+        assertThat(classProcessorHolder1).isPresent();
+        assertThat(classProcessorHolder2).isPresent();
+        assertThat(classProcessorHolder3).isPresent();
+        assertThat(classProcessorHolder4).isPresent();
+
+        ICspClassSerializationProcessor<?> classProcessor1Result = classProcessorHolder1.get().getClassProcessor();
+        ICspClassSerializationProcessor<?> classProcessor2Result = classProcessorHolder2.get().getClassProcessor();
+        ICspClassSerializationProcessor<?> classProcessor3Result = classProcessorHolder3.get().getClassProcessor();
+        ICspClassSerializationProcessor<?> classProcessor4Result = classProcessorHolder4.get().getClassProcessor();
+
+        assertThat(classProcessor1Result).isEqualTo(classSerializationProcessor);
+        assertThat(classProcessorHolder1).map(IGenericClassProcessorHolder::getTypeVariableNames)
+                                         .contains(List.of("X", "V"));
+        assertThat(classProcessor2Result).isEqualTo(classProcessor2);
+        assertThat(classProcessorHolder2).map(IGenericClassProcessorHolder::getTypeVariableNames)
+                                         .contains(List.of("W", "E"));
+        assertThat(classProcessor3Result).isEqualTo(classProcessor3);
+        assertThat(classProcessorHolder3).map(IGenericClassProcessorHolder::getTypeVariableNames)
+                                         .contains(List.of("K"));
+        assertThat(classProcessor4Result).isEqualTo(classProcessor4);
+        assertThat(classProcessorHolder4).map(IGenericClassProcessorHolder::getTypeVariableNames)
+                                         .contains(List.of("P", "M"));
+
+        // Next alternative triggers IDEA statical analyzer on .contains(...) line.
+        // Because of this it replaced with current code.
+        // assertThat(cspProcessorRegistry.findGenericProcessor(clazz))
+        //            .isPresent()
+        //            .map(IGenericClassProcessorHolder::getClassProcessor)
+        //            .contains(classSerializationProcessor);
     }
 
     @Test
@@ -73,7 +161,7 @@ public class CspProcessorRegistryTests
         ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
             cspProcessorRegistry = new CspProcessorRegistry<>();
 
-        assertThatThrownBy(() -> cspProcessorRegistry.registerClassProcessor(null, cspSerializationProcessor))
+        assertThatThrownBy(() -> cspProcessorRegistry.registerClassProcessor(null, classSerializationProcessor))
             .isInstanceOf(NullPointerException.class);
     }
 
@@ -84,37 +172,227 @@ public class CspProcessorRegistryTests
         ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
             cspProcessorRegistry = new CspProcessorRegistry<>();
 
-        assertThatThrownBy(() -> cspProcessorRegistry.registerClassProcessor(Instant.class, null))
+        assertThatThrownBy(() -> cspProcessorRegistry.registerClassProcessor(TestClass1.class, null))
             .isInstanceOf(NullPointerException.class);
     }
 
     @Test
-    public void testRegisterClassProcessorReplace()
+    public void testRegisterClassProcessorForbiddenClassGroup()
     {
         ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
             cspProcessorRegistry = new CspProcessorRegistry<>();
 
-        Class<?> clazz = Instant.class;
-        cspProcessorRegistry.registerClassProcessor(clazz, (value, processor) -> {});
-        cspProcessorRegistry.registerClassProcessor(clazz, cspSerializationProcessorForInstant);
-
-        assertThat(cspProcessorRegistry.findOrdinaryProcessor(clazz)).containsSame(cspSerializationProcessorForInstant);
+        assertThatThrownBy(() -> cspProcessorRegistry.registerClassProcessor(int.class, classSerializationProcessor))
+            .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> cspProcessorRegistry.registerClassProcessor(TestGenericClass1[].class, classSerializationProcessor))
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    public void testUnregisterClassProcessor()
+    public void testRegisterClassProcessorForbiddenClass()
     {
-        ICspProcessorRegistry<ICspClassDeserializationProcessor<?>, ICspTypeSerializationProcessor>
+        ICspProcessorRegistry<ICspClassDeserializationProcessor<?>, ICspTypeDeserializationProcessor>
             cspProcessorRegistry = new CspProcessorRegistry<>();
-        cspProcessorRegistry.registerClassProcessor(Instant.class, cspDeserializationProcessor);
-        cspProcessorRegistry.unregisterClassProcessor(Instant.class);
 
-        assertThat(cspProcessorRegistry.findOrdinaryProcessor(Instant.class)).isEmpty();
+        assertThatThrownBy(() -> cspProcessorRegistry.registerClassProcessor(String.class,
+            classDeserializationProcessor))
+            .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> cspProcessorRegistry.registerClassProcessor(Collection.class,
+            classDeserializationProcessor))
+            .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> cspProcessorRegistry.registerClassProcessor(Map.class, classDeserializationProcessor))
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    @SuppressWarnings("DataFlowIssue")
-    public void testUnregisterClassProcessorNullClass()
+    public void testRegisterClassProcessorReplaceOrdinary()
+    {
+        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
+            cspProcessorRegistry = new CspProcessorRegistry<>();
+
+        cspProcessorRegistry.registerClassProcessor(TestClass1.class, (value, processor) -> {});
+        cspProcessorRegistry.registerClassProcessor(TestClass1.class, classSerializationProcessor);
+
+        assertThat(cspProcessorRegistry.findOrdinaryClassProcessor(TestClass1.class)).containsSame(classSerializationProcessor);
+    }
+
+    @Test
+    public void testRegisterClassProcessorReplaceGeneric()
+    {
+        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
+            cspProcessorRegistry = new CspProcessorRegistry<>();
+
+        cspProcessorRegistry.registerClassProcessor(TestGenericClass1.class, (value, processor) -> {});
+        cspProcessorRegistry.registerClassProcessor(TestGenericClass1.class, classSerializationProcessor);
+
+        Optional<IGenericClassProcessorHolder<ICspClassSerializationProcessor<?>>> classProcessorHolder =
+            cspProcessorRegistry.findGenericClassProcessor(TestGenericClass1.class);
+
+        assertThat(classProcessorHolder).isPresent();
+
+        ICspClassSerializationProcessor<?> classProcessor = classProcessorHolder.get().getClassProcessor();
+
+        assertThat(classProcessor).isEqualTo(classSerializationProcessor);
+
+        // Next alternative triggers IDEA statical analyzer on .contains(...) line.
+        // Because of this it replaced with current code.
+        // assertThat(cspProcessorRegistry.findGenericProcessor(clazz))
+        //            .isPresent()
+        //            .map(IGenericClassProcessorHolder::getClassProcessor)
+        //            .contains(classSerializationProcessor);
+    }
+
+    @Test
+    public void testRegisterTypeProcessor()
+    {
+        ICspProcessorRegistry<ICspClassDeserializationProcessor<?>, ICspTypeDeserializationProcessor>
+            cspProcessorRegistry = new CspProcessorRegistry<>();
+
+        AnnotatedType annotatedType1 =
+            new CspTypeToken<List<Map<@CspReference @CspString("UTF16-BE") String, @CspImplementationClass(ConcurrentHashMap.class) Map<int @CspFixedSizeArray(1) @CspReference [], Long>>>>(){}.getAnnotatedType();
+        AnnotatedType annotatedType2 =
+            new CspTypeToken<List<Map<@CspString("UTF16-BE") String, @CspImplementationClass(ConcurrentHashMap.class) Map<int @CspFixedSizeArray(1) @CspReference [], Long>>>>(){}.getAnnotatedType();
+        AnnotatedType annotatedType3 =
+            new CspTypeToken<List<Long>>(){}.getAnnotatedType();
+        AnnotatedType annotatedType4 =
+            new CspTypeToken<@CspReference @CspString("UTF16-BE") String>(){}.getAnnotatedType();
+
+        assertThat(cspProcessorRegistry.findTypeProcessor(annotatedType1)).isEmpty();
+        assertThat(cspProcessorRegistry.findTypeProcessor(annotatedType2)).isEmpty();
+        assertThat(cspProcessorRegistry.findTypeProcessor(annotatedType3)).isEmpty();
+        assertThat(cspProcessorRegistry.findTypeProcessor(annotatedType4)).isEmpty();
+
+        ICspTypeDeserializationProcessor typeProcessor2 = (value, extendedProcessor) -> null;
+        ICspTypeDeserializationProcessor typeProcessor3 = (value, extendedProcessor) -> null;
+        ICspTypeDeserializationProcessor typeProcessor4 = (value, extendedProcessor) -> null;
+
+        cspProcessorRegistry.registerTypeProcessor(annotatedType1, typeDeserializationProcessor);
+        cspProcessorRegistry.registerTypeProcessor(annotatedType2, typeProcessor2);
+        cspProcessorRegistry.registerTypeProcessor(annotatedType3, typeProcessor3);
+        cspProcessorRegistry.registerTypeProcessor(annotatedType4, typeProcessor4);
+
+        assertThat(cspProcessorRegistry.findTypeProcessor(annotatedType1)).containsSame(typeDeserializationProcessor);
+        assertThat(cspProcessorRegistry.findTypeProcessor(annotatedType2)).containsSame(typeProcessor2);
+        assertThat(cspProcessorRegistry.findTypeProcessor(annotatedType3)).containsSame(typeProcessor3);
+        assertThat(cspProcessorRegistry.findTypeProcessor(annotatedType4)).containsSame(typeProcessor4);
+    }
+
+    @Test
+    @SuppressWarnings("DataFlowIssue" /* "Contract nullness violation" */)
+    public void testRegisterTypeProcessorNullType()
+    {
+        ICspProcessorRegistry<ICspClassDeserializationProcessor<?>, ICspTypeDeserializationProcessor>
+            cspProcessorRegistry = new CspProcessorRegistry<>();
+
+        assertThatThrownBy(() -> cspProcessorRegistry.registerTypeProcessor(null, typeDeserializationProcessor))
+            .isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    @SuppressWarnings("DataFlowIssue" /* "Contract nullness violation" */)
+    public void testRegisterTypeProcessorNullProcessor()
+    {
+        ICspProcessorRegistry<ICspClassDeserializationProcessor<?>, ICspTypeDeserializationProcessor>
+            cspProcessorRegistry = new CspProcessorRegistry<>();
+
+        AnnotatedType annotatedType =
+            new CspTypeToken<@CspReference @CspString("UTF16-BE") String>(){}.getAnnotatedType();
+
+        assertThatThrownBy(() -> cspProcessorRegistry.registerTypeProcessor(annotatedType, null))
+            .isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    public void testRegisterTypeProcessorReplace()
+    {
+        ICspProcessorRegistry<ICspClassDeserializationProcessor<?>, ICspTypeDeserializationProcessor>
+            cspProcessorRegistry = new CspProcessorRegistry<>();
+
+        AnnotatedType annotatedType =
+            new CspTypeToken<@CspReference @CspString("UTF16-BE") String>(){}.getAnnotatedType();
+
+        cspProcessorRegistry.registerTypeProcessor(annotatedType, (value, extendedProcessor) -> null);
+        cspProcessorRegistry.registerTypeProcessor(annotatedType, typeDeserializationProcessor);
+
+        assertThat(cspProcessorRegistry.findTypeProcessor(annotatedType)).containsSame(typeDeserializationProcessor);
+    }
+
+    @Test
+    public void testFindOrdinaryClassProcessor()
+    {
+        testRegisterClassProcessorOrdinary();
+    }
+
+    @Test
+    @SuppressWarnings("DataFlowIssue" /* "Contract nullness violation" */)
+    public void testFindOrdinaryClassProcessorNullClass()
+    {
+        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
+            cspProcessorRegistry = new CspProcessorRegistry<>();
+
+        assertThatThrownBy(() -> cspProcessorRegistry.findOrdinaryClassProcessor(null))
+            .isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    public void testFindGenericClassProcessor()
+    {
+        testRegisterClassProcessorGeneric();
+    }
+
+    @Test
+    @SuppressWarnings("DataFlowIssue" /* "Contract nullness violation" */)
+    public void testFindGenericClassProcessorNullClass()
+    {
+        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
+            cspProcessorRegistry = new CspProcessorRegistry<>();
+
+        assertThatThrownBy(() -> cspProcessorRegistry.findGenericClassProcessor(null))
+            .isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    public void testFindTypeProcessor()
+    {
+        testRegisterTypeProcessor();
+    }
+
+    @Test
+    @SuppressWarnings("DataFlowIssue" /* "Contract nullness violation" */)
+    public void testFindTypeProcessorNullType()
+    {
+        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
+            cspProcessorRegistry = new CspProcessorRegistry<>();
+
+        assertThatThrownBy(() -> cspProcessorRegistry.findTypeProcessor(null))
+            .isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    public void testUnregisterClassProcessorOrdinary()
+    {
+        ICspProcessorRegistry<ICspClassDeserializationProcessor<?>, ICspTypeDeserializationProcessor>
+            cspProcessorRegistry = new CspProcessorRegistry<>();
+        cspProcessorRegistry.registerClassProcessor(TestClass1.class, classDeserializationProcessor);
+        cspProcessorRegistry.unregisterClassProcessor(TestClass1.class);
+
+        assertThat(cspProcessorRegistry.findOrdinaryClassProcessor(TestClass1.class)).isEmpty();
+    }
+
+    @Test
+    public void testUnregisterClassProcessorGeneric()
+    {
+        ICspProcessorRegistry<ICspClassDeserializationProcessor<?>, ICspTypeDeserializationProcessor>
+            cspProcessorRegistry = new CspProcessorRegistry<>();
+        cspProcessorRegistry.registerClassProcessor(TestGenericClass1.class, classDeserializationProcessor);
+        cspProcessorRegistry.unregisterClassProcessor(TestGenericClass1.class);
+
+        assertThat(cspProcessorRegistry.findOrdinaryClassProcessor(TestGenericClass1.class)).isEmpty();
+    }
+
+    @Test
+    @SuppressWarnings("DataFlowIssue" /* "Contract nullness violation" */)
+    public void testUnregisterClassProcessorOrdinaryNullClass()
     {
         ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
             cspProcessorRegistry = new CspProcessorRegistry<>();
@@ -124,19 +402,57 @@ public class CspProcessorRegistryTests
     }
 
     @Test
-    public void testFindProcessor()
+    public void testUnregisterTypeProcessor()
     {
-        testRegisterClassProcessor();
+        ICspProcessorRegistry<ICspClassDeserializationProcessor<?>, ICspTypeDeserializationProcessor>
+            cspProcessorRegistry = new CspProcessorRegistry<>();
+
+        AnnotatedType annotatedType =
+            new CspTypeToken<@CspReference @CspString("UTF16-BE") String>(){}.getAnnotatedType();
+
+        cspProcessorRegistry.registerTypeProcessor(annotatedType, typeDeserializationProcessor);
+        cspProcessorRegistry.unregisterTypeProcessor(annotatedType);
+
+        assertThat(cspProcessorRegistry.findTypeProcessor(annotatedType)).isEmpty();
     }
 
     @Test
-    @SuppressWarnings("DataFlowIssue")
-    public void testFindProcessorNullClass()
+    @SuppressWarnings("DataFlowIssue" /* "Contract nullness violation" */)
+    public void testUnregisterTypeProcessorNullType()
     {
         ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
             cspProcessorRegistry = new CspProcessorRegistry<>();
 
-        assertThatThrownBy(() -> cspProcessorRegistry.findOrdinaryProcessor(null))
+        assertThatThrownBy(() -> cspProcessorRegistry.unregisterTypeProcessor(null))
             .isInstanceOf(NullPointerException.class);
+    }
+
+    static class TestClass1
+    {
+    }
+    static class TestClass2
+    {
+    }
+    static class TestClass3
+    {
+    }
+    static class TestClass4
+    {
+    }
+
+    static class TestGenericClass1<X, V>
+    {
+    }
+
+    static class TestGenericClass2<W, E>
+    {
+    }
+
+    static class TestGenericClass3<K>
+    {
+    }
+
+    static class TestGenericClass4<P, M>
+    {
     }
 }

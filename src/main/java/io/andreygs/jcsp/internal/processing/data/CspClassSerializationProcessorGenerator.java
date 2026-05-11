@@ -90,7 +90,7 @@ public final class CspClassSerializationProcessorGenerator
             else
             {
                 throw new IllegalArgumentException(
-                    Messages.ICspSerializationProcessor_not_extended_by_ICspExtendedSerializationProcessor);
+                    Messages.CspClassSerializationProcessorGenerator_ICspSerializationProcessor_is_invalid);
             }
         }
     }

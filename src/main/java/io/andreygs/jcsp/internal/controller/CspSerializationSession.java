@@ -68,7 +68,7 @@ public class CspSerializationSession implements ICspSerializationSession
     @Override
     public void unregisterTypeSerializationProcessor(CspTypeToken<?> cspTypeToken)
     {
-        processorRegistry.unregisterTypeProcessor(cspTypeToken);
+        processorRegistry.unregisterTypeProcessor(cspTypeToken.getAnnotatedType());
     }
 
     @Override
