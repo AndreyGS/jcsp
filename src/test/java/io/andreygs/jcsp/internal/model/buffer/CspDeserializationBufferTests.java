@@ -26,7 +26,6 @@
 package io.andreygs.jcsp.internal.model.buffer;
 
 import io.andreygs.jcsp.CommonUtils;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.nio.ByteBuffer;
@@ -47,8 +46,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class CspDeserializationBufferTests
 {
-    private final String ARRAYS_NOT_EQUAL_FAIL = "Written and deserialized arrays are not equal!";
-
     @Test
     public void testGetByteBuffer()
     {
@@ -66,12 +63,10 @@ public class CspDeserializationBufferTests
         ICspBuffer cspBuffer = new CspDeserializationBuffer(byteBuffer);
         cspBuffer.applyEndianness(ByteOrder.BIG_ENDIAN);
 
-        String applyEndiannessTestFailed = "Endianness applying to buffer was failed!";
-        
-        Assertions.assertEquals(ByteOrder.BIG_ENDIAN, cspBuffer.getByteBuffer().order(), applyEndiannessTestFailed);
+        assertThat(cspBuffer.getByteBuffer().order()).isEqualTo(ByteOrder.BIG_ENDIAN);
 
         cspBuffer.applyEndianness(ByteOrder.LITTLE_ENDIAN);
-        Assertions.assertEquals(ByteOrder.LITTLE_ENDIAN, cspBuffer.getByteBuffer().order(), applyEndiannessTestFailed);
+        assertThat(cspBuffer.getByteBuffer().order()).isEqualTo(ByteOrder.LITTLE_ENDIAN);
     }
 
     @Test
@@ -134,8 +129,8 @@ public class CspDeserializationBufferTests
         cspDeserializationBuffer.read(readValue1);
         cspDeserializationBuffer.read(readValue2);
 
-        Assertions.assertArrayEquals(value1, readValue1, ARRAYS_NOT_EQUAL_FAIL);
-        Assertions.assertArrayEquals(value2, readValue2, ARRAYS_NOT_EQUAL_FAIL);
+        assertThat(readValue1).isEqualTo(value1);
+        assertThat(readValue2).isEqualTo(value2);
     }
 
     @Test
@@ -161,8 +156,8 @@ public class CspDeserializationBufferTests
         cspDeserializationBuffer.read(readValue1);
         cspDeserializationBuffer.read(readValue2);
 
-        Assertions.assertArrayEquals(value1, readValue1, ARRAYS_NOT_EQUAL_FAIL);
-        Assertions.assertArrayEquals(value2, readValue2, ARRAYS_NOT_EQUAL_FAIL);
+        assertThat(readValue1).isEqualTo(value1);
+        assertThat(readValue2).isEqualTo(value2);
     }
 
     @Test
@@ -188,8 +183,8 @@ public class CspDeserializationBufferTests
         cspDeserializationBuffer.read(readValue1);
         cspDeserializationBuffer.read(readValue2);
 
-        Assertions.assertArrayEquals(value1, readValue1, ARRAYS_NOT_EQUAL_FAIL);
-        Assertions.assertArrayEquals(value2, readValue2, ARRAYS_NOT_EQUAL_FAIL);
+        assertThat(readValue1).isEqualTo(value1);
+        assertThat(readValue2).isEqualTo(value2);
     }
 
     @Test
@@ -215,8 +210,8 @@ public class CspDeserializationBufferTests
         cspDeserializationBuffer.read(readValue1);
         cspDeserializationBuffer.read(readValue2);
 
-        Assertions.assertArrayEquals(value1, readValue1, ARRAYS_NOT_EQUAL_FAIL);
-        Assertions.assertArrayEquals(value2, readValue2, ARRAYS_NOT_EQUAL_FAIL);
+        assertThat(readValue1).isEqualTo(value1);
+        assertThat(readValue2).isEqualTo(value2);
     }
 
     @Test
@@ -242,8 +237,8 @@ public class CspDeserializationBufferTests
         cspDeserializationBuffer.read(readValue1);
         cspDeserializationBuffer.read(readValue2);
 
-        Assertions.assertArrayEquals(value1, readValue1, ARRAYS_NOT_EQUAL_FAIL);
-        Assertions.assertArrayEquals(value2, readValue2, ARRAYS_NOT_EQUAL_FAIL);
+        assertThat(readValue1).isEqualTo(value1);
+        assertThat(readValue2).isEqualTo(value2);
     }
 
     @Test
@@ -269,8 +264,8 @@ public class CspDeserializationBufferTests
         cspDeserializationBuffer.read(readValue1);
         cspDeserializationBuffer.read(readValue2);
 
-        Assertions.assertArrayEquals(value1, readValue1, ARRAYS_NOT_EQUAL_FAIL);
-        Assertions.assertArrayEquals(value2, readValue2, ARRAYS_NOT_EQUAL_FAIL);
+        assertThat(readValue1).isEqualTo(value1);
+        assertThat(readValue2).isEqualTo(value2);
     }
 
     @Test
@@ -296,8 +291,8 @@ public class CspDeserializationBufferTests
         cspDeserializationBuffer.read(readValue1);
         cspDeserializationBuffer.read(readValue2);
 
-        Assertions.assertArrayEquals(value1, readValue1, ARRAYS_NOT_EQUAL_FAIL);
-        Assertions.assertArrayEquals(value2, readValue2, ARRAYS_NOT_EQUAL_FAIL);
+        assertThat(readValue1).isEqualTo(value1);
+        assertThat(readValue2).isEqualTo(value2);
     }
 
     private <T> void readPrimitive(T value1, T value2, BiConsumer<ByteBuffer, T> writeFunction,
@@ -310,8 +305,7 @@ public class CspDeserializationBufferTests
 
         ICspDeserializationBuffer cspDeserializationBuffer = new CspDeserializationBuffer(byteBuffer);
 
-        String primitivesNotEqualFail = "Written and deserialized primitives are not equal!";
-        Assertions.assertEquals(value1, readValueFunction.apply(cspDeserializationBuffer), primitivesNotEqualFail);
-        Assertions.assertEquals(value2, readValueFunction.apply(cspDeserializationBuffer), primitivesNotEqualFail);
+        assertThat(readValueFunction.apply(cspDeserializationBuffer)).isEqualTo(value1);
+        assertThat(readValueFunction.apply(cspDeserializationBuffer)).isEqualTo(value2);
     }
 }

@@ -27,11 +27,12 @@ package io.andreygs.jcsp.api.model.protocol.utils;
 
 import io.andreygs.jcsp.api.model.protocol.CspCommonFlag;
 import io.andreygs.jcsp.api.model.protocol.CspDataFlag;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit-tests for {@link CspFlagUtils}.
@@ -46,7 +47,7 @@ public class CspFlagUtilsTests
         int result = CspFlagUtils.calculateFlagMask(
             Stream.of(CspDataFlag.ALLOW_UNMANAGED_POINTERS, CspDataFlag.ALIGNMENT_MAY_BE_NOT_EQUAL));
 
-        Assertions.assertEquals(expected, result, "Masks do not match!");
+        assertThat(result).isEqualTo(expected);
     }
 
     @Test
@@ -57,7 +58,7 @@ public class CspFlagUtilsTests
         CspDataFlag[] cspDataFlags = {CspDataFlag.ALLOW_UNMANAGED_POINTERS, CspDataFlag.ALIGNMENT_MAY_BE_NOT_EQUAL};
         int result = CspFlagUtils.calculateFlagMask(cspDataFlags);
 
-        Assertions.assertEquals(expected, result, "Masks do not match!");
+        assertThat(result).isEqualTo(expected);
     }
 
     @Test
@@ -68,7 +69,7 @@ public class CspFlagUtilsTests
         int result = CspFlagUtils.calculateFlagMask(
             Set.of(CspDataFlag.ALLOW_UNMANAGED_POINTERS, CspDataFlag.ALIGNMENT_MAY_BE_NOT_EQUAL));
 
-        Assertions.assertEquals(expected, result, "Masks do not match!");
+        assertThat(result).isEqualTo(expected);
     }
 
     @Test
@@ -79,7 +80,7 @@ public class CspFlagUtilsTests
                            | CspDataFlag.ALIGNMENT_MAY_BE_NOT_EQUAL.getValue();
         boolean result = CspFlagUtils.isFlagSet(flagMask, CspDataFlag.ALLOW_UNMANAGED_POINTERS);
 
-        Assertions.assertEquals(expected, result, "Flag not set!");
+        assertThat(result).isEqualTo(expected);
     }
 
     @Test
@@ -88,8 +89,8 @@ public class CspFlagUtilsTests
         Set<CspCommonFlag> flags = Set.of(CspCommonFlag.BITNESS_32);
         StringBuilder descriptionBuilder = CspFlagUtils.evaluateFlagsStringDescription(CspCommonFlag.class, flags);
 
-        Assertions.assertTrue(descriptionBuilder.toString().contains(CspCommonFlag.BITNESS_32.getNameWhenSet()), "No flag info in description!");
-        Assertions.assertTrue(descriptionBuilder.toString().contains(CspCommonFlag.BITNESS_32.getFlagTypeName()), "No flag type info in description!");
+        assertThat(descriptionBuilder.toString().contains(CspCommonFlag.BITNESS_32.getNameWhenSet())).isTrue();
+        assertThat(descriptionBuilder.toString().contains(CspCommonFlag.BITNESS_32.getFlagTypeName())).isTrue();
     }
 
     @Test
@@ -98,8 +99,8 @@ public class CspFlagUtilsTests
         Set<CspCommonFlag> flags = Set.of();
         StringBuilder descriptionBuilder = CspFlagUtils.evaluateFlagsStringDescription(CspCommonFlag.class, flags);
 
-        Assertions.assertFalse(descriptionBuilder.toString().contains(CspCommonFlag.BITNESS_32.getNameWhenSet()), "flag info in description!");
-        Assertions.assertTrue(descriptionBuilder.toString().contains(CspCommonFlag.BITNESS_32.getFlagTypeName()), "No flag type info in description!");
+        assertThat(descriptionBuilder.toString().contains(CspCommonFlag.BITNESS_32.getNameWhenSet())).isFalse();
+        assertThat(descriptionBuilder.toString().contains(CspCommonFlag.BITNESS_32.getFlagTypeName())).isTrue();
     }
 
     @Test
@@ -108,10 +109,10 @@ public class CspFlagUtilsTests
         Set<CspCommonFlag> flags = Set.of(CspCommonFlag.BITNESS_32);
         StringBuilder descriptionBuilder = CspFlagUtils.evaluateFlagsStringDescription(CspCommonFlag.class, flags, false, true);
 
-        Assertions.assertTrue(descriptionBuilder.toString().contains(CspCommonFlag.BITNESS_32.getNameWhenSet()), "No flag info in description!");
-        Assertions.assertTrue(descriptionBuilder.toString().contains(CspCommonFlag.BIG_ENDIAN.getNameWhenUnset()), "No flag info in description!");
-        Assertions.assertTrue(descriptionBuilder.toString().contains(CspCommonFlag.ENDIANNESS_DIFFERENCE.getNameWhenUnset()), "No flag info in description!");
-        Assertions.assertTrue(descriptionBuilder.toString().contains(CspCommonFlag.BITNESS_32.getFlagTypeName()), "No flag type info in description!");
+        assertThat(descriptionBuilder.toString().contains(CspCommonFlag.BITNESS_32.getNameWhenSet())).isTrue();
+        assertThat(descriptionBuilder.toString().contains(CspCommonFlag.BIG_ENDIAN.getNameWhenUnset())).isTrue();
+        assertThat(descriptionBuilder.toString().contains(CspCommonFlag.ENDIANNESS_DIFFERENCE.getNameWhenUnset())).isTrue();
+        assertThat(descriptionBuilder.toString().contains(CspCommonFlag.BITNESS_32.getFlagTypeName())).isTrue();
     }
 
     @Test
@@ -120,6 +121,6 @@ public class CspFlagUtilsTests
         Set<CspCommonFlag> flags = Set.of();
         StringBuilder descriptionBuilder = CspFlagUtils.evaluateFlagsStringDescription(CspCommonFlag.class, flags, true, false);
 
-        Assertions.assertTrue(descriptionBuilder.isEmpty(), "Description is not empty!");
+        assertThat(descriptionBuilder.isEmpty()).isTrue();
     }
 }

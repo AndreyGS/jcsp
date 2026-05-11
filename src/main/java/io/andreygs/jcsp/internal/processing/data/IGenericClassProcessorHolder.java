@@ -25,14 +25,29 @@
 
 package io.andreygs.jcsp.internal.processing.data;
 
-import java.util.List;
+import io.andreygs.jcsp.api.processing.data.ICspClassDeserializationProcessor;
+import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
+
+import java.util.Set;
 
 /**
- * TODO: place description here
+ * Holder of generic class processor with set of its type variable names.
+ *
+ * @param <CP> {@link ICspClassSerializationProcessor} or {@link ICspClassDeserializationProcessor}.
  */
-public interface IGenericClassProcessorHolder<P>
+public interface IGenericClassProcessorHolder<CP>
 {
-    P getClassProcessor();
+    /**
+     * Gets class processor.
+     *
+     * @return generic class processor.
+     */
+    CP getClassProcessor();
 
-    List<String> getTypeVariableNames();
+    /**
+     * Gets type variable names of generic class processor.
+     *
+     * @return unmodifiable set of type variable names.
+     */
+    Set<String> getTypeVariableNames();
 }

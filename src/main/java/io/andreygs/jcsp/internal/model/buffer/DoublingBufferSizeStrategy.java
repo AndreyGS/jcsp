@@ -35,6 +35,12 @@ import io.andreygs.jcsp.api.model.buffer.IBufferResizeStrategy;
 public final class DoublingBufferSizeStrategy
     implements IBufferResizeStrategy
 {
+    /**
+     * {@inheritDoc}
+     *
+     * @implNote
+     * If currentCapacity and minimumRequiredSize are equal then currentCapacity value is returned.
+     */
     @Override
     public int calculateNewSize(int currentCapacity, int minimumRequiredSize)
     {

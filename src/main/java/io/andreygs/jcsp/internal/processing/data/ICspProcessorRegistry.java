@@ -25,7 +25,6 @@
 
 package io.andreygs.jcsp.internal.processing.data;
 
-import io.andreygs.jcsp.api.model.protocol.utils.CspTypeToken;
 import io.andreygs.jcsp.api.processing.data.ICspClassDeserializationProcessor;
 import io.andreygs.jcsp.api.processing.data.ICspDeserializationProcessor;
 import io.andreygs.jcsp.api.processing.data.ICspSerializationProcessor;
@@ -67,14 +66,14 @@ import java.util.Optional;
  * <p>
  * Please note that one-dimensional arrays of any type must not have separate processors.
  * <p>
- * Thread-safe.
+ * ALl implementations of current interface must be thread-safe.
  *
- * @param <P> one of {@link ICspClassSerializationProcessor} or {@link ICspClassDeserializationProcessor},
+ * @param <CP> {@link ICspClassSerializationProcessor} or {@link ICspClassDeserializationProcessor},
  *            depending on what kind of registry is.
- * @param <TP> one of {@link ICspTypeSerializationProcessor} or {@link ICspTypeDeserializationProcessor},
+ * @param <TP> {@link ICspTypeSerializationProcessor} or {@link ICspTypeDeserializationProcessor},
  *            depending on what kind of registry is.
  */
-public interface ICspProcessorRegistry<P, TP>
+public interface ICspProcessorRegistry<CP, TP>
 {
     /**
      * Registers processor for ordinary and generic (non-primitive, non-array) type for later use.
@@ -87,11 +86,11 @@ public interface ICspProcessorRegistry<P, TP>
      * Don't allowed to register processor for primitive, array or enum.
      *
      * @param clazz Class that processor should handle.
-     * @param processor Processor that will be used in serialization or deserialization process.
+     * @param classProcessor Class processor that will be used in serialization or deserialization process.
      * @throws IllegalArgumentException if clazz is primitive or array, also if clazz is one of forbidden to override
      * classes: {@link String}, {@link Collection}, {@link Map}.
      */
-    void registerClassProcessor(Class<?> clazz, P processor);
+    void registerClassProcessor(Class<?> clazz, CP classProcessor);
 
     /**
      * Registers processor for type for later use.
@@ -110,7 +109,7 @@ public interface ICspProcessorRegistry<P, TP>
      * @param clazz Class which processor need to be found.
      * @return optional processor.
      */
-    Optional<P> findOrdinaryClassProcessor(Class<?> clazz);
+    Optional<CP> findOrdinaryClassProcessor(Class<?> clazz);
 
     /**
      * Finds already registered processor for chosen generic class.
@@ -118,7 +117,7 @@ public interface ICspProcessorRegistry<P, TP>
      * @param clazz Class for which you need to find the processor holder and its parameters.
      * @return optional holder for class and its parameters.
      */
-    Optional<IGenericClassProcessorHolder<P>> findGenericClassProcessor(Class<?> clazz);
+    Optional<IGenericClassProcessorHolder<CP>> findGenericClassProcessor(Class<?> clazz);
 
     /**
      * Finds already registered processor for chosen type.

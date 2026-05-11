@@ -31,6 +31,8 @@ import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
 
 /**
  * TODO: place description here
+ *
+ * ALl implementations of current interface must be thread-safe.
  */
 public interface ICspSerializationSession
 {

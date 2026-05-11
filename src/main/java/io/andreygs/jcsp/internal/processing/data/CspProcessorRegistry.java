@@ -25,29 +25,40 @@
 
 package io.andreygs.jcsp.internal.processing.data;
 
+import io.andreygs.jcsp.api.processing.data.ICspClassDeserializationProcessor;
+import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeDeserializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
+
 import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
- * Sole implementation of {@link ICspProcessorRegistry}.
+ * Registry for class and type processors that are using for serialization/deserialization processes.
  * <p>
- * Uses RW lock to access to WeakHashMap of classes with processors.
+ * Thread-safe. Uses {@link ConcurrentHashMap} instances for implementing thread-safety.
+ *
+ * @param <CP> {@link ICspClassSerializationProcessor} or {@link ICspClassDeserializationProcessor},
+ *            depending on what kind of registry is.
+ * @param <TP> {@link ICspTypeSerializationProcessor} or {@link ICspTypeDeserializationProcessor},
+ *            depending on what kind of registry is.
  */
-public final class CspProcessorRegistry<P, TP>
-    implements ICspProcessorRegistry<P, TP>
+public final class CspProcessorRegistry<CP, TP>
+    implements ICspProcessorRegistry<CP, TP>
 {
-    private final Map<Class<?>, P> ordinaryClassProcessors = new ConcurrentHashMap<>();
-    private final Map<Class<?>, IGenericClassProcessorHolder<P>> genericClassProcessors = new ConcurrentHashMap<>();
+    private final Map<Class<?>, CP> ordinaryClassProcessors = new ConcurrentHashMap<>();
+    private final Map<Class<?>, IGenericClassProcessorHolder<CP>> genericClassProcessors = new ConcurrentHashMap<>();
     private final Map<AnnotatedType, TP> typeProcessors = new ConcurrentHashMap<>();
 
     @Override
-    public void registerClassProcessor(Class<?> clazz, P classProcessor)
+    public void registerClassProcessor(Class<?> clazz, CP classProcessor)
     {
         if (clazz.isPrimitive() || clazz.isArray())
         {
@@ -64,8 +75,9 @@ public final class CspProcessorRegistry<P, TP>
         else
         {
             TypeVariable<? extends Class<?>>[] typeVariables = clazz.getTypeParameters();
-            List<String> typeVariableNames = Arrays.stream(typeVariables).map(TypeVariable::getName).toList();
-            GenericClassProcessorHolder<P> genericProcessorHolder =
+            Set<String> typeVariableNames =
+                Arrays.stream(typeVariables).map(TypeVariable::getName).collect(Collectors.toUnmodifiableSet());
+            GenericClassProcessorHolder<CP> genericProcessorHolder =
                 new GenericClassProcessorHolder<>(classProcessor, typeVariableNames);
             genericClassProcessors.put(clazz, genericProcessorHolder);
         }
@@ -78,13 +90,13 @@ public final class CspProcessorRegistry<P, TP>
     }
 
     @Override
-    public Optional<P> findOrdinaryClassProcessor(Class<?> clazz)
+    public Optional<CP> findOrdinaryClassProcessor(Class<?> clazz)
     {
          return Optional.ofNullable(ordinaryClassProcessors.get(clazz));
     }
 
     @Override
-    public Optional<IGenericClassProcessorHolder<P>> findGenericClassProcessor(Class<?> clazz)
+    public Optional<IGenericClassProcessorHolder<CP>> findGenericClassProcessor(Class<?> clazz)
     {
         return Optional.ofNullable(genericClassProcessors.get(clazz));
     }
@@ -114,23 +126,36 @@ public final class CspProcessorRegistry<P, TP>
         typeProcessors.remove(annotatedType);
     }
 
-    private static class GenericClassProcessorHolder<P> implements IGenericClassProcessorHolder<P>
+    /**
+     * Holder for generic class processors.
+     *
+     * @param <CP> {@link ICspClassSerializationProcessor} or {@link ICspClassDeserializationProcessor}.
+     */
+    private static class GenericClassProcessorHolder<CP> implements IGenericClassProcessorHolder<CP>
     {
-        private final P classProcessor;
-        private final List<String> typeVariableNames;
+        private final CP classProcessor;
+        private final Set<String> typeVariableNames;
 
-        public GenericClassProcessorHolder(P classProcessor, List<String> typeVariableNames)
+        /**
+         * Constructs an instance.
+         *
+         * @param classProcessor Class processor for generic class.
+         * @param typeVariableNames Unmodifiable set of generic class type variables.
+         */
+        public GenericClassProcessorHolder(CP classProcessor, Set<String> typeVariableNames)
         {
             this.classProcessor = classProcessor;
             this.typeVariableNames = typeVariableNames;
         }
 
-        public P getClassProcessor()
+        @Override
+        public CP getClassProcessor()
         {
             return classProcessor;
         }
 
-        public List<String> getTypeVariableNames()
+        @Override
+        public Set<String> getTypeVariableNames()
         {
             return typeVariableNames;
         }

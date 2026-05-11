@@ -44,6 +44,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -59,8 +60,6 @@ public class CspProcessorRegistryTests
     private ICspClassSerializationProcessor<?> classSerializationProcessor;
     @Mock
     private ICspClassDeserializationProcessor<?> classDeserializationProcessor;
-    @Mock
-    private ICspTypeSerializationProcessor typeSerializationProcessor;
     @Mock
     private ICspTypeDeserializationProcessor typeDeserializationProcessor;
 
@@ -94,6 +93,8 @@ public class CspProcessorRegistryTests
             .contains(classProcessor4);
     }
 
+    @SuppressWarnings("CommentedOutCode" /* Comment include example of code that highlights by IDEA (but compiling
+    and successfully running) - possibly IDE bug */)
     @Test
     public void testRegisterClassProcessorGeneric()
     {
@@ -135,27 +136,44 @@ public class CspProcessorRegistryTests
 
         assertThat(classProcessor1Result).isEqualTo(classSerializationProcessor);
         assertThat(classProcessorHolder1).map(IGenericClassProcessorHolder::getTypeVariableNames)
-                                         .contains(List.of("X", "V"));
+                                         .contains(Set.of("X", "V"));
         assertThat(classProcessor2Result).isEqualTo(classProcessor2);
         assertThat(classProcessorHolder2).map(IGenericClassProcessorHolder::getTypeVariableNames)
-                                         .contains(List.of("W", "E"));
+                                         .contains(Set.of("W", "E"));
         assertThat(classProcessor3Result).isEqualTo(classProcessor3);
         assertThat(classProcessorHolder3).map(IGenericClassProcessorHolder::getTypeVariableNames)
-                                         .contains(List.of("K"));
+                                         .contains(Set.of("K"));
         assertThat(classProcessor4Result).isEqualTo(classProcessor4);
         assertThat(classProcessorHolder4).map(IGenericClassProcessorHolder::getTypeVariableNames)
-                                         .contains(List.of("P", "M"));
+                                         .contains(Set.of("P", "M"));
 
         // Next alternative triggers IDEA statical analyzer on .contains(...) line.
         // Because of this it replaced with current code.
-        // assertThat(cspProcessorRegistry.findGenericProcessor(clazz))
+        // assertThat(cspProcessorRegistry.findGenericClassProcessor(clazz))
         //            .isPresent()
         //            .map(IGenericClassProcessorHolder::getClassProcessor)
         //            .contains(classSerializationProcessor);
     }
 
     @Test
-    @SuppressWarnings("DataFlowIssue")
+    public void testRegisterClassProcessorGenericModifyTypeVariableNamesSet()
+    {
+        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor> cspProcessorRegistry = new CspProcessorRegistry<>();
+
+        cspProcessorRegistry.registerClassProcessor(TestGenericClass1.class, classSerializationProcessor);
+
+        Optional<IGenericClassProcessorHolder<ICspClassSerializationProcessor<?>>> classProcessorHolder1
+            = cspProcessorRegistry.findGenericClassProcessor(TestGenericClass1.class);
+
+        assertThat(classProcessorHolder1).isPresent();
+
+        Set<String> typeVariableNames = classProcessorHolder1.get().getTypeVariableNames();
+
+        assertThatThrownBy(() -> typeVariableNames.add("test")).isInstanceOf(Throwable.class);
+    }
+
+    @Test
+    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
     public void testRegisterClassProcessorNullClass()
     {
         ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
@@ -166,7 +184,7 @@ public class CspProcessorRegistryTests
     }
 
     @Test
-    @SuppressWarnings("DataFlowIssue")
+    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
     public void testRegisterProcessorNullClassProcessor()
     {
         ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
@@ -216,6 +234,8 @@ public class CspProcessorRegistryTests
         assertThat(cspProcessorRegistry.findOrdinaryClassProcessor(TestClass1.class)).containsSame(classSerializationProcessor);
     }
 
+    @SuppressWarnings("CommentedOutCode" /* Comment include example of code that highlights by IDEA (but compiling
+    and successfully running) - possibly IDE bug */)
     @Test
     public void testRegisterClassProcessorReplaceGeneric()
     {
@@ -236,7 +256,7 @@ public class CspProcessorRegistryTests
 
         // Next alternative triggers IDEA statical analyzer on .contains(...) line.
         // Because of this it replaced with current code.
-        // assertThat(cspProcessorRegistry.findGenericProcessor(clazz))
+        // assertThat(cspProcessorRegistry.findGenericClassProcessor(clazz))
         //            .isPresent()
         //            .map(IGenericClassProcessorHolder::getClassProcessor)
         //            .contains(classSerializationProcessor);
@@ -278,7 +298,7 @@ public class CspProcessorRegistryTests
     }
 
     @Test
-    @SuppressWarnings("DataFlowIssue" /* "Contract nullness violation" */)
+    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
     public void testRegisterTypeProcessorNullType()
     {
         ICspProcessorRegistry<ICspClassDeserializationProcessor<?>, ICspTypeDeserializationProcessor>
@@ -289,7 +309,7 @@ public class CspProcessorRegistryTests
     }
 
     @Test
-    @SuppressWarnings("DataFlowIssue" /* "Contract nullness violation" */)
+    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
     public void testRegisterTypeProcessorNullProcessor()
     {
         ICspProcessorRegistry<ICspClassDeserializationProcessor<?>, ICspTypeDeserializationProcessor>
@@ -324,7 +344,7 @@ public class CspProcessorRegistryTests
     }
 
     @Test
-    @SuppressWarnings("DataFlowIssue" /* "Contract nullness violation" */)
+    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
     public void testFindOrdinaryClassProcessorNullClass()
     {
         ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
@@ -341,7 +361,7 @@ public class CspProcessorRegistryTests
     }
 
     @Test
-    @SuppressWarnings("DataFlowIssue" /* "Contract nullness violation" */)
+    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
     public void testFindGenericClassProcessorNullClass()
     {
         ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
@@ -358,7 +378,7 @@ public class CspProcessorRegistryTests
     }
 
     @Test
-    @SuppressWarnings("DataFlowIssue" /* "Contract nullness violation" */)
+    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
     public void testFindTypeProcessorNullType()
     {
         ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
@@ -391,7 +411,7 @@ public class CspProcessorRegistryTests
     }
 
     @Test
-    @SuppressWarnings("DataFlowIssue" /* "Contract nullness violation" */)
+    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
     public void testUnregisterClassProcessorOrdinaryNullClass()
     {
         ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
@@ -417,7 +437,7 @@ public class CspProcessorRegistryTests
     }
 
     @Test
-    @SuppressWarnings("DataFlowIssue" /* "Contract nullness violation" */)
+    @SuppressWarnings("DataFlowIssue" /* "Contract nullability violation" */)
     public void testUnregisterTypeProcessorNullType()
     {
         ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
@@ -440,18 +460,22 @@ public class CspProcessorRegistryTests
     {
     }
 
+    @SuppressWarnings("unused" /* Params are need for tests of work with generic classes */)
     static class TestGenericClass1<X, V>
     {
     }
 
+    @SuppressWarnings("unused" /* Params are need for tests of work with generic classes */)
     static class TestGenericClass2<W, E>
     {
     }
 
+    @SuppressWarnings("unused" /* Params are need for tests of work with generic classes */)
     static class TestGenericClass3<K>
     {
     }
 
+    @SuppressWarnings("unused" /* Params are need for tests of work with generic classes */)
     static class TestGenericClass4<P, M>
     {
     }
