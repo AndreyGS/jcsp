@@ -50,7 +50,7 @@ import java.util.Stack;
 public final class CspSerializationProcessor implements ICspSerializationProcessor
 {
     private final ICspSerializationBuffer cspSerializationBuffer;
-    private final ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>>
+    private final ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
         cspProcessorRegistry;
     private final ICspClassProcessorGenerator<ICspClassSerializationProcessor<?>> cspDataProcessorGenerator;
     private final ICspDataMessage cspDataMessage;
@@ -58,7 +58,7 @@ public final class CspSerializationProcessor implements ICspSerializationProcess
     private final @Nullable Map<Object, Integer> referenceMap;
 
     public CspSerializationProcessor(ICspSerializationBuffer cspSerializationBuffer,
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>> cspProcessorRegistry,
+        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor> cspProcessorRegistry,
         ICspClassProcessorGenerator<ICspClassSerializationProcessor<?>> cspDataProcessorGenerator,
         ICspDataMessage cspDataMessage)
     {

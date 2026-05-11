@@ -37,5 +37,5 @@ import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProce
 public interface ICspMessageBuilderFactory
 {
     ICspDataMessageBuilder createCspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>> cspSerializationProcessorRegistry);
+        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor> cspSerializationProcessorRegistry);
 }

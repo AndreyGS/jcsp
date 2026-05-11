@@ -34,7 +34,7 @@ import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
  */
 public interface ICspSerializationSession
 {
-    <T> void registerSerializationProcessor(Class<T> clazz, ICspClassSerializationProcessor<T> processor);
+    <T> void registerSerializationProcessor(Class<T> clazz, ICspClassSerializationProcessor<T> classProcessor);
 
     void unregisterSerializationProcessor(Class<?> clazz);
 

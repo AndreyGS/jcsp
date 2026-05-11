@@ -31,8 +31,8 @@ import org.jetbrains.annotations.Nullable;
 /**
  * TODO: place description here
  */
-public interface ICspTypeDeserializationProcessor<T>
+public interface ICspTypeDeserializationProcessor
 {
-    @Nullable T deserialize(@Nullable T value,
+    @Nullable Object deserialize(@Nullable Object value,
         ICspExtendedDeserializationProcessor cspExtendedDeserializationProcessor);
 }

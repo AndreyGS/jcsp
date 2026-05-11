@@ -39,8 +39,8 @@ import java.lang.annotation.Target;
  * this processing starts, then this annotation would have no effect - that is, no new instance would be created.
  * This is so because java-class definition is primary and CSP setting should not contradict to it. But, if you really
  * need to set some special class as instance of some or another interface (or superclass), then you can register
- * separate processor(s) to handle whole framing class instance as you wish. However, such scenario should be extremely
- * rare.
+ * separate class processor(s) to handle whole framing class instance as you wish. However, such scenario should be
+ * extremely rare.
  * <p>
  * Here an example of possible case:
  * <pre>
@@ -58,8 +58,8 @@ import java.lang.annotation.Target;
  * {@link java.lang.String}, {@link java.lang.Byte}, {@link java.lang.Short}, {@link java.lang.Integer},
  * {@link java.lang.Long}, {@link java.lang.Character}, {@link java.lang.Float}, {@link java.lang.Double},
  * {@link java.lang.Boolean} and arrays, excluding their non-array elements. Provided class should extend declared
- * one. And it not dictates what processor will be used in deserialization - by default it defines by declared type or
- * can be overridden by {@link CspOverrideProcessorClass}.
+ * one. And it not dictates what class processor will be used in deserialization - by default it defines by declared
+ * type or can be overridden by {@link CspOverrideProcessorClass}.
  * <p>
  * If no {@link CspImplementationClass} annotation is added to {@link java.util.Collection} or {@link java.util.Map}
  * field, and no instance was already created on framing class creation on deserialization process, then

@@ -23,22 +23,12 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.factory.processing.data;
-
-import io.andreygs.jcsp.api.model.protocol.message.ICspDataMessage;
-import io.andreygs.jcsp.api.processing.data.ICspSerializationProcessor;
-import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.internal.model.buffer.ICspSerializationBuffer;
-import io.andreygs.jcsp.internal.processing.data.ICspProcessorRegistry;
-import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
+package io.andreygs.jcsp.internal.processing.data.type;
 
 /**
  * TODO: place description here
  */
-public interface ICspSerializationProcessorFactory
+public interface IGenericTypeVariableProcessorMap
 {
-    ICspSerializationProcessor createGeneralSerializationProcessor(
-        ICspSerializationBuffer cspSerializationBuffer,
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor> cspProcessorRegistry,
-        ICspDataMessage cspDataMessage);
+    ICspTypeSerializationProcessor getTypeVariableProcessor(String name);
 }

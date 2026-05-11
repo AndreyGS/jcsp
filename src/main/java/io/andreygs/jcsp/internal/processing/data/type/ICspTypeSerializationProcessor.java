@@ -26,20 +26,20 @@
 package io.andreygs.jcsp.internal.processing.data.type;
 
 import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.internal.processing.data.ICspExtendedSerializationProcessor;
 import io.andreygs.jcsp.api.model.annotation.CspCreateProcessor;
+import io.andreygs.jcsp.internal.processing.data.ICspExtendedSerializationProcessor;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Processor which encapsulate CSP type properties for call one of {@link ICspExtendedSerializationProcessor} methods.
+ * Processor to encapsulate CSP type properties for call one of {@link ICspExtendedSerializationProcessor} methods.
  * <p>
- * The primary intents of encapsulate properties is for autogeneration of {@link ICspClassSerializationProcessor} for
+ * The primary intents of properties encapsulation is for autogeneration of {@link ICspClassSerializationProcessor} for
  * type annotated with {@link CspCreateProcessor} and for proper serialization of java generic types.
  * <p>
  * First intent actually is only for internal use by jcsp library, but the latter is handy for use by clients that wants
  * for serialize their generics.
  */
-public interface ICspTypeSerializationProcessor<T>
+public interface ICspTypeSerializationProcessor
 {
     /**
      * Serialize a value.
@@ -48,5 +48,5 @@ public interface ICspTypeSerializationProcessor<T>
      * @param cspExtendedSerializationProcessor Extended general-purpose CSP serialization processor for CSP Data
      *                                          Message Body.
      */
-    void serialize(@Nullable T value, ICspExtendedSerializationProcessor cspExtendedSerializationProcessor);
+    void serialize(@Nullable Object value, ICspExtendedSerializationProcessor cspExtendedSerializationProcessor);
 }

@@ -48,13 +48,13 @@ import java.util.Set;
 public final class CspDataMessageBuilder extends AbstractCspMessageBuilder
     implements ICspDataMessageBuilder
 {
-    private final ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>>
+    private final ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
         cspSerializationProcessorRegistry;
     private @Nullable ICspInterfaceVersion cspInterfaceVersion;
     private @Nullable Set<CspDataFlag> cspDataFlags;
 
     public CspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>> cspSerializationProcessorRegistry)
+        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor> cspSerializationProcessorRegistry)
     {
         super(serializationWorkflow);
         this.cspSerializationProcessorRegistry = cspSerializationProcessorRegistry;

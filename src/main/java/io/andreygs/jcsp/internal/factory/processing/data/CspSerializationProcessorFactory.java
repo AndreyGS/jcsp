@@ -50,7 +50,7 @@ public final class CspSerializationProcessorFactory
     @Override
     public ICspSerializationProcessor createGeneralSerializationProcessor(
         ICspSerializationBuffer cspSerializationBuffer,
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>> cspProcessorRegistry,
+        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor> cspProcessorRegistry,
         ICspDataMessage cspDataMessage)
     {
         return new CspSerializationProcessor(cspSerializationBuffer, cspProcessorRegistry,

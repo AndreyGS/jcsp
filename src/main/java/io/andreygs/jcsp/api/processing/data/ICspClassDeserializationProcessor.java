@@ -30,5 +30,5 @@ package io.andreygs.jcsp.api.processing.data;
  */
 public interface ICspClassDeserializationProcessor<T>
 {
-    T deserialize(T value, ICspDeserializationProcessor generalProcessor);
+    T deserialize(T value, ICspDeserializationProcessor processor);
 }

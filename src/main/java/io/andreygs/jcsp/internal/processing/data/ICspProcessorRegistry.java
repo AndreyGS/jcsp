@@ -35,7 +35,6 @@ import io.andreygs.jcsp.internal.processing.data.type.ICspTypeDeserializationPro
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 
 import java.lang.reflect.AnnotatedType;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -89,21 +88,18 @@ public interface ICspProcessorRegistry<P, TP>
      * @param processor Processor that will be used in serialization or deserialization process.
      * @throws IllegalArgumentException if clazz is primitive, array or enum.
      */
-    void registerProcessor(Class<?> clazz, P processor);
+    void registerClassProcessor(Class<?> clazz, P processor);
 
     /**
-     * Registers processor for composite type for later use.
+     * Registers processor for type for later use.
      * <p>
-     * If class processor already have been registered, then new processor will override previous registration.
-     * But if you want to have both processors - by one for different cases, for example -
-     * you should create new registry, fill it with all necessary processors including current one
-     * and use different registries in requisite scenarios.
+     * If type processor already have been registered, then new processor will override previous registration.
      *
      * @param annotatedType Type which has non-trivial traits, like generic parameters and nested structure.
      *                      For example: List&ltMap&lt@CspReference String, Integer[]>
-     * @param proxyProcessor Proxy processor that will be used in serialization or deserialization process.
+     * @param typeProcessor Type processor that will be used in serialization or deserialization process.
      */
-    void registerProxyProcessor(AnnotatedType annotatedType, TP proxyProcessor);
+    void registerTypeProcessor(AnnotatedType annotatedType, TP typeProcessor);
 
     /**
      * Finds already registered processor for chosen ordinary (non-primitive, non-generic, non-array) class.
@@ -119,22 +115,22 @@ public interface ICspProcessorRegistry<P, TP>
      * @param clazz Class for which you need to find the processor holder and its parameters.
      * @return optional holder for class and its parameters.
      */
-    Optional<IGenericProcessorHolder<P>> findGenericProcessor(Class<?> clazz);
+    Optional<IGenericClassProcessorHolder<P>> findGenericProcessor(Class<?> clazz);
 
     /**
-     * Finds already registered processor for chosen composite type.
+     * Finds already registered processor for chosen type.
      *
      * @param annotatedType Type which processor need to be found.
      * @return optional proxy processor.
      */
-    Optional<TP> findGenericProcessor(AnnotatedType annotatedType);
+    Optional<TP> findTypeProcessor(AnnotatedType annotatedType);
 
     /**
-     * Unregisters processor of provided class.
+     * Unregisters class processor of provided class.
      *
      * @param clazz Processor class.
      */
-    void unregisterProcessor(Class<?> clazz);
+    void unregisterClassProcessor(Class<?> clazz);
 
     /**
      * Unregisters processor for provided type token.
@@ -142,12 +138,5 @@ public interface ICspProcessorRegistry<P, TP>
      *
      * @param cspTypeToken Type token for processor.
      */
-    void unregisterProxyProcessor(CspTypeToken<?> cspTypeToken);
-
-    public interface IGenericProcessorHolder<P>
-    {
-        P getProcessor();
-
-        List<String> getTypeVariableNames();
-    }
+    void unregisterTypeProcessor(CspTypeToken<?> cspTypeToken);
 }

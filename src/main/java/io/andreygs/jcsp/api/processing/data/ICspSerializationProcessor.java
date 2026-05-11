@@ -266,7 +266,7 @@ public interface ICspSerializationProcessor
      * @throws CspRuntimeException if some serialized object fields or their nested fields should be serialized
      *                             as references when {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set and status
      *                             will be {@link CspStatus#POINTER_WHEN_NO_ALLOW_UNMANAGED_POINTERS_SET}.
-     *                             if there is no processor for clazz to handle serialization and status will be
+     *                             if there is no class processor for clazz to handle serialization and status will be
      *                             {@link CspStatus#NO_SUCH_HANDLER}.
      */
     <T> void serialize(T value, Class<?> clazz);
@@ -285,7 +285,7 @@ public interface ICspSerializationProcessor
      * @throws CspRuntimeException if some serialized object fields or their nested fields should be serialized
      *                             as references when {@link CspDataFlag#ALLOW_UNMANAGED_POINTERS} not set and status
      *                             will be {@link CspStatus#POINTER_WHEN_NO_ALLOW_UNMANAGED_POINTERS_SET}.
-     *                             if there is no processor for clazz to handle serialization and status will be
+     *                             if there is no class processor for clazz to handle serialization and status will be
      *                             {@link CspStatus#NO_SUCH_HANDLER}.
      */
     <T> void serialize(@Nullable T value, boolean reference, Class<?> clazz);

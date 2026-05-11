@@ -162,7 +162,7 @@ public class DraftInternalCspMessageBodyProcessor
         {
             throw CspRuntimeException.createCspRuntimeException(CspStatus.NO_SUCH_HANDLER,
                                                                 MessageFormat.format(
-                                                                    Messages.CspStatus_No_Such_Handler_ext_No_specialized_processor_for__0__,
+                                                                    Messages.CspStatus_No_Such_Handler_No_class_serialization_processor_for__0,
                                                                     clazz));
         }
     }

@@ -50,9 +50,9 @@ import java.lang.reflect.AnnotatedType;
  *     public class AnotherClassExampleProcessor
  *         implements ICspDataSerializationProcessor&ltAnotherClassExampleProcessor>
  *     {
- *         public void serialize(AnotherClassExample value, ICspDataGeneralSerializationProcessor generalProcessor)
+ *         public void serialize(AnotherClassExample value, ICspSerializationProcessor processor)
  *         {
- *              generalProcessor.serialize(value.list, new CspTypeToken&ltList&lt@CspReference GenericExample&ltMap&lt@CspString("UTF-16BE") String, Integer>>>>);
+ *              processor.serialize(value.list, new CspTypeToken&ltList&lt@CspReference GenericExample&ltMap&lt@CspString("UTF-16BE") String, Integer>>>>);
  *         }
  *     }
  *
@@ -60,16 +60,19 @@ import java.lang.reflect.AnnotatedType;
  *     public class GenericExampleProcessor&ltT>
  *         implements ICspDataSerializationProcessor&ltGenericExample&lt?>>
  *     {
- *         public void serialize(GenericExample&lt?> value, ICspDataGeneralSerializationProcessor generalProcessor)
+ *         public void serialize(GenericExample&lt?> value, ICspSerializationProcessor processor)
  *         {
- *              generalProcessor.serialize(value.someInt);
- *              generalProcessor.serialize(value.someObject, new CspTypeToken&ltT>);
+ *              processor.serialize(value.someInt);
+ *              processor.serialize(value.someObject, new CspTypeToken&ltT>);
  *         }
  *     }
  * </pre>
  * In provided example AnotherClassExampleProcessor is using to serialize AnotherClassExample and using
- * {@link CspTypeToken} to provide to generalProcessor definition of "list" field type and GenericExampleProcessor
- * is using {@link CspTypeToken} to provide to  generalProcessor definition os "someObject" field type.
+ * {@link CspTypeToken} to provide to processor definition of "list" field type and GenericExampleProcessor
+ * is using {@link CspTypeToken} to provide to  processor definition os "someObject" field type.
+ *
+ * @param <T> Is a source of {@link AnnotatedType}, that is gets by {@link #getAnnotatedType()}. Also using for avoiding
+ *            of unchecked cast of result when use as parameter of deserialization processor method.
  */
 public abstract class CspTypeToken<T>
 {
@@ -94,7 +97,7 @@ public abstract class CspTypeToken<T>
      * For example: for {@code new CspTypeToken&lt@CspReference Integer>()} it will return annotated type with
      * {@code @CspReference Integer}
      *
-     * @return annotated type first generic parameter of subclass..
+     * @return annotated type first generic parameter of subclass.
      */
     public AnnotatedType getAnnotatedType()
     {

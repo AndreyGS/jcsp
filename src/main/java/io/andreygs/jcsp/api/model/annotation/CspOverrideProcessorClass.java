@@ -32,14 +32,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Setting for overriding processor that should be used in serialization and deserialization of class instance.
+ * Setting for overriding class processor that should be used in serialization and deserialization of class instance.
  * <p>
  * Its primary use is for processing of fields with interface types, that have no separate processors, but has one
  * and only one branch of hierarchy up to provided class or only one implementor which object can be present in the
  * specific field. This sounds not very reliable and it is. You should have a very good reason to use this setting.
  * But, there are two special cases when its completely acceptable: when declared type implements or extends
  * Collection or(and) Map. By default, it will be processed as Collection or Map. But if implementor not just a
- * collection but has some additional data to transform and there is specific processor to do that, then this
+ * collection but has some additional data to transform and there is specific class processor to do that, then this
  * annotation shall be used.
  * <p>
  * Here an example of possible case:

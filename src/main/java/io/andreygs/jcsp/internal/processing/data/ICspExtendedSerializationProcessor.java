@@ -27,6 +27,7 @@ package io.andreygs.jcsp.internal.processing.data;
 
 import io.andreygs.jcsp.api.processing.data.ICspSerializationProcessor;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.type.IGenericTypeVariableProcessorMap;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -38,14 +39,14 @@ import java.util.Map;
 public interface ICspExtendedSerializationProcessor extends ICspSerializationProcessor
 {
     void serialize(@Nullable Object value, boolean reference,
-        Map<String, ICspTypeSerializationProcessor<?>> genericTypeProcessors);
+        IGenericTypeVariableProcessorMap typeVariableProcessorMap);
 
     void serialize(@Nullable Object @Nullable [] value, boolean reference, boolean fixedSize,
-        ICspTypeSerializationProcessor<?> itemTypeProcessor);
+        ICspTypeSerializationProcessor itemTypeProcessor);
 
     void serialize(@Nullable Collection<@Nullable Object> value, boolean reference,
-        ICspTypeSerializationProcessor<?> itemTypeProcessor);
+        ICspTypeSerializationProcessor itemTypeProcessor);
 
     void serialize(@Nullable Map<@Nullable Object, @Nullable Object> value, boolean reference,
-        ICspTypeSerializationProcessor<?> valueTypeProcessor, ICspTypeSerializationProcessor<?> keyTypeProcessor);
+        ICspTypeSerializationProcessor valueTypeProcessor, ICspTypeSerializationProcessor keyTypeProcessor);
 }

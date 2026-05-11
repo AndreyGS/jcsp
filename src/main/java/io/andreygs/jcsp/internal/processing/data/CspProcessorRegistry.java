@@ -44,89 +44,90 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class CspProcessorRegistry<P, TP>
     implements ICspProcessorRegistry<P, TP>
 {
-    private final Map<Class<?>, P> ordinaryProcessors = new ConcurrentHashMap<>();
-    private final Map<Class<?>, IGenericProcessorHolder<P>> genericProcessors = new ConcurrentHashMap<>();
-    private final Map<AnnotatedType, TP> proxyProcessors = new ConcurrentHashMap<>();
+    private final Map<Class<?>, P> ordinaryClassProcessors = new ConcurrentHashMap<>();
+    private final Map<Class<?>, IGenericClassProcessorHolder<P>> genericClassProcessors = new ConcurrentHashMap<>();
+    private final Map<AnnotatedType, TP> typeProcessors = new ConcurrentHashMap<>();
 
     @Override
-    public void registerProcessor(Class<?> clazz, P processor)
+    public void registerClassProcessor(Class<?> clazz, P classProcessor)
     {
-        ArgumentChecker.nonNull(clazz, processor);
+        ArgumentChecker.nonNull(clazz, classProcessor);
         if (clazz.isPrimitive() || clazz.isArray() || clazz.isEnum())
         {
             throw new IllegalArgumentException("Only ordinary and generic classes can be added!");
         }
         if (clazz.getTypeParameters().length == 0)
         {
-            ordinaryProcessors.put(clazz, processor);
+            ordinaryClassProcessors.put(clazz, classProcessor);
         }
         else
         {
             TypeVariable<? extends Class<?>>[] typeVariables = clazz.getTypeParameters();
             List<String> typeVariableNames = Arrays.stream(typeVariables).map(TypeVariable::getName).toList();
-            GenericProcessorHolder<P> genericProcessorHolder = new GenericProcessorHolder<>(processor, typeVariableNames);
-            genericProcessors.put(clazz, genericProcessorHolder);
+            GenericClassProcessorHolder<P> genericProcessorHolder =
+                new GenericClassProcessorHolder<>(classProcessor, typeVariableNames);
+            genericClassProcessors.put(clazz, genericProcessorHolder);
         }
     }
 
     @Override
-    public void registerProxyProcessor(AnnotatedType annotatedType, TP proxyProcessor)
+    public void registerTypeProcessor(AnnotatedType annotatedType, TP typeProcessor)
     {
-        ArgumentChecker.nonNull(annotatedType, proxyProcessor);
-        proxyProcessors.put(annotatedType, proxyProcessor);
+        ArgumentChecker.nonNull(annotatedType, typeProcessor);
+        typeProcessors.put(annotatedType, typeProcessor);
     }
 
     @Override
     public Optional<P> findOrdinaryProcessor(Class<?> clazz)
     {
-         return Optional.ofNullable(ordinaryProcessors.get(clazz));
+         return Optional.ofNullable(ordinaryClassProcessors.get(clazz));
     }
 
     @Override
-    public Optional<IGenericProcessorHolder<P>> findGenericProcessor(Class<?> clazz)
+    public Optional<IGenericClassProcessorHolder<P>> findGenericProcessor(Class<?> clazz)
     {
-        return Optional.ofNullable(genericProcessors.get(clazz));
+        return Optional.ofNullable(genericClassProcessors.get(clazz));
     }
 
     @Override
-    public Optional<TP> findGenericProcessor(AnnotatedType annotatedType)
+    public Optional<TP> findTypeProcessor(AnnotatedType annotatedType)
     {
-        return Optional.ofNullable(proxyProcessors.get(annotatedType));
+        return Optional.ofNullable(typeProcessors.get(annotatedType));
     }
 
     @Override
-    public void unregisterProcessor(Class<?> clazz)
+    public void unregisterClassProcessor(Class<?> clazz)
     {
         if (clazz.getTypeParameters().length == 0)
         {
-            ordinaryProcessors.remove(clazz);
+            ordinaryClassProcessors.remove(clazz);
         }
         else
         {
-            genericProcessors.remove(clazz);
+            genericClassProcessors.remove(clazz);
         }
     }
 
     @Override
-    public void unregisterProxyProcessor(CspTypeToken<?> cspTypeToken)
+    public void unregisterTypeProcessor(CspTypeToken<?> cspTypeToken)
     {
-        proxyProcessors.remove(cspTypeToken.getAnnotatedType());
+        typeProcessors.remove(cspTypeToken.getAnnotatedType());
     }
 
-    private static class GenericProcessorHolder<P> implements IGenericProcessorHolder<P>
+    private static class GenericClassProcessorHolder<P> implements IGenericClassProcessorHolder<P>
     {
-        private final P processor;
+        private final P classProcessor;
         private final List<String> typeVariableNames;
 
-        public GenericProcessorHolder(P processor, List<String> typeVariableNames)
+        public GenericClassProcessorHolder(P classProcessor, List<String> typeVariableNames)
         {
-            this.processor = processor;
+            this.classProcessor = classProcessor;
             this.typeVariableNames = typeVariableNames;
         }
 
-        public P getProcessor()
+        public P getClassProcessor()
         {
-            return processor;
+            return classProcessor;
         }
 
         public List<String> getTypeVariableNames()

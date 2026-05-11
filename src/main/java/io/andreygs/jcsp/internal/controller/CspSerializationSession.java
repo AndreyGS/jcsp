@@ -41,12 +41,12 @@ public class CspSerializationSession implements ICspSerializationSession
 {
     private final ISerializationWorkflow serializationWorkflow;
     private final ICspMessageBuilderFactory messageBuilderFactory;
-    private final ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>>
+    private final ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
         processorRegistry;
 
     public CspSerializationSession(ISerializationWorkflow serializationWorkflow,
         ICspMessageBuilderFactory messageBuilderFactory,
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>> processorRegistry)
+        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor> processorRegistry)
     {
         this.serializationWorkflow = serializationWorkflow;
         this.messageBuilderFactory = messageBuilderFactory;
@@ -54,21 +54,21 @@ public class CspSerializationSession implements ICspSerializationSession
     }
 
     @Override
-    public <T> void registerSerializationProcessor(Class<T> clazz, ICspClassSerializationProcessor<T> processor)
+    public <T> void registerSerializationProcessor(Class<T> clazz, ICspClassSerializationProcessor<T> classProcessor)
     {
-        processorRegistry.registerProcessor(clazz, processor);
+        processorRegistry.registerClassProcessor(clazz, classProcessor);
     }
 
     @Override
     public void unregisterSerializationProcessor(Class<?> clazz)
     {
-        processorRegistry.unregisterProcessor(clazz);
+        processorRegistry.unregisterClassProcessor(clazz);
     }
 
     @Override
     public void unregisterTypeSerializationProcessor(CspTypeToken<?> cspTypeToken)
     {
-        processorRegistry.unregisterProxyProcessor(cspTypeToken);
+        processorRegistry.unregisterTypeProcessor(cspTypeToken);
     }
 
     @Override

@@ -48,22 +48,22 @@ abstract class AbstractCspClassProcessorGenerator<P, TP>
             throw CspRuntimeException.createCspRuntimeException(CspStatus.NO_SUCH_HANDLER,
                 structClazz.getName() + " is not annotated with " + CspCreateProcessor.class.getName());
         }
-        List<TP> proxyProcessors = new ArrayList<>();
-        return createProcessor(proxyProcessors);
+        List<TP> typeProcessors = new ArrayList<>();
+        return createProcessor(typeProcessors);
     }
 
-    protected abstract void addParentClass(Class<?> parentClazz, List<TP> proxyProcessors);
+    protected abstract void addParentClass(Class<?> parentClazz, List<TP> typeProcessors);
 
-    protected abstract void addField(Field field, List<TP> proxyProcessors);
+    protected abstract void addField(Field field, List<TP> typeProcessors);
 
-    protected abstract P createProcessor(List<TP> proxyProcessors);
+    protected abstract P createProcessor(List<TP> typeProcessors);
 
-    private void produceProxyProcessors(Class<?> clazz, List<TP> proxyProcessors)
+    private void produceProxyProcessors(Class<?> clazz, List<TP> typeProcessors)
     {
         Class<?> parentClazz = clazz.getSuperclass();
         if (CspAnnotationUtils.isCspCreateProcessor(parentClazz))
         {
-            addParentClass(parentClazz, proxyProcessors);
+            addParentClass(parentClazz, typeProcessors);
         }
         /*
         Field[] fields = clazz.getDeclaredFields();

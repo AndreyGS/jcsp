@@ -38,7 +38,7 @@ import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProce
 public final class  CspMessageBuilderFactory implements ICspMessageBuilderFactory
 {
     public ICspDataMessageBuilder createCspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>> cspSerializationProcessorRegistry)
+        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor> cspSerializationProcessorRegistry)
     {
         return new CspDataMessageBuilder(serializationWorkflow, cspSerializationProcessorRegistry);
     }

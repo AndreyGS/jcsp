@@ -32,11 +32,11 @@ import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProce
  */
 public class CspTypeProcessorFactoryProvider
 {
-    private static final ICspTypeProcessorFactory<ICspTypeSerializationProcessor<?>>
+    private static final ICspTypeProcessorFactory<ICspTypeSerializationProcessor>
         DEFAULT_DATA_SERIALIZATION_PROXY_PROCESSOR_FACTORY =
             new CspTypeProcessorFactory<>(new CspTypeSerializationSpecificProcessorFactory());
 
-    public ICspTypeProcessorFactory<ICspTypeSerializationProcessor<?>> provideCspDataSerializationProxyProcessorFactory()
+    public ICspTypeProcessorFactory<ICspTypeSerializationProcessor> provideCspDataSerializationProxyProcessorFactory()
     {
         return DEFAULT_DATA_SERIALIZATION_PROXY_PROCESSOR_FACTORY;
     }

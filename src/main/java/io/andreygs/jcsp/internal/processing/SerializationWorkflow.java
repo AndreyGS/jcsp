@@ -74,7 +74,7 @@ public final class SerializationWorkflow
         @Nullable IBufferResizeStrategy bufferResizeStrategy,
         @Nullable CspProtocolVersion cspProtocolVersion,
         @Nullable Set<CspCommonFlag> cspCommonFlags,
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor<?>> cspProcessorRegistry,
+        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor> cspProcessorRegistry,
         ICspVersionable cspVersionable,
         @Nullable ICspInterfaceVersion cspInterfaceVersion,
         @Nullable Set<CspDataFlag> cspDataFlags)

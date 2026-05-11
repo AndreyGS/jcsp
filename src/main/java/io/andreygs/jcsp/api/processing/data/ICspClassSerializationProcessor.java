@@ -30,5 +30,5 @@ package io.andreygs.jcsp.api.processing.data;
  */
 public interface ICspClassSerializationProcessor<T>
 {
-    void serialize(T value, ICspSerializationProcessor generalProcessor);
+    void serialize(T value, ICspSerializationProcessor processor);
 }
