@@ -43,17 +43,13 @@ public interface ICspMessageBuilder
      * @return this builder.
      * @throws IllegalArgumentException if initialBufferCapacity is a negative number.
      */
-    ICspMessageBuilder setBufferInitialCapacity(int initialBufferCapacity)
-        throws IllegalArgumentException;
+    ICspMessageBuilder setBufferInitialCapacity(int initialBufferCapacity);
 
     ICspMessageBuilder setDirectBuffer(boolean directBuffer);
 
-    ICspMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy)
-        throws IllegalArgumentException;
+    ICspMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy);
 
-    ICspMessageBuilder setCspProtocolVersion(CspProtocolVersion cspProtocolVersion)
-        throws IllegalArgumentException;
+    ICspMessageBuilder setCspProtocolVersion(CspProtocolVersion cspProtocolVersion);
 
-    ICspMessageBuilder setCspCommonFlags(Set<CspCommonFlag> cspCommonFlags)
-        throws IllegalArgumentException;
+    ICspMessageBuilder setCspCommonFlags(Set<CspCommonFlag> cspCommonFlags);
 }

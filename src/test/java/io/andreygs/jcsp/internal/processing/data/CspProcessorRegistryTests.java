@@ -37,6 +37,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.Instant;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 /**
  * Unit-tests for {@link CspProcessorRegistry}.
  */
@@ -56,13 +59,11 @@ public class CspProcessorRegistryTests
         ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
             cspProcessorRegistry = new CspProcessorRegistry<>();
 
-        Assertions.assertTrue(cspProcessorRegistry.findOrdinaryProcessor(List.class).isEmpty(),
-                              "Processor registered for " + List.class.getName() + "!");
+        assertThat(cspProcessorRegistry.findOrdinaryProcessor(List.class)).isEmpty();
 
         cspProcessorRegistry.registerClassProcessor(List.class, cspSerializationProcessor);
 
-        Assertions.assertTrue(cspProcessorRegistry.findOrdinaryProcessor(List.class).isPresent(),
-                              "No processor registered for " + List.class.getName() + "!");
+        assertThat(cspProcessorRegistry.findGenericProcessor(List.class)).isPresent();
     }
 
     @Test
@@ -72,8 +73,8 @@ public class CspProcessorRegistryTests
         ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
             cspProcessorRegistry = new CspProcessorRegistry<>();
 
-        Assertions.assertThrows(IllegalArgumentException.class,
-                                () -> cspProcessorRegistry.registerClassProcessor(null, cspSerializationProcessor));
+        assertThatThrownBy(() -> cspProcessorRegistry.registerClassProcessor(null, cspSerializationProcessor))
+            .isInstanceOf(NullPointerException.class);
     }
 
     @Test
@@ -83,8 +84,8 @@ public class CspProcessorRegistryTests
         ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
             cspProcessorRegistry = new CspProcessorRegistry<>();
 
-        Assertions.assertThrows(IllegalArgumentException.class,
-                                () -> cspProcessorRegistry.registerClassProcessor(Instant.class, null));
+        assertThatThrownBy(() -> cspProcessorRegistry.registerClassProcessor(Instant.class, null))
+            .isInstanceOf(NullPointerException.class);
     }
 
     @Test
@@ -97,8 +98,7 @@ public class CspProcessorRegistryTests
         cspProcessorRegistry.registerClassProcessor(clazz, (value, processor) -> {});
         cspProcessorRegistry.registerClassProcessor(clazz, cspSerializationProcessorForInstant);
 
-        Assertions.assertEquals(cspSerializationProcessorForInstant, cspProcessorRegistry.findOrdinaryProcessor(clazz).orElse(null),
-                                "Processor for " + clazz.getName() + " not replaced!");
+        assertThat(cspProcessorRegistry.findOrdinaryProcessor(clazz)).containsSame(cspSerializationProcessorForInstant);
     }
 
     @Test
@@ -109,8 +109,7 @@ public class CspProcessorRegistryTests
         cspProcessorRegistry.registerClassProcessor(Instant.class, cspDeserializationProcessor);
         cspProcessorRegistry.unregisterClassProcessor(Instant.class);
 
-        Assertions.assertTrue(cspProcessorRegistry.findOrdinaryProcessor(Instant.class).isEmpty(),
-                              "Processor for " + Instant.class.getName() + "was not unregistered!");
+        assertThat(cspProcessorRegistry.findOrdinaryProcessor(Instant.class)).isEmpty();
     }
 
     @Test
@@ -120,8 +119,8 @@ public class CspProcessorRegistryTests
         ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
             cspProcessorRegistry = new CspProcessorRegistry<>();
 
-        Assertions.assertThrows(IllegalArgumentException.class,
-                                () -> cspProcessorRegistry.unregisterClassProcessor(null));
+        assertThatThrownBy(() -> cspProcessorRegistry.unregisterClassProcessor(null))
+            .isInstanceOf(NullPointerException.class);
     }
 
     @Test
@@ -137,7 +136,7 @@ public class CspProcessorRegistryTests
         ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
             cspProcessorRegistry = new CspProcessorRegistry<>();
 
-        Assertions.assertThrows(IllegalArgumentException.class,
-                                () -> cspProcessorRegistry.findOrdinaryProcessor(null));
+        assertThatThrownBy(() -> cspProcessorRegistry.findOrdinaryProcessor(null))
+            .isInstanceOf(NullPointerException.class);
     }
 }

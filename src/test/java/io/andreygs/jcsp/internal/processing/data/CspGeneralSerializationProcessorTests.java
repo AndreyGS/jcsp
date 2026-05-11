@@ -213,7 +213,7 @@ public class CspGeneralSerializationProcessorTests
     @SuppressWarnings("DataFlowIssue")
     public void testSerializeBooleanArrayNull()
     {
-        Assertions.assertThrows(IllegalArgumentException.class,
+        Assertions.assertThrows(NullPointerException.class,
                                 () -> cspDataGeneralSerializationProcessor.serialize((boolean[])null));
     }
 
@@ -223,7 +223,7 @@ public class CspGeneralSerializationProcessorTests
     {
         boolean[] value = new boolean[] { true, false };
 
-        Assertions.assertThrows(IllegalArgumentException.class,
+        Assertions.assertThrows(NullPointerException.class,
                                 () -> cspDataGeneralSerializationProcessor.serialize(value));
     }
 

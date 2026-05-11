@@ -29,10 +29,10 @@ import io.andreygs.jcsp.api.model.protocol.message.builder.ICspMessageBuilder;
 import io.andreygs.jcsp.internal.processing.ISerializationWorkflow;
 import io.andreygs.jcsp.api.model.protocol.CspCommonFlag;
 import io.andreygs.jcsp.api.model.protocol.CspProtocolVersion;
-import io.andreygs.jcsp.internal.model.utils.ArgumentChecker;
 import io.andreygs.jcsp.api.model.buffer.IBufferResizeStrategy;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -54,7 +54,6 @@ abstract class AbstractCspMessageBuilder implements ICspMessageBuilder
 
     @Override
     public ICspMessageBuilder setBufferInitialCapacity(int initialBufferCapacity)
-        throws IllegalArgumentException
     {
         if (initialBufferCapacity < 0)
         {
@@ -73,28 +72,23 @@ abstract class AbstractCspMessageBuilder implements ICspMessageBuilder
 
     @Override
     public ICspMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy)
-        throws IllegalArgumentException
     {
-        ArgumentChecker.nonNull(bufferResizeStrategy);
-        this.bufferResizeStrategy = bufferResizeStrategy;
+        this.bufferResizeStrategy = Objects.requireNonNull(bufferResizeStrategy);
         return this;
     }
 
     @Override
     public ICspMessageBuilder setCspProtocolVersion(CspProtocolVersion cspProtocolVersion)
-        throws IllegalArgumentException
     {
-        ArgumentChecker.nonNull(cspProtocolVersion);
-        this.cspProtocolVersion = cspProtocolVersion;
+        this.cspProtocolVersion = Objects.requireNonNull(cspProtocolVersion);
         return this;
     }
 
     @Override
     public ICspMessageBuilder setCspCommonFlags(Set<CspCommonFlag> cspCommonFlags)
-        throws IllegalArgumentException
     {
-        ArgumentChecker.nonNull(cspCommonFlags);
-        this.cspCommonFlags = Set.copyOf(cspCommonFlags);
+        ;
+        this.cspCommonFlags = Set.copyOf(Objects.requireNonNull(cspCommonFlags));
         return this;
     }
 

@@ -47,7 +47,7 @@ public class FactoryRegistry
         F factory = factoryClazz.cast(factories.get(factoryClazz));
         if (factory == null)
         {
-            throw new IllegalArgumentException("Factory for " + factoryClazz.getName() + " is not registered!");
+            throw new NullPointerException("Factory for " + factoryClazz.getName() + " is not registered!");
         }
         return factory;
     }

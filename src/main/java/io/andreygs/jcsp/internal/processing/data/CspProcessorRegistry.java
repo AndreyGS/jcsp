@@ -26,13 +26,13 @@
 package io.andreygs.jcsp.internal.processing.data;
 
 import io.andreygs.jcsp.api.model.protocol.utils.CspTypeToken;
-import io.andreygs.jcsp.internal.model.utils.ArgumentChecker;
 
 import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -51,7 +51,8 @@ public final class CspProcessorRegistry<P, TP>
     @Override
     public void registerClassProcessor(Class<?> clazz, P classProcessor)
     {
-        ArgumentChecker.nonNull(clazz, classProcessor);
+        Objects.requireNonNull(clazz, "clazz");
+        Objects.requireNonNull(classProcessor, "classProcessor");
         if (clazz.isPrimitive() || clazz.isArray() || clazz.isEnum())
         {
             throw new IllegalArgumentException("Only ordinary and generic classes can be added!");
@@ -73,8 +74,8 @@ public final class CspProcessorRegistry<P, TP>
     @Override
     public void registerTypeProcessor(AnnotatedType annotatedType, TP typeProcessor)
     {
-        ArgumentChecker.nonNull(annotatedType, typeProcessor);
-        typeProcessors.put(annotatedType, typeProcessor);
+        typeProcessors.put(Objects.requireNonNull(annotatedType, "annotatedType"),
+            Objects.requireNonNull(typeProcessor, "typeProcessor"));
     }
 
     @Override
