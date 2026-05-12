@@ -36,6 +36,8 @@ import io.andreygs.jcsp.api.model.annotation.CspString;
 import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Field;
 import java.nio.charset.Charset;
+import java.nio.charset.IllegalCharsetNameException;
+import java.nio.charset.UnsupportedCharsetException;
 import java.util.Optional;
 
 /**
@@ -46,7 +48,7 @@ import java.util.Optional;
 public class CspAnnotationUtils
 {
     /**
-     * Does clazz is annotated with {@link CspCreateProcessor} annotation.
+     * Gets clazz is annotated with {@link CspCreateProcessor} annotation.
      *
      * @param clazz Clazz to test.
      * @return true if clazz is annotated with {@link CspCreateProcessor} annotation and false otherwise.
@@ -61,7 +63,7 @@ public class CspAnnotationUtils
      *
      * @param field Field possibly annotated with {@link CspField} which sequence number should be resolved.
      * @return sequence number of CSP serialization belonging field that is set by {@link CspField} annotation or
-     * {@link Optional#empty()} if field should not be serialized with CSP.
+     * {@link Optional#empty()} if field is not annotated with {@link CspField}.
      */
     public static Optional<Integer> resolveCspFieldSequence(Field field)
     {
@@ -84,7 +86,13 @@ public class CspAnnotationUtils
         return cspFixedSizeArray.map(CspFixedSizeArray::value);
     }
 
-    
+    /**
+     * Resolves implementation class of type.
+     *
+     * @param annotatedType Type possibly annotated with {@link CspImplementationClass}.
+     * @return type implementation class or {@link Optional#empty()} if type does not have
+     * {@link CspImplementationClass} annotation.
+     */
     public static Optional<Class<?>> resolveCspImplementationClass(AnnotatedType annotatedType)
     {
         Optional<CspImplementationClass> cspOverrideProcessor =
@@ -92,6 +100,13 @@ public class CspAnnotationUtils
         return cspOverrideProcessor.map(CspImplementationClass::value);
     }
 
+    /**
+     * Resolves override class of type.
+     *
+     * @param annotatedType Type possibly annotated with {@link CspOverrideProcessorClass}.
+     * @return type override class or {@link Optional#empty()} if type does not have
+     * {@link CspOverrideProcessorClass} annotation.
+     */
     public static Optional<Class<?>> resolveCspOverrideProcessorClass(AnnotatedType annotatedType)
     {
         Optional<CspOverrideProcessorClass> cspOverrideProcessorClass =
@@ -99,11 +114,29 @@ public class CspAnnotationUtils
         return cspOverrideProcessorClass.map(CspOverrideProcessorClass::value);
     }
 
+    /**
+     * Gets type reference property.
+     *
+     * @param annotatedType Type possibly annotated with {@link CspReference}.
+     * @return true if type is annotated with {@link CspReference} and false otherwise.
+     */
     public static boolean isCspReference(AnnotatedType annotatedType)
     {
         return annotatedType.getDeclaredAnnotation(CspReference.class) != null;
     }
 
+    /**
+     * Resolves charset of type.
+     * <p>
+     * Class of annotatedType should be the {@link String}, but method does not check this fact.
+     *
+     * @param annotatedType Type ({@link String} is expected) possibly annotated with {@link CspString}.
+     * @return charset which is related to type or {@link Optional#empty()} if type does not have
+     * {@link CspString} annotation.
+     * @throws IllegalCharsetNameException if the given charset name in {@link CspString} is illegal.
+     * @throws UnsupportedCharsetException If no support for the named charset is available in this instance of the
+     * Java virtual machine.
+     */
     public static Optional<Charset> resolveCspStringCharset(AnnotatedType annotatedType)
     {
         Optional<CspString> cspStringOpt = Optional.ofNullable(annotatedType.getDeclaredAnnotation(CspString.class));
