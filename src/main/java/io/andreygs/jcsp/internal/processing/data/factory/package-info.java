@@ -24,17 +24,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module io.andreygs.jcsp.base {
-    requires org.jetbrains.annotations;
+@NotNullByDefault
+package io.andreygs.jcsp.internal.processing.data.factory;
 
-    exports io.andreygs.jcsp.api.controller;
-    exports io.andreygs.jcsp.api.controller.factory;
-    exports io.andreygs.jcsp.api.model.buffer;
-    exports io.andreygs.jcsp.api.model.exception;
-    exports io.andreygs.jcsp.api.model.protocol;
-    exports io.andreygs.jcsp.api.model.protocol.message;
-    exports io.andreygs.jcsp.api.model.protocol.message.builder;
-    exports io.andreygs.jcsp.api.model.protocol.utils;
-    exports io.andreygs.jcsp.api.processing;
-    exports io.andreygs.jcsp.api.processing.data;
-}
+import org.jetbrains.annotations.NotNullByDefault;

@@ -26,7 +26,7 @@
 package io.andreygs.jcsp.internal.model.buffer;
 
 import io.andreygs.jcsp.CommonUtils;
-import io.andreygs.jcsp.internal.factory.model.processing.buffer.CspSerializationBufferFactory;
+import io.andreygs.jcsp.internal.model.buffer.factory.CspSerializationBufferFactory;
 import io.andreygs.jcsp.api.model.buffer.IBufferResizeStrategy;
 import org.junit.jupiter.api.Test;
 

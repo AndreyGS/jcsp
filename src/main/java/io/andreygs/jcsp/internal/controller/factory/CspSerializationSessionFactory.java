@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,17 +22,28 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module io.andreygs.jcsp.base {
-    requires org.jetbrains.annotations;
 
-    exports io.andreygs.jcsp.api.controller;
-    exports io.andreygs.jcsp.api.controller.factory;
-    exports io.andreygs.jcsp.api.model.buffer;
-    exports io.andreygs.jcsp.api.model.exception;
-    exports io.andreygs.jcsp.api.model.protocol;
-    exports io.andreygs.jcsp.api.model.protocol.message;
-    exports io.andreygs.jcsp.api.model.protocol.message.builder;
-    exports io.andreygs.jcsp.api.model.protocol.utils;
-    exports io.andreygs.jcsp.api.processing;
-    exports io.andreygs.jcsp.api.processing.data;
+package io.andreygs.jcsp.internal.controller.factory;
+
+import io.andreygs.jcsp.api.controller.ICspSerializationSession;
+import io.andreygs.jcsp.api.controller.factory.ICspSerializationSessionFactory;
+import io.andreygs.jcsp.internal.controller.CspSerializationSession;
+import io.andreygs.jcsp.internal.model.protocol.message.builder.factory.CspMessageBuilderFactory;
+import io.andreygs.jcsp.internal.processing.data.factory.CspProcessorRegistryFactory;
+import io.andreygs.jcsp.internal.processing.factory.SerializationWorkflowProvider;
+
+/**
+ * TODO: place description here
+ */
+public class CspSerializationSessionFactory
+    implements ICspSerializationSessionFactory
+{
+    @Override
+    public ICspSerializationSession createSession()
+    {
+        return new CspSerializationSession(
+            new SerializationWorkflowProvider().provideWorkflow(),
+            new CspMessageBuilderFactory(),
+            new CspProcessorRegistryFactory().createProcessorRegistry());
+    }
 }

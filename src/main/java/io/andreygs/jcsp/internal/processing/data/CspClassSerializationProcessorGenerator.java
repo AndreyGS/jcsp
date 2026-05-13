@@ -27,7 +27,7 @@ package io.andreygs.jcsp.internal.processing.data;
 
 import io.andreygs.jcsp.api.processing.data.ICspSerializationProcessor;
 import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.internal.factory.processing.data.types.ICspTypeProcessorFactory;
+import io.andreygs.jcsp.internal.processing.data.type.factory.ICspTypeProcessorFactory;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 
 import java.lang.reflect.Field;

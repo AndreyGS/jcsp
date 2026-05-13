@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,17 +22,43 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module io.andreygs.jcsp.base {
-    requires org.jetbrains.annotations;
 
-    exports io.andreygs.jcsp.api.controller;
-    exports io.andreygs.jcsp.api.controller.factory;
-    exports io.andreygs.jcsp.api.model.buffer;
-    exports io.andreygs.jcsp.api.model.exception;
-    exports io.andreygs.jcsp.api.model.protocol;
-    exports io.andreygs.jcsp.api.model.protocol.message;
-    exports io.andreygs.jcsp.api.model.protocol.message.builder;
-    exports io.andreygs.jcsp.api.model.protocol.utils;
-    exports io.andreygs.jcsp.api.processing;
-    exports io.andreygs.jcsp.api.processing.data;
+package io.andreygs.jcsp.internal.model.protocol.message;
+
+import io.andreygs.jcsp.api.model.protocol.message.ICspStatusMessage;
+import io.andreygs.jcsp.internal.model.buffer.ICspBuffer;
+import io.andreygs.jcsp.api.model.protocol.CspCommonFlag;
+import io.andreygs.jcsp.api.model.protocol.CspMessageType;
+import io.andreygs.jcsp.api.model.protocol.CspProtocolVersion;
+import io.andreygs.jcsp.api.model.protocol.CspStatus;
+
+import java.util.Set;
+
+/**
+ * TODO: place description here
+ */
+public final class CspStatusMessage
+    extends AbstractCspMessage
+    implements ICspStatusMessage
+{
+    private final CspStatus cspStatus;
+
+    public CspStatusMessage(ICspBuffer cspBuffer, CspProtocolVersion cspProtocolVersion,
+        Set<CspCommonFlag> cspCommonFlags, CspStatus cspStatus)
+    {
+        super(cspBuffer, cspProtocolVersion, cspCommonFlags);
+        this.cspStatus = cspStatus;
+    }
+
+    @Override
+    public CspMessageType getCspMessageType()
+    {
+        return CspMessageType.STATUS;
+    }
+
+    @Override
+    public CspStatus getStatus()
+    {
+        return cspStatus;
+    }
 }

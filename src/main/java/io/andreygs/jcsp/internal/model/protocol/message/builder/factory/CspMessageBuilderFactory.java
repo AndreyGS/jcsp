@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,17 +22,24 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module io.andreygs.jcsp.base {
-    requires org.jetbrains.annotations;
 
-    exports io.andreygs.jcsp.api.controller;
-    exports io.andreygs.jcsp.api.controller.factory;
-    exports io.andreygs.jcsp.api.model.buffer;
-    exports io.andreygs.jcsp.api.model.exception;
-    exports io.andreygs.jcsp.api.model.protocol;
-    exports io.andreygs.jcsp.api.model.protocol.message;
-    exports io.andreygs.jcsp.api.model.protocol.message.builder;
-    exports io.andreygs.jcsp.api.model.protocol.utils;
-    exports io.andreygs.jcsp.api.processing;
-    exports io.andreygs.jcsp.api.processing.data;
+package io.andreygs.jcsp.internal.model.protocol.message.builder.factory;
+
+import io.andreygs.jcsp.api.model.protocol.message.builder.ICspDataMessageBuilder;
+import io.andreygs.jcsp.internal.model.protocol.message.builder.CspDataMessageBuilder;
+import io.andreygs.jcsp.internal.processing.data.ICspProcessorRegistry;
+import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
+import io.andreygs.jcsp.internal.processing.ISerializationWorkflow;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
+
+/**
+ * TODO: place description here
+ */
+public final class  CspMessageBuilderFactory implements ICspMessageBuilderFactory
+{
+    public ICspDataMessageBuilder createCspDataMessageBuilder(ISerializationWorkflow serializationWorkflow,
+        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor> cspSerializationProcessorRegistry)
+    {
+        return new CspDataMessageBuilder(serializationWorkflow, cspSerializationProcessorRegistry);
+    }
 }

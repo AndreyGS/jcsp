@@ -28,7 +28,7 @@ package io.andreygs.jcsp.internal.controller;
 import io.andreygs.jcsp.api.controller.ICspSerializationSession;
 import io.andreygs.jcsp.api.model.protocol.message.builder.ICspDataMessageBuilder;
 import io.andreygs.jcsp.api.model.protocol.utils.CspTypeToken;
-import io.andreygs.jcsp.internal.factory.model.message.builder.ICspMessageBuilderFactory;
+import io.andreygs.jcsp.internal.model.protocol.message.builder.factory.ICspMessageBuilderFactory;
 import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
 import io.andreygs.jcsp.internal.processing.data.ICspProcessorRegistry;
 import io.andreygs.jcsp.internal.processing.ISerializationWorkflow;

@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,17 +22,28 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module io.andreygs.jcsp.base {
-    requires org.jetbrains.annotations;
 
-    exports io.andreygs.jcsp.api.controller;
-    exports io.andreygs.jcsp.api.controller.factory;
-    exports io.andreygs.jcsp.api.model.buffer;
-    exports io.andreygs.jcsp.api.model.exception;
-    exports io.andreygs.jcsp.api.model.protocol;
-    exports io.andreygs.jcsp.api.model.protocol.message;
-    exports io.andreygs.jcsp.api.model.protocol.message.builder;
-    exports io.andreygs.jcsp.api.model.protocol.utils;
-    exports io.andreygs.jcsp.api.processing;
-    exports io.andreygs.jcsp.api.processing.data;
+package io.andreygs.jcsp.internal.model.buffer.factory;
+
+import io.andreygs.jcsp.internal.model.buffer.CspDeserializationBuffer;
+import io.andreygs.jcsp.internal.model.buffer.ICspDeserializationBuffer;
+
+import java.nio.ByteBuffer;
+
+/**
+ * Sole implementation of {@link ICspDeserializationBufferFactory}.
+ * <p>
+ * Creates following class instances:
+ * <ul>
+ *     <li>{@link ICspDeserializationBuffer} -> {@link CspDeserializationBuffer}</li>
+ * </ul>
+ */
+public final class CspDeserializationBufferFactory
+    implements ICspDeserializationBufferFactory
+{
+    @Override
+    public ICspDeserializationBuffer createBuffer(ByteBuffer byteBuffer)
+    {
+        return new CspDeserializationBuffer(byteBuffer);
+    }
 }

@@ -1,0 +1,124 @@
+/**
+ * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
+ * <p>
+ * License
+ * <p>
+ * Copyright 2025 Andrey Grabov-Smetankin <ukbpyh@gmail.com>
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files
+ * (the "Software"), to deal in the Software without restriction, including without limitation the rights to use,
+ * copy, modify, merge,
+ * publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so,
+ * subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of
+ * the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+package io.andreygs.jcsp.internal.model.protocol.message.builder;
+
+import io.andreygs.jcsp.api.model.protocol.message.builder.ICspMessageBuilder;
+import io.andreygs.jcsp.internal.processing.ISerializationWorkflow;
+import io.andreygs.jcsp.api.model.protocol.CspCommonFlag;
+import io.andreygs.jcsp.api.model.protocol.CspProtocolVersion;
+import io.andreygs.jcsp.api.model.buffer.IBufferResizeStrategy;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
+import java.util.Set;
+
+/**
+ * TODO: place description here
+ */
+abstract class AbstractCspMessageBuilder implements ICspMessageBuilder
+{
+    private final ISerializationWorkflow serializationWorkflow;
+    private @Nullable Integer initialBufferCapacity;
+    private @Nullable Boolean directBuffer;
+    private @Nullable IBufferResizeStrategy bufferResizeStrategy;
+    private @Nullable CspProtocolVersion cspProtocolVersion;
+    private @Nullable Set<CspCommonFlag> cspCommonFlags;
+
+    AbstractCspMessageBuilder(ISerializationWorkflow serializationWorkflow)
+    {
+        this.serializationWorkflow = serializationWorkflow;
+    }
+
+    @Override
+    public ICspMessageBuilder setBufferInitialCapacity(int initialBufferCapacity)
+    {
+        if (initialBufferCapacity < 0)
+        {
+            throw new IllegalArgumentException("Buffer capacity can not be negative!");
+        }
+        this.initialBufferCapacity = initialBufferCapacity;
+        return this;
+    }
+
+    @Override
+    public ICspMessageBuilder setDirectBuffer(boolean directBuffer)
+    {
+        this.directBuffer = directBuffer;
+        return this;
+    }
+
+    @Override
+    public ICspMessageBuilder setBufferResizeStrategy(IBufferResizeStrategy bufferResizeStrategy)
+    {
+        this.bufferResizeStrategy = Objects.requireNonNull(bufferResizeStrategy);
+        return this;
+    }
+
+    @Override
+    public ICspMessageBuilder setCspProtocolVersion(CspProtocolVersion cspProtocolVersion)
+    {
+        this.cspProtocolVersion = Objects.requireNonNull(cspProtocolVersion);
+        return this;
+    }
+
+    @Override
+    public ICspMessageBuilder setCspCommonFlags(Set<CspCommonFlag> cspCommonFlags)
+    {
+        ;
+        this.cspCommonFlags = Set.copyOf(Objects.requireNonNull(cspCommonFlags));
+        return this;
+    }
+
+    protected ISerializationWorkflow getSerializationWorkflow()
+    {
+        return serializationWorkflow;
+    }
+
+    protected @Nullable Integer getInitialBufferCapacity()
+    {
+        return initialBufferCapacity;
+    }
+
+    protected @Nullable Boolean getDirectBuffer()
+    {
+        return directBuffer;
+    }
+
+    protected @Nullable IBufferResizeStrategy getBufferResizeStrategy()
+    {
+        return bufferResizeStrategy;
+    }
+
+    protected @Nullable CspProtocolVersion getCspProtocolVersion()
+    {
+        return cspProtocolVersion;
+    }
+
+    protected @Nullable Set<CspCommonFlag> getCspCommonFlags()
+    {
+        return cspCommonFlags;
+    }
+}

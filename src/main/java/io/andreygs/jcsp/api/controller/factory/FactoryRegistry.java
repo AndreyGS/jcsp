@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,17 +22,33 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module io.andreygs.jcsp.base {
-    requires org.jetbrains.annotations;
 
-    exports io.andreygs.jcsp.api.controller;
-    exports io.andreygs.jcsp.api.controller.factory;
-    exports io.andreygs.jcsp.api.model.buffer;
-    exports io.andreygs.jcsp.api.model.exception;
-    exports io.andreygs.jcsp.api.model.protocol;
-    exports io.andreygs.jcsp.api.model.protocol.message;
-    exports io.andreygs.jcsp.api.model.protocol.message.builder;
-    exports io.andreygs.jcsp.api.model.protocol.utils;
-    exports io.andreygs.jcsp.api.processing;
-    exports io.andreygs.jcsp.api.processing.data;
+package io.andreygs.jcsp.api.controller.factory;
+
+import io.andreygs.jcsp.internal.controller.factory.CspSerializationSessionFactory;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * TODO: place description here
+ */
+public class FactoryRegistry
+{
+    private static final Map<Class<?>, Object> factories = new HashMap<>();
+
+    static
+    {
+        factories.put(ICspSerializationSessionFactory.class, new CspSerializationSessionFactory());
+    }
+
+    public static <F> F requireFactory(Class<F> factoryClazz)
+    {
+        F factory = factoryClazz.cast(factories.get(factoryClazz));
+        if (factory == null)
+        {
+            throw new NullPointerException("Factory for " + factoryClazz.getName() + " is not registered!");
+        }
+        return factory;
+    }
 }

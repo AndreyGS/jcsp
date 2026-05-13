@@ -32,6 +32,7 @@ import io.andreygs.jcsp.api.model.annotation.CspString;
 import io.andreygs.jcsp.api.model.protocol.utils.CspTypeToken;
 import io.andreygs.jcsp.api.processing.data.ICspClassDeserializationProcessor;
 import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.model.IGenericClassProcessorHolder;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeDeserializationProcessor;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 import org.junit.jupiter.api.Test;

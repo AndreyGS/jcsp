@@ -30,6 +30,7 @@ import io.andreygs.jcsp.api.processing.data.ICspDeserializationProcessor;
 import io.andreygs.jcsp.api.processing.data.ICspSerializationProcessor;
 import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
 import io.andreygs.jcsp.api.model.annotation.CspCreateProcessor;
+import io.andreygs.jcsp.internal.processing.data.model.IGenericClassProcessorHolder;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeDeserializationProcessor;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 

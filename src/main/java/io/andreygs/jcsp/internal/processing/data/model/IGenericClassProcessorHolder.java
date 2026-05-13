@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,17 +22,32 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module io.andreygs.jcsp.base {
-    requires org.jetbrains.annotations;
 
-    exports io.andreygs.jcsp.api.controller;
-    exports io.andreygs.jcsp.api.controller.factory;
-    exports io.andreygs.jcsp.api.model.buffer;
-    exports io.andreygs.jcsp.api.model.exception;
-    exports io.andreygs.jcsp.api.model.protocol;
-    exports io.andreygs.jcsp.api.model.protocol.message;
-    exports io.andreygs.jcsp.api.model.protocol.message.builder;
-    exports io.andreygs.jcsp.api.model.protocol.utils;
-    exports io.andreygs.jcsp.api.processing;
-    exports io.andreygs.jcsp.api.processing.data;
+package io.andreygs.jcsp.internal.processing.data.model;
+
+import io.andreygs.jcsp.api.processing.data.ICspClassDeserializationProcessor;
+import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
+
+import java.util.Set;
+
+/**
+ * Holder of generic class processor with set of its type variable names.
+ *
+ * @param <CP> {@link ICspClassSerializationProcessor} or {@link ICspClassDeserializationProcessor}.
+ */
+public interface IGenericClassProcessorHolder<CP>
+{
+    /**
+     * Gets class processor.
+     *
+     * @return generic class processor.
+     */
+    CP getClassProcessor();
+
+    /**
+     * Gets type variable names of generic class processor.
+     *
+     * @return unmodifiable set of type variable names.
+     */
+    Set<String> getTypeVariableNames();
 }

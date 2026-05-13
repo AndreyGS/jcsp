@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,17 +22,29 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module io.andreygs.jcsp.base {
-    requires org.jetbrains.annotations;
 
-    exports io.andreygs.jcsp.api.controller;
-    exports io.andreygs.jcsp.api.controller.factory;
-    exports io.andreygs.jcsp.api.model.buffer;
-    exports io.andreygs.jcsp.api.model.exception;
-    exports io.andreygs.jcsp.api.model.protocol;
-    exports io.andreygs.jcsp.api.model.protocol.message;
-    exports io.andreygs.jcsp.api.model.protocol.message.builder;
-    exports io.andreygs.jcsp.api.model.protocol.utils;
-    exports io.andreygs.jcsp.api.processing;
-    exports io.andreygs.jcsp.api.processing.data;
+package io.andreygs.jcsp.internal.processing.data.type.factory;
+
+import io.andreygs.jcsp.internal.model.utils.ResourceMessagesLoader;
+
+/**
+ * TODO: place description here
+ */
+final class Messages
+{
+    public static String CspStatus_Error_in_struct_format_Array_size_number_is_invalid;
+    public static String CspStatus_Error_in_struct_format_Class__0__cannot_be_implementation_of_class__1;
+    public static String CspStatus_Error_in_struct_format_Class__0__cannot_override_class__1;
+    public static String CspStatus_Error_in_struct_format_Collection_has_invalid_type_arguments_number;
+    public static String CspStatus_Error_in_struct_format_Map_has_invalid_type_arguments_number;
+    public static String CspStatus_Error_in_struct_format_Primitive__0__is_not_supported;
+    public static String CspStatus_Error_in_struct_format_Property__0__for_struct__1__not_set;
+    public static String CspStatus_Error_in_struct_format_Sequence_number_is_invalid;
+    public static String CspStatus_Error_in_struct_format_Unbound_wildcard_type_cannot_be_processed;
+    public static String CspStatus_Error_in_struct_format_Unknown_type_category;
+
+    static
+    {
+        ResourceMessagesLoader.loadMessages(Messages.class);
+    }
 }

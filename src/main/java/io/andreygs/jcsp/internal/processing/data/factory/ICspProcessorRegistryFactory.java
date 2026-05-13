@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,17 +22,28 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-module io.andreygs.jcsp.base {
-    requires org.jetbrains.annotations;
 
-    exports io.andreygs.jcsp.api.controller;
-    exports io.andreygs.jcsp.api.controller.factory;
-    exports io.andreygs.jcsp.api.model.buffer;
-    exports io.andreygs.jcsp.api.model.exception;
-    exports io.andreygs.jcsp.api.model.protocol;
-    exports io.andreygs.jcsp.api.model.protocol.message;
-    exports io.andreygs.jcsp.api.model.protocol.message.builder;
-    exports io.andreygs.jcsp.api.model.protocol.utils;
-    exports io.andreygs.jcsp.api.processing;
-    exports io.andreygs.jcsp.api.processing.data;
+package io.andreygs.jcsp.internal.processing.data.factory;
+
+import io.andreygs.jcsp.api.processing.data.ICspClassDeserializationProcessor;
+import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.ICspProcessorRegistry;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeDeserializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
+
+/**
+ * Factory for creation {@link ICspProcessorRegistry}.
+ */
+public interface ICspProcessorRegistryFactory
+{
+    /**
+     * Creates {@link ICspProcessorRegistry}.
+     *
+     * @return created CSP processor registrar.
+     * @param <P> one of {@link ICspClassSerializationProcessor} or {@link ICspClassDeserializationProcessor},
+     *            depending on what kind of registry is created.
+     * @param <TP> one of {@link ICspTypeSerializationProcessor} or {@link ICspTypeDeserializationProcessor},
+     *             depending on what kind of registry is created.
+     */
+    <P, TP> ICspProcessorRegistry<P, TP> createProcessorRegistry();
 }
