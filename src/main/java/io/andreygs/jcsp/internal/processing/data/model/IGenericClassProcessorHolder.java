@@ -25,8 +25,9 @@
 
 package io.andreygs.jcsp.internal.processing.data.model;
 
-import io.andreygs.jcsp.api.processing.data.ICspClassDeserializationProcessor;
-import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
+import io.andreygs.jcsp.api.processing.data.clazz.ICspClassDeserializationProcessor;
+import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.type.model.ITypeVariableDescriptor;
 
 import java.util.Set;
 

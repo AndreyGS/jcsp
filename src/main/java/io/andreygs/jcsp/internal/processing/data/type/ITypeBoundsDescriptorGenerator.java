@@ -23,15 +23,19 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.factory;
+package io.andreygs.jcsp.internal.processing.data.type;
 
-import io.andreygs.jcsp.api.processing.data.clazz.ICspClassDeserializationProcessor;
-import io.andreygs.jcsp.internal.processing.data.ICspClassProcessorGenerator;
+import io.andreygs.jcsp.internal.processing.data.type.model.ITypeBoundsDescriptor;
+
+import java.lang.reflect.AnnotatedWildcardType;
+import java.lang.reflect.Type;
 
 /**
  * TODO: place description here
  */
-interface ICspClassDeserializationProcessorGeneratorFactory
+public interface ITypeBoundsDescriptorGenerator
 {
-    ICspClassProcessorGenerator<ICspClassDeserializationProcessor> createCspDataProcessorGenerator();
+    ITypeBoundsDescriptor getTypeBoundsDescriptor(Type[] typeBounds);
+
+    ITypeBoundsDescriptor getTypeBoundsDescriptor(AnnotatedWildcardType annotatedWildcardType);
 }

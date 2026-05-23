@@ -40,7 +40,8 @@ import io.andreygs.jcsp.api.model.protocol.message.config.ICspMessageConfig;
  */
 public interface ICspSerializationWorkflow
 {
-    <T extends ICspVersionable> ICspDataMessage<T> serializeDataMessage(ICspVersionable value, Class<T> clazz,
+    <T extends ICspVersionable> ICspDataMessage<T> serializeDataMessage(
+        ICspVersionable value, Class<T> clazz,
         ISerializationBufferConfig bufferConfig, ICspMessageConfig messageConfig,
         ICspDataMessageConfigExtension dataMessageConfigExtension);
 }

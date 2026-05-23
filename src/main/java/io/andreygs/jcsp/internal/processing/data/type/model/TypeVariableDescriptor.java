@@ -23,15 +23,37 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.factory;
+package io.andreygs.jcsp.internal.processing.data.type.model;
 
-import io.andreygs.jcsp.api.processing.data.clazz.ICspClassDeserializationProcessor;
-import io.andreygs.jcsp.internal.processing.data.ICspClassProcessorGenerator;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * TODO: place description here
  */
-interface ICspClassDeserializationProcessorGeneratorFactory
+public class TypeVariableDescriptor
+    implements ITypeVariableDescriptor
 {
-    ICspClassProcessorGenerator<ICspClassDeserializationProcessor> createCspDataProcessorGenerator();
+    private final String name;
+    private final @Nullable ITypeBoundsDescriptor typeBoundsDescriptor;
+
+    public TypeVariableDescriptor(String name,  @Nullable ITypeBoundsDescriptor typeBoundsDescriptor)
+    {
+        this.name = Objects.requireNonNull(name);
+        this.typeBoundsDescriptor = typeBoundsDescriptor;
+    }
+
+    @Override
+    public String getName()
+    {
+        return name;
+    }
+
+    @Override
+    public Optional<ITypeBoundsDescriptor> getTypeBoundsDescriptors()
+    {
+        return Optional.ofNullable(typeBoundsDescriptor);
+    }
 }

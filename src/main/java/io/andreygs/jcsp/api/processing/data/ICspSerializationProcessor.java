@@ -30,6 +30,7 @@ import io.andreygs.jcsp.api.model.protocol.utils.CspTypeToken;
 import io.andreygs.jcsp.api.model.protocol.CspDataFlag;
 import io.andreygs.jcsp.api.model.exception.CspRuntimeException;
 import io.andreygs.jcsp.api.model.protocol.CspStatus;
+import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;

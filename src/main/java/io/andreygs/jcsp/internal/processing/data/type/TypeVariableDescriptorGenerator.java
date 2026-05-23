@@ -23,12 +23,32 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.model;
+package io.andreygs.jcsp.internal.processing.data.type;
+
+import io.andreygs.jcsp.internal.processing.data.type.model.ITypeVariableDescriptor;
+import io.andreygs.jcsp.internal.processing.data.type.model.factory.ITypeVariableDescriptorFactory;
+
+import java.lang.reflect.TypeVariable;
+import java.util.Objects;
 
 /**
  * TODO: place description here
  */
-public enum TypeBoundKind
+public class TypeVariableDescriptorGenerator implements ITypeVariableDescriptorGenerator
 {
-    LOWER_BOUND, UPPER_BOUND;
+    private final ITypeVariableDescriptorFactory typeVariableDescriptorFactory;
+    private final ITypeBoundsDescriptorGenerator typeBoundsDescriptorGenerator;
+
+    public TypeVariableDescriptorGenerator(ITypeVariableDescriptorFactory typeVariableDescriptorFactory,
+        ITypeBoundsDescriptorGenerator typeBoundsDescriptorGenerator)
+    {
+        this.typeVariableDescriptorFactory = Objects.requireNonNull(typeVariableDescriptorFactory);
+        this.typeBoundsDescriptorGenerator = Objects.requireNonNull(typeBoundsDescriptorGenerator);
+    }
+
+    @Override
+    public ITypeVariableDescriptor generateTypeVariableDescriptor(TypeVariable<? extends Class<?>> typeVariable)
+    {
+        return null;
+    }
 }

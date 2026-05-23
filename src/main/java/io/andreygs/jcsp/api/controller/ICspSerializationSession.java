@@ -33,7 +33,7 @@ import io.andreygs.jcsp.api.model.protocol.ICspVersionable;
 import io.andreygs.jcsp.api.model.protocol.message.config.ICspMessageConfig;
 import io.andreygs.jcsp.api.model.protocol.message.config.factory.ICspMessageConfigFactory;
 import io.andreygs.jcsp.api.model.protocol.utils.CspTypeToken;
-import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
+import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
 import org.jetbrains.annotations.Nullable;
 
 /**

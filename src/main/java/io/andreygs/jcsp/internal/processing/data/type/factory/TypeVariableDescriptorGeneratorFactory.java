@@ -23,15 +23,24 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.factory;
+package io.andreygs.jcsp.internal.processing.data.type.factory;
 
-import io.andreygs.jcsp.api.processing.data.clazz.ICspClassDeserializationProcessor;
-import io.andreygs.jcsp.internal.processing.data.ICspClassProcessorGenerator;
+import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptorGenerator;
+import io.andreygs.jcsp.internal.processing.data.type.TypeVariableDescriptorGenerator;
+import io.andreygs.jcsp.internal.processing.data.type.model.factory.TypeVariableDescriptorFactory;
 
 /**
  * TODO: place description here
  */
-interface ICspClassDeserializationProcessorGeneratorFactory
+public class TypeVariableDescriptorGeneratorFactory implements ITypeVariableDescriptorGeneratorFactory
 {
-    ICspClassProcessorGenerator<ICspClassDeserializationProcessor> createCspDataProcessorGenerator();
+    private static final ITypeVariableDescriptorGenerator DEFAULT_DESCRIPTOR_GENERATOR =
+        new TypeVariableDescriptorGenerator(new TypeVariableDescriptorFactory(),
+            new TypeBoundsDescriptorGeneratorFactory().provideTypeBoundsDescriptorGenerator());
+
+    @Override
+    public ITypeVariableDescriptorGenerator provideDefaultDescriptorGenerator()
+    {
+        return DEFAULT_DESCRIPTOR_GENERATOR;
+    }
 }

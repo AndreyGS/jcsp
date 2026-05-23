@@ -23,10 +23,11 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.model;
+package io.andreygs.jcsp.internal.processing.data.type.model;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -43,9 +44,9 @@ public class TypeBoundsDescriptor
 
     public TypeBoundsDescriptor(TypeBoundKind boundTypeKind, Set<Class<?>> boundClasses)
     {
-        this.boundTypeKind = boundTypeKind;
+        this.boundTypeKind = Objects.requireNonNull(boundTypeKind);
         this.typeIdKind = TypeIdKind.CLASS;
-        this.boundClasses = boundClasses;
+        this.boundClasses = Set.copyOf(boundClasses);
         this.boundTypeVariableName = null;
         if (this.boundClasses.isEmpty())
         {
@@ -55,7 +56,7 @@ public class TypeBoundsDescriptor
 
     public TypeBoundsDescriptor(TypeBoundKind boundTypeKind, String boundTypeVariableName)
     {
-        this.boundTypeKind = boundTypeKind;
+        this.boundTypeKind = Objects.requireNonNull(boundTypeKind);
         this.typeIdKind = TypeIdKind.TYPE_VARIABLE_NAME;
         this.boundClasses = Set.of();
         this.boundTypeVariableName = boundTypeVariableName;

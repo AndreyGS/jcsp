@@ -23,12 +23,16 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.api.processing.data;
+package io.andreygs.jcsp.internal.processing.data.type.model;
+
+import java.util.Optional;
 
 /**
  * TODO: place description here
  */
-public interface ICspClassSerializationProcessor<T>
+public interface ITypeVariableDescriptor
 {
-    void serialize(T value, ICspSerializationProcessor processor);
+    String getName();
+
+    Optional<ITypeBoundsDescriptor> getTypeBoundsDescriptors();
 }

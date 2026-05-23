@@ -23,15 +23,17 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.factory;
+package io.andreygs.jcsp.internal.processing.data.type.model.factory;
 
-import io.andreygs.jcsp.api.processing.data.clazz.ICspClassDeserializationProcessor;
-import io.andreygs.jcsp.internal.processing.data.ICspClassProcessorGenerator;
+import io.andreygs.jcsp.internal.processing.data.type.model.ITypeBoundsDescriptor;
+import io.andreygs.jcsp.internal.processing.data.type.model.ITypeVariableDescriptor;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * TODO: place description here
  */
-interface ICspClassDeserializationProcessorGeneratorFactory
+public interface ITypeVariableDescriptorFactory
 {
-    ICspClassProcessorGenerator<ICspClassDeserializationProcessor> createCspDataProcessorGenerator();
+    ITypeVariableDescriptor createTypeVariableDescriptor(String name,
+        @Nullable ITypeBoundsDescriptor typeBoundsDescriptor);
 }

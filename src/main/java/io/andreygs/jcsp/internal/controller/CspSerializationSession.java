@@ -34,7 +34,7 @@ import io.andreygs.jcsp.api.model.protocol.ICspVersionable;
 import io.andreygs.jcsp.api.model.protocol.message.config.ICspMessageConfig;
 import io.andreygs.jcsp.api.model.protocol.message.config.factory.ICspMessageConfigFactory;
 import io.andreygs.jcsp.api.model.protocol.utils.CspTypeToken;
-import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
+import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
 import io.andreygs.jcsp.internal.processing.data.ICspProcessorRegistry;
 import io.andreygs.jcsp.internal.processing.ICspSerializationWorkflow;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
@@ -118,18 +118,18 @@ public class CspSerializationSession implements ICspSerializationSession
     }
 
     @Override
-    public <T extends ICspVersionable> ICspDataMessage<T> serializeData(ICspVersionable value, Class<T> struct)
+    public <T extends ICspVersionable> ICspDataMessage<T> serializeData(ICspVersionable struct, Class<T> clazz)
     {
-        return serializationWorkflow.serializeDataMessage(Objects.requireNonNull(value), Objects.requireNonNull(struct),
+        return serializationWorkflow.serializeDataMessage(Objects.requireNonNull(struct), Objects.requireNonNull(clazz),
             defaultBufferConfig, defaultMessageConfig, defaultDataMessageConfigExtension);
     }
 
     @Override
-    public <T extends ICspVersionable> ICspDataMessage<T> serializeData(ICspVersionable value, Class<T> struct,
+    public <T extends ICspVersionable> ICspDataMessage<T> serializeData(ICspVersionable struct, Class<T> clazz,
         @Nullable ISerializationBufferConfig customBufferConfig, @Nullable ICspMessageConfig customMessageConfig,
         @Nullable ICspDataMessageConfigExtension customDataMessageConfigExtension)
     {
-        return serializationWorkflow.serializeDataMessage(Objects.requireNonNull(value), Objects.requireNonNull(struct),
+        return serializationWorkflow.serializeDataMessage(Objects.requireNonNull(struct), Objects.requireNonNull(clazz),
             customBufferConfig != null ?  customBufferConfig : defaultBufferConfig,
             customMessageConfig != null ? customMessageConfig : defaultMessageConfig,
             customDataMessageConfigExtension != null ? customDataMessageConfigExtension : defaultDataMessageConfigExtension);

@@ -23,15 +23,24 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.factory;
+package io.andreygs.jcsp.internal.processing.data.clazz.dto.factory;
 
-import io.andreygs.jcsp.api.processing.data.clazz.ICspClassDeserializationProcessor;
-import io.andreygs.jcsp.internal.processing.data.ICspClassProcessorGenerator;
+import io.andreygs.jcsp.internal.processing.data.clazz.dto.CspClassProcessorDescriptor;
+import io.andreygs.jcsp.internal.processing.data.clazz.dto.ICspClassProcessorDescriptor;
+import io.andreygs.jcsp.internal.processing.data.type.model.ITypeVariableDescriptor;
+
+import java.util.Set;
 
 /**
  * TODO: place description here
  */
-interface ICspClassDeserializationProcessorGeneratorFactory
+public class CspClassProcessorDescriptorFactory
+    implements ICspClassProcessorDescriptorFactory
 {
-    ICspClassProcessorGenerator<ICspClassDeserializationProcessor> createCspDataProcessorGenerator();
+    @Override
+    public <P> ICspClassProcessorDescriptor<P> createClassProcessorDescriptor(P classProcessor,
+        Set<ITypeVariableDescriptor> typeVariableDescriptors)
+    {
+        return new CspClassProcessorDescriptor<>(classProcessor, typeVariableDescriptors);
+    }
 }

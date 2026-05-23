@@ -23,12 +23,37 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.api.processing.data;
+package io.andreygs.jcsp.internal.processing.data.clazz.dto;
+
+import io.andreygs.jcsp.internal.processing.data.type.model.ITypeVariableDescriptor;
+
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * TODO: place description here
  */
-public interface ICspClassDeserializationProcessor<T>
+public class CspClassProcessorDescriptor<P>
+    implements ICspClassProcessorDescriptor<P>
 {
-    T deserialize(T value, ICspDeserializationProcessor processor);
+    private final P classProcessor;
+    private final Set<ITypeVariableDescriptor> typeVariableDescriptors;
+
+    public CspClassProcessorDescriptor(P classProcessor, Set<ITypeVariableDescriptor> typeVariableDescriptors)
+    {
+        this.classProcessor = Objects.requireNonNull(classProcessor);
+        this.typeVariableDescriptors = Set.copyOf(typeVariableDescriptors);
+    }
+
+    @Override
+    public P getClassProcessor()
+    {
+        return classProcessor;
+    }
+
+    @Override
+    public Set<ITypeVariableDescriptor> getTypeVariableDescriptors()
+    {
+        return typeVariableDescriptors;
+    }
 }

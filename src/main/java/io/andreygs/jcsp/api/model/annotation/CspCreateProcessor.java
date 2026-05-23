@@ -26,8 +26,8 @@
 package io.andreygs.jcsp.api.model.annotation;
 
 import io.andreygs.jcsp.api.controller.ICspSerializationSession;
-import io.andreygs.jcsp.api.processing.data.ICspClassDeserializationProcessor;
-import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
+import io.andreygs.jcsp.api.processing.data.clazz.ICspClassDeserializationProcessor;
+import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

@@ -41,4 +41,5 @@ module io.andreygs.jcsp.base {
     exports io.andreygs.jcsp.api.model.protocol.utils;
     exports io.andreygs.jcsp.api.processing;
     exports io.andreygs.jcsp.api.processing.data;
+    exports io.andreygs.jcsp.api.processing.data.clazz;
 }

@@ -37,7 +37,7 @@ import io.andreygs.jcsp.internal.processing.data.factory.ICspSerializationProces
 import io.andreygs.jcsp.api.model.protocol.ICspVersionable;
 
 /**
- * The sole implementation of {@link ICspSerializationWorkflow}.
+ *
  */
 public final class CspSerializationWorkflow
     implements ICspSerializationWorkflow
@@ -58,7 +58,8 @@ public final class CspSerializationWorkflow
     }
 
     @Override
-    public <T extends ICspVersionable> ICspDataMessage<T> serializeDataMessage(ICspVersionable value, Class<T> clazz,
+    public <T extends ICspVersionable> ICspDataMessage<T> serializeDataMessage(
+        ICspVersionable value, Class<T> clazz,
         ISerializationBufferConfig bufferConfig, ICspMessageConfig messageConfig,
         ICspDataMessageConfigExtension dataMessageConfigExtension)
     {

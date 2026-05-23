@@ -23,12 +23,18 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.model;
+package io.andreygs.jcsp.internal.processing.data.clazz.dto;
+
+import io.andreygs.jcsp.internal.processing.data.type.model.ITypeVariableDescriptor;
+
+import java.util.Set;
 
 /**
  * TODO: place description here
  */
-public enum TypeIdKind
+public interface ICspClassProcessorDescriptor<P>
 {
-    CLASS, TYPE_VARIABLE_NAME, WILDCARD
+    P getClassProcessor();
+
+    Set<ITypeVariableDescriptor> getTypeVariableDescriptors();
 }
