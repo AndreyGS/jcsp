@@ -25,50 +25,33 @@
 
 package io.andreygs.jcsp.internal.model.protocol.message;
 
-import io.andreygs.jcsp.internal.model.buffer.IBuffer;
-import io.andreygs.jcsp.api.model.protocol.CspCommonFlag;
-import io.andreygs.jcsp.api.model.protocol.CspDataFlag;
+import io.andreygs.jcsp.api.model.protocol.message.ICspDataMessage;
+import io.andreygs.jcsp.api.model.protocol.message.context.ICspDataMessageContextExtension;
+import io.andreygs.jcsp.api.model.protocol.message.context.ICspMessageContext;
 import io.andreygs.jcsp.api.model.protocol.CspMessageType;
-import io.andreygs.jcsp.api.model.protocol.CspProtocolVersion;
-import io.andreygs.jcsp.api.model.protocol.ICspInterfaceVersion;
 import io.andreygs.jcsp.api.model.protocol.ICspVersionable;
 
-import java.util.EnumSet;
-import java.util.Set;
+import java.nio.ByteBuffer;
+import java.util.Objects;
 
 /**
  * TODO: place description here
  */
-public final class CspDataMessage
-    extends AbstractCspMessage
-    implements ICspDataMessage
+public final class CspDataMessage<T extends ICspVersionable>
+    implements ICspDataMessage<T>
 {
-    private final ICspVersionable struct;
-    private final Class<?> structClazz;
-    private final ICspInterfaceVersion cspInterfaceVersion;
-    private final boolean alignmentMayBeNotEqual;
-    private final boolean sizeOfIntegersMayBeNotEqual;
-    private final boolean allowUnmanagedPointers;
-    private final boolean checkRecursivePointers;
-    private final boolean simplyAssignableTagsOptimizationsAreTurnedOff;
-    private final boolean checkRecursivePointersWhileMaintainingLinkStructure;
+    private final ByteBuffer buffer;
+    private final ICspMessageContext messageContext;
+    private final T struct;
+    private final ICspDataMessageContextExtension dataDataMessageContextExtension;
 
-    public CspDataMessage(IBuffer cspBuffer, CspProtocolVersion cspProtocolVersion, Set<CspCommonFlag> cspCommonFlags,
-        ICspVersionable struct, Class<?> structClazz, ICspInterfaceVersion cspInterfaceVersion,
-        Set<CspDataFlag> cspDataFlags)
+    public CspDataMessage(ByteBuffer buffer,
+        ICspMessageContext messageContext, T struct, ICspDataMessageContextExtension dataDataMessageContextExtension)
     {
-        super(cspBuffer, cspProtocolVersion, cspCommonFlags);
-        this.struct = struct;
-        this.structClazz = structClazz;
-        this.cspInterfaceVersion = cspInterfaceVersion;
-        this.alignmentMayBeNotEqual = cspDataFlags.contains(CspDataFlag.ALIGNMENT_MAY_BE_NOT_EQUAL);
-        this.sizeOfIntegersMayBeNotEqual = cspDataFlags.contains(CspDataFlag.SIZE_OF_INTEGERS_MAY_BE_NOT_EQUAL);
-        this.allowUnmanagedPointers = cspDataFlags.contains(CspDataFlag.ALLOW_UNMANAGED_POINTERS);
-        this.checkRecursivePointers = cspDataFlags.contains(CspDataFlag.CHECK_RECURSIVE_POINTERS);
-        this.simplyAssignableTagsOptimizationsAreTurnedOff =
-            cspDataFlags.contains(CspDataFlag.SIMPLY_ASSIGNABLE_TAGS_OPTIMIZATIONS_ARE_TURNED_OFF);
-        this.checkRecursivePointersWhileMaintainingLinkStructure =
-            cspDataFlags.contains(CspDataFlag.CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE);
+        this.buffer = Objects.requireNonNull(buffer);
+        this.messageContext = Objects.requireNonNull(messageContext);
+        this.struct = Objects.requireNonNull(struct);
+        this.dataDataMessageContextExtension = Objects.requireNonNull(dataDataMessageContextExtension);
     }
 
     @Override
@@ -77,88 +60,28 @@ public final class CspDataMessage
         return CspMessageType.DATA;
     }
 
+
     @Override
-    public ICspVersionable getStruct()
+    public ByteBuffer getBuffer()
+    {
+        return buffer;
+    }
+
+    @Override
+    public ICspMessageContext getMessageContext()
+    {
+        return messageContext;
+    }
+
+    @Override
+    public T getStruct()
     {
         return struct;
     }
 
     @Override
-    public Class<?> getStructClazz()
+    public ICspDataMessageContextExtension getMessageDataContext()
     {
-        return structClazz;
-    }
-
-    @Override
-    public ICspInterfaceVersion getInterfaceVersion()
-    {
-        return cspInterfaceVersion;
-    }
-
-    @Override
-    public Set<CspDataFlag> getCspDataFlags()
-    {
-        Set<CspDataFlag> cspDataFlags = EnumSet.noneOf(CspDataFlag.class);
-        if (alignmentMayBeNotEqual)
-        {
-            cspDataFlags.add(CspDataFlag.ALIGNMENT_MAY_BE_NOT_EQUAL);
-        }
-        if (sizeOfIntegersMayBeNotEqual)
-        {
-            cspDataFlags.add(CspDataFlag.SIZE_OF_INTEGERS_MAY_BE_NOT_EQUAL);
-        }
-        if (allowUnmanagedPointers)
-        {
-            cspDataFlags.add(CspDataFlag.ALLOW_UNMANAGED_POINTERS);
-        }
-        if (checkRecursivePointers)
-        {
-            cspDataFlags.add(CspDataFlag.CHECK_RECURSIVE_POINTERS);
-        }
-        if (simplyAssignableTagsOptimizationsAreTurnedOff)
-        {
-            cspDataFlags.add(CspDataFlag.SIMPLY_ASSIGNABLE_TAGS_OPTIMIZATIONS_ARE_TURNED_OFF);
-        }
-        if (checkRecursivePointersWhileMaintainingLinkStructure)
-        {
-            cspDataFlags.add(CspDataFlag.CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE);
-        }
-        return cspDataFlags;
-    }
-
-    @Override
-    public boolean isAlignmentMayBeNotEqual()
-    {
-        return alignmentMayBeNotEqual;
-    }
-
-    @Override
-    public boolean isSizeOfIntegersMayBeNotEqual()
-    {
-        return sizeOfIntegersMayBeNotEqual;
-    }
-
-    @Override
-    public boolean isAllowUnmanagedPointers()
-    {
-        return allowUnmanagedPointers;
-    }
-
-    @Override
-    public boolean isCheckRecursivePointers()
-    {
-        return checkRecursivePointers;
-    }
-
-    @Override
-    public boolean isSimplyAssignableTagsOptimizationsAreTurnedOff()
-    {
-        return simplyAssignableTagsOptimizationsAreTurnedOff;
-    }
-
-    @Override
-    public boolean isCheckRecursivePointersWhileMaintainingLinkStructure()
-    {
-        return checkRecursivePointersWhileMaintainingLinkStructure;
+        return dataDataMessageContextExtension;
     }
 }

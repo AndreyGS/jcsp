@@ -29,6 +29,7 @@ import io.andreygs.jcsp.api.model.buffer.AllocationType;
 import io.andreygs.jcsp.api.model.buffer.IBufferResizeStrategy;
 import io.andreygs.jcsp.api.model.buffer.dto.ISerializationBufferConfig;
 import io.andreygs.jcsp.api.model.buffer.dto.factory.ISerializationBufferConfigFactory;
+import io.andreygs.jcsp.internal.model.buffer.DoublingBufferSizeStrategy;
 import io.andreygs.jcsp.internal.model.buffer.dto.SerializationBufferConfig;
 import org.jetbrains.annotations.Nullable;
 
@@ -44,8 +45,7 @@ public class SerializationBufferConfigFactory implements ISerializationBufferCon
     /**
      * Default immutable cached instance of {@link IBufferResizeStrategy}.
      */
-    private static final IBufferResizeStrategy
-        DEFAULT_BUFFER_RESIZE_STRATEGY = new BufferResizeStrategyFactory().provideDefaultBufferResizeStrategy();
+    private static final IBufferResizeStrategy DEFAULT_BUFFER_RESIZE_STRATEGY = new DoublingBufferSizeStrategy();
     /**
      * Default immutable cached instance of {@link ISerializationBufferConfig}.
      */

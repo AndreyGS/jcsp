@@ -1,4 +1,6 @@
 /**
+ * TODO: place brief description here
+ *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -22,37 +24,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+@NotNullByDefault
+package io.andreygs.jcsp.internal.model.protocol.message.context;
 
-package io.andreygs.jcsp.internal.model.protocol.message.config.builder.factory;
-
-import io.andreygs.jcsp.api.model.protocol.message.config.builder.ICspDataMessageConfigBuilder;
-import io.andreygs.jcsp.api.model.protocol.message.config.builder.ICspGetSettingsMessageConfigBuilder;
-import io.andreygs.jcsp.api.model.protocol.message.config.builder.ICspStatusMessageConfigBuilder;
-import io.andreygs.jcsp.api.model.protocol.message.config.builder.factory.ICspMessageConfigBuilderFactory;
-import io.andreygs.jcsp.internal.model.protocol.message.config.builder.CspDataMessageConfigBuilder;
-
-/**
- * TODO: place description here
- */
-public class CspMessageConfigBuilderFactory
-    implements ICspMessageConfigBuilderFactory
-{
-
-    @Override
-    public ICspDataMessageConfigBuilder createCspDataMessageConfigBuilder()
-    {
-        return new CspDataMessageConfigBuilder();
-    }
-
-    @Override
-    public ICspGetSettingsMessageConfigBuilder createCspGetSettingsMessageConfigBuilder()
-    {
-        return null;
-    }
-
-    @Override
-    public ICspStatusMessageConfigBuilder createCspStatusMessageConfigBuilder()
-    {
-        return null;
-    }
-}
+import org.jetbrains.annotations.NotNullByDefault;

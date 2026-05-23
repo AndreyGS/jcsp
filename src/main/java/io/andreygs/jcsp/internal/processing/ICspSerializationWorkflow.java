@@ -23,21 +23,24 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.api.model.protocol.message.config.builder;
+package io.andreygs.jcsp.internal.processing;
 
-import io.andreygs.jcsp.api.model.protocol.CspCommonFlag;
-import io.andreygs.jcsp.api.model.protocol.CspProtocolVersion;
-
-import java.util.Set;
+import io.andreygs.jcsp.api.model.buffer.dto.ISerializationBufferConfig;
+import io.andreygs.jcsp.api.model.protocol.message.ICspDataMessage;
+import io.andreygs.jcsp.api.model.protocol.message.config.ICspDataMessageConfigExtension;
+import io.andreygs.jcsp.api.model.protocol.ICspVersionable;
+import io.andreygs.jcsp.api.model.protocol.message.config.ICspMessageConfig;
 
 /**
- * TODO: place description here
+ * Workflow of CSP message serialization.
+ * <p>
+ * It init buffer, checks an arguments, writes the message contexts and message bodies.
+ * <p>
+ * It has immutable state
  */
-public interface ICspGetSettingsMessageConfigBuilder extends ICspMessageCommonConfigBuilder
+public interface ICspSerializationWorkflow
 {
-    @Override
-    ICspDataMessageConfigBuilder setCspProtocolVersion(CspProtocolVersion cspProtocolVersion);
-
-    @Override
-    ICspGetSettingsMessageConfigBuilder setCspCommonFlags(Set<CspCommonFlag> cspCommonFlags);
+    <T extends ICspVersionable> ICspDataMessage<T> serializeDataMessage(ICspVersionable value, Class<T> clazz,
+        ISerializationBufferConfig bufferConfig, ICspMessageConfig messageConfig,
+        ICspDataMessageConfigExtension dataMessageConfigExtension);
 }

@@ -26,9 +26,12 @@
 package io.andreygs.jcsp.api.controller;
 
 import io.andreygs.jcsp.api.model.buffer.dto.ISerializationBufferConfig;
+import io.andreygs.jcsp.api.model.buffer.dto.factory.ISerializationBufferConfigFactory;
 import io.andreygs.jcsp.api.model.protocol.message.ICspDataMessage;
-import io.andreygs.jcsp.api.model.protocol.message.config.ICspDataMessageConfig;
+import io.andreygs.jcsp.api.model.protocol.message.config.ICspDataMessageConfigExtension;
 import io.andreygs.jcsp.api.model.protocol.ICspVersionable;
+import io.andreygs.jcsp.api.model.protocol.message.config.ICspMessageConfig;
+import io.andreygs.jcsp.api.model.protocol.message.config.factory.ICspMessageConfigFactory;
 import io.andreygs.jcsp.api.model.protocol.utils.CspTypeToken;
 import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
 import org.jetbrains.annotations.Nullable;
@@ -48,12 +51,17 @@ public interface ICspSerializationSession
 
     void setDefaultBufferConfig(ISerializationBufferConfig config);
 
+    void setDefaultMessageConfig(ICspMessageConfig config);
 
+    void setDefaultDataMessageConfigExtension(ICspDataMessageConfigExtension config);
 
-    void setDefaultDataMessageConfig(ICspDataMessageConfig config);
+    ISerializationBufferConfigFactory getSerializationBufferConfigFactory();
 
-    <T extends ICspVersionable> ICspDataMessage<T> serialize(ICspVersionable value, Class<T> clazz);
+    ICspMessageConfigFactory getCspMessageConfigFactory();
 
-    <T extends ICspVersionable> ICspDataMessage<T> serialize(ICspVersionable value, Class<T> clazz,
-        @Nullable ISerializationBufferConfig customBufferConfig, @Nullable ICspDataMessageConfig customMessageConfig);
+    <T extends ICspVersionable> ICspDataMessage<T> serializeData(ICspVersionable struct, Class<T> clazz);
+
+    <T extends ICspVersionable> ICspDataMessage<T> serializeData(ICspVersionable struct, Class<T> clazz,
+        @Nullable ISerializationBufferConfig customBufferConfig, @Nullable ICspMessageConfig customMessageConfig,
+        @Nullable ICspDataMessageConfigExtension customDataMessageConfigExtension);
 }

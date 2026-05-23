@@ -23,15 +23,14 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.api.model.protocol.message.context;
+package io.andreygs.jcsp.internal.processing.factory;
 
-import io.andreygs.jcsp.api.model.protocol.message.config.ICspMessageCommonConfig;
+import io.andreygs.jcsp.internal.processing.ICspSerializationWorkflow;
 
 /**
  * TODO: place description here
  */
-public interface ICspMessageCommonContext
-    extends ICspMessageCommonConfig
+public interface ICspSerializationWorkflowFactory
 {
-    boolean isEndiannessDifference();
+    ICspSerializationWorkflow provideDefaultSerializationWorkflow();
 }

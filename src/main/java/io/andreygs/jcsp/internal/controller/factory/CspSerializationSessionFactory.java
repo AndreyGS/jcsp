@@ -27,14 +27,15 @@ package io.andreygs.jcsp.internal.controller.factory;
 
 import io.andreygs.jcsp.api.controller.ICspSerializationSession;
 import io.andreygs.jcsp.api.controller.factory.ICspSerializationSessionFactory;
-import io.andreygs.jcsp.api.model.buffer.dto.ISerializationBufferConfig;
-import io.andreygs.jcsp.api.model.protocol.message.config.ICspDataMessageConfig;
+import io.andreygs.jcsp.api.model.buffer.dto.factory.ISerializationBufferConfigFactory;
+import io.andreygs.jcsp.api.model.protocol.message.config.factory.ICspMessageConfigFactory;
 import io.andreygs.jcsp.internal.controller.CspSerializationSession;
 import io.andreygs.jcsp.internal.model.buffer.factory.SerializationBufferConfigFactory;
-import io.andreygs.jcsp.internal.model.protocol.message.builder.factory.CspMessageBuilderFactory;
+import io.andreygs.jcsp.internal.model.protocol.message.config.factory.CspMessageConfigFactory;
+import io.andreygs.jcsp.internal.processing.ICspSerializationWorkflow;
 import io.andreygs.jcsp.internal.processing.data.factory.CspProcessorRegistryFactory;
-import io.andreygs.jcsp.internal.processing.factory.SerializationWorkflowProvider;
-import org.jetbrains.annotations.Nullable;
+import io.andreygs.jcsp.internal.processing.data.factory.ICspProcessorRegistryFactory;
+import io.andreygs.jcsp.internal.processing.factory.CspSerializationWorkflowFactory;
 
 /**
  * TODO: place description here
@@ -42,23 +43,22 @@ import org.jetbrains.annotations.Nullable;
 public class CspSerializationSessionFactory
     implements ICspSerializationSessionFactory
 {
-    private static final ISerializationBufferConfig DEFAULT_BUFFER_CONFIG = new SerializationBufferConfigFactory().provideDefaultBufferConfig();
-
-    private static final ICspDataMessageConfig DEFAULT_DATA_MESSAGE_CONFIG = new SerializationBufferConfigFactory().provideDefaultBufferConfig();
+    private static final ICspSerializationWorkflow DEFAULT_CSP_SERIALIZATION_WORKFLOW =
+        new CspSerializationWorkflowFactory().provideDefaultSerializationWorkflow();
+    private static final ICspProcessorRegistryFactory DEFAULT_CSP_PROCESSOR_REGISTRY_FACTORY =
+        new CspProcessorRegistryFactory();
+    private static final ISerializationBufferConfigFactory DEFAULT_SERIALIZATION_BUFFER_CONFIG_FACTORY =
+        new SerializationBufferConfigFactory();
+    private static final ICspMessageConfigFactory DEFAULT_CSP_MESSAGE_CONFIG_FACTORY =
+        new CspMessageConfigFactory();
 
     @Override
     public ICspSerializationSession createSession()
     {
         return new CspSerializationSession(
-            new SerializationWorkflowProvider().provideWorkflow(),
-            new CspMessageBuilderFactory(),
-            new CspProcessorRegistryFactory().createProcessorRegistry(), DEFAULT_BUFFER_CONFIG, );
-    }
-
-    @Override
-    public ICspSerializationSession createSession(@Nullable ISerializationBufferConfig bufferConfig,
-        @Nullable ICspDataMessageConfig dataMessageConfig)
-    {
-        return null;
+            DEFAULT_CSP_SERIALIZATION_WORKFLOW,
+            DEFAULT_CSP_PROCESSOR_REGISTRY_FACTORY.createProcessorRegistry(),
+            DEFAULT_SERIALIZATION_BUFFER_CONFIG_FACTORY,
+            DEFAULT_CSP_MESSAGE_CONFIG_FACTORY);
     }
 }

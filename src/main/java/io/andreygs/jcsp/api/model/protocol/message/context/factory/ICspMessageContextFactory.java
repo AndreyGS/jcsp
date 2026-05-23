@@ -23,32 +23,24 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.factory;
+package io.andreygs.jcsp.api.model.protocol.message.context.factory;
 
-import io.andreygs.jcsp.internal.model.buffer.factory.SerializationBufferFactory;
-import io.andreygs.jcsp.internal.model.protocol.message.factory.CspMessageFactory;
-import io.andreygs.jcsp.internal.processing.ISerializationWorkflow;
-import io.andreygs.jcsp.internal.processing.SerializationWorkflow;
-import io.andreygs.jcsp.internal.processing.data.factory.CspSerializationProcessorFactory;
+import io.andreygs.jcsp.api.model.protocol.CspProtocolVersion;
+import io.andreygs.jcsp.api.model.protocol.ICspInterfaceVersion;
+import io.andreygs.jcsp.api.model.protocol.message.context.ICspDataMessageContextExtension;
+import io.andreygs.jcsp.api.model.protocol.message.context.ICspMessageContext;
 
 /**
  * TODO: place description here
  */
-public final class SerializationWorkflowProvider
-    implements ISerializationWorkflowProvider
+public interface ICspMessageContextFactory
 {
-    /**
-     * Default immutable cached instance of {@link ISerializationWorkflow}.
-     * <p>
-     * Thread-safe.
-     */
-    private static final ISerializationWorkflow DEFAULT_SERIALIZATION_WORKFLOW =
-        new SerializationWorkflow(new SerializationBufferFactory(),
-                                  new CspMessageFactory(),
-                                  new CspSerializationProcessorFactory());
-    @Override
-    public ISerializationWorkflow provideWorkflow()
-    {
-        return DEFAULT_SERIALIZATION_WORKFLOW;
-    }
+    ICspMessageContext createCspMessageContext(CspProtocolVersion cspProtocolVersion, boolean bitness32,
+        boolean bigEndian, boolean endiannessDifference);
+
+    ICspDataMessageContextExtension createCspDataMessageContextExtension(Class<?> structClazz,
+        ICspInterfaceVersion cspInterfaceVersion, boolean alignmentMayBeNotEqual, boolean sizeOfIntegersMayBeNotEqual,
+        boolean allowUnmanagedPointers, boolean checkRecursivePointers,
+        boolean simplyAssignableTagsOptimizationsAreTurnedOff,
+        boolean checkRecursivePointersWhileMaintainingLinkStructure);
 }

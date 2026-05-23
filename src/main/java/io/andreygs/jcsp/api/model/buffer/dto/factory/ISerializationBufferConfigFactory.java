@@ -25,10 +25,18 @@
 
 package io.andreygs.jcsp.api.model.buffer.dto.factory;
 
+import io.andreygs.jcsp.api.model.buffer.AllocationType;
+import io.andreygs.jcsp.api.model.buffer.IBufferResizeStrategy;
+import io.andreygs.jcsp.api.model.buffer.dto.ISerializationBufferConfig;
+import org.jetbrains.annotations.Nullable;
+
 /**
  * TODO: place description here
  */
 public interface ISerializationBufferConfigFactory
 {
-    
+    ISerializationBufferConfig createBufferConfig(@Nullable Integer initialBufferCapacity,
+        @Nullable AllocationType allocationType, @Nullable IBufferResizeStrategy bufferResizeStrategy);
+
+    ISerializationBufferConfig provideDefaultBufferConfig();
 }

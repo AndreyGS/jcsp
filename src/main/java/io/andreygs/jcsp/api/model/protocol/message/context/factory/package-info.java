@@ -1,4 +1,6 @@
 /**
+ * TODO: place brief description here
+ *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -22,31 +24,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+@NotNullByDefault
+package io.andreygs.jcsp.api.model.protocol.message.context.factory;
 
-package io.andreygs.jcsp.api.model.protocol.message.config.builder;
-
-import io.andreygs.jcsp.api.model.protocol.CspCommonFlag;
-import io.andreygs.jcsp.api.model.protocol.CspDataFlag;
-import io.andreygs.jcsp.api.model.protocol.CspProtocolVersion;
-import io.andreygs.jcsp.api.model.protocol.ICspInterfaceVersion;
-import io.andreygs.jcsp.api.model.protocol.message.config.ICspDataMessageConfig;
-
-import java.util.Set;
-
-/**
- * TODO: place description here
- */
-public interface ICspDataMessageConfigBuilder extends ICspMessageCommonConfigBuilder
-{
-    @Override
-    ICspDataMessageConfigBuilder setCspProtocolVersion(CspProtocolVersion cspProtocolVersion);
-
-    @Override
-    ICspDataMessageConfigBuilder setCspCommonFlags(Set<CspCommonFlag> cspCommonFlags);
-
-    ICspDataMessageConfigBuilder setInterfaceVersion(ICspInterfaceVersion cspInterfaceVersion);
-
-    ICspDataMessageConfigBuilder setCspDataFlags(Set<CspDataFlag> cspDataFlags);
-
-    ICspDataMessageConfig build();
-}
+import org.jetbrains.annotations.NotNullByDefault;

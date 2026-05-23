@@ -26,15 +26,14 @@
 package io.andreygs.jcsp.api.model.protocol.message;
 
 import io.andreygs.jcsp.api.model.protocol.ICspVersionable;
-import io.andreygs.jcsp.api.model.protocol.message.context.ICspDataMessageContext;
+import io.andreygs.jcsp.api.model.protocol.message.context.ICspDataMessageContextExtension;
 
 /**
  * TODO: place description here
  */
 public interface ICspDataMessage<T extends ICspVersionable> extends ICspMessage
 {
-    @Override
-    ICspDataMessageContext getMessageContext();
-
     T getStruct();
+
+    ICspDataMessageContextExtension getMessageDataContext();
 }

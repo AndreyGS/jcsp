@@ -23,25 +23,20 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.model.protocol.message.config;
+package io.andreygs.jcsp.internal.model.protocol.message.context;
 
-import io.andreygs.jcsp.api.model.protocol.CspCommonFlag;
-import io.andreygs.jcsp.api.model.protocol.CspDataFlag;
-import io.andreygs.jcsp.api.model.protocol.CspMessageType;
-import io.andreygs.jcsp.api.model.protocol.CspProtocolVersion;
 import io.andreygs.jcsp.api.model.protocol.ICspInterfaceVersion;
-import io.andreygs.jcsp.api.model.protocol.message.config.ICspDataMessageConfig;
-import io.andreygs.jcsp.api.model.protocol.utils.CspFlagUtils;
+import io.andreygs.jcsp.api.model.protocol.message.context.ICspDataMessageContextExtension;
 
-import java.util.Set;
+import java.util.Objects;
 
 /**
  * TODO: place description here
  */
-public class CspDataMessageConfig
-    extends AbstractCspMessageCommonConfig
-    implements ICspDataMessageConfig
+public final class CspDataMessageContextExtension
+    implements ICspDataMessageContextExtension
 {
+    private final Class<?> structClazz;
     private final ICspInterfaceVersion cspInterfaceVersion;
     private final boolean alignmentMayBeNotEqual;
     private final boolean sizeOfIntegersMayBeNotEqual;
@@ -50,26 +45,25 @@ public class CspDataMessageConfig
     private final boolean simplyAssignableTagsOptimizationsAreTurnedOff;
     private final boolean checkRecursivePointersWhileMaintainingLinkStructure;
 
-    public CspDataMessageConfig(CspProtocolVersion cspProtocolVersion, Set<CspCommonFlag> cspCommonFlags,
-        ICspInterfaceVersion cspInterfaceVersion, Set<CspDataFlag> cspDataFlags)
+    public CspDataMessageContextExtension(Class<?> structClazz, ICspInterfaceVersion cspInterfaceVersion,
+        boolean alignmentMayBeNotEqual, boolean sizeOfIntegersMayBeNotEqual, boolean allowUnmanagedPointers,
+        boolean checkRecursivePointers, boolean simplyAssignableTagsOptimizationsAreTurnedOff,
+        boolean checkRecursivePointersWhileMaintainingLinkStructure)
     {
-        super(cspProtocolVersion, cspCommonFlags);
-        this.cspInterfaceVersion = cspInterfaceVersion;
-        int flagMask = CspFlagUtils.calculateFlagMask(cspDataFlags);
-        alignmentMayBeNotEqual = CspFlagUtils.isFlagSet(flagMask, CspDataFlag.ALIGNMENT_MAY_BE_NOT_EQUAL);
-        sizeOfIntegersMayBeNotEqual = CspFlagUtils.isFlagSet(flagMask, CspDataFlag.SIZE_OF_INTEGERS_MAY_BE_NOT_EQUAL);
-        allowUnmanagedPointers = CspFlagUtils.isFlagSet(flagMask, CspDataFlag.ALLOW_UNMANAGED_POINTERS);
-        checkRecursivePointers = CspFlagUtils.isFlagSet(flagMask, CspDataFlag.CHECK_RECURSIVE_POINTERS);
-        simplyAssignableTagsOptimizationsAreTurnedOff =
-            CspFlagUtils.isFlagSet(flagMask, CspDataFlag.SIMPLY_ASSIGNABLE_TAGS_OPTIMIZATIONS_ARE_TURNED_OFF);
-        checkRecursivePointersWhileMaintainingLinkStructure =
-            CspFlagUtils.isFlagSet(flagMask, CspDataFlag.CHECK_OF_RECURSIVE_POINTERS_WHILE_MAINTAINING_LINK_STRUCTURE);
+        this.structClazz = Objects.requireNonNull(structClazz);
+        this.cspInterfaceVersion = Objects.requireNonNull(cspInterfaceVersion);
+        this.alignmentMayBeNotEqual = alignmentMayBeNotEqual;
+        this.sizeOfIntegersMayBeNotEqual = sizeOfIntegersMayBeNotEqual;
+        this.allowUnmanagedPointers = allowUnmanagedPointers;
+        this.checkRecursivePointers = checkRecursivePointers;
+        this.simplyAssignableTagsOptimizationsAreTurnedOff = simplyAssignableTagsOptimizationsAreTurnedOff;
+        this.checkRecursivePointersWhileMaintainingLinkStructure = checkRecursivePointersWhileMaintainingLinkStructure;
     }
 
     @Override
-    public CspMessageType getCspMessageType()
+    public Class<?> getStructClazz()
     {
-        return CspMessageType.DATA;
+        return structClazz;
     }
 
     @Override

@@ -23,17 +23,21 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.model.protocol.message.config.builder;
+package io.andreygs.jcsp.internal.model.protocol.message.config.factory;
 
 import io.andreygs.jcsp.api.model.protocol.CspCommonFlag;
 import io.andreygs.jcsp.api.model.protocol.CspDataFlag;
 import io.andreygs.jcsp.api.model.protocol.CspProtocolVersion;
 import io.andreygs.jcsp.api.model.protocol.ICspInterfaceVersion;
-import io.andreygs.jcsp.api.model.protocol.message.config.ICspDataMessageConfig;
-import io.andreygs.jcsp.api.model.protocol.message.config.builder.ICspDataMessageConfigBuilder;
+import io.andreygs.jcsp.api.model.protocol.message.config.ICspDataMessageConfigExtension;
+import io.andreygs.jcsp.api.model.protocol.message.config.ICspMessageConfig;
+import io.andreygs.jcsp.api.model.protocol.message.config.factory.ICspMessageConfigFactory;
+import io.andreygs.jcsp.api.model.protocol.utils.CspCommonFlagUtils;
 import io.andreygs.jcsp.api.model.protocol.utils.CspDataFlagUtils;
 import io.andreygs.jcsp.api.model.protocol.utils.CspInterfaceVersionUtils;
-import io.andreygs.jcsp.internal.model.protocol.message.config.CspDataMessageConfig;
+import io.andreygs.jcsp.api.model.protocol.utils.CspProtocolVersionUtils;
+import io.andreygs.jcsp.internal.model.protocol.message.config.CspDataMessageConfigExtension;
+import io.andreygs.jcsp.internal.model.protocol.message.config.CspMessageConfig;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
@@ -41,44 +45,24 @@ import java.util.Set;
 /**
  * TODO: place description here
  */
-public class CspDataMessageConfigBuilder
-    extends AbstractCspMessageCommonConfigBuilder
-    implements ICspDataMessageConfigBuilder
+public final class CspMessageConfigFactory implements ICspMessageConfigFactory
 {
-    private @Nullable ICspInterfaceVersion cspInterfaceVersion;
-    private @Nullable Set<CspDataFlag> cspDataFlags;
-
     @Override
-    public ICspDataMessageConfigBuilder setCspProtocolVersion(CspProtocolVersion cspProtocolVersion)
+    public ICspMessageConfig createCspMessageCommonConfig(@Nullable CspProtocolVersion cspProtocolVersion,
+        @Nullable Set<CspCommonFlag> cspCommonFlags)
     {
-        return (ICspDataMessageConfigBuilder) super.setCspProtocolVersion(cspProtocolVersion);
+        return new CspMessageConfig(
+            cspProtocolVersion == null ? CspProtocolVersionUtils.DEFAULT_CSP_PROTOCOL_VERSION : cspProtocolVersion,
+            cspCommonFlags == null ? CspCommonFlagUtils.DEFAULT_CSP_COMMON_FLAGS : cspCommonFlags);
     }
 
     @Override
-    public ICspDataMessageConfigBuilder setCspCommonFlags(Set<CspCommonFlag> cspCommonFlags)
+    public ICspDataMessageConfigExtension createCspDataMessageConfigExtension(
+        @Nullable ICspInterfaceVersion cspInterfaceVersion, @Nullable Set<CspDataFlag> cspDataFlags)
     {
-        return (ICspDataMessageConfigBuilder) super.setCspCommonFlags(cspCommonFlags);
-    }
-
-    @Override
-    public ICspDataMessageConfigBuilder setInterfaceVersion(ICspInterfaceVersion cspInterfaceVersion)
-    {
-        this.cspInterfaceVersion = cspInterfaceVersion;
-        return this;
-    }
-
-    @Override
-    public ICspDataMessageConfigBuilder setCspDataFlags(Set<CspDataFlag> cspDataFlags)
-    {
-        this.cspDataFlags = cspDataFlags;
-        return this;
-    }
-
-    @Override
-    public ICspDataMessageConfig build()
-    {
-        return new CspDataMessageConfig(requireCspProtocolVersion(), requireCspCommonFlags(),
+        return new CspDataMessageConfigExtension(
             cspInterfaceVersion == null ? CspInterfaceVersionUtils.DEFAULT_CSP_INTERFACE_VERSION : cspInterfaceVersion,
-            cspDataFlags == null ? CspDataFlagUtils.DEFAULT_CSP_DATA_FLAGS : cspDataFlags);
+            cspDataFlags == null ? CspDataFlagUtils.DEFAULT_CSP_DATA_FLAGS : cspDataFlags
+        );
     }
 }

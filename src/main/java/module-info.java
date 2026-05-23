@@ -28,18 +28,17 @@ module io.andreygs.jcsp.base {
     requires static org.jetbrains.annotations;
 
     exports io.andreygs.jcsp.api.controller;
-    exports io.andreygs.jcsp.api.controller.dto;
     exports io.andreygs.jcsp.api.controller.factory;
     exports io.andreygs.jcsp.api.model.buffer;
+    exports io.andreygs.jcsp.api.model.buffer.dto;
+    exports io.andreygs.jcsp.api.model.buffer.dto.factory;
     exports io.andreygs.jcsp.api.model.exception;
     exports io.andreygs.jcsp.api.model.protocol;
     exports io.andreygs.jcsp.api.model.protocol.message;
-    exports io.andreygs.jcsp.api.model.protocol.message.config.builder;
+    exports io.andreygs.jcsp.api.model.protocol.message.config;
+    exports io.andreygs.jcsp.api.model.protocol.message.config.factory;
+    exports io.andreygs.jcsp.api.model.protocol.message.context;
     exports io.andreygs.jcsp.api.model.protocol.utils;
     exports io.andreygs.jcsp.api.processing;
     exports io.andreygs.jcsp.api.processing.data;
-    exports io.andreygs.jcsp.api.model.buffer.dto.factory;
-    exports io.andreygs.jcsp.api.model.buffer.dto;
-    exports io.andreygs.jcsp.api.model.protocol.message.context;
-    exports io.andreygs.jcsp.api.model.protocol.message.config;
 }

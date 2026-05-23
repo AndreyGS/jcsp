@@ -1,4 +1,6 @@
 /**
+ * TODO: place brief description here
+ *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -22,22 +24,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+@NotNullByDefault
+package io.andreygs.jcsp.internal.model.protocol.message.context.factory;
 
-package io.andreygs.jcsp.api.model.protocol.message.config.builder;
-
-import io.andreygs.jcsp.api.model.protocol.CspCommonFlag;
-import io.andreygs.jcsp.api.model.protocol.CspProtocolVersion;
-
-import java.util.Set;
-
-/**
- * TODO: place description here
- */
-public interface ICspStatusMessageConfigBuilder extends ICspMessageCommonConfigBuilder
-{
-    @Override
-    ICspStatusMessageConfigBuilder setCspProtocolVersion(CspProtocolVersion cspProtocolVersion);
-
-    @Override
-    ICspStatusMessageConfigBuilder setCspCommonFlags(Set<CspCommonFlag> cspCommonFlags);
-}
+import org.jetbrains.annotations.NotNullByDefault;

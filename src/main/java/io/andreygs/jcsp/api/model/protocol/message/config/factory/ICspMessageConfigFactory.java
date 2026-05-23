@@ -23,38 +23,26 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing;
+package io.andreygs.jcsp.api.model.protocol.message.config.factory;
 
-import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.internal.processing.data.ICspProcessorRegistry;
-import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 import io.andreygs.jcsp.api.model.protocol.CspCommonFlag;
 import io.andreygs.jcsp.api.model.protocol.CspDataFlag;
 import io.andreygs.jcsp.api.model.protocol.CspProtocolVersion;
 import io.andreygs.jcsp.api.model.protocol.ICspInterfaceVersion;
-import io.andreygs.jcsp.api.model.protocol.ICspVersionable;
-import io.andreygs.jcsp.api.model.buffer.IBufferResizeStrategy;
+import io.andreygs.jcsp.api.model.protocol.message.config.ICspDataMessageConfigExtension;
+import io.andreygs.jcsp.api.model.protocol.message.config.ICspMessageConfig;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
 /**
- * Workflow of serialization message construction.
- * <p>
- * It init buffer, checks an arguments, writes the message contexts and message bodies.
- * <p>
- * It has immutable state, and it does the same actions every time it has the same input on every method.
+ * TODO: place description here
  */
-public interface ISerializationWorkflow
+public interface ICspMessageConfigFactory
 {
-    ICspDataMessage serializeDataMessage(
-        @Nullable Integer initialBufferCapacity,
-        @Nullable Boolean directBuffer,
-        @Nullable IBufferResizeStrategy bufferResizeStrategy,
-        @Nullable CspProtocolVersion cspProtocolVersion,
-        @Nullable Set<CspCommonFlag> cspCommonFlags,
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor> cspDataSerializationProcessorRegistry,
-        ICspVersionable cspVersionable,
-        @Nullable ICspInterfaceVersion cspInterfaceVersion,
+    ICspMessageConfig createCspMessageCommonConfig(@Nullable CspProtocolVersion cspProtocolVersion,
+        @Nullable Set<CspCommonFlag> cspCommonFlags);
+
+    ICspDataMessageConfigExtension createCspDataMessageConfigExtension(@Nullable ICspInterfaceVersion cspInterfaceVersion,
         @Nullable Set<CspDataFlag> cspDataFlags);
 }

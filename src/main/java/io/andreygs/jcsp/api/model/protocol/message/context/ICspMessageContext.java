@@ -23,19 +23,16 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.api.model.protocol.message.config.builder;
+package io.andreygs.jcsp.api.model.protocol.message.context;
 
-import io.andreygs.jcsp.api.model.protocol.CspCommonFlag;
-import io.andreygs.jcsp.api.model.protocol.CspProtocolVersion;
-
-import java.util.Set;
+import io.andreygs.jcsp.api.model.protocol.message.config.ICspMessageConfig;
 
 /**
  * TODO: place description here
  */
-public interface ICspMessageCommonConfigBuilder
+public interface ICspMessageContext
+    extends ICspMessageConfig
 {
-    ICspMessageCommonConfigBuilder setCspProtocolVersion(CspProtocolVersion cspProtocolVersion);
 
-    ICspMessageCommonConfigBuilder setCspCommonFlags(Set<CspCommonFlag> cspCommonFlags);
+    boolean isEndiannessDifference();
 }

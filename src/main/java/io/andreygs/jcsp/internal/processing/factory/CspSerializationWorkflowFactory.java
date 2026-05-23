@@ -23,15 +23,34 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.api.model.protocol.message.context;
+package io.andreygs.jcsp.internal.processing.factory;
 
-import io.andreygs.jcsp.api.model.protocol.message.config.ICspDataMessageConfig;
+import io.andreygs.jcsp.internal.model.buffer.factory.SerializationBufferFactory;
+import io.andreygs.jcsp.internal.model.protocol.message.context.factory.CspMessageContextFactory;
+import io.andreygs.jcsp.internal.model.protocol.message.factory.CspMessageFactory;
+import io.andreygs.jcsp.internal.processing.ICspSerializationWorkflow;
+import io.andreygs.jcsp.internal.processing.CspSerializationWorkflow;
+import io.andreygs.jcsp.internal.processing.data.factory.CspSerializationProcessorFactory;
 
 /**
  * TODO: place description here
  */
-public interface ICspDataMessageContext
-    extends ICspMessageCommonContext, ICspDataMessageConfig
+public final class CspSerializationWorkflowFactory
+    implements ICspSerializationWorkflowFactory
 {
-    Class<?> getStructClazz();
+    /**
+     * Default immutable cached instance of {@link ICspSerializationWorkflow}.
+     * <p>
+     * Thread-safe.
+     */
+    private static final ICspSerializationWorkflow DEFAULT_SERIALIZATION_WORKFLOW =
+        new CspSerializationWorkflow(new SerializationBufferFactory(),
+                                  new CspMessageContextFactory(),
+                                  new CspMessageFactory(),
+                                  new CspSerializationProcessorFactory());
+    @Override
+    public ICspSerializationWorkflow provideDefaultSerializationWorkflow()
+    {
+        return DEFAULT_SERIALIZATION_WORKFLOW;
+    }
 }

@@ -1,4 +1,6 @@
 /**
+ * TODO: place brief description here
+ *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -22,26 +24,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+@NotNullByDefault
+package io.andreygs.jcsp.api.model.buffer.dto.factory;
 
-package io.andreygs.jcsp.internal.model.buffer.factory;
-
-import io.andreygs.jcsp.api.model.buffer.IBufferResizeStrategy;
-import io.andreygs.jcsp.internal.model.buffer.DoublingBufferSizeStrategy;
-
-/**
- * Factory that provides default implementation of {@link IBufferResizeStrategy} as {@link DoublingBufferSizeStrategy}
- * cached instance.
- */
-public class BufferResizeStrategyFactory implements IBufferResizeStrategyFactory
-{
-    /**
-     * Default immutable cached instance of {@link IBufferResizeStrategy}.
-     */
-    public static final IBufferResizeStrategy DEFAULT_BUFFER_RESIZE_STRATEGY = new DoublingBufferSizeStrategy();
-
-    @Override
-    public IBufferResizeStrategy provideDefaultBufferResizeStrategy()
-    {
-        return DEFAULT_BUFFER_RESIZE_STRATEGY;
-    }
-}
+import org.jetbrains.annotations.NotNullByDefault;

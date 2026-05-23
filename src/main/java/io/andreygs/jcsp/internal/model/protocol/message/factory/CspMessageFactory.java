@@ -25,33 +25,24 @@
 
 package io.andreygs.jcsp.internal.model.protocol.message.factory;
 
+import io.andreygs.jcsp.api.model.protocol.message.ICspDataMessage;
+import io.andreygs.jcsp.api.model.protocol.message.context.ICspDataMessageContextExtension;
+import io.andreygs.jcsp.api.model.protocol.message.context.ICspMessageContext;
 import io.andreygs.jcsp.internal.model.protocol.message.CspDataMessage;
-import io.andreygs.jcsp.internal.model.buffer.IBuffer;
-import io.andreygs.jcsp.api.model.protocol.CspCommonFlag;
-import io.andreygs.jcsp.api.model.protocol.CspDataFlag;
-import io.andreygs.jcsp.api.model.protocol.CspProtocolVersion;
-import io.andreygs.jcsp.api.model.protocol.ICspInterfaceVersion;
 import io.andreygs.jcsp.api.model.protocol.ICspVersionable;
 
-import java.util.Set;
+import java.nio.ByteBuffer;
 
 /**
- * Sole implementation of {@link ICspMessageFactory}.
- * <p>
- * Creates following class instances:
- * <ul>
- *     <li>{@link ICspDataMessage} -> {@link CspDataMessage}</li>
- * </ul>
+ *
  */
 public final class CspMessageFactory
     implements ICspMessageFactory
 {
     @Override
-    public ICspDataMessage createCspDataMessage(IBuffer cspBuffer, CspProtocolVersion cspProtocolVersion,
-        Set<CspCommonFlag> cspCommonFlags, ICspVersionable struct, Class<?> structClazz,
-        ICspInterfaceVersion cspInterfaceVersion, Set<CspDataFlag> cspDataFlags)
+    public <T extends ICspVersionable> ICspDataMessage<T> createCspDataMessage(ByteBuffer buffer,
+        ICspMessageContext messageContext, T struct, ICspDataMessageContextExtension dataMessageContextExtension)
     {
-        return new CspDataMessage(cspBuffer, cspProtocolVersion, cspCommonFlags, struct, structClazz,
-            cspInterfaceVersion, cspDataFlags);
+        return new CspDataMessage<>(buffer, messageContext, struct, dataMessageContextExtension);
     }
 }

@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,7 +22,27 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-@NotNullByDefault
-package io.andreygs.jcsp.api.model.protocol.message.config.builder;
 
-import org.jetbrains.annotations.NotNullByDefault;
+package io.andreygs.jcsp.api.model.protocol.message.config;
+
+import io.andreygs.jcsp.api.model.protocol.ICspInterfaceVersion;
+
+/**
+ * TODO: place description here
+ */
+public interface ICspDataMessageConfigExtension
+{
+    ICspInterfaceVersion getInterfaceVersion();
+
+    boolean isAlignmentMayBeNotEqual();
+
+    boolean isSizeOfIntegersMayBeNotEqual();
+
+    boolean isAllowUnmanagedPointers();
+
+    boolean isCheckRecursivePointers();
+
+    boolean isSimplyAssignableTagsOptimizationsAreTurnedOff();
+
+    boolean isCheckRecursivePointersWhileMaintainingLinkStructure();
+}

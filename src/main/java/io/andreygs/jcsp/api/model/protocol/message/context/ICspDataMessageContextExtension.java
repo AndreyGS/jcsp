@@ -23,47 +23,15 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.model.protocol.message.config;
+package io.andreygs.jcsp.api.model.protocol.message.context;
 
-import io.andreygs.jcsp.api.model.protocol.CspCommonFlag;
-import io.andreygs.jcsp.api.model.protocol.CspProtocolVersion;
-import io.andreygs.jcsp.api.model.protocol.message.config.ICspMessageCommonConfig;
-import io.andreygs.jcsp.api.model.protocol.utils.CspFlagUtils;
-
-import java.util.Set;
+import io.andreygs.jcsp.api.model.protocol.message.config.ICspDataMessageConfigExtension;
 
 /**
  * TODO: place description here
  */
-abstract class AbstractCspMessageCommonConfig implements ICspMessageCommonConfig
+public interface ICspDataMessageContextExtension
+    extends ICspDataMessageConfigExtension
 {
-    private final CspProtocolVersion cspProtocolVersion;
-    private final boolean bitness32;
-    private final boolean bigEndian;
-
-    AbstractCspMessageCommonConfig(CspProtocolVersion cspProtocolVersion, Set<CspCommonFlag> cspCommonFlags)
-    {
-        this.cspProtocolVersion = cspProtocolVersion;
-        int flagMask = CspFlagUtils.calculateFlagMask(cspCommonFlags);
-        bitness32 = CspFlagUtils.isFlagSet(flagMask, CspCommonFlag.BITNESS_32);
-        bigEndian = CspFlagUtils.isFlagSet(flagMask, CspCommonFlag.BIG_ENDIAN);
-    }
-
-    @Override
-    public CspProtocolVersion getCspProtocolVersion()
-    {
-        return cspProtocolVersion;
-    }
-
-    @Override
-    public boolean isBitness32()
-    {
-        return bitness32;
-    }
-
-    @Override
-    public boolean isBigEndian()
-    {
-        return bigEndian;
-    }
+    Class<?> getStructClazz();
 }

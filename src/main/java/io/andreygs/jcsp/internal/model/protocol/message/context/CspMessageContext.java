@@ -23,20 +23,54 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.api.model.protocol.message.config.builder.factory;
+package io.andreygs.jcsp.internal.model.protocol.message.context;
 
-import io.andreygs.jcsp.api.model.protocol.message.config.builder.ICspDataMessageConfigBuilder;
-import io.andreygs.jcsp.api.model.protocol.message.config.builder.ICspGetSettingsMessageConfigBuilder;
-import io.andreygs.jcsp.api.model.protocol.message.config.builder.ICspStatusMessageConfigBuilder;
+import io.andreygs.jcsp.api.model.protocol.CspProtocolVersion;
+import io.andreygs.jcsp.api.model.protocol.message.context.ICspMessageContext;
+
+import java.util.Objects;
 
 /**
  * TODO: place description here
  */
-public interface ICspMessageConfigBuilderFactory
+public final class CspMessageContext
+    implements ICspMessageContext
 {
-    ICspDataMessageConfigBuilder createCspDataMessageConfigBuilder();
+    private final CspProtocolVersion cspProtocolVersion;
+    private final boolean bitness32;
+    private final boolean bigEndian;
+    private final boolean endiannessDifference;
 
-    ICspGetSettingsMessageConfigBuilder createCspGetSettingsMessageConfigBuilder();
+    public CspMessageContext(CspProtocolVersion cspProtocolVersion, boolean bitness32, boolean bigEndian,
+        boolean endiannessDifference)
+    {
+        this.cspProtocolVersion = Objects.requireNonNull(cspProtocolVersion);
+        this.bitness32 = bitness32;
+        this.bigEndian = bigEndian;
+        this.endiannessDifference = endiannessDifference;
+    }
 
-    ICspStatusMessageConfigBuilder createCspStatusMessageConfigBuilder();
+    @Override
+    public CspProtocolVersion getCspProtocolVersion()
+    {
+        return cspProtocolVersion;
+    }
+
+    @Override
+    public boolean isBitness32()
+    {
+        return bitness32;
+    }
+
+    @Override
+    public boolean isBigEndian()
+    {
+        return bigEndian;
+    }
+
+    @Override
+    public boolean isEndiannessDifference()
+    {
+        return endiannessDifference;
+    }
 }

@@ -23,49 +23,48 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.model.protocol.message.config.builder;
+package io.andreygs.jcsp.internal.model.protocol.message.config;
 
 import io.andreygs.jcsp.api.model.protocol.CspCommonFlag;
 import io.andreygs.jcsp.api.model.protocol.CspProtocolVersion;
-import io.andreygs.jcsp.api.model.protocol.message.config.builder.ICspMessageCommonConfigBuilder;
-import io.andreygs.jcsp.api.model.protocol.utils.CspCommonFlagUtils;
-import io.andreygs.jcsp.api.model.protocol.utils.CspProtocolVersionUtils;
-import org.jetbrains.annotations.Nullable;
+import io.andreygs.jcsp.api.model.protocol.message.config.ICspMessageConfig;
+import io.andreygs.jcsp.api.model.protocol.utils.CspFlagUtils;
 
+import java.util.Objects;
 import java.util.Set;
 
 /**
  * TODO: place description here
  */
-abstract class AbstractCspMessageCommonConfigBuilder
-    implements ICspMessageCommonConfigBuilder
+public final class CspMessageConfig implements ICspMessageConfig
 {
-    private static final Set<CspCommonFlag> DEFAULT_CSP_COMMON_FLAGS = Set.of(CspCommonFlag.BIG_ENDIAN);
+    private final CspProtocolVersion cspProtocolVersion;
+    private final boolean bitness32;
+    private final boolean bigEndian;
 
-    private @Nullable CspProtocolVersion cspProtocolVersion;
-    private @Nullable Set<CspCommonFlag> cspCommonFlags;
-
-    @Override
-    public ICspMessageCommonConfigBuilder setCspProtocolVersion(CspProtocolVersion cspProtocolVersion)
+    public CspMessageConfig(CspProtocolVersion cspProtocolVersion, Set<CspCommonFlag> cspCommonFlags)
     {
-        this.cspProtocolVersion = cspProtocolVersion;
-        return this;
+        this.cspProtocolVersion = Objects.requireNonNull(cspProtocolVersion);
+        int flagMask = CspFlagUtils.calculateFlagMask(cspCommonFlags);
+        bitness32 = CspFlagUtils.isFlagSet(flagMask, CspCommonFlag.BITNESS_32);
+        bigEndian = CspFlagUtils.isFlagSet(flagMask, CspCommonFlag.BIG_ENDIAN);
     }
 
     @Override
-    public ICspMessageCommonConfigBuilder setCspCommonFlags(Set<CspCommonFlag> cspCommonFlags)
+    public CspProtocolVersion getCspProtocolVersion()
     {
-        this.cspCommonFlags = cspCommonFlags;
-        return this;
+        return cspProtocolVersion;
     }
 
-    protected CspProtocolVersion requireCspProtocolVersion()
+    @Override
+    public boolean isBitness32()
     {
-        return cspProtocolVersion == null ? CspProtocolVersionUtils.DEFAULT_CSP_PROTOCOL_VERSION : cspProtocolVersion;
+        return bitness32;
     }
 
-    protected Set<CspCommonFlag> requireCspCommonFlags()
+    @Override
+    public boolean isBigEndian()
     {
-        return cspCommonFlags == null ? CspCommonFlagUtils.DEFAULT_CSP_COMMON_FLAGS : cspCommonFlags;
+        return bigEndian;
     }
 }

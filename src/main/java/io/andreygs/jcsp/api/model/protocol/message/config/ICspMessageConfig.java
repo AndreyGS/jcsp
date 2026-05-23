@@ -23,19 +23,18 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.model.buffer.factory;
+package io.andreygs.jcsp.api.model.protocol.message.config;
 
-import io.andreygs.jcsp.api.model.buffer.IBufferResizeStrategy;
+import io.andreygs.jcsp.api.model.protocol.CspProtocolVersion;
 
 /**
- * Factory for obtaining {@link IBufferResizeStrategy} instances.
+ * TODO: place description here
  */
-public interface IBufferResizeStrategyFactory
+public interface ICspMessageConfig
 {
-    /**
-     * Provides default buffer resize strategy.
-     *
-     * @return default buffer resize strategy.
-     */
-    IBufferResizeStrategy provideDefaultBufferResizeStrategy();
+    CspProtocolVersion getCspProtocolVersion();
+
+    boolean isBitness32();
+
+    boolean isBigEndian();
 }

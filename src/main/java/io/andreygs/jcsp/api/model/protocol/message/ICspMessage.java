@@ -25,13 +25,16 @@
 
 package io.andreygs.jcsp.api.model.protocol.message;
 
-import io.andreygs.jcsp.api.model.protocol.message.context.ICspMessageCommonContext;
+import io.andreygs.jcsp.api.model.protocol.CspMessageType;
+import io.andreygs.jcsp.api.model.protocol.message.context.ICspMessageContext;
 
 import java.nio.ByteBuffer;
 
 public interface ICspMessage
 {
-    ICspMessageCommonContext getMessageContext();
+    CspMessageType getCspMessageType();
 
     ByteBuffer getBuffer();
+
+    ICspMessageContext getMessageContext();
 }
