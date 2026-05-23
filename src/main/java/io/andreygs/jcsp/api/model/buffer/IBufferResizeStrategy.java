@@ -27,12 +27,15 @@ package io.andreygs.jcsp.api.model.buffer;
 
 /**
  * Strategy for determining size of random buffer when it needs to be expanded (to hold new data, for example).
+ *
+ * @implSpec
+ * Thread-safe. Stateless recommended.
  */
 @FunctionalInterface
 public interface IBufferResizeStrategy
 {
     /**
-     * Calculates new size for random buffer with respect to it current capacity and minimum expected size.
+     * Calculates new size for random buffer with respect to its current capacity and minimum expected size.
      *
      * @param currentCapacity The current capacity of buffer. Must not be negative.
      * @param minimumRequiredSize Minimum required size of buffer. Must be not less than currentCapacity.

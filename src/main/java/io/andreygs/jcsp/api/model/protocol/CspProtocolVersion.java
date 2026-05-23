@@ -42,11 +42,6 @@ public enum CspProtocolVersion
         this.name = Messages.CspProtocolVersion_Type + ": " + name;
     }
 
-    public static CspProtocolVersion latestVersion()
-    {
-        return CSP_VERSION_2;
-    }
-
     public byte getVersion()
     {
         return version;

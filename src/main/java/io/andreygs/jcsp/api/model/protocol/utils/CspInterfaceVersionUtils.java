@@ -32,6 +32,15 @@ import io.andreygs.jcsp.api.model.protocol.ICspInterfaceVersion;
  */
 public class CspInterfaceVersionUtils
 {
+    public static int DEFAULT_CSP_INTERFACE_RAW_VERSION = 0xffffffff;
+    public static ICspInterfaceVersion DEFAULT_CSP_INTERFACE_VERSION = () -> DEFAULT_CSP_INTERFACE_RAW_VERSION;
+
+    private static long DEFAULT_CSP_INTERFACE_LONG_VERSION = 0xffffffffL;
+
+    private CspInterfaceVersionUtils()
+    {
+    }
+
     /**
      * Calculates positive value of octets from which CSP Version consists.
      * <p>
@@ -42,9 +51,9 @@ public class CspInterfaceVersionUtils
      * @param cspInterfaceVersion Instance which version needs to be processed.
      * @return CSP Version raw positive value.
      */
-    static long calculatePositiveRawVersion(ICspInterfaceVersion cspInterfaceVersion)
+    public static long calculatePositiveRawVersion(ICspInterfaceVersion cspInterfaceVersion)
     {
-        return (long)cspInterfaceVersion.getRawVersion() & 0xffffffffL;
+        return cspInterfaceVersion.getRawVersion() & DEFAULT_CSP_INTERFACE_LONG_VERSION;
     }
 
     /**
@@ -52,19 +61,19 @@ public class CspInterfaceVersionUtils
      * <p>
      * It's only legal to compare instances of the same class.
      *
-     * @param left Left comparing instance.
+     * @param left  Left comparing instance.
      * @param right Right comparing instance.
      * @return result of left value minus right value equation, where values presented as positive raw version representation.
      * If result > 0, left version is higher, if result == 0, versions are equal.
      * @throws IllegalArgumentException if instances has different classes.
      */
-    static int compareVersions(ICspInterfaceVersion left, ICspInterfaceVersion right)
+    public static int compareVersions(ICspInterfaceVersion left, ICspInterfaceVersion right)
     {
         if (left.getClass() != right.getClass())
         {
             throw new IllegalArgumentException("Comparing ICspInterfaceVersion instances must have equal class!");
         }
 
-        return (int)(calculatePositiveRawVersion(left) - calculatePositiveRawVersion(right));
+        return (int) (calculatePositiveRawVersion(left) - calculatePositiveRawVersion(right));
     }
 }

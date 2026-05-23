@@ -27,10 +27,14 @@ package io.andreygs.jcsp.internal.controller.factory;
 
 import io.andreygs.jcsp.api.controller.ICspSerializationSession;
 import io.andreygs.jcsp.api.controller.factory.ICspSerializationSessionFactory;
+import io.andreygs.jcsp.api.model.buffer.dto.ISerializationBufferConfig;
+import io.andreygs.jcsp.api.model.protocol.message.config.ICspDataMessageConfig;
 import io.andreygs.jcsp.internal.controller.CspSerializationSession;
+import io.andreygs.jcsp.internal.model.buffer.factory.SerializationBufferConfigFactory;
 import io.andreygs.jcsp.internal.model.protocol.message.builder.factory.CspMessageBuilderFactory;
 import io.andreygs.jcsp.internal.processing.data.factory.CspProcessorRegistryFactory;
 import io.andreygs.jcsp.internal.processing.factory.SerializationWorkflowProvider;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * TODO: place description here
@@ -38,12 +42,23 @@ import io.andreygs.jcsp.internal.processing.factory.SerializationWorkflowProvide
 public class CspSerializationSessionFactory
     implements ICspSerializationSessionFactory
 {
+    private static final ISerializationBufferConfig DEFAULT_BUFFER_CONFIG = new SerializationBufferConfigFactory().provideDefaultBufferConfig();
+
+    private static final ICspDataMessageConfig DEFAULT_DATA_MESSAGE_CONFIG = new SerializationBufferConfigFactory().provideDefaultBufferConfig();
+
     @Override
     public ICspSerializationSession createSession()
     {
         return new CspSerializationSession(
             new SerializationWorkflowProvider().provideWorkflow(),
             new CspMessageBuilderFactory(),
-            new CspProcessorRegistryFactory().createProcessorRegistry());
+            new CspProcessorRegistryFactory().createProcessorRegistry(), DEFAULT_BUFFER_CONFIG, );
+    }
+
+    @Override
+    public ICspSerializationSession createSession(@Nullable ISerializationBufferConfig bufferConfig,
+        @Nullable ICspDataMessageConfig dataMessageConfig)
+    {
+        return null;
     }
 }

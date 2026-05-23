@@ -47,7 +47,7 @@ public interface IGenericClassProcessorHolder<CP>
     /**
      * Gets type variable names of generic class processor.
      *
-     * @return unmodifiable set of type variable names.
+     * @return type variable descriptors.
      */
-    Set<String> getTypeVariableNames();
+    Set<ITypeVariableDescriptor> getTypeVariableDescriptor();
 }

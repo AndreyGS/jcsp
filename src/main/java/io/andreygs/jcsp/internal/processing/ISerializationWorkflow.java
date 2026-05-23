@@ -25,7 +25,6 @@
 
 package io.andreygs.jcsp.internal.processing;
 
-import io.andreygs.jcsp.api.model.protocol.message.ICspDataMessage;
 import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
 import io.andreygs.jcsp.internal.processing.data.ICspProcessorRegistry;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;

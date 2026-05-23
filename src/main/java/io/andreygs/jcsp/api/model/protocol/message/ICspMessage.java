@@ -25,26 +25,13 @@
 
 package io.andreygs.jcsp.api.model.protocol.message;
 
-import io.andreygs.jcsp.api.model.protocol.CspCommonFlag;
-import io.andreygs.jcsp.api.model.protocol.CspMessageType;
-import io.andreygs.jcsp.api.model.protocol.CspProtocolVersion;
+import io.andreygs.jcsp.api.model.protocol.message.context.ICspMessageCommonContext;
 
 import java.nio.ByteBuffer;
-import java.util.Set;
 
 public interface ICspMessage
 {
-    ByteBuffer getBinaryData();
+    ICspMessageCommonContext getMessageContext();
 
-    CspProtocolVersion getCspProtocolVersion();
-
-    CspMessageType getCspMessageType();
-
-    Set<CspCommonFlag> getCspCommonFlags();
-
-    boolean isBitness32();
-
-    boolean isBigEndian();
-
-    boolean isEndiannessDifference();
+    ByteBuffer getBuffer();
 }

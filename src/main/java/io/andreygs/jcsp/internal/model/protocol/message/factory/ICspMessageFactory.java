@@ -25,8 +25,7 @@
 
 package io.andreygs.jcsp.internal.model.protocol.message.factory;
 
-import io.andreygs.jcsp.api.model.protocol.message.ICspDataMessage;
-import io.andreygs.jcsp.internal.model.buffer.ICspBuffer;
+import io.andreygs.jcsp.internal.model.buffer.IBuffer;
 import io.andreygs.jcsp.api.model.protocol.CspCommonFlag;
 import io.andreygs.jcsp.api.model.protocol.CspDataFlag;
 import io.andreygs.jcsp.api.model.protocol.CspProtocolVersion;
@@ -40,7 +39,7 @@ import java.util.Set;
  */
 public interface ICspMessageFactory
 {
-    ICspDataMessage createCspDataMessage(ICspBuffer cspBuffer, CspProtocolVersion cspProtocolVersion,
+    ICspDataMessage createCspDataMessage(IBuffer cspBuffer, CspProtocolVersion cspProtocolVersion,
         Set<CspCommonFlag> cspCommonFlags, ICspVersionable struct, Class<?> structClazz,
         ICspInterfaceVersion cspInterfaceVersion, Set<CspDataFlag> cspDataFlags);
 }

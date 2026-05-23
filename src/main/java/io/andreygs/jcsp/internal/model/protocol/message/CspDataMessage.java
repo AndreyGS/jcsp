@@ -25,8 +25,7 @@
 
 package io.andreygs.jcsp.internal.model.protocol.message;
 
-import io.andreygs.jcsp.api.model.protocol.message.ICspDataMessage;
-import io.andreygs.jcsp.internal.model.buffer.ICspBuffer;
+import io.andreygs.jcsp.internal.model.buffer.IBuffer;
 import io.andreygs.jcsp.api.model.protocol.CspCommonFlag;
 import io.andreygs.jcsp.api.model.protocol.CspDataFlag;
 import io.andreygs.jcsp.api.model.protocol.CspMessageType;
@@ -54,7 +53,7 @@ public final class CspDataMessage
     private final boolean simplyAssignableTagsOptimizationsAreTurnedOff;
     private final boolean checkRecursivePointersWhileMaintainingLinkStructure;
 
-    public CspDataMessage(ICspBuffer cspBuffer, CspProtocolVersion cspProtocolVersion, Set<CspCommonFlag> cspCommonFlags,
+    public CspDataMessage(IBuffer cspBuffer, CspProtocolVersion cspProtocolVersion, Set<CspCommonFlag> cspCommonFlags,
         ICspVersionable struct, Class<?> structClazz, ICspInterfaceVersion cspInterfaceVersion,
         Set<CspDataFlag> cspDataFlags)
     {

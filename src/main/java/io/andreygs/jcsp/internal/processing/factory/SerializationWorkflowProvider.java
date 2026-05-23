@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.internal.processing.factory;
 
-import io.andreygs.jcsp.internal.model.buffer.factory.CspSerializationBufferFactory;
+import io.andreygs.jcsp.internal.model.buffer.factory.SerializationBufferFactory;
 import io.andreygs.jcsp.internal.model.protocol.message.factory.CspMessageFactory;
 import io.andreygs.jcsp.internal.processing.ISerializationWorkflow;
 import io.andreygs.jcsp.internal.processing.SerializationWorkflow;
@@ -43,7 +43,7 @@ public final class SerializationWorkflowProvider
      * Thread-safe.
      */
     private static final ISerializationWorkflow DEFAULT_SERIALIZATION_WORKFLOW =
-        new SerializationWorkflow(new CspSerializationBufferFactory(),
+        new SerializationWorkflow(new SerializationBufferFactory(),
                                   new CspMessageFactory(),
                                   new CspSerializationProcessorFactory());
     @Override

@@ -26,6 +26,9 @@
 package io.andreygs.jcsp.api.controller.factory;
 
 import io.andreygs.jcsp.api.controller.ICspSerializationSession;
+import io.andreygs.jcsp.api.model.buffer.dto.ISerializationBufferConfig;
+import io.andreygs.jcsp.api.model.protocol.message.config.ICspDataMessageConfig;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * TODO: place description here
@@ -33,4 +36,7 @@ import io.andreygs.jcsp.api.controller.ICspSerializationSession;
 public interface ICspSerializationSessionFactory
 {
     ICspSerializationSession createSession();
+
+    ICspSerializationSession createSession(@Nullable ISerializationBufferConfig bufferConfig,
+        @Nullable ICspDataMessageConfig dataMessageConfig);
 }

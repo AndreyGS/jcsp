@@ -46,9 +46,9 @@ import java.lang.reflect.AnnotatedType;
  *         public List&lt@CspReference GenericExample&ltMap&lt@CspString("UTF-16BE") String, Integer>>> list;
  *     }
  *
- *     // file AnotherClassExampleProcessor.java
- *     public class AnotherClassExampleProcessor
- *         implements ICspDataSerializationProcessor&ltAnotherClassExampleProcessor>
+ *     // file AnotherClassExampleClassProcessor.java
+ *     public class AnotherClassExampleClassProcessor
+ *         implements ICspDataSerializationProcessor&ltAnotherClassExample>
  *     {
  *         public void serialize(AnotherClassExample value, ICspSerializationProcessor processor)
  *         {
@@ -56,8 +56,8 @@ import java.lang.reflect.AnnotatedType;
  *         }
  *     }
  *
- *     // file GenericExampleProcessor.java
- *     public class GenericExampleProcessor&ltT>
+ *     // file GenericExampleClassProcessor.java
+ *     public class GenericExampleClassProcessor&ltT>
  *         implements ICspDataSerializationProcessor&ltGenericExample&lt?>>
  *     {
  *         public void serialize(GenericExample&lt?> value, ICspSerializationProcessor processor)
@@ -67,8 +67,8 @@ import java.lang.reflect.AnnotatedType;
  *         }
  *     }
  * </pre>
- * In provided example AnotherClassExampleProcessor is using to serialize AnotherClassExample and using
- * {@link CspTypeToken} to provide to processor definition of "list" field type and GenericExampleProcessor
+ * In provided example AnotherClassExampleClassProcessor is using to serialize AnotherClassExample and using
+ * {@link CspTypeToken} to provide to processor definition of "list" field type and GenericExampleClassProcessor
  * is using {@link CspTypeToken} to provide to  processor definition os "someObject" field type.
  *
  * @param <T> Is a source of {@link AnnotatedType}, that is gets by {@link #getAnnotatedType()}. Also using for avoiding

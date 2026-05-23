@@ -25,10 +25,9 @@
 
 package io.andreygs.jcsp.internal.processing.data;
 
-import io.andreygs.jcsp.api.model.protocol.message.ICspDataMessage;
 import io.andreygs.jcsp.api.processing.data.ICspSerializationProcessor;
 import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.internal.model.buffer.ICspSerializationBuffer;
+import io.andreygs.jcsp.internal.model.buffer.ISerializationBuffer;
 import io.andreygs.jcsp.api.model.protocol.utils.CspTypeToken;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 import io.andreygs.jcsp.api.model.protocol.CspDataFlag;
@@ -49,7 +48,7 @@ import java.util.Stack;
  */
 public final class CspSerializationProcessor implements ICspSerializationProcessor
 {
-    private final ICspSerializationBuffer cspSerializationBuffer;
+    private final ISerializationBuffer cspSerializationBuffer;
     private final ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
         cspProcessorRegistry;
     private final ICspClassProcessorGenerator<ICspClassSerializationProcessor<?>> cspDataProcessorGenerator;
@@ -57,7 +56,7 @@ public final class CspSerializationProcessor implements ICspSerializationProcess
     private @Nullable Stack<List<ICspClassSerializationProcessor<?>>> activeCompositeProcessors;
     private final @Nullable Map<Object, Integer> referenceMap;
 
-    public CspSerializationProcessor(ICspSerializationBuffer cspSerializationBuffer,
+    public CspSerializationProcessor(ISerializationBuffer cspSerializationBuffer,
         ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor> cspProcessorRegistry,
         ICspClassProcessorGenerator<ICspClassSerializationProcessor<?>> cspDataProcessorGenerator,
         ICspDataMessage cspDataMessage)

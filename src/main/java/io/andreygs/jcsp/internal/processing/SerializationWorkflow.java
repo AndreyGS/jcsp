@@ -25,10 +25,9 @@
 
 package io.andreygs.jcsp.internal.processing;
 
-import io.andreygs.jcsp.api.model.protocol.message.ICspDataMessage;
 import io.andreygs.jcsp.api.processing.data.ICspSerializationProcessor;
-import io.andreygs.jcsp.internal.model.buffer.ICspSerializationBuffer;
-import io.andreygs.jcsp.internal.model.buffer.factory.ICspSerializationBufferFactory;
+import io.andreygs.jcsp.internal.model.buffer.ISerializationBuffer;
+import io.andreygs.jcsp.internal.model.buffer.factory.ISerializationBufferFactory;
 import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
 import io.andreygs.jcsp.internal.model.protocol.message.factory.ICspMessageFactory;
 import io.andreygs.jcsp.internal.processing.data.factory.ICspSerializationProcessorFactory;
@@ -54,11 +53,11 @@ public final class SerializationWorkflow
     private static final Set<CspCommonFlag> DEFAULT_CSP_COMMON_FLAGS = Set.of(CspCommonFlag.BIG_ENDIAN);
     private static final Set<CspDataFlag> DEFAULT_CSP_DATA_FLAGS = Set.of(CspDataFlag.ALLOW_UNMANAGED_POINTERS);
 
-    private final ICspSerializationBufferFactory cspSerializationBufferFactory;
+    private final ISerializationBufferFactory cspSerializationBufferFactory;
     private final ICspMessageFactory cspMessageFactory;
     private final ICspSerializationProcessorFactory cspDataGeneralSerializationProcessorFactory;
 
-    public SerializationWorkflow(ICspSerializationBufferFactory cspSerializationBufferFactory,
+    public SerializationWorkflow(ISerializationBufferFactory cspSerializationBufferFactory,
                                  ICspMessageFactory cspMessageFactory,
                                  ICspSerializationProcessorFactory cspDataGeneralSerializationProcessorFactory)
     {
@@ -79,7 +78,7 @@ public final class SerializationWorkflow
         @Nullable ICspInterfaceVersion cspInterfaceVersion,
         @Nullable Set<CspDataFlag> cspDataFlags)
     {
-        ICspSerializationBuffer cspSerializationBuffer =
+        ISerializationBuffer cspSerializationBuffer =
             cspSerializationBufferFactory.createBuffer(initialBufferCapacity, directBuffer, bufferResizeStrategy);
 
         // TODO construction of message should be made later (right before message body serialization).

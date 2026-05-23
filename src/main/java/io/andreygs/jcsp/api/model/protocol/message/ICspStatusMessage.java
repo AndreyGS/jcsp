@@ -30,8 +30,7 @@ import io.andreygs.jcsp.api.model.protocol.CspStatus;
 /**
  * TODO: place description here
  */
-public interface ICspStatusMessage
-    extends ICspMessage
+public interface ICspStatusMessage extends ICspMessage
 {
     CspStatus getStatus();
 }

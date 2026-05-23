@@ -156,8 +156,8 @@ class CspTypeProcessorFactory<P> implements ICspTypeProcessorFactory<P>
 
     private P createWildcardProcessorSwitch(AnnotatedWildcardType annotatedWildcardType)
     {
-        AnnotatedType[] lowerBoundAnnotatedTypes =  annotatedWildcardType.getAnnotatedLowerBounds();
-        AnnotatedType[] upperBoundAnnotatedTypes =  annotatedWildcardType.getAnnotatedUpperBounds();
+        AnnotatedType[] lowerBoundAnnotatedTypes = annotatedWildcardType.getAnnotatedLowerBounds();
+        AnnotatedType[] upperBoundAnnotatedTypes = annotatedWildcardType.getAnnotatedUpperBounds();
         if (lowerBoundAnnotatedTypes.length == 0 && upperBoundAnnotatedTypes.length == 0)
         {
             throw CspRuntimeException.createCspRuntimeException(CspStatus.ERROR_IN_STRUCT_FORMAT,

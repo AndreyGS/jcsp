@@ -26,7 +26,7 @@
 package io.andreygs.jcsp.internal.model.protocol.message;
 
 import io.andreygs.jcsp.api.model.protocol.message.ICspStatusMessage;
-import io.andreygs.jcsp.internal.model.buffer.ICspBuffer;
+import io.andreygs.jcsp.internal.model.buffer.IBuffer;
 import io.andreygs.jcsp.api.model.protocol.CspCommonFlag;
 import io.andreygs.jcsp.api.model.protocol.CspMessageType;
 import io.andreygs.jcsp.api.model.protocol.CspProtocolVersion;
@@ -43,7 +43,7 @@ public final class CspStatusMessage
 {
     private final CspStatus cspStatus;
 
-    public CspStatusMessage(ICspBuffer cspBuffer, CspProtocolVersion cspProtocolVersion,
+    public CspStatusMessage(IBuffer cspBuffer, CspProtocolVersion cspProtocolVersion,
         Set<CspCommonFlag> cspCommonFlags, CspStatus cspStatus)
     {
         super(cspBuffer, cspProtocolVersion, cspCommonFlags);

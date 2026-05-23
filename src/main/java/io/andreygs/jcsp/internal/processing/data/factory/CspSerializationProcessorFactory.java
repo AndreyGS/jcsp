@@ -25,10 +25,9 @@
 
 package io.andreygs.jcsp.internal.processing.data.factory;
 
-import io.andreygs.jcsp.api.model.protocol.message.ICspDataMessage;
 import io.andreygs.jcsp.api.processing.data.ICspSerializationProcessor;
 import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.internal.model.buffer.ICspSerializationBuffer;
+import io.andreygs.jcsp.internal.model.buffer.ISerializationBuffer;
 import io.andreygs.jcsp.internal.processing.data.CspSerializationProcessor;
 import io.andreygs.jcsp.internal.processing.data.ICspProcessorRegistry;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
@@ -49,7 +48,7 @@ public final class CspSerializationProcessorFactory
 
     @Override
     public ICspSerializationProcessor createGeneralSerializationProcessor(
-        ICspSerializationBuffer cspSerializationBuffer,
+        ISerializationBuffer cspSerializationBuffer,
         ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor> cspProcessorRegistry,
         ICspDataMessage cspDataMessage)
     {

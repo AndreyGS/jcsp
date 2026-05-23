@@ -40,12 +40,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CspFlagUtilsTests
 {
     @Test
-    public void testCalculateFlagMaskStream()
+    public void testCalculateFlagMaskIterable()
     {
         int expected = CspDataFlag.ALLOW_UNMANAGED_POINTERS.getValue()
                            | CspDataFlag.ALIGNMENT_MAY_BE_NOT_EQUAL.getValue();
         int result = CspFlagUtils.calculateFlagMask(
-            Stream.of(CspDataFlag.ALLOW_UNMANAGED_POINTERS, CspDataFlag.ALIGNMENT_MAY_BE_NOT_EQUAL));
+            Set.of(CspDataFlag.ALLOW_UNMANAGED_POINTERS, CspDataFlag.ALIGNMENT_MAY_BE_NOT_EQUAL));
 
         assertThat(result).isEqualTo(expected);
     }
@@ -57,17 +57,6 @@ public class CspFlagUtilsTests
                            | CspDataFlag.ALIGNMENT_MAY_BE_NOT_EQUAL.getValue();
         CspDataFlag[] cspDataFlags = {CspDataFlag.ALLOW_UNMANAGED_POINTERS, CspDataFlag.ALIGNMENT_MAY_BE_NOT_EQUAL};
         int result = CspFlagUtils.calculateFlagMask(cspDataFlags);
-
-        assertThat(result).isEqualTo(expected);
-    }
-
-    @Test
-    public void testCalculateFlagMaskList()
-    {
-        int expected = CspDataFlag.ALLOW_UNMANAGED_POINTERS.getValue()
-                           | CspDataFlag.ALIGNMENT_MAY_BE_NOT_EQUAL.getValue();
-        int result = CspFlagUtils.calculateFlagMask(
-            Set.of(CspDataFlag.ALLOW_UNMANAGED_POINTERS, CspDataFlag.ALIGNMENT_MAY_BE_NOT_EQUAL));
 
         assertThat(result).isEqualTo(expected);
     }

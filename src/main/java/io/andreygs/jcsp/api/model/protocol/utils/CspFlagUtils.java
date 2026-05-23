@@ -49,19 +49,12 @@ public class CspFlagUtils
      */
     public static <T extends ICspFlag> int calculateFlagMask(T[] flags)
     {
-        return calculateFlagMask(Arrays.stream(flags));
-    }
-
-    /**
-     * Calculates mask of flags as integer.
-     *
-     * @param flags Set of flags.
-     * @return calculated mask.
-     * @param <T> enum implemented {@link ICspFlag}.
-     */
-    public static <T extends ICspFlag> int calculateFlagMask(Set<T> flags)
-    {
-        return calculateFlagMask(flags.stream());
+        int flagMask = 0;
+        for (T flag : flags)
+        {
+            flagMask |= flag.getValue();
+        }
+        return flagMask;
     }
 
     /**
@@ -71,11 +64,14 @@ public class CspFlagUtils
      * @return calculated mask.
      * @param <T> enum implemented {@link ICspFlag}.
      */
-    public static <T extends ICspFlag> int calculateFlagMask(Stream<T> flags)
+    public static <T extends ICspFlag> int calculateFlagMask(Iterable<T> flags)
     {
-        int[] flagMask = new int[1];
-        flags.forEach(flag -> flagMask[0] |= flag.getValue() );
-        return flagMask[0];
+        int flagMask = 0;
+        for (T flag : flags)
+        {
+            flagMask |= flag.getValue();
+        }
+        return flagMask;
     }
 
     /**

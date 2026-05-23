@@ -25,9 +25,13 @@
 
 package io.andreygs.jcsp.api.controller;
 
-import io.andreygs.jcsp.api.model.protocol.message.builder.ICspDataMessageBuilder;
+import io.andreygs.jcsp.api.model.buffer.dto.ISerializationBufferConfig;
+import io.andreygs.jcsp.api.model.protocol.message.ICspDataMessage;
+import io.andreygs.jcsp.api.model.protocol.message.config.ICspDataMessageConfig;
+import io.andreygs.jcsp.api.model.protocol.ICspVersionable;
 import io.andreygs.jcsp.api.model.protocol.utils.CspTypeToken;
 import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * TODO: place description here
@@ -42,5 +46,14 @@ public interface ICspSerializationSession
 
     void unregisterTypeSerializationProcessor(CspTypeToken<?> cspTypeToken);
 
-    ICspDataMessageBuilder createCspDataMessageBuilder();
+    void setDefaultBufferConfig(ISerializationBufferConfig config);
+
+
+
+    void setDefaultDataMessageConfig(ICspDataMessageConfig config);
+
+    <T extends ICspVersionable> ICspDataMessage<T> serialize(ICspVersionable value, Class<T> clazz);
+
+    <T extends ICspVersionable> ICspDataMessage<T> serialize(ICspVersionable value, Class<T> clazz,
+        @Nullable ISerializationBufferConfig customBufferConfig, @Nullable ICspDataMessageConfig customMessageConfig);
 }
