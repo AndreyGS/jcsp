@@ -23,31 +23,29 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.type.factory;
+package io.andreygs.jcsp.internal.processing.data.type.dto.factory;
 
-import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptorGenerator;
-import io.andreygs.jcsp.internal.processing.data.type.TypeVariableDescriptorGenerator;
-import io.andreygs.jcsp.internal.processing.data.type.dto.factory.TypeVariableDescriptorFactory;
+import io.andreygs.jcsp.internal.processing.data.type.dto.ITypeBoundsDescriptor;
+import io.andreygs.jcsp.internal.processing.data.type.dto.ITypeVariableDescriptor;
+import io.andreygs.jcsp.internal.processing.data.type.dto.TypeVariableDescriptor;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * TODO: place description here
  */
-public class TypeVariableDescriptorGeneratorFactory implements ITypeVariableDescriptorGeneratorFactory
+public class TypeVariableDescriptorFactory
+    implements ITypeVariableDescriptorFactory
 {
-    private static final ITypeVariableDescriptorGeneratorFactory INSTANCE =
-        new TypeVariableDescriptorGeneratorFactory();
-
-    private static final ITypeVariableDescriptorGenerator DEFAULT_DESCRIPTOR_GENERATOR =
-        new TypeVariableDescriptorGenerator(TypeVariableDescriptorFactory.getInstance(),
-            TypeBoundsDescriptorGeneratorFactory.getInstance().provideTypeBoundsDescriptorGenerator());
+    private static final ITypeVariableDescriptorFactory INSTANCE = new TypeVariableDescriptorFactory();
 
     @Override
-    public ITypeVariableDescriptorGenerator provideDefaultDescriptorGenerator()
+    public ITypeVariableDescriptor createTypeVariableDescriptor(String name,
+        @Nullable ITypeBoundsDescriptor typeBoundsDescriptor)
     {
-        return DEFAULT_DESCRIPTOR_GENERATOR;
+        return new TypeVariableDescriptor(name, typeBoundsDescriptor);
     }
 
-    public static ITypeVariableDescriptorGeneratorFactory getInstance()
+    public static ITypeVariableDescriptorFactory getInstance()
     {
         return INSTANCE;
     }

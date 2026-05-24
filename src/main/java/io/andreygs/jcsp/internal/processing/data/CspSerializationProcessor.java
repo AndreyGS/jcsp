@@ -29,6 +29,7 @@ import io.andreygs.jcsp.api.processing.data.ICspSerializationProcessor;
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
 import io.andreygs.jcsp.internal.model.buffer.ISerializationBuffer;
 import io.andreygs.jcsp.api.model.protocol.utils.CspTypeToken;
+import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorGenerator;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 import io.andreygs.jcsp.api.model.protocol.CspDataFlag;
 import io.andreygs.jcsp.api.model.protocol.ICspVersionable;

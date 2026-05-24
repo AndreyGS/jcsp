@@ -23,32 +23,30 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.type.factory;
+package io.andreygs.jcsp.internal.processing.data.clazz;
 
-import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptorGenerator;
-import io.andreygs.jcsp.internal.processing.data.type.TypeVariableDescriptorGenerator;
-import io.andreygs.jcsp.internal.processing.data.type.dto.factory.TypeVariableDescriptorFactory;
+import io.andreygs.jcsp.api.model.annotation.CspCreateProcessor;
+import io.andreygs.jcsp.api.model.exception.CspRuntimeException;
+import io.andreygs.jcsp.api.model.protocol.CspStatus;
 
 /**
- * TODO: place description here
+ * Generator of serialization and deserialization data processors.
+ * <p>
+ * It has immutable state.
  */
-public class TypeVariableDescriptorGeneratorFactory implements ITypeVariableDescriptorGeneratorFactory
+public interface ICspClassProcessorGenerator<P>
 {
-    private static final ITypeVariableDescriptorGeneratorFactory INSTANCE =
-        new TypeVariableDescriptorGeneratorFactory();
-
-    private static final ITypeVariableDescriptorGenerator DEFAULT_DESCRIPTOR_GENERATOR =
-        new TypeVariableDescriptorGenerator(TypeVariableDescriptorFactory.getInstance(),
-            TypeBoundsDescriptorGeneratorFactory.getInstance().provideTypeBoundsDescriptorGenerator());
-
-    @Override
-    public ITypeVariableDescriptorGenerator provideDefaultDescriptorGenerator()
-    {
-        return DEFAULT_DESCRIPTOR_GENERATOR;
-    }
-
-    public static ITypeVariableDescriptorGeneratorFactory getInstance()
-    {
-        return INSTANCE;
-    }
+    /**
+     * Generates data processor.
+     * <p>
+     * Pure method.
+     *
+     * @param structClazz Class for which processor should be generated. It must contain
+     *                    {@link CspCreateProcessor}
+     *                    annotation.
+     * @return generated processor.
+     * @throws CspRuntimeException with status {@link CspStatus#NO_SUCH_HANDLER} if provided class has no
+     * {@link CspCreateProcessor} annotation.
+     */
+    P generateProcessor(Class<?> structClazz) throws CspRuntimeException;
 }

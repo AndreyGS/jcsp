@@ -23,32 +23,17 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.model;
+package io.andreygs.jcsp.internal.processing.data.type.dto.factory;
 
-import io.andreygs.jcsp.api.processing.data.clazz.ICspClassDeserializationProcessor;
-import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.internal.processing.data.type.model.ITypeVariableDescriptor;
-
-import java.util.Set;
+import io.andreygs.jcsp.internal.processing.data.type.dto.ITypeBoundsDescriptor;
+import io.andreygs.jcsp.internal.processing.data.type.dto.ITypeVariableDescriptor;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * Holder of generic class processor with set of its type variable names.
- *
- * @param <CP> {@link ICspClassSerializationProcessor} or {@link ICspClassDeserializationProcessor}.
+ * TODO: place description here
  */
-public interface IGenericClassProcessorHolder<CP>
+public interface ITypeVariableDescriptorFactory
 {
-    /**
-     * Gets class processor.
-     *
-     * @return generic class processor.
-     */
-    CP getClassProcessor();
-
-    /**
-     * Gets type variable names of generic class processor.
-     *
-     * @return type variable descriptors.
-     */
-    Set<ITypeVariableDescriptor> getTypeVariableDescriptor();
+    ITypeVariableDescriptor createTypeVariableDescriptor(String name,
+        @Nullable ITypeBoundsDescriptor typeBoundsDescriptor);
 }

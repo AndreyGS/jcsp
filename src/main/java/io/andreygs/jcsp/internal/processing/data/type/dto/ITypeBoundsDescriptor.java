@@ -23,17 +23,41 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.type.model.factory;
+package io.andreygs.jcsp.internal.processing.data.type.dto;
 
-import io.andreygs.jcsp.internal.processing.data.type.model.ITypeBoundsDescriptor;
-import io.andreygs.jcsp.internal.processing.data.type.model.ITypeVariableDescriptor;
-import org.jetbrains.annotations.Nullable;
+import io.andreygs.jcsp.internal.processing.data.type.model.TypeBoundKind;
+import io.andreygs.jcsp.internal.processing.data.type.model.TypeIdKind;
+
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * TODO: place description here
  */
-public interface ITypeVariableDescriptorFactory
+public interface ITypeBoundsDescriptor
 {
-    ITypeVariableDescriptor createTypeVariableDescriptor(String name,
-        @Nullable ITypeBoundsDescriptor typeBoundsDescriptor);
+    TypeBoundKind getTypeBoundKind();
+
+    /**
+     * Gets kind of type identifier.
+     *
+     * @return {@link TypeIdKind#TYPE_VARIABLE_NAME} if bound is a type variable and {@link TypeIdKind#CLASS} otherwise.
+     */
+    TypeIdKind getTypeIdKind();
+
+    /**
+     * Gets classes of bounds.
+     *
+     * @return non-empty {@link Set} if {@link #getTypeIdKind()} returns {@link TypeIdKind#CLASS} and empty set
+     * otherwise.
+     */
+    Set<Class<?>> getBoundClasses();
+
+    /**
+     * Gets name of bound type variable (can be only one bound type variable according to Java specification).
+     *
+     * @return non-empty {@link Optional} with non-empty {@link String} if {@link #getTypeIdKind()} returns
+     * {@link TypeIdKind#TYPE_VARIABLE_NAME} and empty {@link Optional} otherwise.
+     */
+    Optional<String> getBoundTypeVariableName();
 }

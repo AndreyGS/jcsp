@@ -23,29 +23,16 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.type.model.factory;
+package io.andreygs.jcsp.internal.processing.data.type.dto;
 
-import io.andreygs.jcsp.internal.processing.data.type.model.ITypeBoundsDescriptor;
-import io.andreygs.jcsp.internal.processing.data.type.model.TypeBoundKind;
-import io.andreygs.jcsp.internal.processing.data.type.model.TypeBoundsDescriptor;
-
-import java.util.Set;
+import java.util.Optional;
 
 /**
  * TODO: place description here
  */
-public class TypeBoundsDescriptorFactory
-    implements ITypeBoundsDescriptorFactory
+public interface ITypeVariableDescriptor
 {
-    @Override
-    public ITypeBoundsDescriptor createTypeBoundsDescriptor(TypeBoundKind boundTypeKind, Set<Class<?>> boundClasses)
-    {
-        return new TypeBoundsDescriptor(boundTypeKind, boundClasses);
-    }
+    String getName();
 
-    @Override
-    public ITypeBoundsDescriptor createTypeBoundsDescriptor(TypeBoundKind boundTypeKind, String boundTypeVariableName)
-    {
-        return new TypeBoundsDescriptor(boundTypeKind, boundTypeVariableName);
-    }
+    Optional<ITypeBoundsDescriptor> getTypeBoundsDescriptors();
 }

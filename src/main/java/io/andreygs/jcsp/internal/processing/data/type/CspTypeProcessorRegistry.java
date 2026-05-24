@@ -23,19 +23,36 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.type.model.factory;
+package io.andreygs.jcsp.internal.processing.data.type;
 
-import io.andreygs.jcsp.internal.processing.data.type.model.ITypeBoundsDescriptor;
-import io.andreygs.jcsp.internal.processing.data.type.model.TypeBoundKind;
-
-import java.util.Set;
+import java.lang.reflect.AnnotatedType;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * TODO: place description here
  */
-public interface ITypeBoundsDescriptorFactory
+public class CspTypeProcessorRegistry<P>
+    implements ICspTypeProcessorRegistry<P>
 {
-    ITypeBoundsDescriptor createTypeBoundsDescriptor(TypeBoundKind boundTypeKind, Set<Class<?>> boundClasses);
+    private final Map<AnnotatedType, P> typeProcessors = new ConcurrentHashMap<>();
 
-    ITypeBoundsDescriptor createTypeBoundsDescriptor(TypeBoundKind boundTypeKind, String boundTypeVariableName);
+    @Override
+    public void registerTypeProcessor(AnnotatedType annotatedType, P typeProcessor)
+    {
+        typeProcessors.put(annotatedType, typeProcessor);
+    }
+
+    @Override
+    public Optional<P> findTypeProcessor(AnnotatedType annotatedType)
+    {
+        return Optional.ofNullable(typeProcessors.get(annotatedType));
+    }
+
+    @Override
+    public void unregisterTypeProcessor(AnnotatedType annotatedType)
+    {
+        typeProcessors.remove(annotatedType);
+    }
 }

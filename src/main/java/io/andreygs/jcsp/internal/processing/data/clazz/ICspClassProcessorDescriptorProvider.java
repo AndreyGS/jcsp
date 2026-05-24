@@ -23,37 +23,14 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.type.model;
+package io.andreygs.jcsp.internal.processing.data.clazz;
 
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Objects;
-import java.util.Optional;
+import io.andreygs.jcsp.internal.processing.data.clazz.dto.ICspClassProcessorDescriptor;
 
 /**
  * TODO: place description here
  */
-public class TypeVariableDescriptor
-    implements ITypeVariableDescriptor
+public interface ICspClassProcessorDescriptorProvider<P>
 {
-    private final String name;
-    private final @Nullable ITypeBoundsDescriptor typeBoundsDescriptor;
-
-    public TypeVariableDescriptor(String name,  @Nullable ITypeBoundsDescriptor typeBoundsDescriptor)
-    {
-        this.name = Objects.requireNonNull(name);
-        this.typeBoundsDescriptor = typeBoundsDescriptor;
-    }
-
-    @Override
-    public String getName()
-    {
-        return name;
-    }
-
-    @Override
-    public Optional<ITypeBoundsDescriptor> getTypeBoundsDescriptors()
-    {
-        return Optional.ofNullable(typeBoundsDescriptor);
-    }
+    ICspClassProcessorDescriptor<P> provideClassProcessorDescriptor(Class<?> clazz);
 }

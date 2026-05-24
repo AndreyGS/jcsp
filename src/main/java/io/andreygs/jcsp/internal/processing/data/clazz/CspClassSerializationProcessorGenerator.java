@@ -23,10 +23,12 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data;
+package io.andreygs.jcsp.internal.processing.data.clazz;
 
 import io.andreygs.jcsp.api.processing.data.ICspSerializationProcessor;
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.ICspExtendedSerializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.Messages;
 import io.andreygs.jcsp.internal.processing.data.type.factory.ICspTypeProcessorFactory;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 

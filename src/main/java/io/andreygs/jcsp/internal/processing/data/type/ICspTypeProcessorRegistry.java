@@ -23,38 +23,39 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.type.model;
+package io.andreygs.jcsp.internal.processing.data.type;
 
+import java.lang.reflect.AnnotatedType;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * TODO: place description here
  */
-public interface ITypeBoundsDescriptor
+public interface ICspTypeProcessorRegistry<P>
 {
-    TypeBoundKind getTypeBoundKind();
+    /**
+     * Registers processor for type for later use.
+     * <p>
+     * If type processor already have been registered, then new processor will override previous registration.
+     *
+     * @param annotatedType Type which has non-trivial traits, like generic parameters and nested structure.
+     *                      For example: List&ltMap&lt@CspReference String, Integer[]>
+     * @param typeProcessor Type processor that will be used in serialization or deserialization process.
+     */
+    void registerTypeProcessor(AnnotatedType annotatedType, P typeProcessor);
 
     /**
-     * Gets kind of type identifier.
+     * Finds already registered processor for chosen type.
      *
-     * @return {@link TypeIdKind#TYPE_VARIABLE_NAME} if bound is a type variable and {@link TypeIdKind#CLASS} otherwise.
+     * @param annotatedType Type which processor need to be found.
+     * @return optional proxy processor.
      */
-    TypeIdKind getTypeIdKind();
+    Optional<P> findTypeProcessor(AnnotatedType annotatedType);
 
     /**
-     * Gets classes of bounds.
+     * Unregisters processor for provided {@link AnnotatedType}.
      *
-     * @return non-empty {@link Set} if {@link #getTypeIdKind()} returns {@link TypeIdKind#CLASS} and empty set
-     * otherwise.
+     * @param annotatedType Type of processor.
      */
-    Set<Class<?>> getBoundClasses();
-
-    /**
-     * Gets name of bound type variable (can be only one bound type variable according to Java specification).
-     *
-     * @return non-empty {@link Optional} with non-empty {@link String} if {@link #getTypeIdKind()} returns
-     * {@link TypeIdKind#TYPE_VARIABLE_NAME} and empty {@link Optional} otherwise.
-     */
-    Optional<String> getBoundTypeVariableName();
+    void unregisterTypeProcessor(AnnotatedType annotatedType);
 }

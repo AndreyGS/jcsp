@@ -36,13 +36,21 @@ import io.andreygs.jcsp.internal.processing.data.type.factory.TypeVariableDescri
 public class CspClassProcessorDescriptorGeneratorFactory
     implements ICspClassProcessorDescriptorGeneratorFactory
 {
+    private static final ICspClassProcessorDescriptorGeneratorFactory INSTANCE =
+        new CspClassProcessorDescriptorGeneratorFactory();
+
     private static final ICspClassProcessorDescriptorGenerator DEFAULT_DESCRIPTOR_GENERATOR =
-        new CspClassProcessorDescriptorGenerator(new CspClassProcessorDescriptorFactory(),
-            new TypeVariableDescriptorGeneratorFactory().provideDefaultDescriptorGenerator());
+        new CspClassProcessorDescriptorGenerator(CspClassProcessorDescriptorFactory.getInstance(),
+            TypeVariableDescriptorGeneratorFactory.getInstance().provideDefaultDescriptorGenerator());
 
     @Override
     public ICspClassProcessorDescriptorGenerator provideDefaultDescriptorGenerator()
     {
         return DEFAULT_DESCRIPTOR_GENERATOR;
+    }
+
+    public static ICspClassProcessorDescriptorGeneratorFactory getInstance()
+    {
+        return INSTANCE;
     }
 }

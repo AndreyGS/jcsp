@@ -23,7 +23,7 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data;
+package io.andreygs.jcsp.internal.processing.data.clazz;
 
 import io.andreygs.jcsp.api.model.annotation.CspCreateProcessor;
 import io.andreygs.jcsp.internal.model.annotation.utils.CspAnnotationUtils;

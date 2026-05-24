@@ -25,11 +25,13 @@
 
 package io.andreygs.jcsp.internal.processing.data.type;
 
-import io.andreygs.jcsp.internal.processing.data.type.model.ITypeVariableDescriptor;
-import io.andreygs.jcsp.internal.processing.data.type.model.factory.ITypeVariableDescriptorFactory;
+import io.andreygs.jcsp.internal.processing.data.type.dto.ITypeBoundsDescriptor;
+import io.andreygs.jcsp.internal.processing.data.type.dto.ITypeVariableDescriptor;
+import io.andreygs.jcsp.internal.processing.data.type.dto.factory.ITypeVariableDescriptorFactory;
 
 import java.lang.reflect.TypeVariable;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * TODO: place description here
@@ -49,6 +51,9 @@ public class TypeVariableDescriptorGenerator implements ITypeVariableDescriptorG
     @Override
     public ITypeVariableDescriptor generateTypeVariableDescriptor(TypeVariable<? extends Class<?>> typeVariable)
     {
-        return null;
+        String name = typeVariable.getName();
+        Optional<ITypeBoundsDescriptor> typeBoundsDescriptor =
+            typeBoundsDescriptorGenerator.resolveTypeBoundsDescriptor(typeVariable);
+        return typeVariableDescriptorFactory.createTypeVariableDescriptor(name, typeBoundsDescriptor.orElse(null));
     }
 }

@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.internal.processing.data.type;
 
-import io.andreygs.jcsp.internal.processing.data.type.model.ITypeVariableDescriptor;
+import io.andreygs.jcsp.internal.processing.data.type.dto.ITypeVariableDescriptor;
 
 import java.lang.reflect.TypeVariable;
 

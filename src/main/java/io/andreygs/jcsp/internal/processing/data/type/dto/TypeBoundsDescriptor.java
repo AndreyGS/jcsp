@@ -23,8 +23,10 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.type.model;
+package io.andreygs.jcsp.internal.processing.data.type.dto;
 
+import io.andreygs.jcsp.internal.processing.data.type.model.TypeBoundKind;
+import io.andreygs.jcsp.internal.processing.data.type.model.TypeIdKind;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;

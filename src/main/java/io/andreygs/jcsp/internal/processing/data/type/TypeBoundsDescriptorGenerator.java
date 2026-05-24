@@ -25,12 +25,17 @@
 
 package io.andreygs.jcsp.internal.processing.data.type;
 
-import io.andreygs.jcsp.internal.processing.data.type.model.ITypeBoundsDescriptor;
-import io.andreygs.jcsp.internal.processing.data.type.model.factory.ITypeBoundsDescriptorFactory;
+import io.andreygs.jcsp.internal.processing.data.type.dto.ITypeBoundsDescriptor;
+import io.andreygs.jcsp.internal.processing.data.type.model.TypeBoundKind;
+import io.andreygs.jcsp.internal.processing.data.type.dto.factory.ITypeBoundsDescriptorFactory;
 
 import java.lang.reflect.AnnotatedWildcardType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * TODO: place description here
@@ -45,14 +50,50 @@ public class TypeBoundsDescriptorGenerator implements ITypeBoundsDescriptorGener
     }
 
     @Override
-    public ITypeBoundsDescriptor getTypeBoundsDescriptor(Type[] typeBounds)
+    public Optional<ITypeBoundsDescriptor> resolveTypeBoundsDescriptor(TypeVariable<? extends Class<?>> typeVariable)
+    {
+        Type[] types = typeVariable.getBounds();
+        if (types.length == 0)
+        {
+            return Optional.empty();
+        }
+        TypeBoundKind typeBoundKind = TypeBoundKind.UPPER_BOUND;
+        Optional<String> boundTypeName = resolveTypeVariableName(types[0]);
+        if (boundTypeName.isPresent())
+        {
+            return
+                Optional.of(typeBoundsDescriptorFactory.createTypeBoundsDescriptor(typeBoundKind, boundTypeName.get()));
+        }
+        Set<Class<?>> boundClasses = new HashSet<>();
+        for (Type type : types)
+        {
+            Class<?> clazz = requireClass(type);
+            boundClasses.add(clazz);
+        }
+        return Optional.of(typeBoundsDescriptorFactory.createTypeBoundsDescriptor(typeBoundKind, boundClasses));
+    }
+
+    @Override
+    public Optional<ITypeBoundsDescriptor> resolveTypeBoundsDescriptor(AnnotatedWildcardType annotatedWildcardType)
     {
         return null;
     }
 
-    @Override
-    public ITypeBoundsDescriptor getTypeBoundsDescriptor(AnnotatedWildcardType annotatedWildcardType)
+    private Optional<String> resolveTypeVariableName(Type type)
     {
-        return null;
+        if (type instanceof TypeVariable<?> typeVariable)
+        {
+            return Optional.of(typeVariable.getName());
+        }
+        return Optional.empty();
+    }
+
+    private Class<?> requireClass(Type type)
+    {
+        if (type instanceof Class<?>)
+        {
+            return (Class<?>)type;
+        }
+        throw new IllegalArgumentException("");
     }
 }

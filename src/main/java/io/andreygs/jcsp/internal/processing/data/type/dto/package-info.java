@@ -1,4 +1,6 @@
 /**
+ * TODO: place brief description here
+ *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -22,24 +24,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+@NotNullByDefault
+package io.andreygs.jcsp.internal.processing.data.type.dto;
 
-package io.andreygs.jcsp.internal.processing.data.type.model.factory;
-
-import io.andreygs.jcsp.internal.processing.data.type.model.ITypeBoundsDescriptor;
-import io.andreygs.jcsp.internal.processing.data.type.model.ITypeVariableDescriptor;
-import io.andreygs.jcsp.internal.processing.data.type.model.TypeVariableDescriptor;
-import org.jetbrains.annotations.Nullable;
-
-/**
- * TODO: place description here
- */
-public class TypeVariableDescriptorFactory
-    implements ITypeVariableDescriptorFactory
-{
-    @Override
-    public ITypeVariableDescriptor createTypeVariableDescriptor(String name,
-        @Nullable ITypeBoundsDescriptor typeBoundsDescriptor)
-    {
-        return new TypeVariableDescriptor(name, typeBoundsDescriptor);
-    }
-}
+import org.jetbrains.annotations.NotNullByDefault;

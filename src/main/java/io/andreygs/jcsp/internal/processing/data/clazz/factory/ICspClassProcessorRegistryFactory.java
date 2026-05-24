@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,7 +22,17 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-@NotNullByDefault
-package io.andreygs.jcsp.internal.processing.data.model;
 
-import org.jetbrains.annotations.NotNullByDefault;
+package io.andreygs.jcsp.internal.processing.data.clazz.factory;
+
+import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorDescriptorGenerator;
+import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorRegistry;
+
+/**
+ * TODO: place description here
+ */
+public interface ICspClassProcessorRegistryFactory<P>
+{
+    ICspClassProcessorRegistry<P> createRegistry(
+        ICspClassProcessorDescriptorGenerator cspClassProcessorDescriptorGenerator);
+}

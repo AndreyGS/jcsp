@@ -23,32 +23,18 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.type.factory;
+package io.andreygs.jcsp.internal.processing.data.clazz.factory;
 
-import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptorGenerator;
-import io.andreygs.jcsp.internal.processing.data.type.TypeVariableDescriptorGenerator;
-import io.andreygs.jcsp.internal.processing.data.type.dto.factory.TypeVariableDescriptorFactory;
+import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorDescriptorProvider;
+import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorGenerator;
+import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorRegistry;
 
 /**
  * TODO: place description here
  */
-public class TypeVariableDescriptorGeneratorFactory implements ITypeVariableDescriptorGeneratorFactory
+public interface ICspClassProcessorDescriptorProviderFactory<P>
 {
-    private static final ITypeVariableDescriptorGeneratorFactory INSTANCE =
-        new TypeVariableDescriptorGeneratorFactory();
-
-    private static final ITypeVariableDescriptorGenerator DEFAULT_DESCRIPTOR_GENERATOR =
-        new TypeVariableDescriptorGenerator(TypeVariableDescriptorFactory.getInstance(),
-            TypeBoundsDescriptorGeneratorFactory.getInstance().provideTypeBoundsDescriptorGenerator());
-
-    @Override
-    public ITypeVariableDescriptorGenerator provideDefaultDescriptorGenerator()
-    {
-        return DEFAULT_DESCRIPTOR_GENERATOR;
-    }
-
-    public static ITypeVariableDescriptorGeneratorFactory getInstance()
-    {
-        return INSTANCE;
-    }
+    ICspClassProcessorDescriptorProvider<P> createDescriptorProvider(
+        ICspClassProcessorRegistry<P> cspClassProcessorRegistry,
+        ICspClassProcessorGenerator<P> cspClassProcessorGenerator);
 }

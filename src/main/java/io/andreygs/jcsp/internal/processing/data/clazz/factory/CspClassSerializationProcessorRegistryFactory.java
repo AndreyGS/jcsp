@@ -23,31 +23,30 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.type.factory;
+package io.andreygs.jcsp.internal.processing.data.clazz.factory;
 
-import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptorGenerator;
-import io.andreygs.jcsp.internal.processing.data.type.TypeVariableDescriptorGenerator;
-import io.andreygs.jcsp.internal.processing.data.type.dto.factory.TypeVariableDescriptorFactory;
+import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.clazz.CspClassProcessorRegistry;
+import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorDescriptorGenerator;
+import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorRegistry;
 
 /**
  * TODO: place description here
  */
-public class TypeVariableDescriptorGeneratorFactory implements ITypeVariableDescriptorGeneratorFactory
+public class CspClassSerializationProcessorRegistryFactory
+    implements ICspClassProcessorRegistryFactory<ICspClassSerializationProcessor<?>>
 {
-    private static final ITypeVariableDescriptorGeneratorFactory INSTANCE =
-        new TypeVariableDescriptorGeneratorFactory();
-
-    private static final ITypeVariableDescriptorGenerator DEFAULT_DESCRIPTOR_GENERATOR =
-        new TypeVariableDescriptorGenerator(TypeVariableDescriptorFactory.getInstance(),
-            TypeBoundsDescriptorGeneratorFactory.getInstance().provideTypeBoundsDescriptorGenerator());
+    private static final ICspClassProcessorRegistryFactory<ICspClassSerializationProcessor<?>> INSTANCE =
+        new CspClassSerializationProcessorRegistryFactory();
 
     @Override
-    public ITypeVariableDescriptorGenerator provideDefaultDescriptorGenerator()
+    public ICspClassProcessorRegistry<ICspClassSerializationProcessor<?>> createRegistry(
+        ICspClassProcessorDescriptorGenerator cspClassProcessorDescriptorGenerator)
     {
-        return DEFAULT_DESCRIPTOR_GENERATOR;
+        return new CspClassProcessorRegistry<>(cspClassProcessorDescriptorGenerator);
     }
 
-    public static ITypeVariableDescriptorGeneratorFactory getInstance()
+    public static ICspClassProcessorRegistryFactory<ICspClassSerializationProcessor<?>> getInstance()
     {
         return INSTANCE;
     }

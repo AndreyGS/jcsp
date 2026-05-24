@@ -27,7 +27,7 @@ package io.andreygs.jcsp.internal.processing.data.clazz.dto.factory;
 
 import io.andreygs.jcsp.internal.processing.data.clazz.dto.CspClassProcessorDescriptor;
 import io.andreygs.jcsp.internal.processing.data.clazz.dto.ICspClassProcessorDescriptor;
-import io.andreygs.jcsp.internal.processing.data.type.model.ITypeVariableDescriptor;
+import io.andreygs.jcsp.internal.processing.data.type.dto.ITypeVariableDescriptor;
 
 import java.util.Set;
 
@@ -37,10 +37,17 @@ import java.util.Set;
 public class CspClassProcessorDescriptorFactory
     implements ICspClassProcessorDescriptorFactory
 {
+    private static final ICspClassProcessorDescriptorFactory INSTANCE = new CspClassProcessorDescriptorFactory();
+
     @Override
     public <P> ICspClassProcessorDescriptor<P> createClassProcessorDescriptor(P classProcessor,
         Set<ITypeVariableDescriptor> typeVariableDescriptors)
     {
         return new CspClassProcessorDescriptor<>(classProcessor, typeVariableDescriptors);
+    }
+
+    public static ICspClassProcessorDescriptorFactory getInstance()
+    {
+        return INSTANCE;
     }
 }

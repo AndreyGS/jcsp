@@ -23,15 +23,33 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.factory;
+package io.andreygs.jcsp.internal.processing.data.clazz.factory;
 
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.clazz.CspClassProcessorDescriptorProvider;
+import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorDescriptorProvider;
 import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorGenerator;
+import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorRegistry;
 
 /**
  * TODO: place description here
  */
-interface ICspClassSerializationProcessorGeneratorProvider
+public class CspClassSerializationProcessorDescriptorProviderFactory
+    implements ICspClassProcessorDescriptorProviderFactory<ICspClassSerializationProcessor<?>>
 {
-    ICspClassProcessorGenerator<ICspClassSerializationProcessor<?>> provideCspDataProcessorGenerator();
+    private static final ICspClassProcessorDescriptorProviderFactory<ICspClassSerializationProcessor<?>> INSTANCE =
+        new CspClassSerializationProcessorDescriptorProviderFactory();
+
+    @Override
+    public ICspClassProcessorDescriptorProvider<ICspClassSerializationProcessor<?>> createDescriptorProvider(
+        ICspClassProcessorRegistry<ICspClassSerializationProcessor<?>> cspClassProcessorRegistry,
+        ICspClassProcessorGenerator<ICspClassSerializationProcessor<?>> cspClassProcessorGenerator)
+    {
+        return new CspClassProcessorDescriptorProvider<>(cspClassProcessorRegistry, cspClassProcessorGenerator);
+    }
+
+    public static ICspClassProcessorDescriptorProviderFactory<ICspClassSerializationProcessor<?>> getInstance()
+    {
+        return INSTANCE;
+    }
 }

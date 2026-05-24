@@ -25,17 +25,18 @@
 
 package io.andreygs.jcsp.internal.processing.data.type;
 
-import io.andreygs.jcsp.internal.processing.data.type.model.ITypeBoundsDescriptor;
+import io.andreygs.jcsp.internal.processing.data.type.dto.ITypeBoundsDescriptor;
 
 import java.lang.reflect.AnnotatedWildcardType;
-import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+import java.util.Optional;
 
 /**
  * TODO: place description here
  */
 public interface ITypeBoundsDescriptorGenerator
 {
-    ITypeBoundsDescriptor getTypeBoundsDescriptor(Type[] typeBounds);
+    Optional<ITypeBoundsDescriptor> resolveTypeBoundsDescriptor(TypeVariable<? extends Class<?>> typeVariable);
 
-    ITypeBoundsDescriptor getTypeBoundsDescriptor(AnnotatedWildcardType annotatedWildcardType);
+    Optional<ITypeBoundsDescriptor> resolveTypeBoundsDescriptor(AnnotatedWildcardType annotatedWildcardType);
 }

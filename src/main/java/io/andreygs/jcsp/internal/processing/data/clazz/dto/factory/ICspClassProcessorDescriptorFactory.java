@@ -26,7 +26,7 @@
 package io.andreygs.jcsp.internal.processing.data.clazz.dto.factory;
 
 import io.andreygs.jcsp.internal.processing.data.clazz.dto.ICspClassProcessorDescriptor;
-import io.andreygs.jcsp.internal.processing.data.type.model.ITypeVariableDescriptor;
+import io.andreygs.jcsp.internal.processing.data.type.dto.ITypeVariableDescriptor;
 
 import java.util.Set;
 

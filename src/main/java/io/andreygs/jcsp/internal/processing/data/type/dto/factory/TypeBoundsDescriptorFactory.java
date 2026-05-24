@@ -23,30 +23,36 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data;
+package io.andreygs.jcsp.internal.processing.data.type.dto.factory;
 
-import io.andreygs.jcsp.api.model.annotation.CspCreateProcessor;
-import io.andreygs.jcsp.api.model.exception.CspRuntimeException;
-import io.andreygs.jcsp.api.model.protocol.CspStatus;
+import io.andreygs.jcsp.internal.processing.data.type.dto.ITypeBoundsDescriptor;
+import io.andreygs.jcsp.internal.processing.data.type.model.TypeBoundKind;
+import io.andreygs.jcsp.internal.processing.data.type.dto.TypeBoundsDescriptor;
+
+import java.util.Set;
 
 /**
- * Generator of serialization and deserialization data processors.
- * <p>
- * It has immutable state.
+ * TODO: place description here
  */
-public interface ICspClassProcessorGenerator<P>
+public class TypeBoundsDescriptorFactory
+    implements ITypeBoundsDescriptorFactory
 {
-    /**
-     * Generates data processor.
-     * <p>
-     * Pure method.
-     *
-     * @param structClazz Class for which processor should be generated. It must contain
-     *                    {@link CspCreateProcessor}
-     *                    annotation.
-     * @return generated processor.
-     * @throws CspRuntimeException with status {@link CspStatus#NO_SUCH_HANDLER} if provided class has no
-     * {@link CspCreateProcessor} annotation.
-     */
-    P generateProcessor(Class<?> structClazz) throws CspRuntimeException;
+    private static final ITypeBoundsDescriptorFactory INSTANCE = new TypeBoundsDescriptorFactory();
+
+    @Override
+    public ITypeBoundsDescriptor createTypeBoundsDescriptor(TypeBoundKind boundTypeKind, Set<Class<?>> boundClasses)
+    {
+        return new TypeBoundsDescriptor(boundTypeKind, boundClasses);
+    }
+
+    @Override
+    public ITypeBoundsDescriptor createTypeBoundsDescriptor(TypeBoundKind boundTypeKind, String boundTypeVariableName)
+    {
+        return new TypeBoundsDescriptor(boundTypeKind, boundTypeVariableName);
+    }
+
+    public static ITypeBoundsDescriptorFactory getInstance()
+    {
+        return INSTANCE;
+    }
 }

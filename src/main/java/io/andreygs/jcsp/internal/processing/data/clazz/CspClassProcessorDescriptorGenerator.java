@@ -28,10 +28,11 @@ package io.andreygs.jcsp.internal.processing.data.clazz;
 import io.andreygs.jcsp.internal.processing.data.clazz.dto.ICspClassProcessorDescriptor;
 import io.andreygs.jcsp.internal.processing.data.clazz.dto.factory.ICspClassProcessorDescriptorFactory;
 import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptorGenerator;
-import io.andreygs.jcsp.internal.processing.data.type.model.ITypeVariableDescriptor;
+import io.andreygs.jcsp.internal.processing.data.type.dto.ITypeVariableDescriptor;
 
 import java.lang.reflect.TypeVariable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -45,8 +46,8 @@ public class CspClassProcessorDescriptorGenerator implements ICspClassProcessorD
     public CspClassProcessorDescriptorGenerator(ICspClassProcessorDescriptorFactory cspClassProcessorDescriptorFactory,
         ITypeVariableDescriptorGenerator typeVariableDescriptorGenerator)
     {
-        this.cspClassProcessorDescriptorFactory = cspClassProcessorDescriptorFactory;
-        this.typeVariableDescriptorGenerator = typeVariableDescriptorGenerator;
+        this.cspClassProcessorDescriptorFactory = Objects.requireNonNull(cspClassProcessorDescriptorFactory);
+        this.typeVariableDescriptorGenerator = Objects.requireNonNull(typeVariableDescriptorGenerator);
     }
 
     @Override

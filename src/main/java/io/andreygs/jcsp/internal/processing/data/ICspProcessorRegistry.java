@@ -168,14 +168,6 @@ public interface ICspProcessorRegistry<CP, TP>
     Optional<CP> findOrdinaryClassProcessor(Class<?> clazz);
 
     /**
-     * Finds already registered processor for chosen generic class.
-     *
-     * @param clazz Class for which you need to find the processor holder and its parameters.
-     * @return optional holder for class and its parameters.
-     */
-    Optional<IGenericClassProcessorHolder<CP>> findGenericClassProcessor(Class<?> clazz);
-
-    /**
      * Finds already registered processor for chosen type.
      *
      * @param annotatedType Type which processor need to be found.

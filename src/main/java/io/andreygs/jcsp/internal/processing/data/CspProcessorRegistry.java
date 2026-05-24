@@ -27,19 +27,13 @@ package io.andreygs.jcsp.internal.processing.data;
 
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassDeserializationProcessor;
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.internal.processing.data.model.IGenericClassProcessorHolder;
-import io.andreygs.jcsp.internal.processing.data.type.model.ITypeVariableDescriptor;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeDeserializationProcessor;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 
 import java.lang.reflect.AnnotatedType;
-import java.lang.reflect.GenericArrayType;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -60,7 +54,6 @@ public final class CspProcessorRegistry<CP, TP>
     implements ICspProcessorRegistry<CP, TP>
 {
     private final Map<Class<?>, CP> ordinaryClassProcessors = new ConcurrentHashMap<>();
-    private final Map<Class<?>, IGenericClassProcessorHolder<CP>> genericClassProcessors = new ConcurrentHashMap<>();
     private final Map<AnnotatedType, TP> typeProcessors = new ConcurrentHashMap<>();
 
     @Override
@@ -83,9 +76,6 @@ public final class CspProcessorRegistry<CP, TP>
             TypeVariable<? extends Class<?>>[] typeVariables = clazz.getTypeParameters();
             Set<String> typeVariableNames =
                 Arrays.stream(typeVariables).map(TypeVariable::getName).collect(Collectors.toUnmodifiableSet());
-            GenericClassProcessorHolder<CP> genericProcessorHolder =
-                new GenericClassProcessorHolder<>(classProcessor, typeVariableNames);
-            genericClassProcessors.put(clazz, genericProcessorHolder);
         }
     }
 
@@ -99,12 +89,6 @@ public final class CspProcessorRegistry<CP, TP>
     public Optional<CP> findOrdinaryClassProcessor(Class<?> clazz)
     {
          return Optional.ofNullable(ordinaryClassProcessors.get(clazz));
-    }
-
-    @Override
-    public Optional<IGenericClassProcessorHolder<CP>> findGenericClassProcessor(Class<?> clazz)
-    {
-        return Optional.ofNullable(genericClassProcessors.get(clazz));
     }
 
     @Override
@@ -130,82 +114,5 @@ public final class CspProcessorRegistry<CP, TP>
     public void unregisterTypeProcessor(AnnotatedType annotatedType)
     {
         typeProcessors.remove(annotatedType);
-    }
-
-    private IGenericClassProcessorHolder<CP> createGenericClassProcessorHolder(Class<?> clazz, CP classProcessor)
-    {
-        TypeVariable<? extends Class<?>>[] typeVariables = clazz.getTypeParameters();
-        Set<ITypeVariableDescriptor> typeVariableTraits = new HashSet<>();
-        for (TypeVariable<? extends Class<?>> typeVariable : typeVariables)
-        {
-            Type[] types = typeVariable.getBounds();
-            if (types.length > 0)
-            {
-                Set<Class<?>> boundClasses = new HashSet<>();
-                for (Type type : types)
-                {
-                    if (type instanceof ParameterizedType parameterizedType)
-                    {
-                        throw new IllegalArgumentException(Messages.CspProcessorRegistry_Illegal_type_group);;
-                    }
-                    else if (type instanceof GenericArrayType arrayType)
-                    {
-                        return createArrayProcessorSwitch(annotatedArrayType);
-                    }
-                    else if (type instanceof TypeVariable typeVariable)
-                    {
-                        return createTypeVariableProcessor(annotatedTypeVariable);
-                    }
-                    else if (type instanceof WildcardType wildcardType)
-                    {
-                        return createWildcardProcessorSwitch(annotatedWildcardType);
-                    }
-                    else
-                    {
-                        Type type = annotatedType.getType();
-                        if (!(type instanceof Class<?> declaredClazz))
-                }
-            }
-        }
-        Set<String> typeVariableNames =
-            Arrays.stream(typeVariables).map(TypeVariable::getName).collect(Collectors.toUnmodifiableSet());
-        GenericClassProcessorHolder<CP> genericProcessorHolder =
-            new GenericClassProcessorHolder<>(classProcessor, typeVariableNames);
-
-    }
-
-    /**
-     * Holder for generic class processors.
-     *
-     * @param <CP> {@link ICspClassSerializationProcessor} or {@link ICspClassDeserializationProcessor}.
-     */
-    private static class GenericClassProcessorHolder<CP> implements IGenericClassProcessorHolder<CP>
-    {
-        private final CP classProcessor;
-        private final Set<String> typeVariableNames;
-
-        /**
-         * Constructs an instance.
-         *
-         * @param classProcessor Class processor for generic class.
-         * @param typeVariableNames Unmodifiable set of generic class type variables.
-         */
-        public GenericClassProcessorHolder(CP classProcessor, Set<String> typeVariableNames)
-        {
-            this.classProcessor = classProcessor;
-            this.typeVariableNames = typeVariableNames;
-        }
-
-        @Override
-        public CP getClassProcessor()
-        {
-            return classProcessor;
-        }
-
-        @Override
-        public Set<String> getTypeVariableNames()
-        {
-            return typeVariableNames;
-        }
     }
 }

@@ -65,8 +65,14 @@ public class CspClassProcessorRegistry<P>
     }
 
     @Override
-    public Optional<ICspClassProcessorDescriptor<P>> findClassProcessor(Class<?> clazz)
+    public Optional<ICspClassProcessorDescriptor<P>> resolveClassProcessorDescriptor(Class<?> clazz)
     {
         return Optional.ofNullable(classProcessorDescriptors.get(clazz));
+    }
+
+    @Override
+    public void unregisterClassProcessor(Class<?> clazz)
+    {
+        classProcessorDescriptors.remove(clazz);
     }
 }

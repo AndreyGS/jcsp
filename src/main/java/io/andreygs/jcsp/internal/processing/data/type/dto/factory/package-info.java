@@ -1,4 +1,6 @@
 /**
+ * TODO: place brief description here
+ *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -22,17 +24,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+@NotNullByDefault
+package io.andreygs.jcsp.internal.processing.data.type.dto.factory;
 
-package io.andreygs.jcsp.internal.processing.data.type.model;
-
-import java.util.Optional;
-
-/**
- * TODO: place description here
- */
-public interface ITypeVariableDescriptor
-{
-    String getName();
-
-    Optional<ITypeBoundsDescriptor> getTypeBoundsDescriptors();
-}
+import org.jetbrains.annotations.NotNullByDefault;
