@@ -25,11 +25,11 @@
 
 package io.andreygs.jcsp.internal.processing.data;
 
-import io.andreygs.jcsp.api.model.annotation.CspFixedSizeArray;
-import io.andreygs.jcsp.api.model.annotation.CspImplementationClass;
-import io.andreygs.jcsp.api.model.annotation.CspReference;
-import io.andreygs.jcsp.api.model.annotation.CspString;
-import io.andreygs.jcsp.api.model.protocol.utils.CspTypeToken;
+import io.andreygs.jcsp.api.annotation.CspFixedSizeArray;
+import io.andreygs.jcsp.api.annotation.CspImplementationClass;
+import io.andreygs.jcsp.api.annotation.CspReference;
+import io.andreygs.jcsp.api.annotation.CspString;
+import io.andreygs.jcsp.api.processing.data.type.CspTypeToken;
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassDeserializationProcessor;
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
 import io.andreygs.jcsp.internal.processing.data.model.IGenericClassProcessorHolder;

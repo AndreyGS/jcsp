@@ -25,16 +25,16 @@
 
 package io.andreygs.jcsp.internal.processing;
 
-import io.andreygs.jcsp.api.model.buffer.dto.ISerializationBufferConfig;
-import io.andreygs.jcsp.api.model.protocol.message.ICspDataMessage;
-import io.andreygs.jcsp.api.model.protocol.message.config.ICspDataMessageConfigExtension;
-import io.andreygs.jcsp.api.model.protocol.message.config.ICspMessageConfig;
-import io.andreygs.jcsp.api.model.protocol.message.context.factory.ICspMessageContextFactory;
-import io.andreygs.jcsp.internal.model.buffer.ISerializationBuffer;
-import io.andreygs.jcsp.internal.model.buffer.factory.ISerializationBufferFactory;
-import io.andreygs.jcsp.internal.model.protocol.message.factory.ICspMessageFactory;
+import io.andreygs.jcsp.api.processing.buffer.dto.ISerializationBufferConfig;
+import io.andreygs.jcsp.api.protocol.message.ICspDataMessage;
+import io.andreygs.jcsp.api.protocol.message.config.ICspDataMessageConfigExtension;
+import io.andreygs.jcsp.api.protocol.message.config.ICspMessageConfig;
+import io.andreygs.jcsp.api.protocol.message.context.factory.ICspMessageContextFactory;
+import io.andreygs.jcsp.internal.processing.buffer.ISerializationBuffer;
+import io.andreygs.jcsp.internal.processing.buffer.factory.ISerializationBufferFactory;
+import io.andreygs.jcsp.internal.protocol.message.factory.ICspMessageFactory;
 import io.andreygs.jcsp.internal.processing.data.factory.ICspSerializationProcessorFactory;
-import io.andreygs.jcsp.api.model.protocol.ICspVersionable;
+import io.andreygs.jcsp.api.protocol.ICspVersionable;
 
 /**
  *

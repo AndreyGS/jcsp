@@ -26,7 +26,7 @@
 package io.andreygs.jcsp.internal.processing.data.type;
 
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.api.model.annotation.CspCreateProcessor;
+import io.andreygs.jcsp.api.annotation.CspCreateProcessor;
 import io.andreygs.jcsp.internal.processing.data.ICspExtendedSerializationProcessor;
 import org.jetbrains.annotations.Nullable;
 

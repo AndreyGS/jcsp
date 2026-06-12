@@ -26,7 +26,7 @@
 package io.andreygs.jcsp.internal.processing.data;
 
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.internal.model.buffer.ISerializationBuffer;
+import io.andreygs.jcsp.internal.processing.buffer.ISerializationBuffer;
 import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorGenerator;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 import org.junit.jupiter.api.BeforeEach;

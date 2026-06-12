@@ -25,11 +25,11 @@
 
 package io.andreygs.jcsp.internal.processing;
 
-import io.andreygs.jcsp.api.model.buffer.dto.ISerializationBufferConfig;
-import io.andreygs.jcsp.api.model.protocol.message.ICspDataMessage;
-import io.andreygs.jcsp.api.model.protocol.message.config.ICspDataMessageConfigExtension;
-import io.andreygs.jcsp.api.model.protocol.ICspVersionable;
-import io.andreygs.jcsp.api.model.protocol.message.config.ICspMessageConfig;
+import io.andreygs.jcsp.api.processing.buffer.dto.ISerializationBufferConfig;
+import io.andreygs.jcsp.api.protocol.message.ICspDataMessage;
+import io.andreygs.jcsp.api.protocol.message.config.ICspDataMessageConfigExtension;
+import io.andreygs.jcsp.api.protocol.ICspVersionable;
+import io.andreygs.jcsp.api.protocol.message.config.ICspMessageConfig;
 
 /**
  * Workflow of CSP message serialization.

@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.internal.processing.data.clazz;
 
-import io.andreygs.jcsp.api.model.protocol.utils.CspTypeToken;
+import io.andreygs.jcsp.api.processing.data.type.CspTypeToken;
 import io.andreygs.jcsp.api.processing.data.ICspSerializationProcessor;
 import io.andreygs.jcsp.internal.processing.data.clazz.dto.ICspClassProcessorDescriptor;
 

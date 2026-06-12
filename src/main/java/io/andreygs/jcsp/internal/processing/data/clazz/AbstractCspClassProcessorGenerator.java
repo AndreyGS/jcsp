@@ -25,10 +25,10 @@
 
 package io.andreygs.jcsp.internal.processing.data.clazz;
 
-import io.andreygs.jcsp.api.model.annotation.CspCreateProcessor;
-import io.andreygs.jcsp.internal.model.annotation.utils.CspAnnotationUtils;
-import io.andreygs.jcsp.api.model.exception.CspRuntimeException;
-import io.andreygs.jcsp.api.model.protocol.CspStatus;
+import io.andreygs.jcsp.api.annotation.CspCreateProcessor;
+import io.andreygs.jcsp.internal.annotation.utils.CspAnnotationUtils;
+import io.andreygs.jcsp.api.exception.CspRuntimeException;
+import io.andreygs.jcsp.api.protocol.CspStatus;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

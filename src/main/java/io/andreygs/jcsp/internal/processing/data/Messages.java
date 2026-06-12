@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.internal.processing.data;
 
-import io.andreygs.jcsp.internal.model.utils.ResourceMessagesLoader;
+import io.andreygs.jcsp.internal.utils.ResourceMessagesLoader;
 
 /**
  * TODO: place description here

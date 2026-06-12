@@ -25,9 +25,9 @@
 
 package io.andreygs.jcsp.internal.processing.data.type.factory;
 
-import io.andreygs.jcsp.internal.model.annotation.utils.CspAnnotationUtils;
-import io.andreygs.jcsp.api.model.exception.CspRuntimeException;
-import io.andreygs.jcsp.api.model.protocol.CspStatus;
+import io.andreygs.jcsp.internal.annotation.utils.CspAnnotationUtils;
+import io.andreygs.jcsp.api.exception.CspRuntimeException;
+import io.andreygs.jcsp.api.protocol.CspStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.AnnotatedArrayType;
