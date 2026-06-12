@@ -25,9 +25,66 @@
 
 package io.andreygs.jcsp.internal.processing.data.clazz;
 
+import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.clazz.dto.ICspClassProcessorDescriptor;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.when;
+
 /**
  * TODO: place description here
  */
+@ExtendWith(MockitoExtension.class)
 public class CspClassProcessorRegistryTests
 {
+    @Mock
+    private ICspClassProcessorDescriptorGenerator cspClassProcessorDescriptorGenerator;
+
+    @Mock
+    private ICspClassProcessorDescriptor<ICspClassSerializationProcessor<?>> classProcessorDescriptor;
+
+    @Mock
+    private ICspClassProcessorRegistry<ICspClassSerializationProcessor<?>> registry;
+
+    @BeforeEach
+    public void setUp()
+    {
+        registry = new CspClassProcessorRegistry<>(cspClassProcessorDescriptorGenerator);
+    }
+
+    @Test
+    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
+    public void testConstructorNullDescriptorGenerator()
+    {
+        assertThatThrownBy(() -> new CspClassProcessorRegistry<ICspClassSerializationProcessor<?>>(null))
+            .isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    public void testRegisterClassProcessor()
+    {
+        assertThat(registry.resolveClassProcessorDescriptor(TestClass.class)).isEmpty();
+
+        ICspClassSerializationProcessor<TestClass> classProcessor =  (value, dataProcessor) -> {};
+        when(cspClassProcessorDescriptorGenerator.<ICspClassSerializationProcessor<?>> generate(classProcessor, TestClass.class))
+            .thenReturn(classProcessorDescriptor);
+        registry.registerClassProcessor(TestClass.class, classProcessor);
+
+        assertThat(registry.resolveClassProcessorDescriptor(TestClass.class))
+            .isPresent()
+            .flatMap(descriptor -> Optional.of(descriptor.getClassProcessor()))
+            .get().isEqualTo(classProcessor);
+    }
+
+    private static class TestClass
+    {
+    }
 }

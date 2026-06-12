@@ -25,7 +25,6 @@
 
 package io.andreygs.jcsp.internal.processing.data.clazz;
 
-import io.andreygs.jcsp.internal.processing.data.Messages;
 import io.andreygs.jcsp.internal.processing.data.clazz.dto.ICspClassProcessorDescriptor;
 
 import java.util.Collection;
@@ -60,7 +59,7 @@ public class CspClassProcessorRegistry<P>
             throw new IllegalArgumentException(Messages.CspProcessorRegistry_Illegal_class);
         }
         ICspClassProcessorDescriptor<P> newDescriptor =
-            cspClassProcessorDescriptorGenerator.generateClassProcessorDescriptor(classProcessor, clazz);
+            cspClassProcessorDescriptorGenerator.generate(Objects.requireNonNull(classProcessor), clazz);
         classProcessorDescriptors.put(clazz, newDescriptor);
     }
 

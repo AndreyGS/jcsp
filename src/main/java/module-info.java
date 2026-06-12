@@ -29,25 +29,17 @@ module io.andreygs.jcsp.base {
 
     exports io.andreygs.jcsp.api.controller;
     exports io.andreygs.jcsp.api.controller.factory;
-    exports io.andreygs.jcsp.api.model.buffer;
-    exports io.andreygs.jcsp.api.model.buffer.dto;
-    exports io.andreygs.jcsp.api.model.buffer.dto.factory;
     exports io.andreygs.jcsp.api.exception;
+    exports io.andreygs.jcsp.api.processing.buffer;
+    exports io.andreygs.jcsp.api.processing.buffer.dto;
+    exports io.andreygs.jcsp.api.processing.buffer.dto.factory;
+    exports io.andreygs.jcsp.api.processing.data;
+    exports io.andreygs.jcsp.api.processing.data.clazz;
+    exports io.andreygs.jcsp.api.processing.data.type;
     exports io.andreygs.jcsp.api.protocol;
     exports io.andreygs.jcsp.api.protocol.message;
-    exports io.andreygs.jcsp.api.protocol.message.dto;
+    exports io.andreygs.jcsp.api.protocol.message.config;
     exports io.andreygs.jcsp.api.protocol.message.config.factory;
     exports io.andreygs.jcsp.api.protocol.message.context;
     exports io.andreygs.jcsp.api.protocol.utils;
-    exports io.andreygs.jcsp.api.processing;
-    exports io.andreygs.jcsp.api.processing.data;
-    exports io.andreygs.jcsp.api.processing.data.clazz;
-    exports io.andreygs.jcsp.api.processing.buffer;
-    exports io.andreygs.jcsp.api.dto;
-    exports io.andreygs.jcsp.api.processing.buffer.dto.factory;
-    exports io.andreygs.jcsp.api.dto.processing.buffer;
-    exports io.andreygs.jcsp.api.processing.buffer.dto;
-    exports io.andreygs.jcsp.api.protocol.message.dto;
-    exports io.andreygs.jcsp.api.processing.data.type;
-    exports io.andreygs.jcsp.api.protocol.message.config;
 }

@@ -25,12 +25,19 @@
 
 package io.andreygs.jcsp.internal.processing.data.clazz;
 
-import io.andreygs.jcsp.internal.processing.data.clazz.dto.ICspClassProcessorDescriptor;
+import io.andreygs.jcsp.internal.utils.ResourceMessagesLoader;
 
 /**
  * TODO: place description here
  */
-public interface ICspClassProcessorDescriptorGenerator
+final class Messages
 {
-    <P> ICspClassProcessorDescriptor<P> generate(P classProcessor, Class<?> clazz);
+    public static String CspProcessorRegistry_Illegal_type_group;
+    public static String CspProcessorRegistry_Illegal_class;
+    public static String CspClassSerializationProcessorGenerator_ICspSerializationProcessor_is_invalid;
+
+    static
+    {
+        ResourceMessagesLoader.loadMessages(Messages.class);
+    }
 }

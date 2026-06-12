@@ -51,7 +51,7 @@ public class CspClassProcessorDescriptorGenerator implements ICspClassProcessorD
     }
 
     @Override
-    public <P> ICspClassProcessorDescriptor<P> generateClassProcessorDescriptor(P classProcessor, Class<?> clazz)
+    public <P> ICspClassProcessorDescriptor<P> generate(P classProcessor, Class<?> clazz)
     {
         TypeVariable<? extends Class<?>>[] typeVariables = clazz.getTypeParameters();
         if (typeVariables.length == 0)
