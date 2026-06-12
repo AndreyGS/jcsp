@@ -41,7 +41,7 @@ abstract class AbstractCspClassProcessorGenerator<P, TP>
     implements ICspClassProcessorGenerator<P>
 {
     @Override
-    public P generateProcessor(Class<?> structClazz)
+    public P generate(Class<?> structClazz)
     {
         if (!CspAnnotationUtils.isCspCreateProcessor(structClazz))
         {

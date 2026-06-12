@@ -42,7 +42,7 @@ public final class DeserializationBufferFactory
     implements IDeserializationBufferFactory
 {
     @Override
-    public IDeserializationBuffer createBuffer(ByteBuffer byteBuffer)
+    public IDeserializationBuffer create(ByteBuffer byteBuffer)
     {
         return new DeserializationBuffer(byteBuffer);
     }

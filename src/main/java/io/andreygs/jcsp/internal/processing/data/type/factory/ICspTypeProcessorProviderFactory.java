@@ -32,8 +32,7 @@ import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorRegistry;
 /**
  * TODO: place description here
  */
-public interface ICspTypeProcessorProviderFactory
+public interface ICspTypeProcessorProviderFactory<P>
 {
-    <P> ICspTypeProcessorProvider<P> createCspTypeProcessorProvider(ICspTypeProcessorRegistry<P> registry,
-        ICspTypeProcessorGenerator<P> generator);
+    ICspTypeProcessorProvider<P> create(ICspTypeProcessorRegistry<P> registry);
 }

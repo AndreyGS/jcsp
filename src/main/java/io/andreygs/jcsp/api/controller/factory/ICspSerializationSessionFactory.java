@@ -32,5 +32,5 @@ import io.andreygs.jcsp.api.controller.ICspSerializationSession;
  */
 public interface ICspSerializationSessionFactory
 {
-    ICspSerializationSession createSession();
+    ICspSerializationSession create();
 }

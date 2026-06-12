@@ -35,6 +35,5 @@ import java.util.Set;
  */
 public interface ICspClassProcessorDescriptorFactory
 {
-    <P> ICspClassProcessorDescriptor<P> createClassProcessorDescriptor(P classProcessor,
-        Set<ITypeVariableDescriptor> typeVariableDescriptors);
+    <P> ICspClassProcessorDescriptor<P> create(P classProcessor, Set<ITypeVariableDescriptor> typeVariableDescriptors);
 }

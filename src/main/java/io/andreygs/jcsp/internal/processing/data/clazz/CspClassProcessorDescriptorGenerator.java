@@ -56,7 +56,7 @@ public class CspClassProcessorDescriptorGenerator implements ICspClassProcessorD
         TypeVariable<? extends Class<?>>[] typeVariables = clazz.getTypeParameters();
         if (typeVariables.length == 0)
         {
-            return cspClassProcessorDescriptorFactory.createClassProcessorDescriptor(classProcessor, Set.of());
+            return cspClassProcessorDescriptorFactory.create(classProcessor, Set.of());
         }
 
         Set<ITypeVariableDescriptor> typeVariableDescriptors = new HashSet<>();
@@ -67,6 +67,6 @@ public class CspClassProcessorDescriptorGenerator implements ICspClassProcessorD
             typeVariableDescriptors.add(typeVariableDescriptor);
         }
         return
-            cspClassProcessorDescriptorFactory.createClassProcessorDescriptor(classProcessor, typeVariableDescriptors);
+            cspClassProcessorDescriptorFactory.create(classProcessor, typeVariableDescriptors);
     }
 }

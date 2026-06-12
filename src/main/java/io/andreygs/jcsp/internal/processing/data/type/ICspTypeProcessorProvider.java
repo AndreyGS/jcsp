@@ -32,5 +32,5 @@ import java.lang.reflect.AnnotatedType;
  */
 public interface ICspTypeProcessorProvider<P>
 {
-    P provideTypeProcessor(AnnotatedType annotatedType);
+    P provide(AnnotatedType annotatedType);
 }

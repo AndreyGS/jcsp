@@ -33,13 +33,14 @@ import io.andreygs.jcsp.api.protocol.message.config.ICspDataMessageConfigExtensi
 import io.andreygs.jcsp.api.protocol.ICspVersionable;
 import io.andreygs.jcsp.api.protocol.message.config.ICspMessageConfig;
 import io.andreygs.jcsp.api.protocol.message.config.factory.ICspMessageConfigFactory;
-import io.andreygs.jcsp.api.processing.data.type.CspTypeToken;
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.internal.processing.data.ICspProcessorRegistry;
 import io.andreygs.jcsp.internal.processing.ICspSerializationWorkflow;
+import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorRegistry;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorRegistry;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.AnnotatedType;
 import java.util.Objects;
 
 /**
@@ -47,45 +48,47 @@ import java.util.Objects;
  */
 public class CspSerializationSession implements ICspSerializationSession
 {
-    private final ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
-        processorRegistry;
+    private final ICspClassProcessorRegistry<ICspClassSerializationProcessor<?>> classProcessorRegistry;
+    private final ICspTypeProcessorRegistry<ICspTypeSerializationProcessor> typeProcessorRegistry;
     private final ISerializationBufferConfigFactory serializationBufferConfigFactory;
     private final ICspMessageConfigFactory cspMessageConfigFactory;
     private ISerializationBufferConfig defaultBufferConfig;
     private ICspMessageConfig defaultMessageConfig;
-    private ICspDataMessageConfigExtension defaultDataMessageConfigExtension
+    private ICspDataMessageConfigExtension defaultDataMessageConfigExtension;
     private final ICspSerializationWorkflow serializationWorkflow;
 
     public CspSerializationSession(
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor> processorRegistry,
+        ICspClassProcessorRegistry<ICspClassSerializationProcessor<?>> classProcessorRegistry,
+        ICspTypeProcessorRegistry<ICspTypeSerializationProcessor> typeProcessorRegistry,
         ISerializationBufferConfigFactory serializationBufferConfigFactory,
         ICspMessageConfigFactory cspMessageConfigFactory,
         ICspSerializationWorkflow serializationWorkflow)
     {
         this.serializationWorkflow = Objects.requireNonNull(serializationWorkflow);
-        this.processorRegistry = Objects.requireNonNull(processorRegistry);
+        this.classProcessorRegistry = Objects.requireNonNull(classProcessorRegistry);
+        this.typeProcessorRegistry = Objects.requireNonNull(typeProcessorRegistry);
         this.serializationBufferConfigFactory = Objects.requireNonNull(serializationBufferConfigFactory);
-        this.defaultBufferConfig = serializationBufferConfigFactory.provideDefaultBufferConfig();
+        this.defaultBufferConfig = serializationBufferConfigFactory.provideDefault();
         this.cspMessageConfigFactory = Objects.requireNonNull(cspMessageConfigFactory);
         initDefaultMessageConfigs();
     }
 
     @Override
-    public <T> void registerSerializationProcessor(Class<T> clazz, ICspClassSerializationProcessor<T> classProcessor)
+    public <T> void registerClassProcessor(Class<T> clazz, ICspClassSerializationProcessor<T> classProcessor)
     {
-        processorRegistry.registerClassProcessor(clazz, classProcessor);
+        classProcessorRegistry.registerClassProcessor(clazz, classProcessor);
     }
 
     @Override
-    public void unregisterSerializationProcessor(Class<?> clazz)
+    public void unregisterClassProcessor(Class<?> clazz)
     {
-        processorRegistry.unregisterClassProcessor(clazz);
+        classProcessorRegistry.unregisterClassProcessor(clazz);
     }
 
     @Override
-    public void unregisterTypeSerializationProcessor(CspTypeToken<?> cspTypeToken)
+    public void unregisterTypeProcessor(AnnotatedType annotatedType)
     {
-        processorRegistry.unregisterTypeProcessor(cspTypeToken.getAnnotatedType());
+        typeProcessorRegistry.unregisterTypeProcessor(annotatedType);
     }
 
     @Override

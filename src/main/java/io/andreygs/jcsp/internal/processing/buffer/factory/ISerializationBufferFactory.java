@@ -34,10 +34,10 @@ import io.andreygs.jcsp.internal.processing.buffer.ISerializationBuffer;
 public interface ISerializationBufferFactory
 {
     /**
-     * Constructs an instance.
+     * Creates an instance.
      *
      * @param serializationBufferConfig Buffer configuration.
      * @return created instance.
      */
-    ISerializationBuffer createBuffer(ISerializationBufferConfig serializationBufferConfig);
+    ISerializationBuffer create(ISerializationBufferConfig serializationBufferConfig);
 }

@@ -38,7 +38,7 @@ public class CspClassProcessorDescriptorFactory
     implements ICspClassProcessorDescriptorFactory
 {
     @Override
-    public <P> ICspClassProcessorDescriptor<P> createClassProcessorDescriptor(P classProcessor,
+    public <P> ICspClassProcessorDescriptor<P> create(P classProcessor,
         Set<ITypeVariableDescriptor> typeVariableDescriptors)
     {
         return new CspClassProcessorDescriptor<>(classProcessor, typeVariableDescriptors);

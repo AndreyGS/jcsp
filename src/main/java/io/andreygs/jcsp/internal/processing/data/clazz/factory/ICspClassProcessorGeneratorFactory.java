@@ -33,6 +33,5 @@ import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorProvider;
  */
 public interface ICspClassProcessorGeneratorFactory<P, TP>
 {
-    ICspClassProcessorGenerator<P> createCspClassProcessorGenerator(
-        ICspTypeProcessorProvider<TP> cspTypeProcessorProvider);
+    ICspClassProcessorGenerator<P> create(ICspTypeProcessorProvider<TP> cspTypeProcessorProvider);
 }

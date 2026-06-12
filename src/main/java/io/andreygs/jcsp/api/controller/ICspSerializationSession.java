@@ -32,9 +32,10 @@ import io.andreygs.jcsp.api.protocol.message.config.ICspDataMessageConfigExtensi
 import io.andreygs.jcsp.api.protocol.ICspVersionable;
 import io.andreygs.jcsp.api.protocol.message.config.ICspMessageConfig;
 import io.andreygs.jcsp.api.protocol.message.config.factory.ICspMessageConfigFactory;
-import io.andreygs.jcsp.api.processing.data.type.CspTypeToken;
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
 import org.jetbrains.annotations.Nullable;
+
+import java.lang.reflect.AnnotatedType;
 
 /**
  * TODO: place description here
@@ -43,11 +44,11 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface ICspSerializationSession
 {
-    <T> void registerSerializationProcessor(Class<T> clazz, ICspClassSerializationProcessor<T> classProcessor);
+    <T> void registerClassProcessor(Class<T> clazz, ICspClassSerializationProcessor<T> classProcessor);
 
-    void unregisterSerializationProcessor(Class<?> clazz);
+    void unregisterClassProcessor(Class<?> clazz);
 
-    void unregisterTypeSerializationProcessor(CspTypeToken<?> cspTypeToken);
+    void unregisterTypeProcessor(AnnotatedType annotatedType);
 
     void setDefaultBufferConfig(ISerializationBufferConfig config);
 

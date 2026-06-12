@@ -63,7 +63,7 @@ public final class CspSerializationWorkflow
         ISerializationBufferConfig bufferConfig, ICspMessageConfig messageConfig,
         ICspDataMessageConfigExtension dataMessageConfigExtension)
     {
-        ISerializationBuffer cspSerializationBuffer =  cspSerializationBufferFactory.createBuffer(bufferConfig);
+        ISerializationBuffer cspSerializationBuffer =  cspSerializationBufferFactory.create(bufferConfig);
 
         return null;
     }

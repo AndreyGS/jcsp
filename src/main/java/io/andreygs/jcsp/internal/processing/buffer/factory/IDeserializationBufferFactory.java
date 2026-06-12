@@ -40,5 +40,5 @@ public interface IDeserializationBufferFactory
      * @param byteBuffer Buffer that contains CSP serialized message.
      * @return created instance of {@link IDeserializationBuffer}.
      */
-    IDeserializationBuffer createBuffer(ByteBuffer byteBuffer);
+    IDeserializationBuffer create(ByteBuffer byteBuffer);
 }

@@ -23,22 +23,27 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.factory;
+package io.andreygs.jcsp.internal.processing.data.type.factory;
 
-import io.andreygs.jcsp.internal.processing.data.CspProcessorRegistry;
-import io.andreygs.jcsp.internal.processing.data.ICspProcessorRegistry;
+import io.andreygs.jcsp.internal.processing.data.type.CspTypeProcessorProvider;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorGenerator;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorProvider;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorRegistry;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 
 /**
- * Internal implementation of {@link ICspProcessorRegistryFactory}.
- * <p>
- * Creates default CSP processor registrar.
+ * TODO: place description here
  */
-public final class CspProcessorRegistryFactory
-    implements ICspProcessorRegistryFactory
+public class CspTypeSerializationProcessorProviderFactory
+    implements ICspTypeProcessorProviderFactory<ICspTypeSerializationProcessor>
 {
+    private static final ICspTypeProcessorGenerator<ICspTypeSerializationProcessor>
+        DEFAULT_CSP_TYPE_PROCESSOR_GENERATOR = new CspTypeSerializationProcessorGeneratorFactory().create();
+
     @Override
-    public <P, TP> ICspProcessorRegistry<P, TP> createProcessorRegistry()
+    public ICspTypeProcessorProvider<ICspTypeSerializationProcessor> create(
+        ICspTypeProcessorRegistry<ICspTypeSerializationProcessor> registry)
     {
-        return new CspProcessorRegistry<>();
+        return new CspTypeProcessorProvider<>(registry, DEFAULT_CSP_TYPE_PROCESSOR_GENERATOR);
     }
 }

@@ -33,5 +33,5 @@ import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorGenerat
  */
 interface ICspClassDeserializationProcessorGeneratorFactory
 {
-    ICspClassProcessorGenerator<ICspClassDeserializationProcessor> createCspDataProcessorGenerator();
+    ICspClassProcessorGenerator<ICspClassDeserializationProcessor<?>> create();
 }

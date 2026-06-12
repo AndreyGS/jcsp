@@ -35,8 +35,8 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface ISerializationBufferConfigFactory
 {
-    ISerializationBufferConfig createBufferConfig(@Nullable Integer initialBufferCapacity,
+    ISerializationBufferConfig create(@Nullable Integer initialBufferCapacity,
         @Nullable AllocationType allocationType, @Nullable IBufferResizeStrategy bufferResizeStrategy);
 
-    ISerializationBufferConfig provideDefaultBufferConfig();
+    ISerializationBufferConfig provideDefault();
 }

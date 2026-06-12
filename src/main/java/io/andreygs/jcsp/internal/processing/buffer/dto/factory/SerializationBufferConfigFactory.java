@@ -53,7 +53,7 @@ public class SerializationBufferConfigFactory implements ISerializationBufferCon
         new SerializationBufferConfig(DEFAULT_CAPACITY_SIZE, AllocationType.DIRECT, DEFAULT_BUFFER_RESIZE_STRATEGY);
 
     @Override
-    public ISerializationBufferConfig createBufferConfig(@Nullable Integer initialBufferCapacity,
+    public ISerializationBufferConfig create(@Nullable Integer initialBufferCapacity,
         @Nullable AllocationType allocationType, @Nullable IBufferResizeStrategy bufferResizeStrategy)
     {
         return new SerializationBufferConfig(
@@ -63,7 +63,7 @@ public class SerializationBufferConfigFactory implements ISerializationBufferCon
     }
 
     @Override
-    public ISerializationBufferConfig provideDefaultBufferConfig()
+    public ISerializationBufferConfig provideDefault()
     {
         return DEFAULT_BUFFER_CONFIG;
     }

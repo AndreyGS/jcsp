@@ -26,19 +26,15 @@
 package io.andreygs.jcsp.internal.processing.data.factory;
 
 import io.andreygs.jcsp.api.processing.data.ICspDataSerializationProcessor;
-import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
 import io.andreygs.jcsp.api.protocol.message.context.ICspDataMessageContextExtension;
 import io.andreygs.jcsp.api.protocol.message.context.ICspMessageContext;
 import io.andreygs.jcsp.internal.processing.buffer.ISerializationBuffer;
-import io.andreygs.jcsp.internal.processing.data.ICspProcessorRegistry;
-import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 
 /**
  * TODO: place description here
  */
 public interface ICspDataSerializationProcessorFactory
 {
-    ICspDataSerializationProcessor createGeneralSerializationProcessor(ISerializationBuffer cspSerializationBuffer,
-        ICspMessageContext cspDataMessageContext,
-        ICspDataMessageContextExtension cspDataMessageContextExtension);
+    ICspDataSerializationProcessor create(ISerializationBuffer cspSerializationBuffer,
+        ICspMessageContext cspDataMessageContext, ICspDataMessageContextExtension cspDataMessageContextExtension);
 }

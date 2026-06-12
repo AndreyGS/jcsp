@@ -30,23 +30,20 @@ import io.andreygs.jcsp.api.exception.CspRuntimeException;
 import io.andreygs.jcsp.api.protocol.CspStatus;
 
 /**
- * Generator of serialization and deserialization data processors.
- * <p>
- * It has immutable state.
+ * Generator of serialization and deserialization class processors.
  */
 public interface ICspClassProcessorGenerator<P>
 {
     /**
-     * Generates data processor.
+     * Generates class processor.
      * <p>
      * Pure method.
      *
      * @param structClazz Class for which processor should be generated. It must contain
-     *                    {@link CspCreateProcessor}
-     *                    annotation.
-     * @return generated processor.
+     *                    {@link CspCreateProcessor} annotation.
+     * @return generated class processor.
      * @throws CspRuntimeException with status {@link CspStatus#NO_SUCH_HANDLER} if provided class has no
      * {@link CspCreateProcessor} annotation.
      */
-    P generateProcessor(Class<?> structClazz) throws CspRuntimeException;
+    P generate(Class<?> structClazz) throws CspRuntimeException;
 }

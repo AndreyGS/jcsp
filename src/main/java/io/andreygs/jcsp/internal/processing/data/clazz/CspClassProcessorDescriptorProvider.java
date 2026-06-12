@@ -47,7 +47,7 @@ public class CspClassProcessorDescriptorProvider<P>
     }
 
     @Override
-    public ICspClassProcessorDescriptor<P> provideClassProcessorDescriptor(Class<?> clazz)
+    public ICspClassProcessorDescriptor<P> provide(Class<?> clazz)
     {
         Optional<ICspClassProcessorDescriptor<P>> classProcessorDescriptor =
             cspClassProcessorRegistry.resolveClassProcessorDescriptor(clazz);
@@ -56,7 +56,7 @@ public class CspClassProcessorDescriptorProvider<P>
 
     private ICspClassProcessorDescriptor<P> requireClassProcessorDescriptor(Class<?> clazz)
     {
-        P classProcessor = cspClassProcessorGenerator.generateProcessor(clazz);
+        P classProcessor = cspClassProcessorGenerator.generate(clazz);
         cspClassProcessorRegistry.registerClassProcessor(clazz, classProcessor);
         Optional<ICspClassProcessorDescriptor<P>> classProcessorDescriptor =
             cspClassProcessorRegistry.resolveClassProcessorDescriptor(clazz);

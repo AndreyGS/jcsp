@@ -25,20 +25,22 @@
 
 package io.andreygs.jcsp.internal.processing.data.type.factory;
 
-import io.andreygs.jcsp.internal.processing.data.type.CspTypeProcessorProvider;
+import io.andreygs.jcsp.internal.processing.data.type.CspTypeProcessorGenerator;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorGenerator;
-import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorProvider;
-import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorRegistry;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 
 /**
  * TODO: place description here
  */
-public class CspTypeProcessorProviderFactory implements ICspTypeProcessorProviderFactory
+public class CspTypeSerializationProcessorGeneratorFactory
+    implements ICspTypeProcessorGeneratorFactory<ICspTypeSerializationProcessor>
 {
+    private static final ICspTypeProcessorFactory<ICspTypeSerializationProcessor>
+        DEFAULT_CSP_TYPE_PROCESSOR_FACTORY = new CspTypeSerializationProcessorFactory();
+
     @Override
-    public <P> ICspTypeProcessorProvider<P> createCspTypeProcessorProvider(ICspTypeProcessorRegistry<P> registry,
-        ICspTypeProcessorGenerator<P> generator)
+    public ICspTypeProcessorGenerator<ICspTypeSerializationProcessor> create()
     {
-        return new CspTypeProcessorProvider<>(registry, generator);
+        return new CspTypeProcessorGenerator<>(DEFAULT_CSP_TYPE_PROCESSOR_FACTORY);
     }
 }

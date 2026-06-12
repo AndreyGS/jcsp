@@ -29,6 +29,7 @@ import io.andreygs.jcsp.internal.processing.data.clazz.CspClassProcessorDescript
 import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorDescriptorGenerator;
 import io.andreygs.jcsp.internal.processing.data.clazz.dto.factory.CspClassProcessorDescriptorFactory;
 import io.andreygs.jcsp.internal.processing.data.clazz.dto.factory.ICspClassProcessorDescriptorFactory;
+import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptorGenerator;
 import io.andreygs.jcsp.internal.processing.data.type.factory.TypeVariableDescriptorGeneratorFactory;
 
 /**
@@ -39,15 +40,13 @@ public class CspClassProcessorDescriptorGeneratorFactory
 {
     private static final ICspClassProcessorDescriptorFactory DEFAULT_CSP_CLASS_PROCESSOR_DESCRIPTOR_FACTORY =
         new CspClassProcessorDescriptorFactory();
-    private static final
-
-    private static final ICspClassProcessorDescriptorGenerator DEFAULT_DESCRIPTOR_GENERATOR =
-        new CspClassProcessorDescriptorGenerator(new CspClassProcessorDescriptorFactory(),
-            new TypeVariableDescriptorGeneratorFactory().provideDefaultDescriptorGenerator());
+    private static final ITypeVariableDescriptorGenerator DEFAULT_TYPE_VARIABLE_DESCRIPTOR_GENERATOR =
+        new TypeVariableDescriptorGeneratorFactory().create();
 
     @Override
     public ICspClassProcessorDescriptorGenerator create()
     {
-        return new CspClassProcessorDescriptorGenerator(DEFAULT_CSP_CLASS_PROCESSOR_DESCRIPTOR_FACTORY,);
+        return new CspClassProcessorDescriptorGenerator(DEFAULT_CSP_CLASS_PROCESSOR_DESCRIPTOR_FACTORY,
+            DEFAULT_TYPE_VARIABLE_DESCRIPTOR_GENERATOR);
     }
 }

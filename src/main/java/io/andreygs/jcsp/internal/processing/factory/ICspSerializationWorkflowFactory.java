@@ -36,7 +36,7 @@ import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProce
  */
 public interface ICspSerializationWorkflowFactory
 {
-    ICspSerializationWorkflow createCspSerializationWorkflow(
+    ICspSerializationWorkflow create(
         ICspClassProcessorDescriptorProvider<ICspClassSerializationProcessor<?>> cspClassProcessorDescriptorProvider,
         ICspTypeProcessorProvider<ICspTypeSerializationProcessor> cspTypeProcessorProvider);
 }

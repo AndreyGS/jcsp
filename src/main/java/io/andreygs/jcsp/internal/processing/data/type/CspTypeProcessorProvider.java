@@ -44,7 +44,7 @@ public class CspTypeProcessorProvider<P> implements ICspTypeProcessorProvider<P>
     }
 
     @Override
-    public P provideTypeProcessor(AnnotatedType annotatedType)
+    public P provide(AnnotatedType annotatedType)
     {
         Optional<P> typeProcessor = cspTypeProcessorRegistry.findTypeProcessor(annotatedType);
         return typeProcessor.orElse(requireTypeProcessor(annotatedType));

@@ -23,27 +23,14 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.factory;
+package io.andreygs.jcsp.internal.processing.data.type.factory;
 
-import io.andreygs.jcsp.api.processing.data.clazz.ICspClassDeserializationProcessor;
-import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.internal.processing.data.ICspProcessorRegistry;
-import io.andreygs.jcsp.internal.processing.data.type.ICspTypeDeserializationProcessor;
-import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorRegistry;
 
 /**
- * Factory for creation {@link ICspProcessorRegistry}.
+ * TODO: place description here
  */
-public interface ICspProcessorRegistryFactory
+public interface ICspTypeProcessorRegistryFactory<P>
 {
-    /**
-     * Creates {@link ICspProcessorRegistry}.
-     *
-     * @return created CSP processor registrar.
-     * @param <P> one of {@link ICspClassSerializationProcessor} or {@link ICspClassDeserializationProcessor},
-     *            depending on what kind of registry is created.
-     * @param <TP> one of {@link ICspTypeSerializationProcessor} or {@link ICspTypeDeserializationProcessor},
-     *             depending on what kind of registry is created.
-     */
-    <P, TP> ICspProcessorRegistry<P, TP> createProcessorRegistry();
+    ICspTypeProcessorRegistry<P> create();
 }

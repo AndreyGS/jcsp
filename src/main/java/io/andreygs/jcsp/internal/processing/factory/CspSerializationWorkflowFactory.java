@@ -26,8 +26,9 @@
 package io.andreygs.jcsp.internal.processing.factory;
 
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
+import io.andreygs.jcsp.api.protocol.message.context.factory.ICspMessageContextFactory;
+import io.andreygs.jcsp.internal.processing.buffer.factory.ISerializationBufferFactory;
 import io.andreygs.jcsp.internal.processing.buffer.factory.SerializationBufferFactory;
-import io.andreygs.jcsp.internal.processing.data.clazz.CspClassProcessorDescriptorProvider;
 import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorDescriptorProvider;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorProvider;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
@@ -36,6 +37,7 @@ import io.andreygs.jcsp.internal.protocol.message.factory.CspMessageFactory;
 import io.andreygs.jcsp.internal.processing.ICspSerializationWorkflow;
 import io.andreygs.jcsp.internal.processing.CspSerializationWorkflow;
 import io.andreygs.jcsp.internal.processing.data.factory.CspDataSerializationProcessorFactory;
+import io.andreygs.jcsp.internal.protocol.message.factory.ICspMessageFactory;
 
 /**
  * TODO: place description here
@@ -43,16 +45,22 @@ import io.andreygs.jcsp.internal.processing.data.factory.CspDataSerializationPro
 public final class CspSerializationWorkflowFactory
     implements ICspSerializationWorkflowFactory
 {
+    private static final ISerializationBufferFactory DEFAULT_SERIALIZATION_BUFFER_FACTORY =
+        new SerializationBufferFactory();
+    private static final ICspMessageContextFactory DEFAULT_CSP_MESSAGE_CONTEXT_FACTORY =
+        new CspMessageContextFactory();
+    private static final ICspMessageFactory DEFAULT_CSP_MESSAGE_FACTORY = new CspMessageFactory();
+
     @Override
-    public ICspSerializationWorkflow createCspSerializationWorkflow(
+    public ICspSerializationWorkflow create(
         ICspClassProcessorDescriptorProvider<ICspClassSerializationProcessor<?>> cspClassProcessorDescriptorProvider,
         ICspTypeProcessorProvider<ICspTypeSerializationProcessor> cspTypeProcessorProvider
     )
     {
         return new CspSerializationWorkflow(
-            new SerializationBufferFactory(),
-            new CspMessageContextFactory(),
-            new CspMessageFactory(),
+            DEFAULT_SERIALIZATION_BUFFER_FACTORY,
+            DEFAULT_CSP_MESSAGE_CONTEXT_FACTORY,
+            DEFAULT_CSP_MESSAGE_FACTORY,
             new CspDataSerializationProcessorFactory(cspClassProcessorDescriptorProvider, cspTypeProcessorProvider));
     }
 }

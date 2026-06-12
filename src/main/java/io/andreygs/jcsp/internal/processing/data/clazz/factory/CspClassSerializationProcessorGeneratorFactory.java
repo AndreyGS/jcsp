@@ -38,7 +38,7 @@ public class CspClassSerializationProcessorGeneratorFactory
     implements ICspClassProcessorGeneratorFactory<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
 {
     @Override
-    public ICspClassProcessorGenerator<ICspClassSerializationProcessor<?>> createCspClassProcessorGenerator(
+    public ICspClassProcessorGenerator<ICspClassSerializationProcessor<?>> create(
         ICspTypeProcessorProvider<ICspTypeSerializationProcessor> cspTypeProcessorProvider)
     {
         return new CspClassSerializationProcessorGenerator(cspTypeProcessorProvider);

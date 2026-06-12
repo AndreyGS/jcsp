@@ -35,6 +35,8 @@ import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorDescrip
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorProvider;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 
+import java.util.Objects;
+
 /**
  * TODO: place description here
  */
@@ -49,15 +51,13 @@ public final class CspDataSerializationProcessorFactory
         ICspClassProcessorDescriptorProvider<ICspClassSerializationProcessor<?>> cspClassProcessorDescriptorProvider,
         ICspTypeProcessorProvider<ICspTypeSerializationProcessor> cspTypeProcessorProvider)
     {
-        this.cspClassProcessorDescriptorProvider = cspClassProcessorDescriptorProvider;
-        this.cspTypeProcessorProvider = cspTypeProcessorProvider;
+        this.cspClassProcessorDescriptorProvider = Objects.requireNonNull(cspClassProcessorDescriptorProvider);
+        this.cspTypeProcessorProvider = Objects.requireNonNull(cspTypeProcessorProvider);
     }
 
     @Override
-    public ICspDataSerializationProcessor createGeneralSerializationProcessor(
-        ISerializationBuffer cspSerializationBuffer,
-        ICspMessageContext cspDataMessageContext,
-        ICspDataMessageContextExtension cspDataMessageContextExtension)
+    public ICspDataSerializationProcessor create(ISerializationBuffer cspSerializationBuffer,
+        ICspMessageContext cspDataMessageContext, ICspDataMessageContextExtension cspDataMessageContextExtension)
     {
         return new CspDataSerializationProcessor(cspSerializationBuffer, cspClassProcessorDescriptorProvider,
             cspTypeProcessorProvider, cspDataMessageContext, cspDataMessageContextExtension);

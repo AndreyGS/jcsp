@@ -36,7 +36,7 @@ public final class SerializationBufferFactory
     implements ISerializationBufferFactory
 {
     @Override
-    public ISerializationBuffer createBuffer(ISerializationBufferConfig serializationBufferConfig)
+    public ISerializationBuffer create(ISerializationBufferConfig serializationBufferConfig)
     {
         return new SerializationBuffer(serializationBufferConfig);
     }

@@ -26,15 +26,11 @@
 package io.andreygs.jcsp.internal.processing.data.clazz.factory;
 
 import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorDescriptorGenerator;
-import io.andreygs.jcsp.internal.processing.data.clazz.dto.factory.ICspClassProcessorDescriptorFactory;
-import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptorGenerator;
 
 /**
  * TODO: place description here
  */
 public interface ICspClassProcessorDescriptorGeneratorFactory
 {
-    ICspClassProcessorDescriptorGenerator create(
-        ICspClassProcessorDescriptorFactory cspClassProcessorDescriptorFactory,
-        ITypeVariableDescriptorGenerator typeVariableDescriptorGenerator);
+    ICspClassProcessorDescriptorGenerator create();
 }

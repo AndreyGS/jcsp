@@ -32,6 +32,7 @@ import io.andreygs.jcsp.api.protocol.CspStatus;
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.AnnotatedType;
 import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Map;
@@ -389,5 +390,5 @@ public interface ICspDataSerializationProcessor
     void serialize(@Nullable Map<@Nullable String, @Nullable String> value, boolean reference, boolean keyReference,
         Charset keyCharset, boolean valueRefence, Charset valueCharset);
 
-    <T> void serialize(@Nullable T value, CspTypeToken<T> cspTypeToken);
+    <T> void serialize(@Nullable T value, AnnotatedType annotatedType);
 }

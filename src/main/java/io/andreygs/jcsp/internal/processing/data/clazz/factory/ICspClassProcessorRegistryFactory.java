@@ -25,7 +25,6 @@
 
 package io.andreygs.jcsp.internal.processing.data.clazz.factory;
 
-import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorDescriptorGenerator;
 import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorRegistry;
 
 /**
@@ -33,6 +32,5 @@ import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorRegistr
  */
 public interface ICspClassProcessorRegistryFactory<P>
 {
-    ICspClassProcessorRegistry<P> createRegistry(
-        ICspClassProcessorDescriptorGenerator cspClassProcessorDescriptorGenerator);
+    ICspClassProcessorRegistry<P> create();
 }

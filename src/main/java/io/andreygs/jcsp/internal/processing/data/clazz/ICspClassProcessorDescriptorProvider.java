@@ -32,5 +32,5 @@ import io.andreygs.jcsp.internal.processing.data.clazz.dto.ICspClassProcessorDes
  */
 public interface ICspClassProcessorDescriptorProvider<P>
 {
-    ICspClassProcessorDescriptor<P> provideClassProcessorDescriptor(Class<?> clazz);
+    ICspClassProcessorDescriptor<P> provide(Class<?> clazz);
 }

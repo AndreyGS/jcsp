@@ -27,13 +27,10 @@ package io.andreygs.jcsp.internal.processing.data;
 
 import io.andreygs.jcsp.api.processing.data.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.api.protocol.message.ICspDataMessage;
 import io.andreygs.jcsp.api.protocol.message.context.ICspDataMessageContextExtension;
 import io.andreygs.jcsp.api.protocol.message.context.ICspMessageContext;
 import io.andreygs.jcsp.internal.processing.buffer.ISerializationBuffer;
-import io.andreygs.jcsp.api.processing.data.type.CspTypeToken;
 import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorDescriptorProvider;
-import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorGenerator;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorProvider;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 import io.andreygs.jcsp.api.protocol.CspDataFlag;
@@ -41,11 +38,12 @@ import io.andreygs.jcsp.api.protocol.ICspVersionable;
 import io.andreygs.jcsp.internal.processing.data.type.IGenericTypeVariableProcessorMap;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.AnnotatedType;
 import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Stack;
 
 /**
@@ -70,11 +68,11 @@ public final class CspDataSerializationProcessor implements ICspDataSerializatio
         ICspMessageContext cspDataMessageContext,
         ICspDataMessageContextExtension cspDataMessageContextExtension)
     {
-        this.cspSerializationBuffer = cspSerializationBuffer;
-        this.cspClassProcessorDescriptorProvider = cspClassProcessorDescriptorProvider;
-        this.cspTypeProcessorProvider = cspTypeProcessorProvider;
-        this.cspDataMessageContext = cspDataMessageContext;
-        this.cspDataMessageContextExtension = cspDataMessageContextExtension;
+        this.cspSerializationBuffer = Objects.requireNonNull(cspSerializationBuffer);
+        this.cspClassProcessorDescriptorProvider = Objects.requireNonNull(cspClassProcessorDescriptorProvider);
+        this.cspTypeProcessorProvider = Objects.requireNonNull(cspTypeProcessorProvider);
+        this.cspDataMessageContext = Objects.requireNonNull(cspDataMessageContext);
+        this.cspDataMessageContextExtension = Objects.requireNonNull(cspDataMessageContextExtension);
         referenceMap = cspDataMessageContextExtension.isCheckRecursivePointers() ? new HashMap<Object, Integer>() : null;
     }
 
@@ -891,7 +889,7 @@ public final class CspDataSerializationProcessor implements ICspDataSerializatio
     }
 
     @Override
-    public <T> void serialize(@Nullable T value, CspTypeToken<T> cspTypeToken)
+    public <T> void serialize(@Nullable T value, AnnotatedType annotatedType)
     {
 
     }
