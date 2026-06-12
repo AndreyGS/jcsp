@@ -23,7 +23,7 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.buffer;
+package io.andreygs.jcsp.internal.processing.buffer.buffer;
 
 import io.andreygs.jcsp.CommonUtils;
 import io.andreygs.jcsp.internal.processing.buffer.DeserializationBuffer;
