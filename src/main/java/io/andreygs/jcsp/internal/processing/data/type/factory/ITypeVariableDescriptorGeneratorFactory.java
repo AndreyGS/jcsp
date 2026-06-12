@@ -32,5 +32,5 @@ import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptorGen
  */
 public interface ITypeVariableDescriptorGeneratorFactory
 {
-    ITypeVariableDescriptorGenerator provideDefaultDescriptorGenerator();
+    ITypeVariableDescriptorGenerator create();
 }

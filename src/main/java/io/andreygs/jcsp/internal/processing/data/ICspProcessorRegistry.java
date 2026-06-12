@@ -27,8 +27,8 @@ package io.andreygs.jcsp.internal.processing.data;
 
 import io.andreygs.jcsp.api.processing.data.type.CspTypeToken;
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassDeserializationProcessor;
-import io.andreygs.jcsp.api.processing.data.ICspDeserializationProcessor;
-import io.andreygs.jcsp.api.processing.data.ICspSerializationProcessor;
+import io.andreygs.jcsp.api.processing.data.ICspDataDeserializationProcessor;
+import io.andreygs.jcsp.api.processing.data.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
 import io.andreygs.jcsp.api.annotation.CspCreateProcessor;
 import io.andreygs.jcsp.internal.processing.data.model.IGenericClassProcessorHolder;
@@ -48,8 +48,8 @@ import java.util.Optional;
  * <p>
  * Registering of processor is always necessary when target class not annotated with
  * {@link CspCreateProcessor} interface (because they are generating automatically) and not
- * instance of types supported by {@link ICspSerializationProcessor} and
- * {@link ICspDeserializationProcessor} processors. These (supported) include:
+ * instance of types supported by {@link ICspDataSerializationProcessor} and
+ * {@link ICspDataDeserializationProcessor} processors. These (supported) include:
  * <ul>
  *     <li>any primitive: boolean, byte, short, int, long, char, float, double</li>
  *     <li>{@link String}</li>
@@ -132,12 +132,12 @@ public interface ICspProcessorRegistry<CP, TP>
      *     {
      *         public void serialize(WrapperExample&lt?> value, ICspSerializationProcessor processor)
      *         {
-     *              // it can be serialized with using of {@link ICspSerializationProcessor#serialize(Collection, Class)}
+     *              // it can be serialized with using of {@link ICspDataSerializationProcessor#serialize(Collection, Class)}
      *              processor.serialize(value.example.list, Integer.class);
      *              // or it can be done like that:
      *              // processor.serialize(value.example.list, new CspTypeToken&ltArrayList&ltInteger>>);
      *              // but using of {@link CspTypeToken} is justified only when there is no other
-     *              // {@link ICspSerializationProcessor} methods to handle field serialization
+     *              // {@link ICspDataSerializationProcessor} methods to handle field serialization
      *         }
      *     }
      * </pre>

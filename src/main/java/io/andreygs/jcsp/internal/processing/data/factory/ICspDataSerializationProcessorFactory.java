@@ -25,34 +25,20 @@
 
 package io.andreygs.jcsp.internal.processing.data.factory;
 
-import io.andreygs.jcsp.api.processing.data.ICspSerializationProcessor;
+import io.andreygs.jcsp.api.processing.data.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
+import io.andreygs.jcsp.api.protocol.message.context.ICspDataMessageContextExtension;
+import io.andreygs.jcsp.api.protocol.message.context.ICspMessageContext;
 import io.andreygs.jcsp.internal.processing.buffer.ISerializationBuffer;
-import io.andreygs.jcsp.internal.processing.data.CspSerializationProcessor;
 import io.andreygs.jcsp.internal.processing.data.ICspProcessorRegistry;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 
 /**
  * TODO: place description here
  */
-public final class CspSerializationProcessorFactory
-    implements ICspSerializationProcessorFactory
+public interface ICspDataSerializationProcessorFactory
 {
-    /**
-     * Default immutable cached instance of {@link ICspClassSerializationProcessorGeneratorProvider}.
-     * <p>
-     * Thread-safe.
-     */
-    private static final ICspClassSerializationProcessorGeneratorProvider
-        DEFAULT_DATA_SERIALIZATION_PROCESSOR_GENERATOR_PROVIDER = new CspClassSerializationProcessorGeneratorProvider();
-
-    @Override
-    public ICspSerializationProcessor createGeneralSerializationProcessor(
-        ISerializationBuffer cspSerializationBuffer,
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor> cspProcessorRegistry,
-        ICspDataMessage cspDataMessage)
-    {
-        return new CspSerializationProcessor(cspSerializationBuffer, cspProcessorRegistry,
-            DEFAULT_DATA_SERIALIZATION_PROCESSOR_GENERATOR_PROVIDER.provideCspDataProcessorGenerator(), cspDataMessage);
-    }
+    ICspDataSerializationProcessor createGeneralSerializationProcessor(ISerializationBuffer cspSerializationBuffer,
+        ICspMessageContext cspDataMessageContext,
+        ICspDataMessageContextExtension cspDataMessageContextExtension);
 }

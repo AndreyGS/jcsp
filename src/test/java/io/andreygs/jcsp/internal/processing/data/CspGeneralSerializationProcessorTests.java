@@ -42,7 +42,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Unit-tests for {@link CspSerializationProcessor}.
+ * Unit-tests for {@link CspDataSerializationProcessor}.
  */
 @ExtendWith(MockitoExtension.class)
 public class CspGeneralSerializationProcessorTests
@@ -57,12 +57,12 @@ public class CspGeneralSerializationProcessorTests
     @Mock
     private ICspDataMessage cspDataMessage;
 
-    private CspSerializationProcessor cspDataGeneralSerializationProcessor;
+    private CspDataSerializationProcessor cspDataGeneralSerializationProcessor;
 
     @BeforeEach
     public void setup()
     {
-        cspDataGeneralSerializationProcessor = new CspSerializationProcessor(buffer, cspProcessorRegistry,
+        cspDataGeneralSerializationProcessor = new CspDataSerializationProcessor(buffer, cspProcessorRegistry,
             processorGenerator, cspDataMessage);
     }
 

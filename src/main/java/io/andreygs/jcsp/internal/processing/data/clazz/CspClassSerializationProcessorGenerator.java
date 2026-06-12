@@ -25,11 +25,11 @@
 
 package io.andreygs.jcsp.internal.processing.data.clazz;
 
-import io.andreygs.jcsp.api.processing.data.ICspSerializationProcessor;
+import io.andreygs.jcsp.api.processing.data.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.internal.processing.data.ICspExtendedSerializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.ICspExtendedDataSerializationProcessor;
 import io.andreygs.jcsp.internal.processing.data.Messages;
-import io.andreygs.jcsp.internal.processing.data.type.factory.ICspTypeProcessorFactory;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorProvider;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 
 import java.lang.reflect.Field;
@@ -41,12 +41,12 @@ import java.util.List;
 public final class CspClassSerializationProcessorGenerator
     extends AbstractCspClassProcessorGenerator<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
 {
-    private final ICspTypeProcessorFactory<ICspTypeSerializationProcessor> proxyProcessorFactory;
+    private final ICspTypeProcessorProvider<ICspTypeSerializationProcessor> typeProcessorProvider;
 
     public CspClassSerializationProcessorGenerator(
-        ICspTypeProcessorFactory<ICspTypeSerializationProcessor> proxyProcessorFactory)
+        ICspTypeProcessorProvider<ICspTypeSerializationProcessor> typeProcessorProvider)
     {
-        this.proxyProcessorFactory = proxyProcessorFactory;
+        this.typeProcessorProvider = typeProcessorProvider;
     }
 
     @Override
@@ -80,9 +80,9 @@ public final class CspClassSerializationProcessorGenerator
         }
 
         @Override
-        public void serialize(T value, ICspSerializationProcessor processor)
+        public void serialize(T value, ICspDataSerializationProcessor processor)
         {
-            if (processor instanceof ICspExtendedSerializationProcessor extendedProcessor)
+            if (processor instanceof ICspExtendedDataSerializationProcessor extendedProcessor)
             {
                 for (ICspTypeSerializationProcessor typeProcessor : typeProcessors)
                 {

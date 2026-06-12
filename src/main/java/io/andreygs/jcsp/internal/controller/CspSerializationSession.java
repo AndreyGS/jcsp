@@ -47,19 +47,20 @@ import java.util.Objects;
  */
 public class CspSerializationSession implements ICspSerializationSession
 {
-    private final ICspSerializationWorkflow serializationWorkflow;
     private final ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
         processorRegistry;
     private final ISerializationBufferConfigFactory serializationBufferConfigFactory;
     private final ICspMessageConfigFactory cspMessageConfigFactory;
     private ISerializationBufferConfig defaultBufferConfig;
     private ICspMessageConfig defaultMessageConfig;
-    private ICspDataMessageConfigExtension defaultDataMessageConfigExtension;
+    private ICspDataMessageConfigExtension defaultDataMessageConfigExtension
+    private final ICspSerializationWorkflow serializationWorkflow;
 
-    public CspSerializationSession(ICspSerializationWorkflow serializationWorkflow,
+    public CspSerializationSession(
         ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor> processorRegistry,
         ISerializationBufferConfigFactory serializationBufferConfigFactory,
-        ICspMessageConfigFactory cspMessageConfigFactory)
+        ICspMessageConfigFactory cspMessageConfigFactory,
+        ICspSerializationWorkflow serializationWorkflow)
     {
         this.serializationWorkflow = Objects.requireNonNull(serializationWorkflow);
         this.processorRegistry = Objects.requireNonNull(processorRegistry);

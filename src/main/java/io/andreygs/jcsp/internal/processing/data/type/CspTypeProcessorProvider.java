@@ -23,30 +23,37 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data;
+package io.andreygs.jcsp.internal.processing.data.type;
 
-import io.andreygs.jcsp.api.processing.data.ICspSerializationProcessor;
-import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
-import io.andreygs.jcsp.internal.processing.data.type.IGenericTypeVariableProcessorMap;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Collection;
-import java.util.Map;
+import java.lang.reflect.AnnotatedType;
+import java.util.Optional;
 
 /**
  * TODO: place description here
  */
-public interface ICspExtendedSerializationProcessor extends ICspSerializationProcessor
+public class CspTypeProcessorProvider<P> implements ICspTypeProcessorProvider<P>
 {
-    void serialize(@Nullable Object value, boolean reference,
-        IGenericTypeVariableProcessorMap typeVariableProcessorMap);
+    private final ICspTypeProcessorRegistry<P> cspTypeProcessorRegistry;
+    private final ICspTypeProcessorGenerator<P> cspTypeProcessorGenerator;
 
-    void serialize(@Nullable Object @Nullable [] value, boolean reference, boolean fixedSize,
-        ICspTypeSerializationProcessor itemTypeProcessor);
+    public CspTypeProcessorProvider(ICspTypeProcessorRegistry<P> cspTypeProcessorRegistry,
+        ICspTypeProcessorGenerator<P> cspTypeProcessorGenerator)
+    {
+        this.cspTypeProcessorRegistry = cspTypeProcessorRegistry;
+        this.cspTypeProcessorGenerator = cspTypeProcessorGenerator;
+    }
 
-    void serialize(@Nullable Collection<@Nullable Object> value, boolean reference,
-        ICspTypeSerializationProcessor itemTypeProcessor);
+    @Override
+    public P provideTypeProcessor(AnnotatedType annotatedType)
+    {
+        Optional<P> typeProcessor = cspTypeProcessorRegistry.findTypeProcessor(annotatedType);
+        return typeProcessor.orElse(requireTypeProcessor(annotatedType));
+    }
 
-    void serialize(@Nullable Map<@Nullable Object, @Nullable Object> value, boolean reference,
-        ICspTypeSerializationProcessor valueTypeProcessor, ICspTypeSerializationProcessor keyTypeProcessor);
+    private P requireTypeProcessor(AnnotatedType annotatedType)
+    {
+        P typeProcessor = cspTypeProcessorGenerator.generateTypeProcessor(annotatedType);
+        cspTypeProcessorRegistry.registerTypeProcessor(annotatedType, typeProcessor);
+        return typeProcessor;
+    }
 }

@@ -23,36 +23,43 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.factory;
+package io.andreygs.jcsp.internal.processing.data.factory;
 
+import io.andreygs.jcsp.api.processing.data.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.internal.processing.buffer.factory.SerializationBufferFactory;
-import io.andreygs.jcsp.internal.processing.data.clazz.CspClassProcessorDescriptorProvider;
+import io.andreygs.jcsp.api.protocol.message.context.ICspDataMessageContextExtension;
+import io.andreygs.jcsp.api.protocol.message.context.ICspMessageContext;
+import io.andreygs.jcsp.internal.processing.buffer.ISerializationBuffer;
+import io.andreygs.jcsp.internal.processing.data.CspDataSerializationProcessor;
 import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorDescriptorProvider;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorProvider;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
-import io.andreygs.jcsp.internal.protocol.message.context.factory.CspMessageContextFactory;
-import io.andreygs.jcsp.internal.protocol.message.factory.CspMessageFactory;
-import io.andreygs.jcsp.internal.processing.ICspSerializationWorkflow;
-import io.andreygs.jcsp.internal.processing.CspSerializationWorkflow;
-import io.andreygs.jcsp.internal.processing.data.factory.CspDataSerializationProcessorFactory;
 
 /**
  * TODO: place description here
  */
-public final class CspSerializationWorkflowFactory
-    implements ICspSerializationWorkflowFactory
+public final class CspDataSerializationProcessorFactory
+    implements ICspDataSerializationProcessorFactory
 {
-    @Override
-    public ICspSerializationWorkflow createCspSerializationWorkflow(
+    private final ICspClassProcessorDescriptorProvider<ICspClassSerializationProcessor<?>>
+        cspClassProcessorDescriptorProvider;
+    private final ICspTypeProcessorProvider<ICspTypeSerializationProcessor> cspTypeProcessorProvider;
+
+    public CspDataSerializationProcessorFactory(
         ICspClassProcessorDescriptorProvider<ICspClassSerializationProcessor<?>> cspClassProcessorDescriptorProvider,
-        ICspTypeProcessorProvider<ICspTypeSerializationProcessor> cspTypeProcessorProvider
-    )
+        ICspTypeProcessorProvider<ICspTypeSerializationProcessor> cspTypeProcessorProvider)
     {
-        return new CspSerializationWorkflow(
-            new SerializationBufferFactory(),
-            new CspMessageContextFactory(),
-            new CspMessageFactory(),
-            new CspDataSerializationProcessorFactory(cspClassProcessorDescriptorProvider, cspTypeProcessorProvider));
+        this.cspClassProcessorDescriptorProvider = cspClassProcessorDescriptorProvider;
+        this.cspTypeProcessorProvider = cspTypeProcessorProvider;
+    }
+
+    @Override
+    public ICspDataSerializationProcessor createGeneralSerializationProcessor(
+        ISerializationBuffer cspSerializationBuffer,
+        ICspMessageContext cspDataMessageContext,
+        ICspDataMessageContextExtension cspDataMessageContextExtension)
+    {
+        return new CspDataSerializationProcessor(cspSerializationBuffer, cspClassProcessorDescriptorProvider,
+            cspTypeProcessorProvider, cspDataMessageContext, cspDataMessageContextExtension);
     }
 }

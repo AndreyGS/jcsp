@@ -23,26 +23,21 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.api.processing;
+package io.andreygs.jcsp.internal.processing.data.type.factory;
+
+import io.andreygs.jcsp.internal.processing.data.type.CspTypeProcessorGenerator;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorGenerator;
 
 /**
  * TODO: place description here
  */
-public interface ICspPrimitiveDeserializationProcessor
+public class CspTypeProcessorGeneratorFactory
+    implements ICspTypeProcessorGeneratorFactory
 {
-    boolean deserialize(boolean value);
-
-    byte deserialize(byte value);
-
-    short deserialize(short value);
-
-    int deserialize(int value);
-
-    long deserialize(long value);
-
-    char deserialize(char value);
-
-    float deserialize(float value);
-
-    double deserialize(double value);
+    @Override
+    public <P> ICspTypeProcessorGenerator<P> createCspTypeProcessorGenerator(
+        ICspTypeProcessorFactory<P> cspTypeProcessorFactory)
+    {
+        return new CspTypeProcessorGenerator<>(cspTypeProcessorFactory);
+    }
 }

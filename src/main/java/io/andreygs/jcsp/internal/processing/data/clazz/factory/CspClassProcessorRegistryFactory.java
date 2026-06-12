@@ -25,31 +25,20 @@
 
 package io.andreygs.jcsp.internal.processing.data.clazz.factory;
 
-import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.internal.processing.data.clazz.CspClassProcessorDescriptorProvider;
-import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorDescriptorProvider;
-import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorGenerator;
+import io.andreygs.jcsp.internal.processing.data.clazz.CspClassProcessorRegistry;
+import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorDescriptorGenerator;
 import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorRegistry;
 
 /**
  * TODO: place description here
  */
-public class CspClassSerializationProcessorDescriptorProviderFactory
-    implements ICspClassProcessorDescriptorProviderFactory<ICspClassSerializationProcessor<?>>
+public class CspClassProcessorRegistryFactory<P>
+    implements ICspClassProcessorRegistryFactory<P>
 {
-    private static final ICspClassProcessorDescriptorProviderFactory<ICspClassSerializationProcessor<?>> INSTANCE =
-        new CspClassSerializationProcessorDescriptorProviderFactory();
-
     @Override
-    public ICspClassProcessorDescriptorProvider<ICspClassSerializationProcessor<?>> createDescriptorProvider(
-        ICspClassProcessorRegistry<ICspClassSerializationProcessor<?>> cspClassProcessorRegistry,
-        ICspClassProcessorGenerator<ICspClassSerializationProcessor<?>> cspClassProcessorGenerator)
+    public ICspClassProcessorRegistry<P> createRegistry(
+        ICspClassProcessorDescriptorGenerator cspClassProcessorDescriptorGenerator)
     {
-        return new CspClassProcessorDescriptorProvider<>(cspClassProcessorRegistry, cspClassProcessorGenerator);
-    }
-
-    public static ICspClassProcessorDescriptorProviderFactory<ICspClassSerializationProcessor<?>> getInstance()
-    {
-        return INSTANCE;
+        return new CspClassProcessorRegistry<>(cspClassProcessorDescriptorGenerator);
     }
 }

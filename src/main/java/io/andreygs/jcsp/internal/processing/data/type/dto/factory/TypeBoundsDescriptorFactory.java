@@ -37,22 +37,15 @@ import java.util.Set;
 public class TypeBoundsDescriptorFactory
     implements ITypeBoundsDescriptorFactory
 {
-    private static final ITypeBoundsDescriptorFactory INSTANCE = new TypeBoundsDescriptorFactory();
-
     @Override
-    public ITypeBoundsDescriptor createTypeBoundsDescriptor(TypeBoundKind boundTypeKind, Set<Class<?>> boundClasses)
+    public ITypeBoundsDescriptor create(TypeBoundKind boundTypeKind, Set<Class<?>> boundClasses)
     {
         return new TypeBoundsDescriptor(boundTypeKind, boundClasses);
     }
 
     @Override
-    public ITypeBoundsDescriptor createTypeBoundsDescriptor(TypeBoundKind boundTypeKind, String boundTypeVariableName)
+    public ITypeBoundsDescriptor create(TypeBoundKind boundTypeKind, String boundTypeVariableName)
     {
         return new TypeBoundsDescriptor(boundTypeKind, boundTypeVariableName);
-    }
-
-    public static ITypeBoundsDescriptorFactory getInstance()
-    {
-        return INSTANCE;
     }
 }

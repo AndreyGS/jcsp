@@ -25,14 +25,20 @@
 
 package io.andreygs.jcsp.internal.processing.data;
 
-import io.andreygs.jcsp.api.processing.data.ICspSerializationProcessor;
+import io.andreygs.jcsp.api.processing.data.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
+import io.andreygs.jcsp.api.protocol.message.ICspDataMessage;
+import io.andreygs.jcsp.api.protocol.message.context.ICspDataMessageContextExtension;
+import io.andreygs.jcsp.api.protocol.message.context.ICspMessageContext;
 import io.andreygs.jcsp.internal.processing.buffer.ISerializationBuffer;
 import io.andreygs.jcsp.api.processing.data.type.CspTypeToken;
+import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorDescriptorProvider;
 import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorGenerator;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorProvider;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 import io.andreygs.jcsp.api.protocol.CspDataFlag;
 import io.andreygs.jcsp.api.protocol.ICspVersionable;
+import io.andreygs.jcsp.internal.processing.data.type.IGenericTypeVariableProcessorMap;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
@@ -43,30 +49,33 @@ import java.util.Map;
 import java.util.Stack;
 
 /**
- * The sole implementation of {@link ICspSerializationProcessor}.
+ * The sole implementation of {@link ICspDataSerializationProcessor}.
  * <p>
  *
  */
-public final class CspSerializationProcessor implements ICspSerializationProcessor
+public final class CspDataSerializationProcessor implements ICspDataSerializationProcessor
 {
     private final ISerializationBuffer cspSerializationBuffer;
-    private final ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
-        cspProcessorRegistry;
-    private final ICspClassProcessorGenerator<ICspClassSerializationProcessor<?>> cspDataProcessorGenerator;
-    private final ICspDataMessage cspDataMessage;
-    private @Nullable Stack<List<ICspClassSerializationProcessor<?>>> activeCompositeProcessors;
+    private final ICspClassProcessorDescriptorProvider<ICspClassSerializationProcessor<?>>
+        cspClassProcessorDescriptorProvider;
+    private final ICspTypeProcessorProvider<ICspTypeSerializationProcessor> cspTypeProcessorProvider;
+    private final ICspMessageContext cspDataMessageContext;
+    private final ICspDataMessageContextExtension cspDataMessageContextExtension;
+    private @Nullable Stack<IGenericTypeVariableProcessorMap> genericTypeVariableProcessorMapStack;
     private final @Nullable Map<Object, Integer> referenceMap;
 
-    public CspSerializationProcessor(ISerializationBuffer cspSerializationBuffer,
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor> cspProcessorRegistry,
-        ICspClassProcessorGenerator<ICspClassSerializationProcessor<?>> cspDataProcessorGenerator,
-        ICspDataMessage cspDataMessage)
+    public CspDataSerializationProcessor(ISerializationBuffer cspSerializationBuffer,
+        ICspClassProcessorDescriptorProvider<ICspClassSerializationProcessor<?>> cspClassProcessorDescriptorProvider,
+        ICspTypeProcessorProvider<ICspTypeSerializationProcessor> cspTypeProcessorProvider,
+        ICspMessageContext cspDataMessageContext,
+        ICspDataMessageContextExtension cspDataMessageContextExtension)
     {
         this.cspSerializationBuffer = cspSerializationBuffer;
-        this.cspProcessorRegistry = cspProcessorRegistry;
-        this.cspDataProcessorGenerator = cspDataProcessorGenerator;
-        this.cspDataMessage = cspDataMessage;
-        referenceMap = cspDataMessage.isCheckRecursivePointers() ? new HashMap<Object, Integer>() : null;
+        this.cspClassProcessorDescriptorProvider = cspClassProcessorDescriptorProvider;
+        this.cspTypeProcessorProvider = cspTypeProcessorProvider;
+        this.cspDataMessageContext = cspDataMessageContext;
+        this.cspDataMessageContextExtension = cspDataMessageContextExtension;
+        referenceMap = cspDataMessageContextExtension.isCheckRecursivePointers() ? new HashMap<Object, Integer>() : null;
     }
 
     /**

@@ -23,15 +23,24 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.api.protocol.message.context;
+package io.andreygs.jcsp.internal.processing.data.clazz.factory;
 
-import io.andreygs.jcsp.api.protocol.message.config.ICspMessageConfig;
+import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.clazz.CspClassSerializationProcessorGenerator;
+import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorGenerator;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorProvider;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 
 /**
  * TODO: place description here
  */
-public interface ICspMessageContext
-    extends ICspMessageConfig
+public class CspClassSerializationProcessorGeneratorFactory
+    implements ICspClassProcessorGeneratorFactory<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
 {
-    boolean isEndiannessDifference();
+    @Override
+    public ICspClassProcessorGenerator<ICspClassSerializationProcessor<?>> createCspClassProcessorGenerator(
+        ICspTypeProcessorProvider<ICspTypeSerializationProcessor> cspTypeProcessorProvider)
+    {
+        return new CspClassSerializationProcessorGenerator(cspTypeProcessorProvider);
+    }
 }

@@ -32,5 +32,5 @@ import io.andreygs.jcsp.internal.processing.data.type.ITypeBoundsDescriptorGener
  */
 public interface ITypeBoundsDescriptorGeneratorFactory
 {
-    ITypeBoundsDescriptorGenerator provideTypeBoundsDescriptorGenerator();
+    ITypeBoundsDescriptorGenerator create();
 }

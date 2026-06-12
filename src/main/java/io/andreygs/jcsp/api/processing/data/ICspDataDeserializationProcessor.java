@@ -25,16 +25,29 @@
 
 package io.andreygs.jcsp.api.processing.data;
 
-import io.andreygs.jcsp.api.processing.ICspPrimitiveDeserializationProcessor;
-
 import java.nio.charset.Charset;
 
 /**
  * TODO: place description here
  */
-public interface ICspDeserializationProcessor
-    extends ICspPrimitiveDeserializationProcessor
+public interface ICspDataDeserializationProcessor
 {
+    boolean deserialize(boolean value);
+
+    byte deserialize(byte value);
+
+    short deserialize(short value);
+
+    int deserialize(int value);
+
+    long deserialize(long value);
+
+    char deserialize(char value);
+
+    float deserialize(float value);
+
+    double deserialize(double value);
+
     void deserialize(byte[] value);
 
     void deserialize(short[] value);

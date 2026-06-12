@@ -33,7 +33,7 @@ import io.andreygs.jcsp.api.protocol.message.context.factory.ICspMessageContextF
 import io.andreygs.jcsp.internal.processing.buffer.ISerializationBuffer;
 import io.andreygs.jcsp.internal.processing.buffer.factory.ISerializationBufferFactory;
 import io.andreygs.jcsp.internal.protocol.message.factory.ICspMessageFactory;
-import io.andreygs.jcsp.internal.processing.data.factory.ICspSerializationProcessorFactory;
+import io.andreygs.jcsp.internal.processing.data.factory.ICspDataSerializationProcessorFactory;
 import io.andreygs.jcsp.api.protocol.ICspVersionable;
 
 /**
@@ -45,11 +45,11 @@ public final class CspSerializationWorkflow
     private final ISerializationBufferFactory cspSerializationBufferFactory;
     private final ICspMessageContextFactory cspMessageContextFactory;
     private final ICspMessageFactory cspMessageFactory;
-    private final ICspSerializationProcessorFactory cspDataGeneralSerializationProcessorFactory;
+    private final ICspDataSerializationProcessorFactory cspDataGeneralSerializationProcessorFactory;
 
     public CspSerializationWorkflow(ISerializationBufferFactory cspSerializationBufferFactory,
         ICspMessageContextFactory cspMessageContextFactory, ICspMessageFactory cspMessageFactory,
-        ICspSerializationProcessorFactory cspDataGeneralSerializationProcessorFactory)
+        ICspDataSerializationProcessorFactory cspDataGeneralSerializationProcessorFactory)
     {
         this.cspSerializationBufferFactory = cspSerializationBufferFactory;
         this.cspMessageContextFactory = cspMessageContextFactory;

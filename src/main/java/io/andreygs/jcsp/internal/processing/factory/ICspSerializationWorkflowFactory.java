@@ -25,12 +25,18 @@
 
 package io.andreygs.jcsp.internal.processing.factory;
 
+import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
 import io.andreygs.jcsp.internal.processing.ICspSerializationWorkflow;
+import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorDescriptorProvider;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorProvider;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 
 /**
  * TODO: place description here
  */
 public interface ICspSerializationWorkflowFactory
 {
-    ICspSerializationWorkflow provideDefaultSerializationWorkflow();
+    ICspSerializationWorkflow createCspSerializationWorkflow(
+        ICspClassProcessorDescriptorProvider<ICspClassSerializationProcessor<?>> cspClassProcessorDescriptorProvider,
+        ICspTypeProcessorProvider<ICspTypeSerializationProcessor> cspTypeProcessorProvider);
 }

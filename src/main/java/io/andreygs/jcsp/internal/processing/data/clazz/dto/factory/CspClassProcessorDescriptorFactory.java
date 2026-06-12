@@ -37,17 +37,10 @@ import java.util.Set;
 public class CspClassProcessorDescriptorFactory
     implements ICspClassProcessorDescriptorFactory
 {
-    private static final ICspClassProcessorDescriptorFactory INSTANCE = new CspClassProcessorDescriptorFactory();
-
     @Override
     public <P> ICspClassProcessorDescriptor<P> createClassProcessorDescriptor(P classProcessor,
         Set<ITypeVariableDescriptor> typeVariableDescriptors)
     {
         return new CspClassProcessorDescriptor<>(classProcessor, typeVariableDescriptors);
-    }
-
-    public static ICspClassProcessorDescriptorFactory getInstance()
-    {
-        return INSTANCE;
     }
 }

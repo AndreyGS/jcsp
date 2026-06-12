@@ -25,12 +25,12 @@
 
 package io.andreygs.jcsp.api.processing.data.clazz;
 
-import io.andreygs.jcsp.api.processing.data.ICspDeserializationProcessor;
+import io.andreygs.jcsp.api.processing.data.ICspDataDeserializationProcessor;
 
 /**
  * TODO: place description here
  */
 public interface ICspClassDeserializationProcessor<T>
 {
-    T deserialize(T value, ICspDeserializationProcessor processor);
+    T deserialize(T value, ICspDataDeserializationProcessor dataProcessor);
 }

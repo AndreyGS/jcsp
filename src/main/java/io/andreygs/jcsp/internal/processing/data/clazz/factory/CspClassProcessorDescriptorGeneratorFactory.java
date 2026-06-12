@@ -28,6 +28,7 @@ package io.andreygs.jcsp.internal.processing.data.clazz.factory;
 import io.andreygs.jcsp.internal.processing.data.clazz.CspClassProcessorDescriptorGenerator;
 import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorDescriptorGenerator;
 import io.andreygs.jcsp.internal.processing.data.clazz.dto.factory.CspClassProcessorDescriptorFactory;
+import io.andreygs.jcsp.internal.processing.data.clazz.dto.factory.ICspClassProcessorDescriptorFactory;
 import io.andreygs.jcsp.internal.processing.data.type.factory.TypeVariableDescriptorGeneratorFactory;
 
 /**
@@ -36,21 +37,17 @@ import io.andreygs.jcsp.internal.processing.data.type.factory.TypeVariableDescri
 public class CspClassProcessorDescriptorGeneratorFactory
     implements ICspClassProcessorDescriptorGeneratorFactory
 {
-    private static final ICspClassProcessorDescriptorGeneratorFactory INSTANCE =
-        new CspClassProcessorDescriptorGeneratorFactory();
+    private static final ICspClassProcessorDescriptorFactory DEFAULT_CSP_CLASS_PROCESSOR_DESCRIPTOR_FACTORY =
+        new CspClassProcessorDescriptorFactory();
+    private static final
 
     private static final ICspClassProcessorDescriptorGenerator DEFAULT_DESCRIPTOR_GENERATOR =
-        new CspClassProcessorDescriptorGenerator(CspClassProcessorDescriptorFactory.getInstance(),
-            TypeVariableDescriptorGeneratorFactory.getInstance().provideDefaultDescriptorGenerator());
+        new CspClassProcessorDescriptorGenerator(new CspClassProcessorDescriptorFactory(),
+            new TypeVariableDescriptorGeneratorFactory().provideDefaultDescriptorGenerator());
 
     @Override
-    public ICspClassProcessorDescriptorGenerator provideDefaultDescriptorGenerator()
+    public ICspClassProcessorDescriptorGenerator create()
     {
-        return DEFAULT_DESCRIPTOR_GENERATOR;
-    }
-
-    public static ICspClassProcessorDescriptorGeneratorFactory getInstance()
-    {
-        return INSTANCE;
+        return new CspClassProcessorDescriptorGenerator(DEFAULT_CSP_CLASS_PROCESSOR_DESCRIPTOR_FACTORY,);
     }
 }

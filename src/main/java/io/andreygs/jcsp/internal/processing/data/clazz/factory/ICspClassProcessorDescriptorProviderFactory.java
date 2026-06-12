@@ -32,9 +32,9 @@ import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorRegistr
 /**
  * TODO: place description here
  */
-public interface ICspClassProcessorDescriptorProviderFactory<P>
+public interface ICspClassProcessorDescriptorProviderFactory
 {
-    ICspClassProcessorDescriptorProvider<P> createDescriptorProvider(
+    <P> ICspClassProcessorDescriptorProvider<P> createDescriptorProvider(
         ICspClassProcessorRegistry<P> cspClassProcessorRegistry,
         ICspClassProcessorGenerator<P> cspClassProcessorGenerator);
 }

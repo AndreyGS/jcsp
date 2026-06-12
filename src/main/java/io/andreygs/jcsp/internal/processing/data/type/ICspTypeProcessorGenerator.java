@@ -23,15 +23,14 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.api.protocol.message.context;
+package io.andreygs.jcsp.internal.processing.data.type;
 
-import io.andreygs.jcsp.api.protocol.message.config.ICspMessageConfig;
+import java.lang.reflect.AnnotatedType;
 
 /**
  * TODO: place description here
  */
-public interface ICspMessageContext
-    extends ICspMessageConfig
+public interface ICspTypeProcessorGenerator<P>
 {
-    boolean isEndiannessDifference();
+    P generateTypeProcessor(AnnotatedType annotatedType);
 }

@@ -23,21 +23,15 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.factory;
+package io.andreygs.jcsp.internal.processing.data.type.factory;
 
-import io.andreygs.jcsp.api.processing.data.ICspSerializationProcessor;
-import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.internal.processing.buffer.ISerializationBuffer;
-import io.andreygs.jcsp.internal.processing.data.ICspProcessorRegistry;
-import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorGenerator;
 
 /**
  * TODO: place description here
  */
-public interface ICspSerializationProcessorFactory
+public interface ICspTypeProcessorGeneratorFactory
 {
-    ICspSerializationProcessor createGeneralSerializationProcessor(
-        ISerializationBuffer cspSerializationBuffer,
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor> cspProcessorRegistry,
-        ICspDataMessage cspDataMessage);
+    <P> ICspTypeProcessorGenerator<P> createCspTypeProcessorGenerator(
+        ICspTypeProcessorFactory<P> cspTypeProcessorFactory);
 }

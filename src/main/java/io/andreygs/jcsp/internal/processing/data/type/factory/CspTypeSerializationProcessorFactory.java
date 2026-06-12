@@ -34,8 +34,8 @@ import java.util.Map;
 /**
  * TODO: place description here
  */
-class CspTypeSerializationSpecificProcessorFactory
-    implements ICspSpecificTypeProcessorFactory<ICspTypeSerializationProcessor>
+public class CspTypeSerializationProcessorFactory
+    implements ICspTypeProcessorFactory<ICspTypeSerializationProcessor>
 {
     @Override
     public ICspTypeSerializationProcessor createPrimitiveBooleanProcessor()

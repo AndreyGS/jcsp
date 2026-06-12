@@ -23,14 +23,14 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data;
+package io.andreygs.jcsp.internal.processing.data.type;
 
-import io.andreygs.jcsp.api.processing.data.ICspDeserializationProcessor;
+import java.lang.reflect.AnnotatedType;
 
 /**
  * TODO: place description here
  */
-public interface ICspExtendedDeserializationProcessor
-    extends ICspDeserializationProcessor
+public interface ICspTypeProcessorProvider<P>
 {
+    P provideTypeProcessor(AnnotatedType annotatedType);
 }

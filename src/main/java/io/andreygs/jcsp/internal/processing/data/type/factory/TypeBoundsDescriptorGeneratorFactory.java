@@ -27,6 +27,7 @@ package io.andreygs.jcsp.internal.processing.data.type.factory;
 
 import io.andreygs.jcsp.internal.processing.data.type.ITypeBoundsDescriptorGenerator;
 import io.andreygs.jcsp.internal.processing.data.type.TypeBoundsDescriptorGenerator;
+import io.andreygs.jcsp.internal.processing.data.type.dto.factory.ITypeBoundsDescriptorFactory;
 import io.andreygs.jcsp.internal.processing.data.type.dto.factory.TypeBoundsDescriptorFactory;
 
 /**
@@ -35,19 +36,12 @@ import io.andreygs.jcsp.internal.processing.data.type.dto.factory.TypeBoundsDesc
 public class TypeBoundsDescriptorGeneratorFactory
     implements ITypeBoundsDescriptorGeneratorFactory
 {
-    private static final ITypeBoundsDescriptorGeneratorFactory INSTANCE = new TypeBoundsDescriptorGeneratorFactory();
-
-    private static final ITypeBoundsDescriptorGenerator DEFAULT_GENERATOR = new TypeBoundsDescriptorGenerator(
-        TypeBoundsDescriptorFactory.getInstance());
+    private static final ITypeBoundsDescriptorFactory DEFAULT_TYPE_BOUNDS_DESCRIPTOR_FACTORY =
+        new TypeBoundsDescriptorFactory();
 
     @Override
-    public ITypeBoundsDescriptorGenerator provideTypeBoundsDescriptorGenerator()
+    public ITypeBoundsDescriptorGenerator create()
     {
-        return DEFAULT_GENERATOR;
-    }
-
-    public static ITypeBoundsDescriptorGeneratorFactory getInstance()
-    {
-        return INSTANCE;
+        return new TypeBoundsDescriptorGenerator(DEFAULT_TYPE_BOUNDS_DESCRIPTOR_FACTORY);
     }
 }

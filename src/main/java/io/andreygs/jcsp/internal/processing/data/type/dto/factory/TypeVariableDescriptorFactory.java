@@ -36,17 +36,10 @@ import org.jetbrains.annotations.Nullable;
 public class TypeVariableDescriptorFactory
     implements ITypeVariableDescriptorFactory
 {
-    private static final ITypeVariableDescriptorFactory INSTANCE = new TypeVariableDescriptorFactory();
-
     @Override
     public ITypeVariableDescriptor createTypeVariableDescriptor(String name,
         @Nullable ITypeBoundsDescriptor typeBoundsDescriptor)
     {
         return new TypeVariableDescriptor(name, typeBoundsDescriptor);
-    }
-
-    public static ITypeVariableDescriptorFactory getInstance()
-    {
-        return INSTANCE;
     }
 }

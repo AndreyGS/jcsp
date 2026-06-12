@@ -25,7 +25,6 @@
 
 package io.andreygs.jcsp.api.processing.data;
 
-import io.andreygs.jcsp.api.processing.ICspPrimitiveSerializationProcessor;
 import io.andreygs.jcsp.api.processing.data.type.CspTypeToken;
 import io.andreygs.jcsp.api.protocol.CspDataFlag;
 import io.andreygs.jcsp.api.exception.CspRuntimeException;
@@ -43,9 +42,68 @@ import java.util.Map;
  * It is the access point on every top-struct and field serialization.
  * {@link ICspClassSerializationProcessor} must use this to serialize struct to which it belongs.
  */
-public interface ICspSerializationProcessor
-    extends ICspPrimitiveSerializationProcessor
+public interface ICspDataSerializationProcessor
 {
+    /**
+     * Serializes boolean field value.
+     *
+     * @param value Value to serialize.
+     */
+    void serialize(boolean value);
+
+    /**
+     * Serializes byte field value.
+     *
+     * @param value Value to serialize.
+     */
+    void serializeByte(byte value);
+
+    /**
+     * Serializes short field value.
+     *
+     * @param value Value to serialize.
+     */
+    void serializeShort(short value);
+
+    /**
+     * Serializes int field value.
+     *
+     * @param value Value to serialize.
+     */
+    void serializeInt(int value);
+
+    /**
+     * Serializes long field value.
+     *
+     * @param value Value to serialize.
+     */
+    void serializeLong(long value);
+
+    /**
+     * Serializes char field value.
+     * <p>
+     * Please, note that using Java char is not recommended in CSP in most cases. Use it only when you really
+     * need utf-16 character that is outside the internals of the {@link String} string and this is explicitly
+     * specified in the CSP Interface. However, it seems highly unlikely that this would be the case.
+     *
+     * @param value Value to serialize.
+     */
+    void serializeChar(char value);
+
+    /**
+     * Serializes float field value.
+     *
+     * @param value Value to serialize.
+     */
+    void serializeFloat(float value);
+
+    /**
+     * Serializes double field value.
+     *
+     * @param value Value to serialize.
+     */
+    void serializeDouble(double value);
+
     /**
      * Serializes boolean[] field, not as a reference, but as an embedded structure with fixed size dictated
      * by CSP interface.

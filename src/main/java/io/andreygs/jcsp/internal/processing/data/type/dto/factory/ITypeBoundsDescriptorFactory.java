@@ -35,7 +35,7 @@ import java.util.Set;
  */
 public interface ITypeBoundsDescriptorFactory
 {
-    ITypeBoundsDescriptor createTypeBoundsDescriptor(TypeBoundKind boundTypeKind, Set<Class<?>> boundClasses);
+    ITypeBoundsDescriptor create(TypeBoundKind boundTypeKind, Set<Class<?>> boundClasses);
 
-    ITypeBoundsDescriptor createTypeBoundsDescriptor(TypeBoundKind boundTypeKind, String boundTypeVariableName);
+    ITypeBoundsDescriptor create(TypeBoundKind boundTypeKind, String boundTypeVariableName);
 }

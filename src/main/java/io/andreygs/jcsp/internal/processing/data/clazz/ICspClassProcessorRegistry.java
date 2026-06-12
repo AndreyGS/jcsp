@@ -26,7 +26,7 @@
 package io.andreygs.jcsp.internal.processing.data.clazz;
 
 import io.andreygs.jcsp.api.processing.data.type.CspTypeToken;
-import io.andreygs.jcsp.api.processing.data.ICspSerializationProcessor;
+import io.andreygs.jcsp.api.processing.data.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.internal.processing.data.clazz.dto.ICspClassProcessorDescriptor;
 
 import java.lang.reflect.GenericArrayType;
@@ -93,12 +93,12 @@ public interface ICspClassProcessorRegistry<P>
      *     {
      *         public void serialize(WrapperExample&lt?> value, ICspSerializationProcessor processor)
      *         {
-     *              // it can be serialized with using of {@link ICspSerializationProcessor#serialize(Collection, Class)}
+     *              // it can be serialized with using of {@link ICspDataSerializationProcessor#serialize(Collection, Class)}
      *              processor.serialize(value.example.list, Integer.class);
      *              // or it can be done like that:
      *              // processor.serialize(value.example.list, new CspTypeToken&ltArrayList&ltInteger>>);
      *              // but using of {@link CspTypeToken} is justified only when there is no other
-     *              // {@link ICspSerializationProcessor} methods to handle field serialization
+     *              // {@link ICspDataSerializationProcessor} methods to handle field serialization
      *         }
      *     }
      * </pre>

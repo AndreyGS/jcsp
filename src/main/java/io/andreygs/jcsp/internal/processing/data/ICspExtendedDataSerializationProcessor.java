@@ -23,31 +23,30 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.factory;
+package io.andreygs.jcsp.internal.processing.data;
 
-import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.internal.processing.data.type.factory.CspTypeProcessorFactoryProvider;
-import io.andreygs.jcsp.internal.processing.data.clazz.CspClassSerializationProcessorGenerator;
-import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorGenerator;
+import io.andreygs.jcsp.api.processing.data.ICspDataSerializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.type.IGenericTypeVariableProcessorMap;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * TODO: place description here
  */
-final class CspClassSerializationProcessorGeneratorProvider
-    implements ICspClassSerializationProcessorGeneratorProvider
+public interface ICspExtendedDataSerializationProcessor extends ICspDataSerializationProcessor
 {
-    /**
-     * Default immutable cached instance of {@link ICspClassProcessorGenerator}.
-     * <p>
-     * Thread-safe.
-     */
-    private static final ICspClassProcessorGenerator<ICspClassSerializationProcessor<?>>
-        DEFAULT_DATA_SERIALIZATION_PROCESSOR_GENERATOR = new CspClassSerializationProcessorGenerator(
-            new CspTypeProcessorFactoryProvider().provideCspDataSerializationProxyProcessorFactory());
+    void serialize(@Nullable Object value, boolean reference,
+        IGenericTypeVariableProcessorMap typeVariableProcessorMap);
 
-    @Override
-    public ICspClassProcessorGenerator<ICspClassSerializationProcessor<?>> provideCspDataProcessorGenerator()
-    {
-        return DEFAULT_DATA_SERIALIZATION_PROCESSOR_GENERATOR;
-    }
+    void serialize(@Nullable Object @Nullable [] value, boolean reference, boolean fixedSize,
+        ICspTypeSerializationProcessor itemTypeProcessor);
+
+    void serialize(@Nullable Collection<@Nullable Object> value, boolean reference,
+        ICspTypeSerializationProcessor itemTypeProcessor);
+
+    void serialize(@Nullable Map<@Nullable Object, @Nullable Object> value, boolean reference,
+        ICspTypeSerializationProcessor valueTypeProcessor, ICspTypeSerializationProcessor keyTypeProcessor);
 }

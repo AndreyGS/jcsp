@@ -25,8 +25,10 @@
 
 package io.andreygs.jcsp.internal.processing.data.type.factory;
 
+import io.andreygs.jcsp.internal.processing.data.type.ITypeBoundsDescriptorGenerator;
 import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptorGenerator;
 import io.andreygs.jcsp.internal.processing.data.type.TypeVariableDescriptorGenerator;
+import io.andreygs.jcsp.internal.processing.data.type.dto.factory.ITypeVariableDescriptorFactory;
 import io.andreygs.jcsp.internal.processing.data.type.dto.factory.TypeVariableDescriptorFactory;
 
 /**
@@ -34,21 +36,17 @@ import io.andreygs.jcsp.internal.processing.data.type.dto.factory.TypeVariableDe
  */
 public class TypeVariableDescriptorGeneratorFactory implements ITypeVariableDescriptorGeneratorFactory
 {
-    private static final ITypeVariableDescriptorGeneratorFactory INSTANCE =
-        new TypeVariableDescriptorGeneratorFactory();
-
-    private static final ITypeVariableDescriptorGenerator DEFAULT_DESCRIPTOR_GENERATOR =
-        new TypeVariableDescriptorGenerator(TypeVariableDescriptorFactory.getInstance(),
-            TypeBoundsDescriptorGeneratorFactory.getInstance().provideTypeBoundsDescriptorGenerator());
+    private static final ITypeVariableDescriptorFactory DEFAULT_TYPE_VARIABLE_DESCRIPTOR_FACTORY =
+        new TypeVariableDescriptorFactory();
+    private static final ITypeBoundsDescriptorGeneratorFactory DEFAULT_TYPE_BOUNDS_DESCRIPTOR_GENERATOR_FACTORY =
+        new TypeBoundsDescriptorGeneratorFactory();
 
     @Override
-    public ITypeVariableDescriptorGenerator provideDefaultDescriptorGenerator()
+    public ITypeVariableDescriptorGenerator create()
     {
-        return DEFAULT_DESCRIPTOR_GENERATOR;
-    }
-
-    public static ITypeVariableDescriptorGeneratorFactory getInstance()
-    {
-        return INSTANCE;
+        ITypeBoundsDescriptorGenerator typeBoundsDescriptorGenerator =
+            DEFAULT_TYPE_BOUNDS_DESCRIPTOR_GENERATOR_FACTORY.create();
+        return new TypeVariableDescriptorGenerator(
+            DEFAULT_TYPE_VARIABLE_DESCRIPTOR_FACTORY, typeBoundsDescriptorGenerator);
     }
 }
