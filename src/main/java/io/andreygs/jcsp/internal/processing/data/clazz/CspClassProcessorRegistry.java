@@ -45,11 +45,22 @@ public class CspClassProcessorRegistry<P>
     private final ICspClassProcessorDescriptorGenerator cspClassProcessorDescriptorGenerator;
     private final Map<Class<?>, ICspClassProcessorDescriptor<P>> classProcessorDescriptors = new ConcurrentHashMap<>();
 
+    /**
+     * Constructs an instance.
+     *
+     * @param cspClassProcessorDescriptorGenerator Generator for class processor descriptors.
+     */
     public CspClassProcessorRegistry(ICspClassProcessorDescriptorGenerator cspClassProcessorDescriptorGenerator)
     {
         this.cspClassProcessorDescriptorGenerator = Objects.requireNonNull(cspClassProcessorDescriptorGenerator);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @throws IllegalArgumentException if class processor is primitive, array, String, Collection or Map
+     * or if {@link ICspClassProcessorDescriptorGenerator} throws it.
+     */
     @Override
     public void register(Class<?> clazz, P classProcessor)
     {

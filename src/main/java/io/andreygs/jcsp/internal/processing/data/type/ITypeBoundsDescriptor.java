@@ -32,10 +32,23 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * TODO: place description here
+ * Generic parameter type bounds descriptor.
+ *
+ * @apiNote
+ * Immutable. Thread-safe.
+ *
+ * @implSpec
+ * Invariants must be enforced at construction time (either via validation or constant values).
+ * <p>
+ * <b>Implementations MUST adhere to the immutability and self-validation contract.</b>
  */
 public interface ITypeBoundsDescriptor
 {
+    /**
+     * Gets kind of type bounds.
+     *
+     * @return kind of type bounds.
+     */
     TypeBoundKind getTypeBoundKind();
 
     /**

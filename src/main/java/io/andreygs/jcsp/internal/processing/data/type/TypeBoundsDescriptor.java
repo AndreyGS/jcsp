@@ -34,7 +34,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * TODO: place description here
+ * Type bounds descriptor defined by constructor arguments.
  */
 public class TypeBoundsDescriptor
     implements ITypeBoundsDescriptor
@@ -44,6 +44,12 @@ public class TypeBoundsDescriptor
     private final Set<Class<?>> boundClasses;
     private final @Nullable String boundTypeVariableName;
 
+    /**
+     * Constructs an instance with classes as bounds.
+     *
+     * @param boundTypeKind Type kind of bounds.
+     * @param boundClasses Classes which are bound.
+     */
     public TypeBoundsDescriptor(TypeBoundKind boundTypeKind, Set<Class<?>> boundClasses)
     {
         this.boundTypeKind = Objects.requireNonNull(boundTypeKind);
@@ -52,10 +58,16 @@ public class TypeBoundsDescriptor
         this.boundTypeVariableName = null;
         if (this.boundClasses.isEmpty())
         {
-
+            throw new IllegalArgumentException(Messages.TypeBoundsDescriptor_Class_type_bounds_are_absent);
         }
     }
 
+    /**
+     * Constructs an instance with type variable as bound.
+     *
+     * @param boundTypeKind Type kind of bounds.
+     * @param boundTypeVariableName Name of bound type variable.
+     */
     public TypeBoundsDescriptor(TypeBoundKind boundTypeKind, String boundTypeVariableName)
     {
         this.boundTypeKind = Objects.requireNonNull(boundTypeKind);
@@ -64,7 +76,7 @@ public class TypeBoundsDescriptor
         this.boundTypeVariableName = boundTypeVariableName;
         if (this.boundTypeVariableName.isEmpty())
         {
-
+            throw new IllegalArgumentException(Messages.TypeBoundsDescriptor_Type_variable_name_type_bounds_are_absent);
         }
     }
 

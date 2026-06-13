@@ -30,6 +30,7 @@ import io.andreygs.jcsp.internal.utils.ResourceMessagesLoader;
 /**
  * TODO: place description here
  */
+@SuppressWarnings("NotNullFieldNotInitialized" /* All strings will be initialized in static initialization block */)
 final class Messages
 {
     public static String CspClassProcessorDescriptorGenerator_Arrays_not_supported;

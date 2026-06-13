@@ -34,14 +34,22 @@ import io.andreygs.jcsp.api.protocol.message.config.ICspMessageConfig;
 /**
  * Workflow of CSP message serialization.
  * <p>
- * It init buffer, checks an arguments, writes the message contexts and message bodies.
- * <p>
- * It has immutable state
+ * It init buffer, checks configs, writes the message contexts and message bodies.
  */
 public interface ICspSerializationWorkflow
 {
-    <T extends ICspVersionable> ICspDataMessage<T> serializeDataMessage(
-        ICspVersionable value, Class<T> clazz,
+    /**
+     * Serializes CSP data message.
+     *
+     * @param value Root-struct to serialize.
+     * @param clazz Class of root-struct.
+     * @param bufferConfig Config of buffer which is used to write serialized data on.
+     * @param messageConfig Config of message common context.
+     * @param dataMessageConfigExtension Config of message data context.
+     * @return serialized message.
+     * @param <T> type of root-struct.
+     */
+    <T extends ICspVersionable> ICspDataMessage<T> serializeDataMessage(ICspVersionable value, Class<T> clazz,
         ISerializationBufferConfig bufferConfig, ICspMessageConfig messageConfig,
         ICspDataMessageConfigExtension dataMessageConfigExtension);
 }

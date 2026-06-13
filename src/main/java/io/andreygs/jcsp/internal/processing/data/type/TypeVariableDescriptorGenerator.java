@@ -28,6 +28,8 @@ package io.andreygs.jcsp.internal.processing.data.type;
 import io.andreygs.jcsp.internal.processing.data.type.factory.ITypeVariableDescriptorFactory;
 
 import java.lang.reflect.TypeVariable;
+import java.lang.reflect.WildcardType;
+import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -46,11 +48,26 @@ public class TypeVariableDescriptorGenerator implements ITypeVariableDescriptorG
         this.typeBoundsDescriptorGenerator = Objects.requireNonNull(typeBoundsDescriptorGenerator);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @throws IllegalArgumentException if {@link ITypeBoundsDescriptorGenerator#generate(TypeVariable)} throws it.
+     * In latter case, additional information with the type variable name is added.
+     */
     @Override
     public ITypeVariableDescriptor generate(TypeVariable<? extends Class<?>> typeVariable)
     {
-        Optional<ITypeBoundsDescriptor> typeBoundsDescriptor = typeBoundsDescriptorGenerator.generate(typeVariable);
         String name = typeVariable.getName();
+        Optional<ITypeBoundsDescriptor> typeBoundsDescriptor;
+        try
+        {
+            typeBoundsDescriptor = typeBoundsDescriptorGenerator.generate(typeVariable);
+        }
+        catch (IllegalArgumentException e)
+        {
+            throw new IllegalArgumentException(
+                MessageFormat.format(Messages.TypeVariableDescriptorGenerator_Failed_to_generate_type_bounds_for_type_variable__0, name), e);
+        }
         return typeVariableDescriptorFactory.create(name, typeBoundsDescriptor.orElse(null));
     }
 }

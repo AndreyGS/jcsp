@@ -30,6 +30,7 @@ import io.andreygs.jcsp.internal.utils.ResourceMessagesLoader;
 /**
  * TODO: place description here
  */
+@SuppressWarnings("NotNullFieldNotInitialized" /* All strings will be initialized in static initialization block */)
 final class Messages
 {
     public static String CspStatus_Error_in_struct_format_Array_size_number_is_invalid;
@@ -42,8 +43,11 @@ final class Messages
     public static String CspStatus_Error_in_struct_format_Sequence_number_is_invalid;
     public static String CspStatus_Error_in_struct_format_Unbound_wildcard_type_cannot_be_processed;
     public static String CspStatus_Error_in_struct_format_Unknown_type_category;
+    public static String TypeBoundsDescriptor_Class_type_bounds_are_absent;
+    public static String TypeBoundsDescriptor_Type_variable_name_type_bounds_are_absent;
     public static String TypeBoundsDescriptorGenerator_Bound_not_supported;
     public static String TypeBoundsDescriptorGenerator_Unknown_bound_type_category;
+    public static String TypeVariableDescriptorGenerator_Failed_to_generate_type_bounds_for_type_variable__0;
 
     static
     {

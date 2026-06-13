@@ -68,7 +68,7 @@ public class TypeBoundsDescriptorGeneratorTests
     }
 
     @Test
-    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
+    @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testConstructorNullFactory()
     {
         assertThatThrownBy(() -> new TypeBoundsDescriptorGenerator(null))
@@ -81,10 +81,8 @@ public class TypeBoundsDescriptorGeneratorTests
         TypeVariable<? extends Class<?>> typeVariable = TestGenericClass1.class.getTypeParameters()[0];
         when(typeBoundsDescriptorFactory.create(eq(TypeBoundKind.UPPER_BOUND), anySet()))
             .thenAnswer(invocation -> {
-                Set<?> classes = invocation.getArgument(1);
-                assertThat(classes.contains(Number.class)).isTrue();
-                assertThat(classes.contains(Runnable.class)).isTrue();
-                assertThat(classes.size()).isEqualTo(2);
+                Set<Class<?>> classes = invocation.getArgument(1);
+                assertThat(classes).containsExactly(Number.class, Runnable.class);
                 return typeBoundsDescriptor;
             });
         Optional<ITypeBoundsDescriptor> result = generator.generate(typeVariable);
@@ -114,9 +112,8 @@ public class TypeBoundsDescriptorGeneratorTests
         WildcardType wildcardType1 = requireWildcardType(TestGenericField.class, "list1");
         when(typeBoundsDescriptorFactory.create(eq(TypeBoundKind.UPPER_BOUND), anySet()))
             .thenAnswer(invocation -> {
-                Set<?> classes = invocation.getArgument(1);
-                assertThat(classes.contains(Number.class)).isTrue();
-                assertThat(classes.size()).isEqualTo(1);
+                Set<Class<?>> classes = invocation.getArgument(1);
+                assertThat(classes).containsExactly(Number.class);
                 return typeBoundsDescriptor;
             });
         Optional<ITypeBoundsDescriptor> result1 = generator.generate(wildcardType1);
@@ -125,9 +122,8 @@ public class TypeBoundsDescriptorGeneratorTests
         WildcardType wildcardType2 = requireWildcardType(TestGenericField.class, "list2");
         when(typeBoundsDescriptorFactory.create(eq(TypeBoundKind.LOWER_BOUND), anySet()))
             .thenAnswer(invocation -> {
-                Set<?> classes = invocation.getArgument(1);
-                assertThat(classes.contains(Number.class)).isTrue();
-                assertThat(classes.size()).isEqualTo(1);
+                Set<Class<?>> classes = invocation.getArgument(1);
+                assertThat(classes).containsExactly(Number.class);
                 return typeBoundsDescriptor;
             });
         Optional<ITypeBoundsDescriptor> result2 = generator.generate(wildcardType2);

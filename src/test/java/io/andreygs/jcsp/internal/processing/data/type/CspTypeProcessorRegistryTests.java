@@ -75,7 +75,7 @@ public class CspTypeProcessorRegistryTests
     }
 
     @Test
-    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
+    @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testRegisterNullAnnotatedType()
     {
         assertThatThrownBy(() -> registry.register(null, typeSerializationProcessor))
@@ -83,7 +83,7 @@ public class CspTypeProcessorRegistryTests
     }
 
     @Test
-    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
+    @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testRegisterNullProcessor()
     {
         assertThatThrownBy(() -> registry.register(annotatedType, null))
@@ -97,7 +97,7 @@ public class CspTypeProcessorRegistryTests
     }
 
     @Test
-    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
+    @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testFindNullAnnotatedType()
     {
         assertThatThrownBy(() -> registry.find(null)).isInstanceOf(NullPointerException.class);
@@ -112,7 +112,7 @@ public class CspTypeProcessorRegistryTests
     }
 
     @Test
-    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
+    @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testUnregisterNullAnnotatedType()
     {
         assertThatThrownBy(() -> registry.unregister(null)).isInstanceOf(NullPointerException.class);

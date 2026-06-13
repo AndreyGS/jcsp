@@ -55,7 +55,7 @@ public interface ICspClassProcessorRegistry<P>
      *
      * @param clazz Class that processor should handle.
      * @param classProcessor Class processor that will be used in serialization or deserialization process.
-     * @throws IllegalArgumentException class processor cannot be registered.
+     * @throws IllegalArgumentException if class processor cannot be registered.
      */
     void register(Class<?> clazz, P classProcessor);
 

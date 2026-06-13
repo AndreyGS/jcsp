@@ -30,6 +30,7 @@ import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptorGen
 import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptor;
 
 import java.lang.reflect.TypeVariable;
+import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -48,6 +49,13 @@ public class CspClassProcessorDescriptorGenerator implements ICspClassProcessorD
     private final ICspClassProcessorDescriptorFactory cspClassProcessorDescriptorFactory;
     private final ITypeVariableDescriptorGenerator typeVariableDescriptorGenerator;
 
+    /**
+     * Constructs an instance.
+     *
+     * @param cspClassProcessorDescriptorFactory Factory for creating class processor descriptors.
+     * @param typeVariableDescriptorGenerator Generator for generating type variable descriptors for class
+     *                                        processors related to generics.
+     */
     public CspClassProcessorDescriptorGenerator(ICspClassProcessorDescriptorFactory cspClassProcessorDescriptorFactory,
         ITypeVariableDescriptorGenerator typeVariableDescriptorGenerator)
     {
@@ -59,6 +67,7 @@ public class CspClassProcessorDescriptorGenerator implements ICspClassProcessorD
      * {@inheritDoc}
      *
      * @throws IllegalArgumentException if clazz is an array or if {@link ITypeVariableDescriptorGenerator} throws it.
+     * In latter case, additional information with the class name is added.
      */
     @Override
     public <P> ICspClassProcessorDescriptor<P> generate(P classProcessor, Class<?> clazz)
@@ -75,8 +84,16 @@ public class CspClassProcessorDescriptorGenerator implements ICspClassProcessorD
         Set<ITypeVariableDescriptor> typeVariableDescriptors = new HashSet<>();
         for (TypeVariable<? extends Class<?>> typeVariable : typeVariables)
         {
-            ITypeVariableDescriptor typeVariableDescriptor =
-                typeVariableDescriptorGenerator.generate(typeVariable);
+            ITypeVariableDescriptor typeVariableDescriptor;
+            try
+            {
+                typeVariableDescriptor = typeVariableDescriptorGenerator.generate(typeVariable);
+            }
+            catch (IllegalArgumentException e)
+            {
+                throw new IllegalArgumentException(MessageFormat.format(
+                    Messages.CspClassProcessorDescriptorGenerator_Descriptor_for_class__0__cannot_be_generated, clazz.getName()), e);
+            }
             typeVariableDescriptors.add(typeVariableDescriptor);
         }
         return cspClassProcessorDescriptorFactory.create(Objects.requireNonNull(classProcessor),

@@ -47,6 +47,11 @@ public class TypeBoundsDescriptorGenerator implements ITypeBoundsDescriptorGener
 {
     private final ITypeBoundsDescriptorFactory typeBoundsDescriptorFactory;
 
+    /**
+     * Constructs an instance.
+     *
+     * @param typeBoundsDescriptorFactory Factory for creating of type bounds descriptors.
+     */
     public TypeBoundsDescriptorGenerator(ITypeBoundsDescriptorFactory typeBoundsDescriptorFactory)
     {
         this.typeBoundsDescriptorFactory = Objects.requireNonNull(typeBoundsDescriptorFactory);

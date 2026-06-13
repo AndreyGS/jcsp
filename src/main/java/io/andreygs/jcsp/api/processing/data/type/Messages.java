@@ -30,6 +30,7 @@ import io.andreygs.jcsp.internal.utils.ResourceMessagesLoader;
 /**
  * TODO: place description here
  */
+@SuppressWarnings("NotNullFieldNotInitialized" /* All strings will be initialized in static initialization block */)
 final class Messages
 {
     public static String CspTypeToken_Specific_token_class_must_be_generic;

@@ -32,5 +32,11 @@ import java.lang.reflect.TypeVariable;
  */
 public interface ITypeVariableDescriptorGenerator
 {
+    /**
+     *
+     * @param typeVariable
+     * @return
+     * @throws IllegalArgumentException if descriptor cannot be generated.
+     */
     ITypeVariableDescriptor generate(TypeVariable<? extends Class<?>> typeVariable);
 }

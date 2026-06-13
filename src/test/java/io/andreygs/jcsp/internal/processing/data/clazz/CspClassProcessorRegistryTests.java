@@ -61,7 +61,7 @@ public class CspClassProcessorRegistryTests
     }
 
     @Test
-    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
+    @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testConstructorNullDescriptorGenerator()
     {
         assertThatThrownBy(() -> new CspClassProcessorRegistry<ICspClassSerializationProcessor<?>>(null))
@@ -69,7 +69,7 @@ public class CspClassProcessorRegistryTests
     }
 
     @Test
-    public void testRegisterClassProcessor()
+    public void testRegister()
     {
         assertThat(registry.resolveClassProcessorDescriptor(TestClass.class)).isEmpty();
 
@@ -81,23 +81,23 @@ public class CspClassProcessorRegistryTests
     }
 
     @Test
-    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
-    public void testRegisterClassProcessorNullClassProcessor()
+    @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
+    public void testRegisterNullClassProcessor()
     {
         assertThatThrownBy(() -> registry.register(TestClass.class, null))
             .isInstanceOf(NullPointerException.class);
     }
 
     @Test
-    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
-    public void testRegisterClassProcessorNullClass()
+    @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
+    public void testRegisterNullClass()
     {
         assertThatThrownBy(() -> registry.register(null, classProcessor))
             .isInstanceOf(NullPointerException.class);
     }
 
     @Test
-    public void testRegisterClassProcessorNotAllowedClass()
+    public void testRegisterNotAllowedClass()
     {
         assertThatThrownBy(() -> registry.register(int.class, classProcessor))
             .isInstanceOf(IllegalArgumentException.class);
@@ -112,13 +112,22 @@ public class CspClassProcessorRegistryTests
     }
 
     @Test
-    public void testResolveClassProcessorDescriptor()
+    public void testRegisterDescriptorGeneratorThrows()
     {
-        testRegisterClassProcessor();
+        when(cspClassProcessorDescriptorGenerator.<ICspClassSerializationProcessor<?>> generate(classProcessor, TestClass.class))
+            .thenThrow(new IllegalArgumentException());
+        assertThatThrownBy(() -> registry.register(TestClass.class, classProcessor))
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
+    public void testResolveClassProcessorDescriptor()
+    {
+        testRegister();
+    }
+
+    @Test
+    @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testResolveClassProcessorDescriptorNull()
     {
         assertThatThrownBy(() -> registry.resolveClassProcessorDescriptor(null))
@@ -137,11 +146,10 @@ public class CspClassProcessorRegistryTests
     }
 
     @Test
-    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
+    @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testUnregisterNullClass()
     {
-        assertThatThrownBy(() -> registry.unregister(null))
-            .isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> registry.unregister(null)).isInstanceOf(NullPointerException.class);
     }
 
     private static class TestClass

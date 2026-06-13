@@ -40,6 +40,7 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.ArgumentMatchers.eq;
@@ -73,7 +74,7 @@ public class CspClassProcessorDescriptorGeneratorTests
     }
 
     @Test
-    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
+    @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testConstructorNullClassDescriptorFactory()
     {
         assertThatThrownBy(() -> new CspClassProcessorDescriptorGenerator(null, typeVariableDescriptorGenerator))
@@ -81,7 +82,7 @@ public class CspClassProcessorDescriptorGeneratorTests
     }
 
     @Test
-    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
+    @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testConstructorNullTypeVariableDescriptorGenerator()
     {
         assertThatThrownBy(() -> new CspClassProcessorDescriptorGenerator(cspClassProcessorDescriptorFactory, null))
@@ -115,7 +116,7 @@ public class CspClassProcessorDescriptorGeneratorTests
     }
 
     @Test
-    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
+    @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testGenerateNullProcessor()
     {
         assertThatThrownBy(() -> generator.generate(null, TestClass.class))
@@ -123,7 +124,7 @@ public class CspClassProcessorDescriptorGeneratorTests
     }
 
     @Test
-    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
+    @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testGenerateNullClass()
     {
         assertThatThrownBy(() -> generator.generate(classProcessor, null))
@@ -140,9 +141,12 @@ public class CspClassProcessorDescriptorGeneratorTests
     @Test
     public void testGenerateTypeVariableDescriptorThrowsIae()
     {
-        when(typeVariableDescriptorGenerator.generate(any())).thenThrow(new IllegalArgumentException());
-        assertThatThrownBy(() -> generator.generate(classProcessor, TestGenericClass.class))
-            .isInstanceOf(IllegalArgumentException.class);
+        Throwable cause = new IllegalArgumentException();
+        when(typeVariableDescriptorGenerator.generate(any())).thenThrow(cause);
+        Throwable throwable = catchThrowable(() -> generator.generate(classProcessor, TestGenericClass.class));
+        assertThat(throwable.getCause()).isEqualTo(cause);
+        assertThat(throwable).isInstanceOf(IllegalArgumentException.class);
+        assertThat(throwable.getMessage()).contains(TestGenericClass.class.getName());
     }
 
     private static class TestClass
