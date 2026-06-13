@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.internal.processing.data.type;
 
-import io.andreygs.jcsp.internal.processing.data.ICspExtendedDeserializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.ICspExtendedDataDeserializationProcessor;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -33,6 +33,5 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface ICspTypeDeserializationProcessor
 {
-    @Nullable Object deserialize(@Nullable Object value,
-        ICspExtendedDeserializationProcessor cspExtendedDeserializationProcessor);
+    @Nullable Object deserialize(@Nullable Object value, ICspExtendedDataDeserializationProcessor extendedDataProcessor);
 }

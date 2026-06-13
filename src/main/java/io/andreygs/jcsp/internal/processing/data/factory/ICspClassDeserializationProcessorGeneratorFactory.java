@@ -25,13 +25,13 @@
 
 package io.andreygs.jcsp.internal.processing.data.factory;
 
-import io.andreygs.jcsp.api.processing.data.ICspClassDeserializationProcessor;
-import io.andreygs.jcsp.internal.processing.data.ICspClassProcessorGenerator;
+import io.andreygs.jcsp.api.processing.data.clazz.ICspClassDeserializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorGenerator;
 
 /**
  * TODO: place description here
  */
 interface ICspClassDeserializationProcessorGeneratorFactory
 {
-    ICspClassProcessorGenerator<ICspClassDeserializationProcessor> createCspDataProcessorGenerator();
+    ICspClassProcessorGenerator<ICspClassDeserializationProcessor<?>> create();
 }

@@ -27,10 +27,22 @@ package io.andreygs.jcsp.internal.controller.factory;
 
 import io.andreygs.jcsp.api.controller.ICspSerializationSession;
 import io.andreygs.jcsp.api.controller.factory.ICspSerializationSessionFactory;
+import io.andreygs.jcsp.api.processing.buffer.factory.ISerializationBufferConfigFactory;
+import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
+import io.andreygs.jcsp.api.protocol.message.config.factory.ICspMessageConfigFactory;
 import io.andreygs.jcsp.internal.controller.CspSerializationSession;
-import io.andreygs.jcsp.internal.model.protocol.message.builder.factory.CspMessageBuilderFactory;
-import io.andreygs.jcsp.internal.processing.data.factory.CspProcessorRegistryFactory;
-import io.andreygs.jcsp.internal.processing.factory.SerializationWorkflowProvider;
+import io.andreygs.jcsp.internal.processing.ICspSerializationWorkflow;
+import io.andreygs.jcsp.internal.processing.buffer.factory.SerializationBufferConfigFactory;
+import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorRegistry;
+import io.andreygs.jcsp.internal.processing.data.clazz.factory.CspClassProcessorRegistryFactory;
+import io.andreygs.jcsp.internal.processing.data.clazz.factory.ICspClassProcessorRegistryFactory;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorRegistry;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.type.factory.CspTypeProcessorRegistryFactory;
+import io.andreygs.jcsp.internal.processing.data.type.factory.ICspTypeProcessorRegistryFactory;
+import io.andreygs.jcsp.internal.processing.factory.ICspSerializationWorkflowFactory;
+import io.andreygs.jcsp.internal.protocol.message.config.factory.CspMessageConfigFactory;
+import io.andreygs.jcsp.internal.processing.factory.CspSerializationWorkflowFactory;
 
 /**
  * TODO: place description here
@@ -38,12 +50,28 @@ import io.andreygs.jcsp.internal.processing.factory.SerializationWorkflowProvide
 public class CspSerializationSessionFactory
     implements ICspSerializationSessionFactory
 {
+    private static final ISerializationBufferConfigFactory DEFAULT_SERIALIZATION_BUFFER_CONFIG_FACTORY =
+        new SerializationBufferConfigFactory();
+    private static final ICspMessageConfigFactory DEFAULT_CSP_MESSAGE_CONFIG_FACTORY =
+        new CspMessageConfigFactory();
+    private static final ICspClassProcessorRegistryFactory<ICspClassSerializationProcessor<?>>
+        DEFAULT_CSP_CLASS_PROCESSOR_REGISTRY_FACTORY = new CspClassProcessorRegistryFactory<>();
+    private static final ICspTypeProcessorRegistryFactory<ICspTypeSerializationProcessor>
+        DEFAULT_CSP_TYPE_PROCESSOR_REGISTRY_FACTORY = new CspTypeProcessorRegistryFactory<>();
+    private static final ICspSerializationWorkflowFactory DEFAULT_CSP_SERIALIZATION_WORKFLOW_FACTORY =
+        new CspSerializationWorkflowFactory();
+
     @Override
-    public ICspSerializationSession createSession()
+    public ICspSerializationSession create()
     {
-        return new CspSerializationSession(
-            new SerializationWorkflowProvider().provideWorkflow(),
-            new CspMessageBuilderFactory(),
-            new CspProcessorRegistryFactory().createProcessorRegistry());
+        ICspTypeProcessorRegistry<ICspTypeSerializationProcessor> cspTypeProcessorRegistry =
+            DEFAULT_CSP_TYPE_PROCESSOR_REGISTRY_FACTORY.create();
+        ICspClassProcessorRegistry<ICspClassSerializationProcessor<?>> cspClassProcessorRegistry =
+            DEFAULT_CSP_CLASS_PROCESSOR_REGISTRY_FACTORY.create();
+        ICspSerializationWorkflow cspSerializationWorkflow =
+            DEFAULT_CSP_SERIALIZATION_WORKFLOW_FACTORY.create(cspClassProcessorRegistry, cspTypeProcessorRegistry);
+        return new CspSerializationSession(cspClassProcessorRegistry, cspTypeProcessorRegistry,
+            DEFAULT_SERIALIZATION_BUFFER_CONFIG_FACTORY, DEFAULT_CSP_MESSAGE_CONFIG_FACTORY,
+            cspSerializationWorkflow);
     }
 }

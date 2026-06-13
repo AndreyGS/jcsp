@@ -26,54 +26,122 @@
 package io.andreygs.jcsp.internal.controller;
 
 import io.andreygs.jcsp.api.controller.ICspSerializationSession;
-import io.andreygs.jcsp.api.model.protocol.message.builder.ICspDataMessageBuilder;
-import io.andreygs.jcsp.api.model.protocol.utils.CspTypeToken;
-import io.andreygs.jcsp.internal.model.protocol.message.builder.factory.ICspMessageBuilderFactory;
-import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.internal.processing.data.ICspProcessorRegistry;
-import io.andreygs.jcsp.internal.processing.ISerializationWorkflow;
+import io.andreygs.jcsp.api.processing.buffer.ISerializationBufferConfig;
+import io.andreygs.jcsp.api.processing.buffer.factory.ISerializationBufferConfigFactory;
+import io.andreygs.jcsp.api.protocol.message.ICspDataMessage;
+import io.andreygs.jcsp.api.protocol.message.config.ICspDataMessageConfigExtension;
+import io.andreygs.jcsp.api.protocol.ICspVersionable;
+import io.andreygs.jcsp.api.protocol.message.config.ICspMessageConfig;
+import io.andreygs.jcsp.api.protocol.message.config.factory.ICspMessageConfigFactory;
+import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
+import io.andreygs.jcsp.internal.processing.ICspSerializationWorkflow;
+import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorRegistry;
+import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorRegistry;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
+import org.jetbrains.annotations.Nullable;
+
+import java.lang.reflect.AnnotatedType;
+import java.util.Objects;
 
 /**
  * TODO: place description here
  */
 public class CspSerializationSession implements ICspSerializationSession
 {
-    private final ISerializationWorkflow serializationWorkflow;
-    private final ICspMessageBuilderFactory messageBuilderFactory;
-    private final ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor>
-        processorRegistry;
+    private final ICspClassProcessorRegistry<ICspClassSerializationProcessor<?>> classProcessorRegistry;
+    private final ICspTypeProcessorRegistry<ICspTypeSerializationProcessor> typeProcessorRegistry;
+    private final ISerializationBufferConfigFactory serializationBufferConfigFactory;
+    private final ICspMessageConfigFactory cspMessageConfigFactory;
+    private ISerializationBufferConfig defaultBufferConfig;
+    private ICspMessageConfig defaultMessageConfig;
+    private ICspDataMessageConfigExtension defaultDataMessageConfigExtension;
+    private final ICspSerializationWorkflow serializationWorkflow;
 
-    public CspSerializationSession(ISerializationWorkflow serializationWorkflow,
-        ICspMessageBuilderFactory messageBuilderFactory,
-        ICspProcessorRegistry<ICspClassSerializationProcessor<?>, ICspTypeSerializationProcessor> processorRegistry)
+    public CspSerializationSession(
+        ICspClassProcessorRegistry<ICspClassSerializationProcessor<?>> classProcessorRegistry,
+        ICspTypeProcessorRegistry<ICspTypeSerializationProcessor> typeProcessorRegistry,
+        ISerializationBufferConfigFactory serializationBufferConfigFactory,
+        ICspMessageConfigFactory cspMessageConfigFactory,
+        ICspSerializationWorkflow serializationWorkflow)
     {
-        this.serializationWorkflow = serializationWorkflow;
-        this.messageBuilderFactory = messageBuilderFactory;
-        this.processorRegistry = processorRegistry;
+        this.serializationWorkflow = Objects.requireNonNull(serializationWorkflow);
+        this.classProcessorRegistry = Objects.requireNonNull(classProcessorRegistry);
+        this.typeProcessorRegistry = Objects.requireNonNull(typeProcessorRegistry);
+        this.serializationBufferConfigFactory = Objects.requireNonNull(serializationBufferConfigFactory);
+        this.defaultBufferConfig = serializationBufferConfigFactory.provideDefault();
+        this.cspMessageConfigFactory = Objects.requireNonNull(cspMessageConfigFactory);
+        initDefaultMessageConfigs();
     }
 
     @Override
-    public <T> void registerSerializationProcessor(Class<T> clazz, ICspClassSerializationProcessor<T> classProcessor)
+    public <T> void registerClassProcessor(Class<T> clazz, ICspClassSerializationProcessor<T> classProcessor)
     {
-        processorRegistry.registerClassProcessor(clazz, classProcessor);
+        classProcessorRegistry.register(clazz, classProcessor);
     }
 
     @Override
-    public void unregisterSerializationProcessor(Class<?> clazz)
+    public void unregisterClassProcessor(Class<?> clazz)
     {
-        processorRegistry.unregisterClassProcessor(clazz);
+        classProcessorRegistry.unregister(clazz);
     }
 
     @Override
-    public void unregisterTypeSerializationProcessor(CspTypeToken<?> cspTypeToken)
+    public void unregisterTypeProcessor(AnnotatedType annotatedType)
     {
-        processorRegistry.unregisterTypeProcessor(cspTypeToken.getAnnotatedType());
+        typeProcessorRegistry.unregister(annotatedType);
     }
 
     @Override
-    public ICspDataMessageBuilder createCspDataMessageBuilder()
+    public void setDefaultBufferConfig(ISerializationBufferConfig config)
     {
-        return messageBuilderFactory.createCspDataMessageBuilder(serializationWorkflow, processorRegistry);
+        defaultBufferConfig = Objects.requireNonNull(config);
+    }
+
+    @Override
+    public void setDefaultMessageConfig(ICspMessageConfig config)
+    {
+        defaultMessageConfig = Objects.requireNonNull(config);
+    }
+
+    @Override
+    public void setDefaultDataMessageConfigExtension(ICspDataMessageConfigExtension config)
+    {
+        defaultDataMessageConfigExtension = Objects.requireNonNull(config);
+    }
+
+    @Override
+    public ISerializationBufferConfigFactory getSerializationBufferConfigFactory()
+    {
+        return serializationBufferConfigFactory;
+    }
+
+    @Override
+    public ICspMessageConfigFactory getCspMessageConfigFactory()
+    {
+        return cspMessageConfigFactory;
+    }
+
+    @Override
+    public <T extends ICspVersionable> ICspDataMessage<T> serializeData(ICspVersionable struct, Class<T> clazz)
+    {
+        return serializationWorkflow.serializeDataMessage(Objects.requireNonNull(struct), Objects.requireNonNull(clazz),
+            defaultBufferConfig, defaultMessageConfig, defaultDataMessageConfigExtension);
+    }
+
+    @Override
+    public <T extends ICspVersionable> ICspDataMessage<T> serializeData(ICspVersionable struct, Class<T> clazz,
+        @Nullable ISerializationBufferConfig customBufferConfig, @Nullable ICspMessageConfig customMessageConfig,
+        @Nullable ICspDataMessageConfigExtension customDataMessageConfigExtension)
+    {
+        return serializationWorkflow.serializeDataMessage(Objects.requireNonNull(struct), Objects.requireNonNull(clazz),
+            customBufferConfig != null ?  customBufferConfig : defaultBufferConfig,
+            customMessageConfig != null ? customMessageConfig : defaultMessageConfig,
+            customDataMessageConfigExtension != null ? customDataMessageConfigExtension : defaultDataMessageConfigExtension);
+    }
+
+    private void initDefaultMessageConfigs()
+    {
+        defaultMessageConfig = cspMessageConfigFactory.createCspMessageCommonConfig(null, null);
+        defaultDataMessageConfigExtension = cspMessageConfigFactory.createCspDataMessageConfigExtension(null, null);
     }
 }

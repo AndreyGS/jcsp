@@ -25,8 +25,8 @@
 
 package io.andreygs.jcsp.internal.processing.data.factory;
 
-import io.andreygs.jcsp.api.processing.data.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.internal.processing.data.ICspClassProcessorGenerator;
+import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
+import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorGenerator;
 
 /**
  * TODO: place description here

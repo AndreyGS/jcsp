@@ -25,16 +25,20 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 module io.andreygs.jcsp.base {
-    requires org.jetbrains.annotations;
+    requires static org.jetbrains.annotations;
 
     exports io.andreygs.jcsp.api.controller;
     exports io.andreygs.jcsp.api.controller.factory;
-    exports io.andreygs.jcsp.api.model.buffer;
-    exports io.andreygs.jcsp.api.model.exception;
-    exports io.andreygs.jcsp.api.model.protocol;
-    exports io.andreygs.jcsp.api.model.protocol.message;
-    exports io.andreygs.jcsp.api.model.protocol.message.builder;
-    exports io.andreygs.jcsp.api.model.protocol.utils;
-    exports io.andreygs.jcsp.api.processing;
+    exports io.andreygs.jcsp.api.exception;
+    exports io.andreygs.jcsp.api.processing.buffer;
+    exports io.andreygs.jcsp.api.processing.buffer.factory;
     exports io.andreygs.jcsp.api.processing.data;
+    exports io.andreygs.jcsp.api.processing.data.clazz;
+    exports io.andreygs.jcsp.api.processing.data.type;
+    exports io.andreygs.jcsp.api.protocol;
+    exports io.andreygs.jcsp.api.protocol.message;
+    exports io.andreygs.jcsp.api.protocol.message.config;
+    exports io.andreygs.jcsp.api.protocol.message.config.factory;
+    exports io.andreygs.jcsp.api.protocol.message.context;
+    exports io.andreygs.jcsp.api.protocol.utils;
 }
