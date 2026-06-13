@@ -25,8 +25,6 @@
 
 package io.andreygs.jcsp.internal.processing.data.clazz;
 
-import io.andreygs.jcsp.internal.processing.data.clazz.dto.ICspClassProcessorDescriptor;
-
 import java.util.Objects;
 import java.util.Optional;
 
@@ -57,7 +55,7 @@ public class CspClassProcessorDescriptorProvider<P>
     private ICspClassProcessorDescriptor<P> requireClassProcessorDescriptor(Class<?> clazz)
     {
         P classProcessor = cspClassProcessorGenerator.generate(clazz);
-        cspClassProcessorRegistry.registerClassProcessor(clazz, classProcessor);
+        cspClassProcessorRegistry.register(clazz, classProcessor);
         Optional<ICspClassProcessorDescriptor<P>> classProcessorDescriptor =
             cspClassProcessorRegistry.resolveClassProcessorDescriptor(clazz);
         if (classProcessorDescriptor.isPresent())

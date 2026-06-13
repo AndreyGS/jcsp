@@ -27,12 +27,12 @@ package io.andreygs.jcsp.internal.controller.factory;
 
 import io.andreygs.jcsp.api.controller.ICspSerializationSession;
 import io.andreygs.jcsp.api.controller.factory.ICspSerializationSessionFactory;
-import io.andreygs.jcsp.api.processing.buffer.dto.factory.ISerializationBufferConfigFactory;
+import io.andreygs.jcsp.api.processing.buffer.factory.ISerializationBufferConfigFactory;
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
 import io.andreygs.jcsp.api.protocol.message.config.factory.ICspMessageConfigFactory;
 import io.andreygs.jcsp.internal.controller.CspSerializationSession;
 import io.andreygs.jcsp.internal.processing.ICspSerializationWorkflow;
-import io.andreygs.jcsp.internal.processing.buffer.dto.factory.SerializationBufferConfigFactory;
+import io.andreygs.jcsp.internal.processing.buffer.factory.SerializationBufferConfigFactory;
 import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorRegistry;
 import io.andreygs.jcsp.internal.processing.data.clazz.factory.CspClassProcessorRegistryFactory;
 import io.andreygs.jcsp.internal.processing.data.clazz.factory.ICspClassProcessorRegistryFactory;

@@ -32,5 +32,5 @@ import java.lang.reflect.AnnotatedType;
  */
 public interface ICspTypeProcessorGenerator<P>
 {
-    P generateTypeProcessor(AnnotatedType annotatedType);
+    P generate(AnnotatedType annotatedType);
 }

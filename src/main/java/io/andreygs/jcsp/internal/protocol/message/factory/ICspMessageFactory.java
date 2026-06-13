@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.internal.protocol.message.factory;
 
-import io.andreygs.jcsp.api.protocol.message.dto.ICspDataMessage;
+import io.andreygs.jcsp.api.protocol.message.ICspDataMessage;
 import io.andreygs.jcsp.api.protocol.message.context.ICspDataMessageContextExtension;
 import io.andreygs.jcsp.api.protocol.message.context.ICspMessageContext;
 import io.andreygs.jcsp.api.protocol.ICspVersionable;

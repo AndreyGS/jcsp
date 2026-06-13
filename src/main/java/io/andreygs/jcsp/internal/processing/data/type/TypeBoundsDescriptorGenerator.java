@@ -25,20 +25,23 @@
 
 package io.andreygs.jcsp.internal.processing.data.type;
 
-import io.andreygs.jcsp.internal.processing.data.type.dto.ITypeBoundsDescriptor;
 import io.andreygs.jcsp.internal.processing.data.type.model.TypeBoundKind;
-import io.andreygs.jcsp.internal.processing.data.type.dto.factory.ITypeBoundsDescriptorFactory;
+import io.andreygs.jcsp.internal.processing.data.type.factory.ITypeBoundsDescriptorFactory;
 
-import java.lang.reflect.AnnotatedWildcardType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.lang.reflect.WildcardType;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
 /**
- * TODO: place description here
+ * Generator of generic parameter type bounds descriptor.
+ * <p>
+ * Cannot generate descriptors for bounds represented with generic classes.
+ * <p>
+ * Uses {@link ITypeBoundsDescriptorFactory} to create {@link ITypeBoundsDescriptor} instance.
  */
 public class TypeBoundsDescriptorGenerator implements ITypeBoundsDescriptorGenerator
 {
@@ -49,34 +52,59 @@ public class TypeBoundsDescriptorGenerator implements ITypeBoundsDescriptorGener
         this.typeBoundsDescriptorFactory = Objects.requireNonNull(typeBoundsDescriptorFactory);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @throws IllegalArgumentException if bound type is generic class or if bound category is unknown.
+     */
     @Override
-    public Optional<ITypeBoundsDescriptor> resolveTypeBoundsDescriptor(TypeVariable<? extends Class<?>> typeVariable)
+    public Optional<ITypeBoundsDescriptor> generate(TypeVariable<? extends Class<?>> typeVariable)
     {
-        Type[] types = typeVariable.getBounds();
-        if (types.length == 0)
+        return generateInternal(TypeBoundKind.UPPER_BOUND, typeVariable.getBounds());
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @throws IllegalArgumentException if bound type is generic class or array or if bound category is unknown.
+     */
+    @Override
+    public Optional<ITypeBoundsDescriptor> generate(WildcardType wildcardType)
+    {
+        Type[] lowerBounds = wildcardType.getLowerBounds();
+        if (lowerBounds.length == 1)
+        {
+            return generateInternal(TypeBoundKind.LOWER_BOUND, lowerBounds);
+        }
+        Type[] upperBounds = wildcardType.getUpperBounds();
+        if (upperBounds.length == 1)
+        {
+            return generateInternal(TypeBoundKind.UPPER_BOUND, upperBounds);
+        }
+        throw new IllegalArgumentException(Messages.TypeBoundsDescriptorGenerator_Unknown_bound_type_category);
+    }
+
+    private Optional<ITypeBoundsDescriptor> generateInternal(TypeBoundKind typeBoundKind, Type[] bounds)
+    {
+        Optional<String> boundTypeName = resolveTypeVariableName(bounds[0]);
+        if (boundTypeName.isPresent())
+        {
+            return Optional.of(typeBoundsDescriptorFactory.create(typeBoundKind, boundTypeName.get()));
+        }
+        Set<Class<?>> boundClasses = new HashSet<>();
+        for (Type bound : bounds)
+        {
+            Class<?> clazz = requireClass(bound);
+            if (clazz != Object.class || typeBoundKind == TypeBoundKind.LOWER_BOUND)
+            {
+                boundClasses.add(clazz);
+            }
+        }
+        if (boundClasses.isEmpty())
         {
             return Optional.empty();
         }
-        TypeBoundKind typeBoundKind = TypeBoundKind.UPPER_BOUND;
-        Optional<String> boundTypeName = resolveTypeVariableName(types[0]);
-        if (boundTypeName.isPresent())
-        {
-            return
-                Optional.of(typeBoundsDescriptorFactory.createTypeBoundsDescriptor(typeBoundKind, boundTypeName.get()));
-        }
-        Set<Class<?>> boundClasses = new HashSet<>();
-        for (Type type : types)
-        {
-            Class<?> clazz = requireClass(type);
-            boundClasses.add(clazz);
-        }
-        return Optional.of(typeBoundsDescriptorFactory.createTypeBoundsDescriptor(typeBoundKind, boundClasses));
-    }
-
-    @Override
-    public Optional<ITypeBoundsDescriptor> resolveTypeBoundsDescriptor(AnnotatedWildcardType annotatedWildcardType)
-    {
-        return null;
+        return Optional.of(typeBoundsDescriptorFactory.create(typeBoundKind, boundClasses));
     }
 
     private Optional<String> resolveTypeVariableName(Type type)
@@ -90,10 +118,14 @@ public class TypeBoundsDescriptorGenerator implements ITypeBoundsDescriptorGener
 
     private Class<?> requireClass(Type type)
     {
-        if (type instanceof Class<?>)
+        if (type instanceof Class<?> clazz)
         {
-            return (Class<?>)type;
+            if (clazz.getTypeParameters().length > 0 || clazz.isArray())
+            {
+                throw new IllegalArgumentException(Messages.TypeBoundsDescriptorGenerator_Bound_not_supported);
+            }
+            return clazz;
         }
-        throw new IllegalArgumentException("");
+        throw new IllegalArgumentException(Messages.TypeBoundsDescriptorGenerator_Unknown_bound_type_category);
     }
 }

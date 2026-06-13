@@ -25,8 +25,6 @@
 
 package io.andreygs.jcsp.internal.processing.data.type;
 
-import io.andreygs.jcsp.internal.processing.data.type.dto.ITypeVariableDescriptor;
-
 import java.lang.reflect.TypeVariable;
 
 /**
@@ -34,5 +32,5 @@ import java.lang.reflect.TypeVariable;
  */
 public interface ITypeVariableDescriptorGenerator
 {
-    ITypeVariableDescriptor generateTypeVariableDescriptor(TypeVariable<? extends Class<?>> typeVariable);
+    ITypeVariableDescriptor generate(TypeVariable<? extends Class<?>> typeVariable);
 }

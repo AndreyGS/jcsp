@@ -46,8 +46,7 @@ public interface ICspTypeSerializationProcessor
      * Serialize a value of field.
      *
      * @param value Value to be serialized.
-     * @param cspExtendedSerializationProcessor Extended general-purpose CSP serialization processor for CSP Data
-     *                                          Message Body.
+     * @param extendedDataProcessor Extended general-purpose CSP serialization processor for CSP Data Message Body.
      */
-    void serialize(@Nullable Object value, ICspExtendedDataSerializationProcessor cspExtendedSerializationProcessor);
+    void serialize(@Nullable Object value, ICspExtendedDataSerializationProcessor extendedDataProcessor);
 }

@@ -27,8 +27,6 @@ package io.andreygs.jcsp.internal.processing.data.clazz.factory;
 
 import io.andreygs.jcsp.internal.processing.data.clazz.CspClassProcessorDescriptorGenerator;
 import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorDescriptorGenerator;
-import io.andreygs.jcsp.internal.processing.data.clazz.dto.factory.CspClassProcessorDescriptorFactory;
-import io.andreygs.jcsp.internal.processing.data.clazz.dto.factory.ICspClassProcessorDescriptorFactory;
 import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptorGenerator;
 import io.andreygs.jcsp.internal.processing.data.type.factory.TypeVariableDescriptorGeneratorFactory;
 

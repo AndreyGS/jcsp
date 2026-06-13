@@ -32,8 +32,8 @@ import io.andreygs.jcsp.internal.utils.ResourceMessagesLoader;
  */
 final class Messages
 {
-    public static String CspProcessorRegistry_Illegal_type_group;
-    public static String CspProcessorRegistry_Illegal_class;
+    public static String CspClassProcessorDescriptorGenerator_Arrays_not_supported;
+    public static String CspClassProcessorRegistry_Illegal_class;
     public static String DraftInternalCspMessageBodyProcessor_No_Such_Handler_No_class_serialization_processor_for__0;
     public static String CspClassSerializationProcessorGenerator_ICspSerializationProcessor_is_invalid;
 

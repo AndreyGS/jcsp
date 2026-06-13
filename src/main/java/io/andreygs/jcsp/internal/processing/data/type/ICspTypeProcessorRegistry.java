@@ -29,7 +29,12 @@ import java.lang.reflect.AnnotatedType;
 import java.util.Optional;
 
 /**
- * TODO: place description here
+ * Registry for type processors.
+ *
+ * @apiNote
+ * Thread-safe.
+ *
+ * @param <P> type of type processor: {@link ICspTypeSerializationProcessor} or {@link ICspTypeDeserializationProcessor}.
  */
 public interface ICspTypeProcessorRegistry<P>
 {
@@ -42,20 +47,20 @@ public interface ICspTypeProcessorRegistry<P>
      *                      For example: List&ltMap&lt@CspReference String, Integer[]>
      * @param typeProcessor Type processor that will be used in serialization or deserialization process.
      */
-    void registerTypeProcessor(AnnotatedType annotatedType, P typeProcessor);
+    void register(AnnotatedType annotatedType, P typeProcessor);
 
     /**
      * Finds already registered processor for chosen type.
      *
      * @param annotatedType Type which processor need to be found.
-     * @return optional proxy processor.
+     * @return optional of type processor if registered and empty optional otherwise.
      */
-    Optional<P> findTypeProcessor(AnnotatedType annotatedType);
+    Optional<P> find(AnnotatedType annotatedType);
 
     /**
      * Unregisters processor for provided {@link AnnotatedType}.
      *
      * @param annotatedType Type of processor.
      */
-    void unregisterTypeProcessor(AnnotatedType annotatedType);
+    void unregister(AnnotatedType annotatedType);
 }

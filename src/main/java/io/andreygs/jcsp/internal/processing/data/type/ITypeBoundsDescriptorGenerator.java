@@ -25,18 +25,39 @@
 
 package io.andreygs.jcsp.internal.processing.data.type;
 
-import io.andreygs.jcsp.internal.processing.data.type.dto.ITypeBoundsDescriptor;
-
-import java.lang.reflect.AnnotatedWildcardType;
 import java.lang.reflect.TypeVariable;
+import java.lang.reflect.WildcardType;
 import java.util.Optional;
 
 /**
- * TODO: place description here
+ * Generator of generic parameter type bounds descriptor.
+ *
+ * @apiNote
+ * Immutable. Thread-safe.
+ *
+ * @implSpec
+ * Invariants must be enforced at construction time (either via validation or constant values).
+ * <p>
+ * <b>Implementations MUST adhere to the immutability and self-validation contract.</b>
  */
 public interface ITypeBoundsDescriptorGenerator
 {
-    Optional<ITypeBoundsDescriptor> resolveTypeBoundsDescriptor(TypeVariable<? extends Class<?>> typeVariable);
+    /**
+     * Generates descriptor of generic parameter type bounds.
+     *
+     * @param typeVariable Generic type parameter type variable which bounds need to be generated.
+     * @return optional of type bounds descriptor or an empty optional if type parameter is unbound (upper-bounded with
+     * Object).
+     * @throws IllegalArgumentException if bound type is not supported or if bound category is unknown.
+     */
+    Optional<ITypeBoundsDescriptor> generate(TypeVariable<? extends Class<?>> typeVariable);
 
-    Optional<ITypeBoundsDescriptor> resolveTypeBoundsDescriptor(AnnotatedWildcardType annotatedWildcardType);
+    /**
+     * Generates descriptor of wildcard bound.
+     *
+     * @param wildcardType Wildcard which bounds need to be generated.
+     * @return optional of type bounds descriptor or an empty optional if type wildcard is unbound.
+     * @throws IllegalArgumentException if bound type is not supported or if bound category is unknown.
+     */
+    Optional<ITypeBoundsDescriptor> generate(WildcardType wildcardType);
 }

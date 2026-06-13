@@ -31,7 +31,10 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * TODO: place description here
+ * Registry for type processors.
+ * <p>
+ * Registered processors are stored in {@link ConcurrentHashMap} in form of
+ * {@link AnnotatedType} - processor pairs.
  */
 public class CspTypeProcessorRegistry<P>
     implements ICspTypeProcessorRegistry<P>
@@ -39,19 +42,19 @@ public class CspTypeProcessorRegistry<P>
     private final Map<AnnotatedType, P> typeProcessors = new ConcurrentHashMap<>();
 
     @Override
-    public void registerTypeProcessor(AnnotatedType annotatedType, P typeProcessor)
+    public void register(AnnotatedType annotatedType, P typeProcessor)
     {
         typeProcessors.put(annotatedType, typeProcessor);
     }
 
     @Override
-    public Optional<P> findTypeProcessor(AnnotatedType annotatedType)
+    public Optional<P> find(AnnotatedType annotatedType)
     {
         return Optional.ofNullable(typeProcessors.get(annotatedType));
     }
 
     @Override
-    public void unregisterTypeProcessor(AnnotatedType annotatedType)
+    public void unregister(AnnotatedType annotatedType)
     {
         typeProcessors.remove(annotatedType);
     }

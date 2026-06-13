@@ -25,10 +25,9 @@
 
 package io.andreygs.jcsp.internal.processing.data.clazz;
 
-import io.andreygs.jcsp.internal.processing.data.clazz.dto.ICspClassProcessorDescriptor;
-import io.andreygs.jcsp.internal.processing.data.clazz.dto.factory.ICspClassProcessorDescriptorFactory;
+import io.andreygs.jcsp.internal.processing.data.clazz.factory.ICspClassProcessorDescriptorFactory;
 import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptorGenerator;
-import io.andreygs.jcsp.internal.processing.data.type.dto.ITypeVariableDescriptor;
+import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptor;
 
 import java.lang.reflect.TypeVariable;
 import java.util.HashSet;
@@ -36,7 +35,13 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * TODO: place description here
+ * Generator of class processor descriptor.
+ * <p>
+ * Can generate descriptor for any class processor and class pairs except if class is an array.
+ * <p>
+ * Uses {@link ICspClassProcessorDescriptorFactory} to create {@link ICspClassProcessorDescriptor} instance.
+ * Also uses {@link ITypeVariableDescriptorGenerator} to generate {@link ITypeVariableDescriptor} instances if class
+ * is generic.
  */
 public class CspClassProcessorDescriptorGenerator implements ICspClassProcessorDescriptorGenerator
 {
@@ -50,23 +55,31 @@ public class CspClassProcessorDescriptorGenerator implements ICspClassProcessorD
         this.typeVariableDescriptorGenerator = Objects.requireNonNull(typeVariableDescriptorGenerator);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @throws IllegalArgumentException if clazz is an array or if {@link ITypeVariableDescriptorGenerator} throws it.
+     */
     @Override
     public <P> ICspClassProcessorDescriptor<P> generate(P classProcessor, Class<?> clazz)
     {
+        if (clazz.isArray())
+        {
+            throw new IllegalArgumentException(Messages.CspClassProcessorDescriptorGenerator_Arrays_not_supported);
+        }
         TypeVariable<? extends Class<?>>[] typeVariables = clazz.getTypeParameters();
         if (typeVariables.length == 0)
         {
-            return cspClassProcessorDescriptorFactory.create(classProcessor, Set.of());
+            return cspClassProcessorDescriptorFactory.create(Objects.requireNonNull(classProcessor), Set.of());
         }
-
         Set<ITypeVariableDescriptor> typeVariableDescriptors = new HashSet<>();
         for (TypeVariable<? extends Class<?>> typeVariable : typeVariables)
         {
             ITypeVariableDescriptor typeVariableDescriptor =
-                typeVariableDescriptorGenerator.generateTypeVariableDescriptor(typeVariable);
+                typeVariableDescriptorGenerator.generate(typeVariable);
             typeVariableDescriptors.add(typeVariableDescriptor);
         }
-        return
-            cspClassProcessorDescriptorFactory.create(classProcessor, typeVariableDescriptors);
+        return cspClassProcessorDescriptorFactory.create(Objects.requireNonNull(classProcessor),
+            typeVariableDescriptors);
     }
 }

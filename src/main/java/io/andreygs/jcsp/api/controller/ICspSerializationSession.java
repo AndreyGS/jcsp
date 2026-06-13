@@ -25,8 +25,10 @@
 
 package io.andreygs.jcsp.api.controller;
 
-import io.andreygs.jcsp.api.processing.buffer.dto.ISerializationBufferConfig;
-import io.andreygs.jcsp.api.processing.buffer.dto.factory.ISerializationBufferConfigFactory;
+import io.andreygs.jcsp.api.processing.buffer.ISerializationBufferConfig;
+import io.andreygs.jcsp.api.processing.buffer.factory.ISerializationBufferConfigFactory;
+import io.andreygs.jcsp.api.processing.data.ICspDataSerializationProcessor;
+import io.andreygs.jcsp.api.processing.data.type.CspTypeToken;
 import io.andreygs.jcsp.api.protocol.message.ICspDataMessage;
 import io.andreygs.jcsp.api.protocol.message.config.ICspDataMessageConfigExtension;
 import io.andreygs.jcsp.api.protocol.ICspVersionable;
@@ -36,6 +38,8 @@ import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcesso
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.AnnotatedType;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * TODO: place description here
@@ -44,6 +48,70 @@ import java.lang.reflect.AnnotatedType;
  */
 public interface ICspSerializationSession
 {
+    /**
+     * Registers processor for ordinary and generic (non-primitive, non-array) type for later use.
+     * <p>
+     * If class processor already have been registered, then new processor will override previous registration.
+     * But if you want to have both processors (by one for different cases, for example) you should create new registry,
+     * fill it with all necessary processors including current one and use different registries in requisite scenarios.
+     * <p>
+     * Don't allowed to register processor for primitive, array, {@link String}, {@link Collection} and {@link Map}
+     * classes - they are all processed by internal mechanisms.
+     * <p>
+     * For generics there are also some exclusions: generic don't allowed to have any parameter with bound as
+     * parametrized class.
+     * <p>
+     * Examples of allowed generics:
+     * <ul>
+     *     <li>{@code class Example<T, V>}</li>
+     *     <li>{@code class Example<T extends Number>}</li>
+     *     <li>{@code class Example<T, V extends T>}</li>
+     *     <li>{@code class Example<T extends Number & Runnable>}</li>
+     * </ul>
+     * Examples of not supported generics:
+     * <ul>
+     *     <li>{@code class Example<T extends List>}</li>
+     *     <li>{@code class Example<T, V extends List>}</li>
+     *     <li>{@code class Example<T extends List<Integer>>}</li>
+     *     <li>{@code class Example<T extends List<Integer> & Runnable}</li>
+     *     <li>{@code class Example<T extends List<? extends Number>>}</li>
+     * </ul>
+     * <p>
+     * For serialization of not supported generics some wrapping class with separate class processor should be used.
+     * Example:
+     * <pre>
+     *     // file Example.java
+     *     public class Example&ltT extends List&ltInteger>>
+     *     {
+     *         public T list;
+     *     }
+     *
+     *     // file WrapperExample.java
+     *     public class WrapperExample
+     *     {
+     *         public Example&ltArrayList&ltInteger>> example;
+     *     }
+     *
+     *     // file WrapperExampleClassProcessor
+     *     public class WrapperExampleClassProcessor
+     *         implements ICspDataSerializationProcessor&ltWrapperExample>
+     *     {
+     *         public void serialize(WrapperExample&lt?> value, ICspSerializationProcessor processor)
+     *         {
+     *              // it can be serialized with using of {@link ICspDataSerializationProcessor#serialize(Collection, Class)}
+     *              processor.serialize(value.example.list, Integer.class);
+     *              // or it can be done like that:
+     *              // processor.serialize(value.example.list, new CspTypeToken&ltArrayList&ltInteger>>);
+     *              // but using of {@link CspTypeToken} is justified only when there is no other
+     *              // {@link ICspDataSerializationProcessor} methods to handle field serialization
+     *         }
+     *     }
+     * </pre>
+     *
+     * @param clazz Class that processor should handle.
+     * @param classProcessor Class processor that will be used in serialization or deserialization process.
+     * @throws IllegalArgumentException if not allowed to register class processor for this class. See the description.
+     */
     <T> void registerClassProcessor(Class<T> clazz, ICspClassSerializationProcessor<T> classProcessor);
 
     void unregisterClassProcessor(Class<?> clazz);

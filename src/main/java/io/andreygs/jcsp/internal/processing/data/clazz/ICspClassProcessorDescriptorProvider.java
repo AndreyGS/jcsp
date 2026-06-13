@@ -25,8 +25,6 @@
 
 package io.andreygs.jcsp.internal.processing.data.clazz;
 
-import io.andreygs.jcsp.internal.processing.data.clazz.dto.ICspClassProcessorDescriptor;
-
 /**
  * TODO: place description here
  */

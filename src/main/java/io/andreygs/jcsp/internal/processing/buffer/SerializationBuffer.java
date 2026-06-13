@@ -27,7 +27,7 @@ package io.andreygs.jcsp.internal.processing.buffer;
 
 import io.andreygs.jcsp.api.processing.buffer.AllocationType;
 import io.andreygs.jcsp.api.processing.buffer.IBufferResizeStrategy;
-import io.andreygs.jcsp.api.processing.buffer.dto.ISerializationBufferConfig;
+import io.andreygs.jcsp.api.processing.buffer.ISerializationBufferConfig;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

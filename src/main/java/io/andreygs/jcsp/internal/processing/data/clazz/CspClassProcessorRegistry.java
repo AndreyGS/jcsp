@@ -25,8 +25,6 @@
 
 package io.andreygs.jcsp.internal.processing.data.clazz;
 
-import io.andreygs.jcsp.internal.processing.data.clazz.dto.ICspClassProcessorDescriptor;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
@@ -34,7 +32,12 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * TODO: place description here
+ * Registry for class processors.
+ * <p>
+ * Registered processors are stored in {@link ConcurrentHashMap} in form of
+ * {@link Class} - {@link ICspClassProcessorDescriptor} pairs.
+ * <p>
+ * Uses {@link ICspClassProcessorDescriptorGenerator} to generate {@link ICspClassProcessorDescriptor} instance.
  */
 public class CspClassProcessorRegistry<P>
     implements ICspClassProcessorRegistry<P>
@@ -48,15 +51,15 @@ public class CspClassProcessorRegistry<P>
     }
 
     @Override
-    public void registerClassProcessor(Class<?> clazz, P classProcessor)
+    public void register(Class<?> clazz, P classProcessor)
     {
         if (clazz.isPrimitive() || clazz.isArray())
         {
-            throw new IllegalArgumentException(Messages.CspProcessorRegistry_Illegal_type_group);
+            throw new IllegalArgumentException(Messages.CspClassProcessorRegistry_Illegal_type_group);
         }
         if (clazz == String.class || clazz == Collection.class || clazz == Map.class)
         {
-            throw new IllegalArgumentException(Messages.CspProcessorRegistry_Illegal_class);
+            throw new IllegalArgumentException(Messages.CspClassProcessorRegistry_Illegal_class);
         }
         ICspClassProcessorDescriptor<P> newDescriptor =
             cspClassProcessorDescriptorGenerator.generate(Objects.requireNonNull(classProcessor), clazz);
@@ -70,7 +73,7 @@ public class CspClassProcessorRegistry<P>
     }
 
     @Override
-    public void unregisterClassProcessor(Class<?> clazz)
+    public void unregister(Class<?> clazz)
     {
         classProcessorDescriptors.remove(clazz);
     }

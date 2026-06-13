@@ -25,19 +25,21 @@
 
 package io.andreygs.jcsp.internal.processing.data.clazz;
 
-import io.andreygs.jcsp.api.processing.data.type.CspTypeToken;
-import io.andreygs.jcsp.api.processing.data.ICspDataSerializationProcessor;
-import io.andreygs.jcsp.internal.processing.data.clazz.dto.ICspClassProcessorDescriptor;
-
-import java.lang.reflect.GenericArrayType;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.TypeVariable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 
 /**
- * TODO: place description here
+ * Registry for class processors.
+ * <p>
+ * It registers class processors in form of {@link ICspClassProcessorDescriptor}.
+ *
+ * @apiNote
+ * Thread-safe.
+ *
+ * @param <P> type of class processor:
+ * {@link io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor} or
+ * {@link io.andreygs.jcsp.api.processing.data.clazz.ICspClassDeserializationProcessor}
  */
 public interface ICspClassProcessorRegistry<P>
 {
@@ -48,66 +50,14 @@ public interface ICspClassProcessorRegistry<P>
      * But if you want to have both processors (by one for different cases, for example) you should create new registry,
      * fill it with all necessary processors including current one and use different registries in requisite scenarios.
      * <p>
-     * Don't allowed to register processor for primitive, array, enum, or for {@link String}, {@link Collection} and
-     * {@link Map} classes - they are all processed by internal mechanisms.
-     * <p>
-     * For generics there are also some exclusions: if generic has at least one type variable which has bounds with type
-     * {@link GenericArrayType} or {@link ParameterizedType}. That is - only {@link Class} or {@link TypeVariable} are
-     * allowed as generic type variable bound.
-     * <p>
-     * Examples of allowed generics:
-     * <ul>
-     *     <li>{@code class Example<T, V>}</li>
-     *     <li>{@code class Example<T extends Number>}</li>
-     *     <li>{@code class Example<T, V extends T>}</li>
-     *     <li>{@code class Example<T extends int[]>}</li>
-     *     <li>{@code class Example<T extends Number & Runnable>}</li>
-     * </ul>
-     * Examples of not supported generics:
-     * <ul>
-     *     <li>{@code class Example<T extends List>}</li>
-     *     <li>{@code class Example<T extends List<Integer>>}</li>
-     *     <li>{@code class Example<T, V extends T[]>}</li>
-     *     <li>{@code class Example<T extends List<Integer> & Runnable}</li>
-     *     <li>{@code class Example<T extends List<? extends Number>>}</li>
-     * </ul>
-     * <p>
-     * For serialization of not supported generics some wrapping class with separate class processor should be used.
-     * Example:
-     * <pre>
-     *     // file Example.java
-     *     public class Example&ltT extends List&ltInteger>>
-     *     {
-     *         public T list;
-     *     }
-     *
-     *     // file WrapperExample.java
-     *     public class WrapperExample
-     *     {
-     *         public Example&ltArrayList&ltInteger>> example;
-     *     }
-     *
-     *     // file WrapperExampleClassProcessor
-     *     public class WrapperExampleClassProcessor
-     *         implements ICspDataSerializationProcessor&ltWrapperExample>
-     *     {
-     *         public void serialize(WrapperExample&lt?> value, ICspSerializationProcessor processor)
-     *         {
-     *              // it can be serialized with using of {@link ICspDataSerializationProcessor#serialize(Collection, Class)}
-     *              processor.serialize(value.example.list, Integer.class);
-     *              // or it can be done like that:
-     *              // processor.serialize(value.example.list, new CspTypeToken&ltArrayList&ltInteger>>);
-     *              // but using of {@link CspTypeToken} is justified only when there is no other
-     *              // {@link ICspDataSerializationProcessor} methods to handle field serialization
-     *         }
-     *     }
-     * </pre>
+     * Don't allowed to register processor for primitive, array, {@link String}, {@link Collection} and {@link Map}
+     * classes - they are all processed by internal mechanisms.
      *
      * @param clazz Class that processor should handle.
      * @param classProcessor Class processor that will be used in serialization or deserialization process.
-     * @throws IllegalArgumentException if not allowed to register class processor for this class. See the description.
+     * @throws IllegalArgumentException class processor cannot be registered.
      */
-    void registerClassProcessor(Class<?> clazz, P classProcessor);
+    void register(Class<?> clazz, P classProcessor);
 
     /**
      * Resolves processor descriptor for chosen class.
@@ -122,5 +72,5 @@ public interface ICspClassProcessorRegistry<P>
      *
      * @param clazz Processor class.
      */
-    void unregisterClassProcessor(Class<?> clazz);
+    void unregister(Class<?> clazz);
 }

@@ -26,8 +26,8 @@
 package io.andreygs.jcsp.internal.controller;
 
 import io.andreygs.jcsp.api.controller.ICspSerializationSession;
-import io.andreygs.jcsp.api.processing.buffer.dto.ISerializationBufferConfig;
-import io.andreygs.jcsp.api.processing.buffer.dto.factory.ISerializationBufferConfigFactory;
+import io.andreygs.jcsp.api.processing.buffer.ISerializationBufferConfig;
+import io.andreygs.jcsp.api.processing.buffer.factory.ISerializationBufferConfigFactory;
 import io.andreygs.jcsp.api.protocol.message.ICspDataMessage;
 import io.andreygs.jcsp.api.protocol.message.config.ICspDataMessageConfigExtension;
 import io.andreygs.jcsp.api.protocol.ICspVersionable;
@@ -76,19 +76,19 @@ public class CspSerializationSession implements ICspSerializationSession
     @Override
     public <T> void registerClassProcessor(Class<T> clazz, ICspClassSerializationProcessor<T> classProcessor)
     {
-        classProcessorRegistry.registerClassProcessor(clazz, classProcessor);
+        classProcessorRegistry.register(clazz, classProcessor);
     }
 
     @Override
     public void unregisterClassProcessor(Class<?> clazz)
     {
-        classProcessorRegistry.unregisterClassProcessor(clazz);
+        classProcessorRegistry.unregister(clazz);
     }
 
     @Override
     public void unregisterTypeProcessor(AnnotatedType annotatedType)
     {
-        typeProcessorRegistry.unregisterTypeProcessor(annotatedType);
+        typeProcessorRegistry.unregister(annotatedType);
     }
 
     @Override

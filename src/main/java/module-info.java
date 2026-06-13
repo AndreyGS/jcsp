@@ -31,8 +31,7 @@ module io.andreygs.jcsp.base {
     exports io.andreygs.jcsp.api.controller.factory;
     exports io.andreygs.jcsp.api.exception;
     exports io.andreygs.jcsp.api.processing.buffer;
-    exports io.andreygs.jcsp.api.processing.buffer.dto;
-    exports io.andreygs.jcsp.api.processing.buffer.dto.factory;
+    exports io.andreygs.jcsp.api.processing.buffer.factory;
     exports io.andreygs.jcsp.api.processing.data;
     exports io.andreygs.jcsp.api.processing.data.clazz;
     exports io.andreygs.jcsp.api.processing.data.type;

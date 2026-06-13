@@ -27,8 +27,6 @@ package io.andreygs.jcsp.internal.processing.data.type.factory;
 
 import io.andreygs.jcsp.internal.processing.data.type.ITypeBoundsDescriptorGenerator;
 import io.andreygs.jcsp.internal.processing.data.type.TypeBoundsDescriptorGenerator;
-import io.andreygs.jcsp.internal.processing.data.type.dto.factory.ITypeBoundsDescriptorFactory;
-import io.andreygs.jcsp.internal.processing.data.type.dto.factory.TypeBoundsDescriptorFactory;
 
 /**
  * TODO: place description here

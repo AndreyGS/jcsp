@@ -29,7 +29,6 @@ import io.andreygs.jcsp.internal.annotation.utils.CspAnnotationUtils;
 import io.andreygs.jcsp.api.exception.CspRuntimeException;
 import io.andreygs.jcsp.api.protocol.CspStatus;
 import io.andreygs.jcsp.internal.processing.data.type.factory.ICspTypeProcessorFactory;
-import io.andreygs.jcsp.internal.processing.data.type.factory.Messages;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.AnnotatedArrayType;
@@ -60,7 +59,7 @@ public class CspTypeProcessorGenerator<P> implements ICspTypeProcessorGenerator<
     }
 
     @Override
-    public P generateTypeProcessor(AnnotatedType annotatedType)
+    public P generate(AnnotatedType annotatedType)
     {
         return createProcessorSwitch(annotatedType, true);
     }

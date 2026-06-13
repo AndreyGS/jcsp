@@ -25,12 +25,29 @@
 
 package io.andreygs.jcsp.internal.processing.data.clazz;
 
-import io.andreygs.jcsp.internal.processing.data.clazz.dto.ICspClassProcessorDescriptor;
-
 /**
- * TODO: place description here
+ * Generator of class processor descriptor.
+ *
+ * @apiNote
+ * Immutable. Thread-safe.
+ *
+ * @implSpec
+ * Invariants must be enforced at construction time (either via validation or constant values).
+ * <p>
+ * <b>Implementations MUST adhere to the immutability and self-validation contract.</b>
  */
 public interface ICspClassProcessorDescriptorGenerator
 {
+    /**
+     * Generates class processor descriptor.
+     *
+     * @param classProcessor Class processor for descriptor.
+     * @param clazz Class for which class processor is.
+     * @return descriptor of class processor.
+     * @param <P> type of class processor:
+     * {@link io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor} or
+     * {@link io.andreygs.jcsp.api.processing.data.clazz.ICspClassDeserializationProcessor}
+     * @throws IllegalArgumentException if clazz is not supported for descriptor generating.
+     */
     <P> ICspClassProcessorDescriptor<P> generate(P classProcessor, Class<?> clazz);
 }

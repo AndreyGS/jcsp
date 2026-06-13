@@ -26,32 +26,32 @@
 package io.andreygs.jcsp.internal.processing.data.clazz;
 
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.internal.processing.data.clazz.dto.ICspClassProcessorDescriptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
+import java.util.Collection;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 /**
- * TODO: place description here
+ * Unit-tests for {@link CspClassProcessorRegistry}.
  */
 @ExtendWith(MockitoExtension.class)
 public class CspClassProcessorRegistryTests
 {
     @Mock
     private ICspClassProcessorDescriptorGenerator cspClassProcessorDescriptorGenerator;
-
     @Mock
     private ICspClassProcessorDescriptor<ICspClassSerializationProcessor<?>> classProcessorDescriptor;
-
     @Mock
+    private ICspClassSerializationProcessor<TestClass> classProcessor;
+
     private ICspClassProcessorRegistry<ICspClassSerializationProcessor<?>> registry;
 
     @BeforeEach
@@ -73,15 +73,75 @@ public class CspClassProcessorRegistryTests
     {
         assertThat(registry.resolveClassProcessorDescriptor(TestClass.class)).isEmpty();
 
-        ICspClassSerializationProcessor<TestClass> classProcessor =  (value, dataProcessor) -> {};
         when(cspClassProcessorDescriptorGenerator.<ICspClassSerializationProcessor<?>> generate(classProcessor, TestClass.class))
             .thenReturn(classProcessorDescriptor);
-        registry.registerClassProcessor(TestClass.class, classProcessor);
+        registry.register(TestClass.class, classProcessor);
 
-        assertThat(registry.resolveClassProcessorDescriptor(TestClass.class))
-            .isPresent()
-            .flatMap(descriptor -> Optional.of(descriptor.getClassProcessor()))
-            .get().isEqualTo(classProcessor);
+        assertThat(registry.resolveClassProcessorDescriptor(TestClass.class)).contains(classProcessorDescriptor);
+    }
+
+    @Test
+    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
+    public void testRegisterClassProcessorNullClassProcessor()
+    {
+        assertThatThrownBy(() -> registry.register(TestClass.class, null))
+            .isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
+    public void testRegisterClassProcessorNullClass()
+    {
+        assertThatThrownBy(() -> registry.register(null, classProcessor))
+            .isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    public void testRegisterClassProcessorNotAllowedClass()
+    {
+        assertThatThrownBy(() -> registry.register(int.class, classProcessor))
+            .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> registry.register(Test[].class, classProcessor))
+            .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> registry.register(String.class, classProcessor))
+            .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> registry.register(Collection.class, classProcessor))
+            .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> registry.register(Map.class, classProcessor))
+            .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void testResolveClassProcessorDescriptor()
+    {
+        testRegisterClassProcessor();
+    }
+
+    @Test
+    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
+    public void testResolveClassProcessorDescriptorNull()
+    {
+        assertThatThrownBy(() -> registry.resolveClassProcessorDescriptor(null))
+            .isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    public void testUnregister()
+    {
+        when(cspClassProcessorDescriptorGenerator.<ICspClassSerializationProcessor<?>> generate(classProcessor, TestClass.class))
+            .thenReturn(classProcessorDescriptor);
+        registry.register(TestClass.class, classProcessor);
+        registry.unregister(TestClass.class);
+
+        assertThat(registry.resolveClassProcessorDescriptor(TestClass.class)).isEmpty();
+    }
+
+    @Test
+    @SuppressWarnings("DataFlowIssue" /* "Intentional contract nullability violation for test" */)
+    public void testUnregisterNullClass()
+    {
+        assertThatThrownBy(() -> registry.unregister(null))
+            .isInstanceOf(NullPointerException.class);
     }
 
     private static class TestClass

@@ -33,6 +33,15 @@ import java.lang.annotation.Target;
 
 /**
  * Annotation indicates that this field is involved in the serialization process in the specified order starting with 0.
+ * <p>
+ * Fields with next types forbidden to be marked by this annotation:
+ * <ul>
+ *     <li>Generics with unbounded wildcard parameter type arguments.</li>
+ *     <li>Generics with bounded wildcard parameter, where bound is an array or generic.</li>
+ * </ul>
+ * If one need to serialize class with field forbidden for this annotation it must have manually supplied class
+ * processor (not generated one by {@link CspCreateProcessor}) or have a wrapper class which is also must have
+ * manually supplied class processor.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

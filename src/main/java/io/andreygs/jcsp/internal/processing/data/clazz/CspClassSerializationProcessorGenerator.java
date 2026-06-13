@@ -28,7 +28,6 @@ package io.andreygs.jcsp.internal.processing.data.clazz;
 import io.andreygs.jcsp.api.processing.data.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
 import io.andreygs.jcsp.internal.processing.data.ICspExtendedDataSerializationProcessor;
-import io.andreygs.jcsp.internal.processing.data.Messages;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorProvider;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 
