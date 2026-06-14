@@ -28,19 +28,28 @@ package io.andreygs.jcsp.internal.processing.data.type;
 import io.andreygs.jcsp.internal.processing.data.type.factory.ITypeVariableDescriptorFactory;
 
 import java.lang.reflect.TypeVariable;
-import java.lang.reflect.WildcardType;
 import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.Optional;
 
 /**
- * TODO: place description here
+ * Generator of type variable descriptor.
+ * <p>
+ * Uses {@link ITypeVariableDescriptorFactory} to create {@link ITypeVariableDescriptor} instance.
+ * Also uses {@link ITypeBoundsDescriptorGenerator} to create {@link ITypeBoundsDescriptor} instance if type variable
+ * has bounds.
  */
 public class TypeVariableDescriptorGenerator implements ITypeVariableDescriptorGenerator
 {
     private final ITypeVariableDescriptorFactory typeVariableDescriptorFactory;
     private final ITypeBoundsDescriptorGenerator typeBoundsDescriptorGenerator;
 
+    /**
+     * Constructs an instance.
+     *
+     * @param typeVariableDescriptorFactory Factory for creating type variable descriptor.
+     * @param typeBoundsDescriptorGenerator Generator for creating type variable bounds descriptor.
+     */
     public TypeVariableDescriptorGenerator(ITypeVariableDescriptorFactory typeVariableDescriptorFactory,
         ITypeBoundsDescriptorGenerator typeBoundsDescriptorGenerator)
     {

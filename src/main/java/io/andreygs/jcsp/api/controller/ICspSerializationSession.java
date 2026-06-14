@@ -39,6 +39,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.AnnotatedType;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -114,9 +115,36 @@ public interface ICspSerializationSession
      */
     <T> void registerClassProcessor(Class<T> clazz, ICspClassSerializationProcessor<T> classProcessor);
 
-    void unregisterClassProcessor(Class<?> clazz);
-
-    void unregisterTypeProcessor(AnnotatedType annotatedType);
+    /**
+     * Unregisters class instance serialization processor.
+     * <p>
+     * Should be used if one need to free memory by removing dangling references of unplugged classes, if session
+     * recreation for some reason not applicable.
+     * <p>
+     * Associated annotated types are those types that were used in non-auto-generated class processors.
+     * For example:
+     * <pre>
+     *     public class ExampleClassProcessor
+     *     {
+     *         private static final AnnotatedType LIST_MAPS_ANNOTATED_TYPE =
+     *             new CspTypeToken&ltList&ltMap&ltString, String>>>().getAnnotatedType();
+     *
+     *         public void serialize(Example value, ICspSerializationProcessor processor)
+     *         {
+     *              processor.serializeInt(value.getCounter());
+     *              processor.serialize(value.getListMapsAnnotatedType(), LIST_MAPS_ANNOTATED_TYPE);
+     *         }
+     *     }
+     * </pre>
+     * Here LIST_MAPS_ANNOTATED_TYPE is annotated type that is using to process value.getListMapsAnnotatedType().
+     * If processor for Example.class will be unregistered, then previously internally created and cached processor for
+     * LIST_MAPS_ANNOTATED_TYPE is also no longer need to be hold.
+     *
+     * @param clazz Class which instance serialization processor need to unregister.
+     * @param associatedAnnotatedTypes List of {@link AnnotatedType} that were used in non-auto-generated class
+     *                                 processors.
+     */
+    void unregisterClassProcessor(Class<?> clazz, List<AnnotatedType> associatedAnnotatedTypes);
 
     void setDefaultBufferConfig(ISerializationBufferConfig config);
 

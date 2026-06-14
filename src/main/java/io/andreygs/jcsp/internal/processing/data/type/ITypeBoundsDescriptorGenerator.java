@@ -30,7 +30,7 @@ import java.lang.reflect.WildcardType;
 import java.util.Optional;
 
 /**
- * Generator of generic parameter type bounds descriptor.
+ * Generator of type variable bounds descriptor.
  *
  * @apiNote
  * Immutable. Thread-safe.
@@ -43,10 +43,10 @@ import java.util.Optional;
 public interface ITypeBoundsDescriptorGenerator
 {
     /**
-     * Generates descriptor of generic parameter type bounds.
+     * Generates descriptor of type variable bounds.
      *
-     * @param typeVariable Generic type parameter type variable which bounds need to be generated.
-     * @return optional of type bounds descriptor or an empty optional if type parameter is unbound (upper-bounded with
+     * @param typeVariable Type variable which bounds need to be generated.
+     * @return optional of type bounds descriptor or an empty optional if type variable is unbound (upper-bounded with
      * Object).
      * @throws IllegalArgumentException if bound type is not supported or if bound category is unknown.
      */

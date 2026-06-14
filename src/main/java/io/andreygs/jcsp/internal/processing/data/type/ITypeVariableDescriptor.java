@@ -28,11 +28,29 @@ package io.andreygs.jcsp.internal.processing.data.type;
 import java.util.Optional;
 
 /**
- * TODO: place description here
+ * Generic type variable descriptor.
+ *
+ * @apiNote
+ * Immutable. Thread-safe.
+ *
+ * @implSpec
+ * Invariants must be enforced at construction time (either via validation or constant values).
+ * <p>
+ * <b>Implementations MUST adhere to the immutability and self-validation contract.</b>
  */
 public interface ITypeVariableDescriptor
 {
+    /**
+     * Gets class type parameter name to which this descriptor is related.
+     *
+     * @return name of type parameter.
+     */
     String getName();
 
+    /**
+     * Gets this type bounds descriptors if it has any bounds.
+     *
+     * @return optional of type bounds descriptor or empty optional if type parameter is unbound.
+     */
     Optional<ITypeBoundsDescriptor> getTypeBoundsDescriptors();
 }

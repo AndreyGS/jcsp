@@ -41,6 +41,7 @@ import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProce
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.AnnotatedType;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -80,15 +81,9 @@ public class CspSerializationSession implements ICspSerializationSession
     }
 
     @Override
-    public void unregisterClassProcessor(Class<?> clazz)
+    public void unregisterClassProcessor(Class<?> clazz, List<AnnotatedType> associatedAnnotatedTypes)
     {
         classProcessorRegistry.unregister(clazz);
-    }
-
-    @Override
-    public void unregisterTypeProcessor(AnnotatedType annotatedType)
-    {
-        typeProcessorRegistry.unregister(annotatedType);
     }
 
     @Override

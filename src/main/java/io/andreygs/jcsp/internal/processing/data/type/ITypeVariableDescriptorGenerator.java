@@ -28,15 +28,24 @@ package io.andreygs.jcsp.internal.processing.data.type;
 import java.lang.reflect.TypeVariable;
 
 /**
- * TODO: place description here
+ * Generator of type variable descriptor.
+ *
+ * @apiNote
+ * Immutable. Thread-safe.
+ *
+ * @implSpec
+ * Invariants must be enforced at construction time (either via validation or constant values).
+ * <p>
+ * <b>Implementations MUST adhere to the immutability and self-validation contract.</b>
  */
 public interface ITypeVariableDescriptorGenerator
 {
     /**
+     * Generates type variable descriptor.
      *
-     * @param typeVariable
-     * @return
-     * @throws IllegalArgumentException if descriptor cannot be generated.
+     * @param typeVariable Type variable which descriptor must be generated.
+     * @return generated descriptor.
+     * @throws IllegalArgumentException if descriptor cannot be generated for this type variable.
      */
     ITypeVariableDescriptor generate(TypeVariable<? extends Class<?>> typeVariable);
 }

@@ -25,41 +25,44 @@
 
 package io.andreygs.jcsp.internal.processing.data.type;
 
-import org.jetbrains.annotations.Nullable;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Objects;
-import java.util.Optional;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
- * Generic type variable descriptor defined by its constructor arguments.
+ * Unit-tests for {@link TypeVariableDescriptor}.
  */
-public class TypeVariableDescriptor
-    implements ITypeVariableDescriptor
+@ExtendWith(MockitoExtension.class)
+public class TypeVariableDescriptorTests
 {
-    private final String name;
-    private final @Nullable ITypeBoundsDescriptor typeBoundsDescriptor;
+    @Mock
+    private ITypeBoundsDescriptor typeBoundsDescriptor;
 
-    /**
-     * Constructs an instance.
-     *
-     * @param name name of class type parameter to which this descriptor is related.
-     * @param typeBoundsDescriptor type bounds descriptors. Null if type is unbound.
-     */
-    public TypeVariableDescriptor(String name,  @Nullable ITypeBoundsDescriptor typeBoundsDescriptor)
+    @Test
+    public void testConstructor()
     {
-        this.name = Objects.requireNonNull(name);
-        this.typeBoundsDescriptor = typeBoundsDescriptor;
+        ITypeVariableDescriptor descriptor = new TypeVariableDescriptor("T", typeBoundsDescriptor);
+        assertThat(descriptor.getName()).isEqualTo("T");
+        assertThat(descriptor.getTypeBoundsDescriptors()).contains(typeBoundsDescriptor);
     }
 
-    @Override
-    public String getName()
+    @Test
+    @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
+    public void testConstructorNullTypeName()
     {
-        return name;
+        assertThatThrownBy(() -> new TypeVariableDescriptor(null, typeBoundsDescriptor))
+            .isInstanceOf(NullPointerException.class);
     }
 
-    @Override
-    public Optional<ITypeBoundsDescriptor> getTypeBoundsDescriptors()
+    @Test
+    public void testConstructorNullBoundsDescriptor()
     {
-        return Optional.ofNullable(typeBoundsDescriptor);
+        ITypeVariableDescriptor descriptor = new TypeVariableDescriptor("T", null);
+        assertThat(descriptor.getName()).isEqualTo("T");
+        assertThat(descriptor.getTypeBoundsDescriptors()).isEmpty();
     }
 }

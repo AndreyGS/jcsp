@@ -32,7 +32,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Generic parameter type bounds descriptor.
+ * Generic variable type bounds descriptor.
  *
  * @apiNote
  * Immutable. Thread-safe.

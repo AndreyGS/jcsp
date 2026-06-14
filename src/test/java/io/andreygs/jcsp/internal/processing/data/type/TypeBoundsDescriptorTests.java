@@ -35,7 +35,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
- * TODO: place description here
+ * Unit-tests for {@link TypeBoundsDescriptor}.
  */
 public class TypeBoundsDescriptorTests
 {

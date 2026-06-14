@@ -50,9 +50,13 @@ import java.lang.reflect.AnnotatedType;
  *     public class AnotherClassExampleClassProcessor
  *         implements ICspDataSerializationProcessor&ltAnotherClassExample>
  *     {
+ *         private static final AnnotatedType LIST_ANNOTATED_TYPE =
+ *             new CspTypeToken&ltList&lt@CspReference GenericExample&ltMap&lt@CspString("UTF-16BE") String, Integer>>>>
+ *                 .getAnnotatedType();
+ *
  *         public void serialize(AnotherClassExample value, ICspSerializationProcessor processor)
  *         {
- *              processor.serialize(value.list, new CspTypeToken&ltList&lt@CspReference GenericExample&ltMap&lt@CspString("UTF-16BE") String, Integer>>>>);
+ *              processor.serialize(value.list, LIST_ANNOTATED_TYPE);
  *         }
  *     }
  *
@@ -60,16 +64,19 @@ import java.lang.reflect.AnnotatedType;
  *     public class GenericExampleClassProcessor&ltT>
  *         implements ICspDataSerializationProcessor&ltGenericExample&lt?>>
  *     {
+ *         private static final AnnotatedTYpe SOME_OBJECT_ANNOTATED_TYPE = new CspTypeToken&ltT>().getAnnotatedType();
+ *
  *         public void serialize(GenericExample&lt?> value, ICspSerializationProcessor processor)
  *         {
  *              processor.serialize(value.someInt);
- *              processor.serialize(value.someObject, new CspTypeToken&ltT>);
+ *              processor.serialize(value.someObject, SOME_OBJECT_ANNOTATED_TYPE);
  *         }
  *     }
  * </pre>
  * In provided example AnotherClassExampleClassProcessor is using to serialize AnotherClassExample and using
- * {@link CspTypeToken} to provide to processor definition of "list" field type and GenericExampleClassProcessor
- * is using {@link CspTypeToken} to provide to  processor definition os "someObject" field type.
+ * {@link CspTypeToken} to provide to processor {@link AnnotatedType} of "list" field type and
+ * GenericExampleClassProcessor is using {@link CspTypeToken} to provide to processor {@link AnnotatedType} of
+ * "someObject" field type.
  *
  * @param <T> Is a source of {@link AnnotatedType}, that is gets by {@link #getAnnotatedType()}. Also using for avoiding
  *            of unchecked cast of result when use as parameter of deserialization processor method.

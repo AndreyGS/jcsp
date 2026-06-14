@@ -37,7 +37,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Generator of generic parameter type bounds descriptor.
+ * Generator of type variable bounds descriptor.
  * <p>
  * Cannot generate descriptors for bounds represented with generic classes.
  * <p>
@@ -50,7 +50,7 @@ public class TypeBoundsDescriptorGenerator implements ITypeBoundsDescriptorGener
     /**
      * Constructs an instance.
      *
-     * @param typeBoundsDescriptorFactory Factory for creating of type bounds descriptors.
+     * @param typeBoundsDescriptorFactory Factory for creating of type variable bounds descriptors.
      */
     public TypeBoundsDescriptorGenerator(ITypeBoundsDescriptorFactory typeBoundsDescriptorFactory)
     {
