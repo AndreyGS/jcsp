@@ -27,8 +27,8 @@ package io.andreygs.jcsp.internal.processing.data.clazz;
 
 import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptor;
 
+import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * TODO: place description here
@@ -37,12 +37,12 @@ public class CspClassProcessorDescriptor<P>
     implements ICspClassProcessorDescriptor<P>
 {
     private final P classProcessor;
-    private final Set<ITypeVariableDescriptor> typeVariableDescriptors;
+    private final Map<String, ITypeVariableDescriptor> typeVariableDescriptors;
 
-    public CspClassProcessorDescriptor(P classProcessor, Set<ITypeVariableDescriptor> typeVariableDescriptors)
+    public CspClassProcessorDescriptor(P classProcessor, Map<String, ITypeVariableDescriptor> typeVariableDescriptors)
     {
         this.classProcessor = Objects.requireNonNull(classProcessor);
-        this.typeVariableDescriptors = Set.copyOf(typeVariableDescriptors);
+        this.typeVariableDescriptors = Map.copyOf(typeVariableDescriptors);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class CspClassProcessorDescriptor<P>
     }
 
     @Override
-    public Set<ITypeVariableDescriptor> getTypeVariableDescriptors()
+    public Map<String, ITypeVariableDescriptor> getTypeVariableDescriptors()
     {
         return typeVariableDescriptors;
     }

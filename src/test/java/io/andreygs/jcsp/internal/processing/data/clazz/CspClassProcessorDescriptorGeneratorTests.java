@@ -36,13 +36,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.lang.reflect.TypeVariable;
-import java.util.Set;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anySet;
+import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -92,7 +92,7 @@ public class CspClassProcessorDescriptorGeneratorTests
     @Test
     public void testGenerateNonGenericClassDescriptor()
     {
-        when(cspClassProcessorDescriptorFactory.create(classProcessor, Set.of())).thenReturn(classProcessorDescriptor);
+        when(cspClassProcessorDescriptorFactory.create(classProcessor, Map.of())).thenReturn(classProcessorDescriptor);
         ICspClassProcessorDescriptor<ICspClassSerializationProcessor<TestClass>> result =
             generator.generate(classProcessor, Test.class);
         assertThat(result).isEqualTo(classProcessorDescriptor);
@@ -103,7 +103,7 @@ public class CspClassProcessorDescriptorGeneratorTests
     {
         TypeVariable<? extends Class<?>>[] typeVariables = TestGenericClass.class.getTypeParameters();
 
-        when(cspClassProcessorDescriptorFactory.create(eq(classProcessor), anySet()))
+        when(cspClassProcessorDescriptorFactory.create(eq(classProcessor), anyMap()))
             .thenReturn(classProcessorDescriptor);
         when(typeVariableDescriptorGenerator.generate(typeVariables[0])).thenReturn(typeVariableDescriptor);
         when(typeVariableDescriptorGenerator.generate(typeVariables[1])).thenReturn(typeVariableDescriptor);
@@ -153,7 +153,7 @@ public class CspClassProcessorDescriptorGeneratorTests
     {
     }
 
-    @SuppressWarnings("unused" /* Params are need for tests of work with generic classes */)
+    @SuppressWarnings("unused" /* Parameters are need for tests of work with generic classes */)
     private static class TestGenericClass<W, E>
     {
     }

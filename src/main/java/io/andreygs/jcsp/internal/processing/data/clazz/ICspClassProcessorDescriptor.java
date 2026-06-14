@@ -27,7 +27,7 @@ package io.andreygs.jcsp.internal.processing.data.clazz;
 
 import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptor;
 
-import java.util.Set;
+import java.util.Map;
 
 /**
  * TODO: place description here
@@ -36,5 +36,5 @@ public interface ICspClassProcessorDescriptor<P>
 {
     P getClassProcessor();
 
-    Set<ITypeVariableDescriptor> getTypeVariableDescriptors();
+    Map<String, ITypeVariableDescriptor> getTypeVariableDescriptors();
 }

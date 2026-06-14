@@ -118,6 +118,7 @@ public class CspTypeProcessorRegistryTests
         assertThatThrownBy(() -> registry.unregister(null)).isInstanceOf(NullPointerException.class);
     }
 
+    @SuppressWarnings("unused" /* Parameters are need for tests of work with generic classes */)
     private static class TestClass<T>
     {
     }

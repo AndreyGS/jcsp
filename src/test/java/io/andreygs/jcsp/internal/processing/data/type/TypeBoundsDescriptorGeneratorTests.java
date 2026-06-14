@@ -128,18 +128,28 @@ public class TypeBoundsDescriptorGeneratorTests
             });
         Optional<ITypeBoundsDescriptor> result2 = generator.generate(wildcardType2);
         assertThat(result2).contains(typeBoundsDescriptor);
+
+        WildcardType wildcardType3 = requireWildcardType(TestGenericField.class, "list3");
+        when(typeBoundsDescriptorFactory.create(eq(TypeBoundKind.LOWER_BOUND), anySet()))
+            .thenAnswer(invocation -> {
+                Set<Class<?>> classes = invocation.getArgument(1);
+                assertThat(classes).containsExactly(Object.class);
+                return typeBoundsDescriptor;
+            });
+        Optional<ITypeBoundsDescriptor> result3 = generator.generate(wildcardType3);
+        assertThat(result3).contains(typeBoundsDescriptor);
     }
 
     @Test
     public void testGenerateWildcardWithTypeVariableBound()
     {
-        WildcardType wildcardType1 = requireWildcardType(TestGenericField.class, "list3");
+        WildcardType wildcardType1 = requireWildcardType(TestGenericField.class, "list4");
         when(typeBoundsDescriptorFactory.create(eq(TypeBoundKind.UPPER_BOUND), eq("T")))
             .thenReturn(typeBoundsDescriptor);
         Optional<ITypeBoundsDescriptor> result1 = generator.generate(wildcardType1);
         assertThat(result1).contains(typeBoundsDescriptor);
 
-        WildcardType wildcardType2 = requireWildcardType(TestGenericField.class, "list4");
+        WildcardType wildcardType2 = requireWildcardType(TestGenericField.class, "list5");
         when(typeBoundsDescriptorFactory.create(eq(TypeBoundKind.LOWER_BOUND), eq("T")))
             .thenReturn(typeBoundsDescriptor);
         Optional<ITypeBoundsDescriptor> result2 = generator.generate(wildcardType2);
@@ -149,7 +159,7 @@ public class TypeBoundsDescriptorGeneratorTests
     @Test
     public void testGenerateWildcardWithoutBounds()
     {
-        WildcardType wildcardType = requireWildcardType(TestGenericField.class, "list5");
+        WildcardType wildcardType = requireWildcardType(TestGenericField.class, "list6");
         assertThat(generator.generate(wildcardType)).isEmpty();
     }
 
@@ -189,25 +199,30 @@ public class TypeBoundsDescriptorGeneratorTests
         return (WildcardType)typeArgs[0];
     }
 
+    @SuppressWarnings("unused" /* Parameters are need for tests of work with generic classes */)
     private static class TestGenericClass1<T extends Number & Runnable>
     {
     }
 
+    @SuppressWarnings("unused" /* Parameters are need for tests of work with generic classes */)
     private static class TestGenericClass2<T, V extends T>
     {
     }
 
+    @SuppressWarnings("unused" /* Parameters are need for tests of work with generic classes */)
     private static class TestGenericClass3<T>
     {
     }
 
+    @SuppressWarnings("unused" /* Parameters and fields are need for tests of work with generic classes */)
     private static class TestGenericField<T>
     {
         private List<? extends Number> list1;
         private List<? super Number> list2;
-        private List<? extends T> list3;
-        private List<? super T> list4;
-        private List<?> list5;
+        private List<? super Object> list3;
+        private List<? extends T> list4;
+        private List<? super T> list5;
+        private List<?> list6;
     }
 
     @SuppressWarnings({"unused" /* Params are need for tests of work with generic classes */,
@@ -216,10 +231,10 @@ public class TypeBoundsDescriptorGeneratorTests
     {
     }
 
+    @SuppressWarnings("unused" /* Parameters and fields are need for tests of work with generic classes */)
     private static class TestForbiddenWildcard<T>
     {
-        @SuppressWarnings({"unused" /* Params are need for tests of work with generic classes */,
-            "rawtypes" /* List should be raw for test purposes */})
+        @SuppressWarnings("rawtypes" /* List should be raw for test purposes */)
         private List<? extends List> list1;
         private List<? extends int[]> list2;
         private List<? extends Number[]> list3;

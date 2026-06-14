@@ -29,7 +29,7 @@ import io.andreygs.jcsp.internal.processing.data.clazz.CspClassProcessorDescript
 import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorDescriptor;
 import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptor;
 
-import java.util.Set;
+import java.util.Map;
 
 /**
  * TODO: place description here
@@ -39,7 +39,7 @@ public class CspClassProcessorDescriptorFactory
 {
     @Override
     public <P> ICspClassProcessorDescriptor<P> create(P classProcessor,
-        Set<ITypeVariableDescriptor> typeVariableDescriptors)
+        Map<String, ITypeVariableDescriptor> typeVariableDescriptors)
     {
         return new CspClassProcessorDescriptor<>(classProcessor, typeVariableDescriptors);
     }

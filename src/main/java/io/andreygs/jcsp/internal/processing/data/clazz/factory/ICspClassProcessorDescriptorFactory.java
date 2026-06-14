@@ -28,12 +28,13 @@ package io.andreygs.jcsp.internal.processing.data.clazz.factory;
 import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorDescriptor;
 import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptor;
 
-import java.util.Set;
+import java.util.Map;
 
 /**
  * TODO: place description here
  */
 public interface ICspClassProcessorDescriptorFactory
 {
-    <P> ICspClassProcessorDescriptor<P> create(P classProcessor, Set<ITypeVariableDescriptor> typeVariableDescriptors);
+    <P> ICspClassProcessorDescriptor<P> create(P classProcessor,
+        Map<String, ITypeVariableDescriptor> typeVariableDescriptors);
 }
