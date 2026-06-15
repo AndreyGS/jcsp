@@ -31,7 +31,10 @@ import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptorGen
 import io.andreygs.jcsp.internal.processing.data.type.factory.TypeVariableDescriptorGeneratorFactory;
 
 /**
- * TODO: place description here
+ * Factory for creating {@link ICspClassProcessorDescriptorGenerator} instances.
+ * <p>
+ * Uses default cached {@link ICspClassProcessorDescriptorFactory} and {@link ITypeVariableDescriptorGenerator}
+ * instances to create a class processor descriptor generator.
  */
 public class CspClassProcessorDescriptorGeneratorFactory
     implements ICspClassProcessorDescriptorGeneratorFactory

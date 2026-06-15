@@ -29,12 +29,12 @@ import io.andreygs.jcsp.api.processing.buffer.ISerializationBufferConfig;
 import io.andreygs.jcsp.internal.processing.buffer.ISerializationBuffer;
 
 /**
- * Factory for obtaining {@link ISerializationBuffer} instances.
+ * Factory for creating {@link ISerializationBuffer} instances.
  */
 public interface ISerializationBufferFactory
 {
     /**
-     * Creates an instance.
+     * Creates {@link ISerializationBuffer} instance.
      *
      * @param serializationBufferConfig Buffer configuration.
      * @return created instance.

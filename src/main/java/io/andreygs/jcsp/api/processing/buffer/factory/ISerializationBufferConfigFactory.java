@@ -31,12 +31,27 @@ import io.andreygs.jcsp.api.processing.buffer.ISerializationBufferConfig;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * TODO: place description here
+ * Factory for creating {@link ISerializationBufferConfig} instances.
  */
 public interface ISerializationBufferConfigFactory
 {
+    /**
+     * Creates {@link ISerializationBufferConfig} instance.
+     *
+     * @param initialBufferCapacity Initial capacity that buffer should have after creation/initialization. If null,
+     *                              then default value will be used.
+     * @param allocationType        Buffer allocation type. If null, then default value will be used.
+     * @param bufferResizeStrategy  Strategy of buffer resizing. If null, then default value will be used.
+     * @return created instance.
+     */
     ISerializationBufferConfig create(@Nullable Integer initialBufferCapacity,
         @Nullable AllocationType allocationType, @Nullable IBufferResizeStrategy bufferResizeStrategy);
 
+    /**
+     * Provides default config, where initial capacity, allocation type and buffer resize strategy will have default
+     * values.
+     *
+     * @return provided instance.
+     */
     ISerializationBufferConfig provideDefault();
 }

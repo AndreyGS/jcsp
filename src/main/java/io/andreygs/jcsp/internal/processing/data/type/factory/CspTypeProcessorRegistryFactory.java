@@ -29,7 +29,7 @@ import io.andreygs.jcsp.internal.processing.data.type.CspTypeProcessorRegistry;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorRegistry;
 
 /**
- * TODO: place description here
+ * Stateless factory for creating {@link ICspTypeProcessorRegistry} instances.
  */
 public class CspTypeProcessorRegistryFactory<P>
     implements ICspTypeProcessorRegistryFactory<P>

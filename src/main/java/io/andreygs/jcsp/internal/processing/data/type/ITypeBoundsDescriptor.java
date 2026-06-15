@@ -25,9 +25,6 @@
 
 package io.andreygs.jcsp.internal.processing.data.type;
 
-import io.andreygs.jcsp.internal.processing.data.type.model.TypeBoundKind;
-import io.andreygs.jcsp.internal.processing.data.type.model.TypeIdKind;
-
 import java.util.Optional;
 import java.util.Set;
 
@@ -36,11 +33,6 @@ import java.util.Set;
  *
  * @apiNote
  * Immutable. Thread-safe.
- *
- * @implSpec
- * Invariants must be enforced at construction time (either via validation or constant values).
- * <p>
- * <b>Implementations MUST adhere to the immutability and self-validation contract.</b>
  */
 public interface ITypeBoundsDescriptor
 {

@@ -31,7 +31,7 @@ import io.andreygs.jcsp.internal.processing.data.type.TypeVariableDescriptor;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * TODO: place description here
+ * Stateless factory for creating {@link ITypeVariableDescriptor} instances.
  */
 public class TypeVariableDescriptorFactory
     implements ITypeVariableDescriptorFactory

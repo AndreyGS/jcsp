@@ -26,16 +26,33 @@
 package io.andreygs.jcsp.internal.processing.data.type.factory;
 
 import io.andreygs.jcsp.internal.processing.data.type.ITypeBoundsDescriptor;
-import io.andreygs.jcsp.internal.processing.data.type.model.TypeBoundKind;
+import io.andreygs.jcsp.internal.processing.data.type.TypeBoundKind;
 
 import java.util.Set;
 
 /**
- * TODO: place description here
+ * Factory for creating {@link ITypeBoundsDescriptor} instances.
+ *
+ * @apiNote
+ * Immutable. Thread-safe.
  */
 public interface ITypeBoundsDescriptorFactory
 {
-    ITypeBoundsDescriptor create(TypeBoundKind boundTypeKind, Set<Class<?>> boundClasses);
+    /**
+     * Creates {@link ITypeBoundsDescriptor} instance with classes bounds.
+     *
+     * @param typeBoundKind Bound type.
+     * @param boundClasses Classes which are bounds.
+     * @return created instance.
+     */
+    ITypeBoundsDescriptor create(TypeBoundKind typeBoundKind, Set<Class<?>> boundClasses);
 
-    ITypeBoundsDescriptor create(TypeBoundKind boundTypeKind, String boundTypeVariableName);
+    /**
+     * Creates {@link ITypeBoundsDescriptor} instance with type variable bound.
+     *
+     * @param typeBoundKind Bound type.
+     * @param boundTypeVariableName Type variable name which is bound.
+     * @return created instance.
+     */
+    ITypeBoundsDescriptor create(TypeBoundKind typeBoundKind, String boundTypeVariableName);
 }

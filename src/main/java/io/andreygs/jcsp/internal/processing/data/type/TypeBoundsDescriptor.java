@@ -25,8 +25,6 @@
 
 package io.andreygs.jcsp.internal.processing.data.type;
 
-import io.andreygs.jcsp.internal.processing.data.type.model.TypeBoundKind;
-import io.andreygs.jcsp.internal.processing.data.type.model.TypeIdKind;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -39,7 +37,7 @@ import java.util.Set;
 public class TypeBoundsDescriptor
     implements ITypeBoundsDescriptor
 {
-    private final TypeBoundKind boundTypeKind;
+    private final TypeBoundKind typeBoundKind;
     private final TypeIdKind typeIdKind;
     private final Set<Class<?>> boundClasses;
     private final @Nullable String boundTypeVariableName;
@@ -47,12 +45,12 @@ public class TypeBoundsDescriptor
     /**
      * Constructs an instance with classes as bounds.
      *
-     * @param boundTypeKind Type kind of bounds.
+     * @param typeBoundKind Type kind of bounds.
      * @param boundClasses Classes which are bound.
      */
-    public TypeBoundsDescriptor(TypeBoundKind boundTypeKind, Set<Class<?>> boundClasses)
+    public TypeBoundsDescriptor(TypeBoundKind typeBoundKind, Set<Class<?>> boundClasses)
     {
-        this.boundTypeKind = Objects.requireNonNull(boundTypeKind);
+        this.typeBoundKind = Objects.requireNonNull(typeBoundKind);
         this.typeIdKind = TypeIdKind.CLASS;
         this.boundClasses = Set.copyOf(boundClasses);
         this.boundTypeVariableName = null;
@@ -65,12 +63,12 @@ public class TypeBoundsDescriptor
     /**
      * Constructs an instance with type variable as bound.
      *
-     * @param boundTypeKind Type kind of bounds.
+     * @param typeBoundKind Type kind of bounds.
      * @param boundTypeVariableName Name of bound type variable.
      */
-    public TypeBoundsDescriptor(TypeBoundKind boundTypeKind, String boundTypeVariableName)
+    public TypeBoundsDescriptor(TypeBoundKind typeBoundKind, String boundTypeVariableName)
     {
-        this.boundTypeKind = Objects.requireNonNull(boundTypeKind);
+        this.typeBoundKind = Objects.requireNonNull(typeBoundKind);
         this.typeIdKind = TypeIdKind.TYPE_VARIABLE_NAME;
         this.boundClasses = Set.of();
         this.boundTypeVariableName = boundTypeVariableName;
@@ -83,7 +81,7 @@ public class TypeBoundsDescriptor
     @Override
     public TypeBoundKind getTypeBoundKind()
     {
-        return boundTypeKind;
+        return typeBoundKind;
     }
 
     @Override

@@ -30,7 +30,7 @@ import io.andreygs.jcsp.internal.processing.buffer.SerializationBuffer;
 import io.andreygs.jcsp.internal.processing.buffer.ISerializationBuffer;
 
 /**
- * Sole implementation of {@link ISerializationBufferFactory}.
+ * Stateless factory for creating {@link ISerializationBuffer} instances.
  */
 public final class SerializationBufferFactory
     implements ISerializationBufferFactory

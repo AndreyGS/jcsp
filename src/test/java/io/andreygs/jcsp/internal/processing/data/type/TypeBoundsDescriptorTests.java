@@ -25,8 +25,6 @@
 
 package io.andreygs.jcsp.internal.processing.data.type;
 
-import io.andreygs.jcsp.internal.processing.data.type.model.TypeBoundKind;
-import io.andreygs.jcsp.internal.processing.data.type.model.TypeIdKind;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;

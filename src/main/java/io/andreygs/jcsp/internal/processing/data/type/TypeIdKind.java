@@ -23,12 +23,27 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.type.model;
+package io.andreygs.jcsp.internal.processing.data.type;
 
 /**
- * TODO: place description here
+ * Type of id for specific class or its placeholder.
+ * <p>
+ * Examples: List, T, ?.
  */
-public enum TypeBoundKind
+public enum TypeIdKind
 {
-    LOWER_BOUND, UPPER_BOUND;
+    /**
+     * Class which is not generic, array or primitive.
+     */
+    CLASS,
+
+    /**
+     * Name of type variable. "T" in class Test&ltT> {}, for example.
+     */
+    TYPE_VARIABLE_NAME,
+
+    /**
+     * Java wildcard "?".
+     */
+    WILDCARD
 }

@@ -26,7 +26,6 @@
 package io.andreygs.jcsp.internal.processing.data.type;
 
 import io.andreygs.jcsp.internal.processing.data.type.factory.ITypeBoundsDescriptorFactory;
-import io.andreygs.jcsp.internal.processing.data.type.model.TypeBoundKind;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

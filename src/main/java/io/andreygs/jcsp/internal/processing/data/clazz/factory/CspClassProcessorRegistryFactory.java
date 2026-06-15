@@ -30,13 +30,15 @@ import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorDescrip
 import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorRegistry;
 
 /**
- * TODO: place description here
+ * Factory for creating {@link ICspClassProcessorRegistry} instances.
+ * <p>
+ * Uses cached {@link ICspClassProcessorDescriptorGenerator} to create registry.
  */
 public class CspClassProcessorRegistryFactory<P>
     implements ICspClassProcessorRegistryFactory<P>
 {
     private static final ICspClassProcessorDescriptorGenerator
-        DEFAULT_CSP_CLASS_PROCESSOR_DESCRIPTOR_GENERATOR= new CspClassProcessorDescriptorGeneratorFactory().create();
+        DEFAULT_CSP_CLASS_PROCESSOR_DESCRIPTOR_GENERATOR = new CspClassProcessorDescriptorGeneratorFactory().create();
 
     @Override
     public ICspClassProcessorRegistry<P> create()

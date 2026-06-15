@@ -34,7 +34,9 @@ import io.andreygs.jcsp.internal.processing.buffer.SerializationBufferConfig;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * TODO: place description here
+ * Factory for creating {@link ISerializationBufferConfig} instances.
+ * <p>
+ * Uses default cached {@link ISerializationBufferConfig} instances to provide default buffer.
  */
 public class SerializationBufferConfigFactory implements ISerializationBufferConfigFactory
 {

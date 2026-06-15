@@ -31,12 +31,7 @@ import io.andreygs.jcsp.internal.processing.buffer.IDeserializationBuffer;
 import java.nio.ByteBuffer;
 
 /**
- * Sole implementation of {@link IDeserializationBufferFactory}.
- * <p>
- * Creates following class instances:
- * <ul>
- *     <li>{@link IDeserializationBuffer} -> {@link DeserializationBuffer}</li>
- * </ul>
+ * Stateless factory for creating {@link IDeserializationBuffer} instances.
  */
 public final class DeserializationBufferFactory
     implements IDeserializationBufferFactory

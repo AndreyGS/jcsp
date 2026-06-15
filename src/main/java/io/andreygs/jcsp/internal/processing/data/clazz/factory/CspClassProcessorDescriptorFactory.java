@@ -32,7 +32,7 @@ import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptor;
 import java.util.Map;
 
 /**
- * TODO: place description here
+ * Stateless factory for creating {@link ICspClassProcessorDescriptor} instances.
  */
 public class CspClassProcessorDescriptorFactory
     implements ICspClassProcessorDescriptorFactory

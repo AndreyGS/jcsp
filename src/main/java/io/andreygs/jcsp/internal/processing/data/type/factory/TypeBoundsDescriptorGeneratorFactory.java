@@ -25,11 +25,14 @@
 
 package io.andreygs.jcsp.internal.processing.data.type.factory;
 
+import io.andreygs.jcsp.internal.processing.data.type.ITypeBoundsDescriptor;
 import io.andreygs.jcsp.internal.processing.data.type.ITypeBoundsDescriptorGenerator;
 import io.andreygs.jcsp.internal.processing.data.type.TypeBoundsDescriptorGenerator;
 
 /**
- * TODO: place description here
+ * Factory for creating {@link ITypeBoundsDescriptor} instances.
+ * <p>
+ * Uses default cached {@link ITypeBoundsDescriptorFactory} instance to create a generator.
  */
 public class TypeBoundsDescriptorGeneratorFactory
     implements ITypeBoundsDescriptorGeneratorFactory

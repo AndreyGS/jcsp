@@ -30,21 +30,22 @@ import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptorGen
 import io.andreygs.jcsp.internal.processing.data.type.TypeVariableDescriptorGenerator;
 
 /**
- * TODO: place description here
+ * Factory for creating {@link ITypeVariableDescriptorGenerator} instances.
+ * <p>
+ * Uses default cached {@link ITypeVariableDescriptorFactory} and {@link ITypeBoundsDescriptorGenerator} instances to
+ * create a type variable descriptor generator.
  */
 public class TypeVariableDescriptorGeneratorFactory implements ITypeVariableDescriptorGeneratorFactory
 {
     private static final ITypeVariableDescriptorFactory DEFAULT_TYPE_VARIABLE_DESCRIPTOR_FACTORY =
         new TypeVariableDescriptorFactory();
-    private static final ITypeBoundsDescriptorGeneratorFactory DEFAULT_TYPE_BOUNDS_DESCRIPTOR_GENERATOR_FACTORY =
-        new TypeBoundsDescriptorGeneratorFactory();
+    private static final ITypeBoundsDescriptorGenerator DEFAULT_TYPE_BOUNDS_DESCRIPTOR_GENERATOR =
+        new TypeBoundsDescriptorGeneratorFactory().create();
 
     @Override
     public ITypeVariableDescriptorGenerator create()
     {
-        ITypeBoundsDescriptorGenerator typeBoundsDescriptorGenerator =
-            DEFAULT_TYPE_BOUNDS_DESCRIPTOR_GENERATOR_FACTORY.create();
         return new TypeVariableDescriptorGenerator(
-            DEFAULT_TYPE_VARIABLE_DESCRIPTOR_FACTORY, typeBoundsDescriptorGenerator);
+            DEFAULT_TYPE_VARIABLE_DESCRIPTOR_FACTORY, DEFAULT_TYPE_BOUNDS_DESCRIPTOR_GENERATOR);
     }
 }

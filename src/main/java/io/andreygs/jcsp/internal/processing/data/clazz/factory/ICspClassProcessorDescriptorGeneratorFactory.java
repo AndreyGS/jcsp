@@ -28,9 +28,17 @@ package io.andreygs.jcsp.internal.processing.data.clazz.factory;
 import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorDescriptorGenerator;
 
 /**
- * TODO: place description here
+ * Factory for creating {@link ICspClassProcessorDescriptorGenerator} instances.
+ *
+ * @apiNote
+ * Immutable. Thread-safe.
  */
 public interface ICspClassProcessorDescriptorGeneratorFactory
 {
+    /**
+     * Creates {@link ICspClassProcessorDescriptorGenerator} instance.
+     *
+     * @return created instance.
+     */
     ICspClassProcessorDescriptorGenerator create();
 }

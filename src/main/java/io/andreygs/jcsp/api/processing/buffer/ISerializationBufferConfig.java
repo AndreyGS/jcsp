@@ -34,10 +34,8 @@ package io.andreygs.jcsp.api.processing.buffer;
  * Immutable. Thread-safe.
  *
  * @implSpec
- * Invariants must be enforced at construction time (either via validation or constant values).
- * <p>
  * <b>External implementations are discouraged unless strictly necessary. Implementations MUST adhere to the
- * immutability and self-validation contract.</b>
+ * immutability, self-validation contract and thread-safety.</b>
  */
 public interface ISerializationBufferConfig
 {

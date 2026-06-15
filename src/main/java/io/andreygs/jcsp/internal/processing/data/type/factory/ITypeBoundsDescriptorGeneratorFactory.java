@@ -28,9 +28,17 @@ package io.andreygs.jcsp.internal.processing.data.type.factory;
 import io.andreygs.jcsp.internal.processing.data.type.ITypeBoundsDescriptorGenerator;
 
 /**
- * TODO: place description here
+ * Factory for creating {@link ITypeBoundsDescriptorGenerator} instances.
+ *
+ * @apiNote
+ * Immutable. Thread-safe.
  */
 public interface ITypeBoundsDescriptorGeneratorFactory
 {
+    /**
+     * Creates {@link ITypeBoundsDescriptorGenerator} instance.
+     *
+     * @return created instance.
+     */
     ITypeBoundsDescriptorGenerator create();
 }

@@ -25,7 +25,6 @@
 
 package io.andreygs.jcsp.internal.processing.data.type;
 
-import io.andreygs.jcsp.internal.processing.data.type.model.TypeBoundKind;
 import io.andreygs.jcsp.internal.processing.data.type.factory.ITypeBoundsDescriptorFactory;
 
 import java.lang.reflect.Type;

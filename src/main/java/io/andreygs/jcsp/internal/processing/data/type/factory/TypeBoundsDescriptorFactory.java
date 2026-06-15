@@ -26,26 +26,26 @@
 package io.andreygs.jcsp.internal.processing.data.type.factory;
 
 import io.andreygs.jcsp.internal.processing.data.type.ITypeBoundsDescriptor;
-import io.andreygs.jcsp.internal.processing.data.type.model.TypeBoundKind;
+import io.andreygs.jcsp.internal.processing.data.type.TypeBoundKind;
 import io.andreygs.jcsp.internal.processing.data.type.TypeBoundsDescriptor;
 
 import java.util.Set;
 
 /**
- * TODO: place description here
+ * Stateless factory for creating {@link ITypeBoundsDescriptor} instances.
  */
 public class TypeBoundsDescriptorFactory
     implements ITypeBoundsDescriptorFactory
 {
     @Override
-    public ITypeBoundsDescriptor create(TypeBoundKind boundTypeKind, Set<Class<?>> boundClasses)
+    public ITypeBoundsDescriptor create(TypeBoundKind typeBoundKind, Set<Class<?>> boundClasses)
     {
-        return new TypeBoundsDescriptor(boundTypeKind, boundClasses);
+        return new TypeBoundsDescriptor(typeBoundKind, boundClasses);
     }
 
     @Override
-    public ITypeBoundsDescriptor create(TypeBoundKind boundTypeKind, String boundTypeVariableName)
+    public ITypeBoundsDescriptor create(TypeBoundKind typeBoundKind, String boundTypeVariableName)
     {
-        return new TypeBoundsDescriptor(boundTypeKind, boundTypeVariableName);
+        return new TypeBoundsDescriptor(typeBoundKind, boundTypeVariableName);
     }
 }

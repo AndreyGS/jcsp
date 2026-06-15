@@ -23,12 +23,22 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.type.model;
+package io.andreygs.jcsp.internal.processing.data.type;
 
 /**
- * TODO: place description here
+ * Type variable bound (limitation) type.
+ * <p>
+ * This is "extends" or "super" property in List&lt? extends String>, for example.
  */
-public enum TypeIdKind
+public enum TypeBoundKind
 {
-    CLASS, TYPE_VARIABLE_NAME, WILDCARD
+    /**
+     * "super"
+     */
+    LOWER_BOUND,
+
+    /**
+     * "extends"
+     */
+    UPPER_BOUND
 }

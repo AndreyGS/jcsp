@@ -28,9 +28,21 @@ package io.andreygs.jcsp.internal.processing.data.clazz.factory;
 import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorRegistry;
 
 /**
- * TODO: place description here
+ * Factory for creating {@link ICspClassProcessorRegistry} instances.
+ *
+ * @apiNote
+ * Immutable. Thread-safe.
+ *
+ * @param <P> type of class processors that created registry will contain:
+ * {@link io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor} or
+ * {@link io.andreygs.jcsp.api.processing.data.clazz.ICspClassDeserializationProcessor}
  */
 public interface ICspClassProcessorRegistryFactory<P>
 {
+    /**
+     * Creates {@link ICspClassProcessorRegistry} instance.
+     *
+     * @return created instance.
+     */
     ICspClassProcessorRegistry<P> create();
 }

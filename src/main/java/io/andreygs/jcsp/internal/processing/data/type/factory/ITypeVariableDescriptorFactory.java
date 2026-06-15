@@ -30,9 +30,19 @@ import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptor;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * TODO: place description here
+ * Factory for creating {@link ITypeVariableDescriptor} instances.
+ *
+ * @apiNote
+ * Immutable. Thread-safe.
  */
 public interface ITypeVariableDescriptorFactory
 {
+    /**
+     * Creates {@link ITypeVariableDescriptor} instance.
+     *
+     * @param name Name of type variable. "T" in class Test&ltT> {} for example.
+     * @param typeBoundsDescriptor Type variable bounds. Null if type variable is unbound.
+     * @return created instance.
+     */
     ITypeVariableDescriptor create(String name, @Nullable ITypeBoundsDescriptor typeBoundsDescriptor);
 }

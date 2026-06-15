@@ -31,10 +31,23 @@ import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptor;
 import java.util.Map;
 
 /**
- * TODO: place description here
+ * Factory for creating {@link ICspClassProcessorDescriptor} instances.
+ *
+ * @apiNote
+ * Immutable. Thread-safe.
  */
 public interface ICspClassProcessorDescriptorFactory
 {
+    /**
+     * Creates {@link ICspClassProcessorDescriptor} instance.
+     *
+     * @param classProcessor Class processor for descriptor.
+     * @param typeVariableDescriptors Descriptors for class type parameters. Empty map if not class is not generic.
+     * @return created instance.
+     * @param <P> Type of class processor:
+     * {@link io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor} or
+     * {@link io.andreygs.jcsp.api.processing.data.clazz.ICspClassDeserializationProcessor}
+     */
     <P> ICspClassProcessorDescriptor<P> create(P classProcessor,
         Map<String, ITypeVariableDescriptor> typeVariableDescriptors);
 }

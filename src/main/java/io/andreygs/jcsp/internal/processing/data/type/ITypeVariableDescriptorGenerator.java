@@ -32,11 +32,6 @@ import java.lang.reflect.TypeVariable;
  *
  * @apiNote
  * Immutable. Thread-safe.
- *
- * @implSpec
- * Invariants must be enforced at construction time (either via validation or constant values).
- * <p>
- * <b>Implementations MUST adhere to the immutability and self-validation contract.</b>
  */
 public interface ITypeVariableDescriptorGenerator
 {

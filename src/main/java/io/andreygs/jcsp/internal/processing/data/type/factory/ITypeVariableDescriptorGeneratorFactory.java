@@ -28,9 +28,17 @@ package io.andreygs.jcsp.internal.processing.data.type.factory;
 import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptorGenerator;
 
 /**
- * TODO: place description here
+ * Factory for creating {@link ITypeVariableDescriptorGenerator} instances.
+ *
+ * @apiNote
+ * Immutable. Thread-safe.
  */
 public interface ITypeVariableDescriptorGeneratorFactory
 {
+    /**
+     * Creates {@link ITypeVariableDescriptorGenerator} instance.
+     *
+     * @return created instance.
+     */
     ITypeVariableDescriptorGenerator create();
 }
