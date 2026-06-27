@@ -32,6 +32,7 @@ import io.andreygs.jcsp.internal.processing.data.type.ITypeVariableDescriptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -63,15 +64,8 @@ public class CspClassProcessorDescriptorGeneratorTests
     private ICspClassProcessorDescriptor<ICspClassSerializationProcessor<TestClass>> classProcessorDescriptor;
     @Mock
     private ITypeVariableDescriptor typeVariableDescriptor;
-
-    private ICspClassProcessorDescriptorGenerator generator;
-
-    @BeforeEach
-    public void setUp()
-    {
-        generator =
-            new CspClassProcessorDescriptorGenerator(cspClassProcessorDescriptorFactory, typeVariableDescriptorGenerator);
-    }
+    @InjectMocks
+    private CspClassProcessorDescriptorGenerator generator;
 
     @Test
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)

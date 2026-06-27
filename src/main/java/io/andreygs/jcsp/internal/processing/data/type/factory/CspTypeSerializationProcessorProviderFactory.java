@@ -32,7 +32,9 @@ import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorRegistry;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
 
 /**
- * TODO: place description here
+ * Factory for creating {@link ICspTypeProcessorProvider} instances for serialization processors.
+ * <p>
+ * Uses default cached {@link ICspTypeProcessorGenerator} instance to create a generator.
  */
 public class CspTypeSerializationProcessorProviderFactory
     implements ICspTypeProcessorProviderFactory<ICspTypeSerializationProcessor>

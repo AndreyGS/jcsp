@@ -25,11 +25,10 @@
 
 package io.andreygs.jcsp.internal.processing.data.type;
 
-import io.andreygs.jcsp.internal.processing.data.clazz.CspClassProcessorDescriptorGeneratorTests;
 import io.andreygs.jcsp.internal.processing.data.type.factory.ITypeVariableDescriptorFactory;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -40,11 +39,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * TODO: place description here
+ * Unit-tests for {@link TypeVariableDescriptorGenerator}.
  */
 @ExtendWith(MockitoExtension.class)
 public class TypeVariableDescriptorGeneratorTests
@@ -53,14 +51,10 @@ public class TypeVariableDescriptorGeneratorTests
     private ITypeVariableDescriptorFactory typeVariableDescriptorFactory;
     @Mock
     private ITypeBoundsDescriptorGenerator typeBoundsDescriptorGenerator;
-
-    private ITypeVariableDescriptorGenerator generator;
-
-    @BeforeEach
-    public void setUp()
-    {
-        generator = new TypeVariableDescriptorGenerator(typeVariableDescriptorFactory, typeBoundsDescriptorGenerator);
-    }
+    @Mock
+    private ITypeVariableDescriptor descriptor;
+    @InjectMocks
+    private TypeVariableDescriptorGenerator generator;
 
     @Test
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
@@ -85,13 +79,15 @@ public class TypeVariableDescriptorGeneratorTests
     {
         TypeVariable<? extends Class<?>> typeVariable = TestClass.class.getTypeParameters()[0];
         when(typeBoundsDescriptorGenerator.generate(typeVariable)).thenReturn(Optional.empty());
-        ITypeVariableDescriptor descriptor1 = generator.generate(typeVariable);
-        verify(typeVariableDescriptorFactory).create("XXXX", null);
+        when(typeVariableDescriptorFactory.create("XXXX", null)).thenReturn(descriptor);
+
+        assertThat(generator.generate(typeVariable)).isEqualTo(descriptor);
 
         ITypeBoundsDescriptor typeBoundsDescriptor = mock(ITypeBoundsDescriptor.class);
         when(typeBoundsDescriptorGenerator.generate(typeVariable)).thenReturn(Optional.of(typeBoundsDescriptor));
-        ITypeVariableDescriptor descriptor2 = generator.generate(typeVariable);
-        verify(typeVariableDescriptorFactory).create("XXXX", typeBoundsDescriptor);
+        when(typeVariableDescriptorFactory.create("XXXX", typeBoundsDescriptor)).thenReturn(descriptor);
+
+        assertThat(generator.generate(typeVariable)).isEqualTo(descriptor);
     }
 
     @Test

@@ -25,14 +25,23 @@
 
 package io.andreygs.jcsp.internal.processing.data.type.factory;
 
-import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorGenerator;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorProvider;
 import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorRegistry;
+import io.andreygs.jcsp.internal.processing.data.type.ITypeBoundsDescriptorGenerator;
 
 /**
- * TODO: place description here
+ * Factory for creating {@link ICspTypeProcessorProvider} instances.
+ *
+ * @apiNote
+ * Immutable. Thread-safe.
  */
 public interface ICspTypeProcessorProviderFactory<P>
 {
+    /**
+     * Creates {@link ITypeBoundsDescriptorGenerator} instance.
+     *
+     * @param registry Registry that provider will use.
+     * @return created instance.
+     */
     ICspTypeProcessorProvider<P> create(ICspTypeProcessorRegistry<P> registry);
 }

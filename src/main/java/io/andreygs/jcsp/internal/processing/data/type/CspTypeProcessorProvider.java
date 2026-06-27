@@ -26,30 +26,56 @@
 package io.andreygs.jcsp.internal.processing.data.type;
 
 import java.lang.reflect.AnnotatedType;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
- * TODO: place description here
+ * Provider for type processors.
+ * <p>
+ * First, tries to find and return already registered type processor from {@link ICspTypeProcessorRegistry}, and if
+ * there is no such generates a new one with help of {@link ICspTypeProcessorGenerator}, then registers it in registry
+ * and returns it.
+ *
+ * @param <P> type of type processor: {@link ICspTypeSerializationProcessor} or {@link ICspTypeDeserializationProcessor}.
  */
 public class CspTypeProcessorProvider<P> implements ICspTypeProcessorProvider<P>
 {
     private final ICspTypeProcessorRegistry<P> cspTypeProcessorRegistry;
     private final ICspTypeProcessorGenerator<P> cspTypeProcessorGenerator;
 
+    /**
+     * Constructs an instance.
+     *
+     * @param cspTypeProcessorRegistry Registry for type processor.
+     * @param cspTypeProcessorGenerator Generator of type processor.
+     */
     public CspTypeProcessorProvider(ICspTypeProcessorRegistry<P> cspTypeProcessorRegistry,
         ICspTypeProcessorGenerator<P> cspTypeProcessorGenerator)
     {
-        this.cspTypeProcessorRegistry = cspTypeProcessorRegistry;
-        this.cspTypeProcessorGenerator = cspTypeProcessorGenerator;
+        this.cspTypeProcessorRegistry = Objects.requireNonNull(cspTypeProcessorRegistry);
+        this.cspTypeProcessorGenerator = Objects.requireNonNull(cspTypeProcessorGenerator);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @throws IllegalArgumentException if {@link ICspTypeProcessorGenerator#generate(AnnotatedType)} throws it.
+     */
     @Override
     public P provide(AnnotatedType annotatedType)
     {
-        Optional<P> typeProcessor = cspTypeProcessorRegistry.find(annotatedType);
+        Optional<P> typeProcessor = cspTypeProcessorRegistry.find(Objects.requireNonNull(annotatedType));
         return typeProcessor.orElse(requireTypeProcessor(annotatedType));
     }
 
+    /**
+     * Requires type processor.
+     * <p>
+     * Generates new type processor, registers it and returns generated one.
+     *
+     * @param annotatedType Type whose processor need to generate.
+     * @return generated type processor.
+     */
     private P requireTypeProcessor(AnnotatedType annotatedType)
     {
         P typeProcessor = cspTypeProcessorGenerator.generate(annotatedType);

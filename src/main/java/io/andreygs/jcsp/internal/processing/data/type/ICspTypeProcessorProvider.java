@@ -28,9 +28,25 @@ package io.andreygs.jcsp.internal.processing.data.type;
 import java.lang.reflect.AnnotatedType;
 
 /**
- * TODO: place description here
+ * Provider for type processors.
+ *
+ * @apiNote
+ * Thread-safe.
+ *
+ * @param <P> type of type processor: {@link ICspTypeSerializationProcessor} or {@link ICspTypeDeserializationProcessor}.
  */
 public interface ICspTypeProcessorProvider<P>
 {
+    /**
+     * Provides type processor for annotated type.
+     *
+     * @param annotatedType Type whose processor need to be provided.
+     * @return processor for type.
+     * @throws IllegalArgumentException if processor for this type cannot be provided. It can happen if type is
+     * annotated by illegal or incompatible annotations.
+     *
+     * @apiNote
+     * Idempotent
+     */
     P provide(AnnotatedType annotatedType);
 }

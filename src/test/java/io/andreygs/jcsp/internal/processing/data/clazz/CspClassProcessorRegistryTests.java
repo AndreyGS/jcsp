@@ -26,9 +26,9 @@
 package io.andreygs.jcsp.internal.processing.data.clazz;
 
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -51,14 +51,8 @@ public class CspClassProcessorRegistryTests
     private ICspClassProcessorDescriptor<ICspClassSerializationProcessor<?>> classProcessorDescriptor;
     @Mock
     private ICspClassSerializationProcessor<TestClass> classProcessor;
-
-    private ICspClassProcessorRegistry<ICspClassSerializationProcessor<?>> registry;
-
-    @BeforeEach
-    public void setUp()
-    {
-        registry = new CspClassProcessorRegistry<>(cspClassProcessorDescriptorGenerator);
-    }
+    @InjectMocks
+    private CspClassProcessorRegistry<ICspClassSerializationProcessor<?>> registry;
 
     @Test
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
@@ -71,13 +65,13 @@ public class CspClassProcessorRegistryTests
     @Test
     public void testRegister()
     {
-        assertThat(registry.resolveClassProcessorDescriptor(TestClass.class)).isEmpty();
+        assertThat(registry.findClassProcessorDescriptor(TestClass.class)).isEmpty();
 
         when(cspClassProcessorDescriptorGenerator.<ICspClassSerializationProcessor<?>> generate(classProcessor, TestClass.class))
             .thenReturn(classProcessorDescriptor);
         registry.register(TestClass.class, classProcessor);
 
-        assertThat(registry.resolveClassProcessorDescriptor(TestClass.class)).contains(classProcessorDescriptor);
+        assertThat(registry.findClassProcessorDescriptor(TestClass.class)).contains(classProcessorDescriptor);
     }
 
     @Test
@@ -121,16 +115,16 @@ public class CspClassProcessorRegistryTests
     }
 
     @Test
-    public void testResolveClassProcessorDescriptor()
+    public void testFindClassProcessorDescriptor()
     {
         testRegister();
     }
 
     @Test
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
-    public void testResolveClassProcessorDescriptorNull()
+    public void testFindClassProcessorDescriptorNull()
     {
-        assertThatThrownBy(() -> registry.resolveClassProcessorDescriptor(null))
+        assertThatThrownBy(() -> registry.findClassProcessorDescriptor(null))
             .isInstanceOf(NullPointerException.class);
     }
 
@@ -142,7 +136,7 @@ public class CspClassProcessorRegistryTests
         registry.register(TestClass.class, classProcessor);
         registry.unregister(TestClass.class);
 
-        assertThat(registry.resolveClassProcessorDescriptor(TestClass.class)).isEmpty();
+        assertThat(registry.findClassProcessorDescriptor(TestClass.class)).isEmpty();
     }
 
     @Test

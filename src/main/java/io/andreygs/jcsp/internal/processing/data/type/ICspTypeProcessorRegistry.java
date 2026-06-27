@@ -43,8 +43,7 @@ public interface ICspTypeProcessorRegistry<P>
      * <p>
      * If type processor already have been registered, then new processor will override previous registration.
      *
-     * @param annotatedType Type which has non-trivial traits, like generic parameters and nested structure.
-     *                      For example: List&ltMap&lt@CspReference String, Integer[]>
+     * @param annotatedType Type that processor should handle.
      * @param typeProcessor Type processor that will be used in serialization or deserialization process.
      */
     void register(AnnotatedType annotatedType, P typeProcessor);
@@ -52,7 +51,7 @@ public interface ICspTypeProcessorRegistry<P>
     /**
      * Finds already registered processor for chosen type.
      *
-     * @param annotatedType Type which processor need to be found.
+     * @param annotatedType Type whose processor need to be found.
      * @return optional of type processor if registered and empty optional otherwise.
      */
     Optional<P> find(AnnotatedType annotatedType);

@@ -28,85 +28,80 @@ package io.andreygs.jcsp.internal.processing.data.type;
 import io.andreygs.jcsp.api.processing.data.type.CspTypeToken;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.lang.reflect.AnnotatedType;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
- * Unit-tests for {@link CspTypeProcessorRegistry}.
+ * Unit-tests for {@link CspTypeProcessorProvider}.
  */
 @ExtendWith(MockitoExtension.class)
-public class CspTypeProcessorRegistryTests
+public class CspTypeProcessorProviderTests
 {
     @Mock
-    private ICspTypeSerializationProcessor typeSerializationProcessor;
-    private final CspTypeProcessorRegistry<ICspTypeSerializationProcessor> registry = new CspTypeProcessorRegistry<>();
+    private ICspTypeProcessorRegistry<ICspTypeSerializationProcessor> registry;
+    @Mock
+    private ICspTypeProcessorGenerator<ICspTypeSerializationProcessor> generator;
+    @Mock
+    private ICspTypeSerializationProcessor typeProcessor;
+    @InjectMocks
+    private CspTypeProcessorProvider<ICspTypeSerializationProcessor> provider;
     private final AnnotatedType annotatedType = new CspTypeToken<TestClass<String>>(){}.getAnnotatedType();
 
     @Test
-    public void testRegister()
-    {
-        assertThat(registry.find(annotatedType)).isEmpty();
-        registry.register(annotatedType, typeSerializationProcessor);
-        assertThat(registry.find(annotatedType)).contains(typeSerializationProcessor);
-    }
-
-    @Test
-    public void testRegisterUpdate()
-    {
-        registry.register(annotatedType, typeSerializationProcessor);
-        ICspTypeSerializationProcessor typeSerializationProcessor2 = mock(ICspTypeSerializationProcessor.class);
-        registry.register(annotatedType, typeSerializationProcessor2);
-        assertThat(registry.find(annotatedType)).contains(typeSerializationProcessor2);
-    }
-
-    @Test
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
-    public void testRegisterNullAnnotatedType()
+    public void testConstructorNullRegistry()
     {
-        assertThatThrownBy(() -> registry.register(null, typeSerializationProcessor))
+        assertThatThrownBy(() -> new CspTypeProcessorProvider<>(null, generator))
             .isInstanceOf(NullPointerException.class);
     }
 
     @Test
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
-    public void testRegisterNullProcessor()
+    public void testConstructorNullGenerator()
     {
-        assertThatThrownBy(() -> registry.register(annotatedType, null))
+        assertThatThrownBy(() -> new CspTypeProcessorProvider<>(registry, null))
             .isInstanceOf(NullPointerException.class);
     }
 
     @Test
-    public void testFind()
+    public void testProvideIfAlreadyRegistered()
     {
-        testRegister();
+        when(registry.find(annotatedType)).thenReturn(Optional.of(typeProcessor));
+        assertThat(provider.provide(annotatedType)).isEqualTo(typeProcessor);
+    }
+
+    @Test
+    public void testProvideIfNotAlreadyRegistered()
+    {
+        when(registry.find(annotatedType)).thenReturn(Optional.empty());
+        when(generator.generate(annotatedType)).thenReturn(typeProcessor);
+
+        assertThat(provider.provide(annotatedType)).isEqualTo(typeProcessor);
+        verify(registry).register(annotatedType, typeProcessor);
+    }
+
+    @Test
+    public void testProvideGenerateThrows()
+    {
+        when(registry.find(annotatedType)).thenReturn(Optional.empty());
+        when(generator.generate(annotatedType)).thenThrow(new IllegalArgumentException());
+        assertThatThrownBy(() -> provider.provide(annotatedType)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
-    public void testFindNullAnnotatedType()
+    public void testProvideNullAnnotatedType()
     {
-        assertThatThrownBy(() -> registry.find(null)).isInstanceOf(NullPointerException.class);
-    }
-
-    @Test
-    public void testUnregister()
-    {
-        registry.register(annotatedType, typeSerializationProcessor);
-        registry.unregister(annotatedType);
-        assertThat(registry.find(annotatedType)).isEmpty();
-    }
-
-    @Test
-    @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
-    public void testUnregisterNullAnnotatedType()
-    {
-        assertThatThrownBy(() -> registry.unregister(null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> provider.provide(null)).isInstanceOf(NullPointerException.class);
     }
 
     @SuppressWarnings("unused" /* Parameters are need for tests of work with generic classes */)

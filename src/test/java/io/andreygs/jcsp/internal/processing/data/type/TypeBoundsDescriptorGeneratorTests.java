@@ -26,9 +26,9 @@
 package io.andreygs.jcsp.internal.processing.data.type;
 
 import io.andreygs.jcsp.internal.processing.data.type.factory.ITypeBoundsDescriptorFactory;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -57,14 +57,8 @@ public class TypeBoundsDescriptorGeneratorTests
     private ITypeBoundsDescriptorFactory typeBoundsDescriptorFactory;
     @Mock
     private ITypeBoundsDescriptor typeBoundsDescriptor;
-
+    @InjectMocks
     private TypeBoundsDescriptorGenerator generator;
-
-    @BeforeEach
-    public void setUp()
-    {
-        generator = new TypeBoundsDescriptorGenerator(typeBoundsDescriptorFactory);
-    }
 
     @Test
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
@@ -84,8 +78,8 @@ public class TypeBoundsDescriptorGeneratorTests
                 assertThat(classes).containsExactly(Number.class, Runnable.class);
                 return typeBoundsDescriptor;
             });
-        Optional<ITypeBoundsDescriptor> result = generator.generate(typeVariable);
-        assertThat(result).contains(typeBoundsDescriptor);
+
+        assertThat(generator.generate(typeVariable)).contains(typeBoundsDescriptor);
     }
 
     @Test
@@ -94,8 +88,8 @@ public class TypeBoundsDescriptorGeneratorTests
         TypeVariable<? extends Class<?>> typeVariable = TestGenericClass2.class.getTypeParameters()[1];
         when(typeBoundsDescriptorFactory.create(eq(TypeBoundKind.UPPER_BOUND), eq("T")))
             .thenReturn(typeBoundsDescriptor);
-        Optional<ITypeBoundsDescriptor> result = generator.generate(typeVariable);
-        assertThat(result).contains(typeBoundsDescriptor);
+
+        assertThat(generator.generate(typeVariable)).contains(typeBoundsDescriptor);
     }
 
     @Test
@@ -115,8 +109,8 @@ public class TypeBoundsDescriptorGeneratorTests
                 assertThat(classes).containsExactly(Number.class);
                 return typeBoundsDescriptor;
             });
-        Optional<ITypeBoundsDescriptor> result1 = generator.generate(wildcardType1);
-        assertThat(result1).contains(typeBoundsDescriptor);
+
+        assertThat(generator.generate(wildcardType1)).contains(typeBoundsDescriptor);
 
         WildcardType wildcardType2 = requireWildcardType(TestGenericField.class, "list2");
         when(typeBoundsDescriptorFactory.create(eq(TypeBoundKind.LOWER_BOUND), anySet()))
@@ -125,8 +119,8 @@ public class TypeBoundsDescriptorGeneratorTests
                 assertThat(classes).containsExactly(Number.class);
                 return typeBoundsDescriptor;
             });
-        Optional<ITypeBoundsDescriptor> result2 = generator.generate(wildcardType2);
-        assertThat(result2).contains(typeBoundsDescriptor);
+
+        assertThat(generator.generate(wildcardType2)).contains(typeBoundsDescriptor);
 
         WildcardType wildcardType3 = requireWildcardType(TestGenericField.class, "list3");
         when(typeBoundsDescriptorFactory.create(eq(TypeBoundKind.LOWER_BOUND), anySet()))
@@ -135,8 +129,8 @@ public class TypeBoundsDescriptorGeneratorTests
                 assertThat(classes).containsExactly(Object.class);
                 return typeBoundsDescriptor;
             });
-        Optional<ITypeBoundsDescriptor> result3 = generator.generate(wildcardType3);
-        assertThat(result3).contains(typeBoundsDescriptor);
+
+        assertThat(generator.generate(wildcardType3)).contains(typeBoundsDescriptor);
     }
 
     @Test
@@ -145,14 +139,14 @@ public class TypeBoundsDescriptorGeneratorTests
         WildcardType wildcardType1 = requireWildcardType(TestGenericField.class, "list4");
         when(typeBoundsDescriptorFactory.create(eq(TypeBoundKind.UPPER_BOUND), eq("T")))
             .thenReturn(typeBoundsDescriptor);
-        Optional<ITypeBoundsDescriptor> result1 = generator.generate(wildcardType1);
-        assertThat(result1).contains(typeBoundsDescriptor);
+
+        assertThat(generator.generate(wildcardType1)).contains(typeBoundsDescriptor);
 
         WildcardType wildcardType2 = requireWildcardType(TestGenericField.class, "list5");
         when(typeBoundsDescriptorFactory.create(eq(TypeBoundKind.LOWER_BOUND), eq("T")))
             .thenReturn(typeBoundsDescriptor);
-        Optional<ITypeBoundsDescriptor> result2 = generator.generate(wildcardType2);
-        assertThat(result2).contains(typeBoundsDescriptor);
+
+        assertThat(generator.generate(wildcardType2)).contains(typeBoundsDescriptor);
     }
 
     @Test
@@ -180,6 +174,21 @@ public class TypeBoundsDescriptorGeneratorTests
         assertThatThrownBy(() -> generator.generate(wildcardType3)).isInstanceOf(IllegalArgumentException.class);
         WildcardType wildcardType4 = requireWildcardType(TestForbiddenWildcard.class, "list4");
         assertThatThrownBy(() -> generator.generate(wildcardType4)).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
+    public void testGenerateNullTypeVariable()
+    {
+        assertThatThrownBy(() -> generator.generate((TypeVariable<? extends Class<?>>)null))
+            .isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
+    public void testGenerateNullWildcard()
+    {
+        assertThatThrownBy(() -> generator.generate((WildcardType)null)).isInstanceOf(NullPointerException.class);
     }
 
     private WildcardType requireWildcardType(Class<?> clazz, String fieldName)

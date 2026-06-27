@@ -41,6 +41,9 @@ public interface ITypeVariableDescriptorGenerator
      * @param typeVariable Type variable which descriptor must be generated.
      * @return generated descriptor.
      * @throws IllegalArgumentException if descriptor cannot be generated for this type variable.
+     *
+     * @apiNote
+     * Pure
      */
     ITypeVariableDescriptor generate(TypeVariable<? extends Class<?>> typeVariable);
 }

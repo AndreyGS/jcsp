@@ -44,6 +44,9 @@ public interface ITypeBoundsDescriptorGenerator
      * @return optional of type bounds descriptor or an empty optional if type variable is unbound (upper-bounded with
      * Object).
      * @throws IllegalArgumentException if bound type is not supported or if bound category is unknown.
+     *
+     * @apiNote
+     * Pure
      */
     Optional<ITypeBoundsDescriptor> generate(TypeVariable<? extends Class<?>> typeVariable);
 
@@ -53,6 +56,9 @@ public interface ITypeBoundsDescriptorGenerator
      * @param wildcardType Wildcard which bounds need to be generated.
      * @return optional of type bounds descriptor or an empty optional if type wildcard is unbound.
      * @throws IllegalArgumentException if bound type is not supported or if bound category is unknown.
+     *
+     * @apiNote
+     * Pure
      */
     Optional<ITypeBoundsDescriptor> generate(WildcardType wildcardType);
 }

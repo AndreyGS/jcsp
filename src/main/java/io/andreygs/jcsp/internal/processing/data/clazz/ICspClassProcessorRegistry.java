@@ -60,12 +60,12 @@ public interface ICspClassProcessorRegistry<P>
     void register(Class<?> clazz, P classProcessor);
 
     /**
-     * Resolves processor descriptor for chosen class.
+     * Finds processor descriptor for chosen class.
      *
-     * @param clazz Class which processor descriptor need to be resolved.
+     * @param clazz Class whose processor descriptor need to be resolved.
      * @return non-empty optional class processor descriptor if registered and empty if not.
      */
-    Optional<ICspClassProcessorDescriptor<P>> resolveClassProcessorDescriptor(Class<?> clazz);
+    Optional<ICspClassProcessorDescriptor<P>> findClassProcessorDescriptor(Class<?> clazz);
 
     /**
      * Unregisters class processor of provided class.
