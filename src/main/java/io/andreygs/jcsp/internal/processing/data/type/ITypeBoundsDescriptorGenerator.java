@@ -42,7 +42,7 @@ public interface ITypeBoundsDescriptorGenerator
      *
      * @param typeVariable Type variable which bounds need to be generated.
      * @return optional of type bounds descriptor or an empty optional if type variable is unbound (upper-bounded with
-     * Object).
+     * {@link Object}).
      * @throws IllegalArgumentException if bound type is not supported or if bound category is unknown.
      *
      * @apiNote
@@ -54,7 +54,8 @@ public interface ITypeBoundsDescriptorGenerator
      * Generates descriptor of wildcard bound.
      *
      * @param wildcardType Wildcard which bounds need to be generated.
-     * @return optional of type bounds descriptor or an empty optional if type wildcard is unbound.
+     * @return optional of type bounds descriptor or an empty optional if type wildcard is unbound (upper-bounded with
+     * {@link Object}).
      * @throws IllegalArgumentException if bound type is not supported or if bound category is unknown.
      *
      * @apiNote

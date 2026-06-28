@@ -64,7 +64,7 @@ public class TypeBoundsDescriptorGenerator implements ITypeBoundsDescriptorGener
     @Override
     public Optional<ITypeBoundsDescriptor> generate(TypeVariable<? extends Class<?>> typeVariable)
     {
-        return generateInternal(TypeBoundKind.UPPER_BOUND, typeVariable.getBounds());
+        return generateCommon(TypeBoundKind.UPPER_BOUND, typeVariable.getBounds());
     }
 
     /**
@@ -78,17 +78,27 @@ public class TypeBoundsDescriptorGenerator implements ITypeBoundsDescriptorGener
         Type[] lowerBounds = wildcardType.getLowerBounds();
         if (lowerBounds.length == 1)
         {
-            return generateInternal(TypeBoundKind.LOWER_BOUND, lowerBounds);
+            return generateCommon(TypeBoundKind.LOWER_BOUND, lowerBounds);
         }
         Type[] upperBounds = wildcardType.getUpperBounds();
         if (upperBounds.length == 1)
         {
-            return generateInternal(TypeBoundKind.UPPER_BOUND, upperBounds);
+            return generateCommon(TypeBoundKind.UPPER_BOUND, upperBounds);
         }
         throw new IllegalArgumentException(Messages.TypeBoundsDescriptorGenerator_Unknown_bound_type_category);
     }
 
-    private Optional<ITypeBoundsDescriptor> generateInternal(TypeBoundKind typeBoundKind, Type[] bounds)
+    /**
+     * Generates optional of wildcard bound descriptor.
+     * <p>
+     * Common part of generating process.
+     *
+     * @param typeBoundKind Kind of type bounds.
+     * @param bounds Array of types which are bound some other type.
+     * @return optional of type bounds descriptor or an empty optional if type wildcard is unbound.
+     * @throws IllegalArgumentException if bound type is generic class or array or if bound category is unknown.
+     */
+    private Optional<ITypeBoundsDescriptor> generateCommon(TypeBoundKind typeBoundKind, Type[] bounds)
     {
         Optional<String> boundTypeName = resolveTypeVariableName(bounds[0]);
         if (boundTypeName.isPresent())
@@ -111,6 +121,13 @@ public class TypeBoundsDescriptorGenerator implements ITypeBoundsDescriptorGener
         return Optional.of(typeBoundsDescriptorFactory.create(typeBoundKind, boundClasses));
     }
 
+    /**
+     * Resolves name of type variable from {@link Type}.
+     *
+     * @param type Type which can be instanceof {@link TypeVariable}.
+     * @return optional of type variable name, if type is instance of {@link TypeVariable}, and empty optional
+     * otherwise.
+     */
     private Optional<String> resolveTypeVariableName(Type type)
     {
         if (type instanceof TypeVariable<?> typeVariable)
@@ -120,6 +137,14 @@ public class TypeBoundsDescriptorGenerator implements ITypeBoundsDescriptorGener
         return Optional.empty();
     }
 
+    /**
+     * Requires {@link Class} from {@link Type}
+     *
+     * @param type Type whose {@link Class} is needed.
+     * @return class of type.
+     * @throws IllegalArgumentException if type is not instance of {@link Class}, or if bound type is generic class or
+     * array.
+     */
     private Class<?> requireClass(Type type)
     {
         if (type instanceof Class<?> clazz)

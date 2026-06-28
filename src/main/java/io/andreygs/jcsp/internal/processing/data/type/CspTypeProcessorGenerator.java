@@ -162,7 +162,7 @@ public class CspTypeProcessorGenerator<P> implements ICspTypeProcessorGenerator<
         if (lowerBoundAnnotatedTypes.length == 0 && upperBoundAnnotatedTypes.length == 0)
         {
             throw CspRuntimeException.createCspRuntimeException(CspStatus.ERROR_IN_STRUCT_FORMAT,
-                Messages.CspStatus_Error_in_struct_format_Unbound_wildcard_type_cannot_be_processed);
+                Messages.CspStatus_Error_in_struct_format_Unbound_and_not_overridden_wildcard_type_cannot_be_processed);
         }
         else if (lowerBoundAnnotatedTypes.length == 1)
         {

@@ -26,9 +26,9 @@
 package io.andreygs.jcsp.internal.processing.data.type.utils;
 
 /**
- * Unit-tests for {@link CspTypeUtils}.
+ * Unit-tests for {@link CspFieldTypeUtils}.
  */
-public class CspTypeUtilsTests
+public class CspFieldTypeUtilsTests
 {
 
 }

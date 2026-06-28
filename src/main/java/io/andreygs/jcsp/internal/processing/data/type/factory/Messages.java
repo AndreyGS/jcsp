@@ -40,7 +40,7 @@ final class Messages
     public static String CspStatus_Error_in_struct_format_Primitive__0__is_not_supported;
     public static String CspStatus_Error_in_struct_format_Property__0__for_struct__1__not_set;
     public static String CspStatus_Error_in_struct_format_Sequence_number_is_invalid;
-    public static String CspStatus_Error_in_struct_format_Unbound_wildcard_type_cannot_be_processed;
+    public static String CspStatus_Error_in_struct_format_Unbound_and_not_overridden_wildcard_type_cannot_be_processed;
     public static String CspStatus_Error_in_struct_format_Unknown_type_category;
 
     static
