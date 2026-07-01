@@ -70,13 +70,20 @@ public class CspTypeUtils
      *                      processor methods. If not null, then declaredClass must be assignable from it.
      *                      If equals to null, then there is no override class and {@code Collection.class} will be
      *                      returned.
-     * @param declaredClass Declared class.
+     * @param declaredClass Declared class. Must extend {@link Collection}.
      * @return class which must be used for some {@link Collection} processing.
      * @throws CspRuntimeException with {@link CspStatus#ERROR_IN_STRUCT_FORMAT} if overrideClass is not null and
-     * declaredClass is not assignable from it.
+     * declaredClass is not assignable from it. Both class names will be in exception message.
+     * @throws IllegalArgumentException when declaredClass not extend {@link Collection}. This is internal error and
+     * exception message will contain this information.
      */
     public static Class<?> requireClassForCollectionProcessing(@Nullable Class<?> overrideClass, Class<?> declaredClass)
     {
+        if (!Collection.class.isAssignableFrom(declaredClass))
+        {
+            throw new IllegalArgumentException(MessageFormat.format(
+                Messages.CspStatus_Error_in_struct_format_Internal_error_class__0__is_not_a_collection, declaredClass));
+        }
         if (overrideClass != null)
         {
             validateOverrideClassToDeclaredClass(overrideClass, declaredClass, TypeBoundKind.UPPER_BOUND);
@@ -91,13 +98,20 @@ public class CspTypeUtils
      * @param overrideClass Class whose class processor must be used instead of standard {@link Map} data
      *                      processor methods. If not null, then declaredClass must be assignable from it.
      *                      If equals to null, then there is no override class and {@code Map.class} will be returned.
-     * @param declaredClass Declared class.
+     * @param declaredClass Declared class. Must extend {@link Map}.
      * @return class which must be used for some {@link Map} processing.
      * @throws CspRuntimeException with {@link CspStatus#ERROR_IN_STRUCT_FORMAT} if overrideClass is not null and
-     * declaredClass is not assignable from it.
+     * declaredClass is not assignable from it. Both class names will be in exception message.
+     * @throws IllegalArgumentException when declaredClass not extend {@link Map}. This is internal error and exception
+     * message will contain this information.
      */
     public static Class<?> requireClassForMapProcessing(@Nullable Class<?> overrideClass, Class<?> declaredClass)
     {
+        if (!Map.class.isAssignableFrom(declaredClass))
+        {
+            throw new IllegalArgumentException(MessageFormat.format(
+                Messages.CspStatus_Error_in_struct_format_Internal_error_class__0__is_not_a_map, declaredClass));
+        }
         if (overrideClass != null)
         {
             validateOverrideClassToDeclaredClass(overrideClass, declaredClass, TypeBoundKind.UPPER_BOUND);
@@ -200,7 +214,7 @@ public class CspTypeUtils
      * @param declaredClass Declared class.
      * @param typeBoundKind Kind of type bound.
      * @throws CspRuntimeException with {@link CspStatus#ERROR_IN_STRUCT_FORMAT} if overrideClass is not null and
-     * assignability check for it and declaredClass is failed.
+     * assignability check for it and declaredClass is failed. Both class names will be in exception message.
      */
     private static void validateOverrideClassToDeclaredClass(Class<?> overrideClass, Class<?> declaredClass,
         TypeBoundKind typeBoundKind)

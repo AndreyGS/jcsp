@@ -28,19 +28,29 @@ package io.andreygs.jcsp.internal.utils;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * TODO: place description here
  */
 public class ResourceMessagesLoader
 {
+    private static final Properties properties = new Properties();
+
+    static
+    {
+        initCommonConstants();
+    }
+
     public static void loadMessages(Class<?> clazz)
     {
         try
         {
-            ResourceBundle bundle = ResourceBundle.getBundle(clazz.getPackageName() + ".messages"
-                , Locale.getDefault());
+            ResourceBundle bundle = ResourceBundle.getBundle(clazz.getPackageName() + ".messages",
+                Locale.getDefault());
             for (Field field : clazz.getDeclaredFields())
             {
                 if (Modifier.isStatic(field.getModifiers()) && Modifier.isPublic(field.getModifiers())
@@ -48,6 +58,7 @@ public class ResourceMessagesLoader
                 {
                     String key = field.getName();
                     String value = bundle.getString(key);
+                    value = replacePlaceholders(value);
                     field.setAccessible(true);
                     field.set(null, value);
                 }
@@ -57,5 +68,39 @@ public class ResourceMessagesLoader
         {
             throw new RuntimeException(e);
         }
+    }
+
+    private static void initCommonConstants()
+    {
+        ResourceBundle bundle = ResourceBundle.getBundle(ResourceMessagesLoader.class.getPackageName() + ".messages",
+            Locale.getDefault());
+        for (String key : bundle.keySet())
+        {
+            properties.put(key, bundle.getString(key));
+        }
+    }
+
+    private static String replacePlaceholders(String value)
+    {
+        if (value.contains("${"))
+        {
+            String regex = "\\$\\{([^}]+)}";
+            Pattern pattern = Pattern.compile(regex);
+            while (value.contains("${"))
+            {
+                Matcher matcher = pattern.matcher(value);
+                if (matcher.find())
+                {
+                    String property = matcher.group(1);
+                    String propertyValue = properties.getProperty(property);
+                    value = value.replaceAll("\\$\\{" + property + "}", propertyValue);
+                }
+            }
+        }
+        return value;
+    }
+
+    private ResourceMessagesLoader()
+    {
     }
 }
