@@ -28,11 +28,16 @@ package io.andreygs.jcsp.api.exception;
 import io.andreygs.jcsp.api.protocol.CspStatus;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.Serial;
+
 /**
  * Runtime exceptions with CSP statuses according to CSP references.
  */
 public class CspRuntimeException extends RuntimeException
 {
+    @Serial
+    private static final long serialVersionUID = 4005422437223557189L;
+
     private final CspStatus cspStatus;
 
     private CspRuntimeException(CspStatus cspStatus, @Nullable Throwable cause)
@@ -43,7 +48,7 @@ public class CspRuntimeException extends RuntimeException
 
     private CspRuntimeException(CspStatus cspStatus, String additionalInfo, @Nullable Throwable cause)
     {
-        super(cspStatus.toString() + ": " + additionalInfo, cause);
+        super(cspStatus + ": " + additionalInfo, cause);
         this.cspStatus = cspStatus;
     }
 

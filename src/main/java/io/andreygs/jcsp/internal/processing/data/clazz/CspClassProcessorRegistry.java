@@ -25,6 +25,7 @@
 
 package io.andreygs.jcsp.internal.processing.data.clazz;
 
+import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
@@ -58,19 +59,21 @@ public class CspClassProcessorRegistry<P>
     /**
      * {@inheritDoc}
      *
-     * @throws IllegalArgumentException if class processor is primitive, array, String, Collection or Map
-     * or if {@link ICspClassProcessorDescriptorGenerator} throws it.
+     * @throws IllegalArgumentException if class processor is primitive, array, String, Collection or Map (its message
+     * will contain name of illegal class), or if {@link ICspClassProcessorDescriptorGenerator} throws it.
      */
     @Override
     public void register(Class<?> clazz, P classProcessor)
     {
         if (clazz.isPrimitive() || clazz.isArray())
         {
-            throw new IllegalArgumentException(Messages.CspClassProcessorRegistry_Illegal_type_group);
+            throw new IllegalArgumentException(
+                MessageFormat.format(Messages.CspClassProcessorRegistry_Illegal_type_group__0, clazz.getName()));
         }
         if (clazz == String.class || clazz == Collection.class || clazz == Map.class)
         {
-            throw new IllegalArgumentException(Messages.CspClassProcessorRegistry_Illegal_class);
+            throw new IllegalArgumentException(
+                MessageFormat.format(Messages.CspClassProcessorRegistry_Illegal_class__0, clazz.getName()));
         }
         ICspClassProcessorDescriptor<P> newDescriptor =
             cspClassProcessorDescriptorGenerator.generate(Objects.requireNonNull(classProcessor), clazz);

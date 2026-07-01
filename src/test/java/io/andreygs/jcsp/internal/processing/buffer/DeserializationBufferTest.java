@@ -26,9 +26,6 @@
 package io.andreygs.jcsp.internal.processing.buffer;
 
 import io.andreygs.jcsp.CommonUtils;
-import io.andreygs.jcsp.internal.processing.buffer.DeserializationBuffer;
-import io.andreygs.jcsp.internal.processing.buffer.IBuffer;
-import io.andreygs.jcsp.internal.processing.buffer.IDeserializationBuffer;
 import org.junit.jupiter.api.Test;
 
 import java.nio.ByteBuffer;
@@ -47,7 +44,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Unit-tests for {@link DeserializationBuffer}.
  */
-public class DeserializationBufferTests
+public class DeserializationBufferTest
 {
     @Test
     public void testGetBuffer()

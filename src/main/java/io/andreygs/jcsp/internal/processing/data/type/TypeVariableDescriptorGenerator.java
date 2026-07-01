@@ -60,8 +60,9 @@ public class TypeVariableDescriptorGenerator implements ITypeVariableDescriptorG
     /**
      * {@inheritDoc}
      *
-     * @throws IllegalArgumentException if {@link ITypeBoundsDescriptorGenerator#generate(TypeVariable)} throws it.
-     * In latter case, additional information with the type variable name is added.
+     * @throws IllegalArgumentException if {@link ITypeBoundsDescriptorGenerator#generate(TypeVariable)} throws it -
+     * new IllegalArgumentException will be thrown with original as cause, and additional information with
+     * the type variable name will be added.
      */
     @Override
     public ITypeVariableDescriptor generate(TypeVariable<? extends Class<?>> typeVariable)
@@ -74,8 +75,8 @@ public class TypeVariableDescriptorGenerator implements ITypeVariableDescriptorG
         }
         catch (IllegalArgumentException e)
         {
-            throw new IllegalArgumentException(
-                MessageFormat.format(Messages.TypeVariableDescriptorGenerator_Failed_to_generate_type_bounds_for_type_variable__0, name), e);
+            throw new IllegalArgumentException(MessageFormat.format(
+                Messages.TypeVariableDescriptorGenerator_Failed_to_generate_type_bounds_for_type_variable__0, name), e);
         }
         return typeVariableDescriptorFactory.create(name, typeBoundsDescriptor.orElse(null));
     }

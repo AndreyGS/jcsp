@@ -38,11 +38,11 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -51,7 +51,7 @@ import static org.mockito.Mockito.when;
  * Unit-tests for {@link TypeBoundsDescriptorGenerator}.
  */
 @ExtendWith(MockitoExtension.class)
-public class TypeBoundsDescriptorGeneratorTests
+public class TypeBoundsDescriptorGeneratorTest
 {
     @Mock
     private ITypeBoundsDescriptorFactory typeBoundsDescriptorFactory;
@@ -64,8 +64,7 @@ public class TypeBoundsDescriptorGeneratorTests
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testConstructorNullFactory()
     {
-        assertThatThrownBy(() -> new TypeBoundsDescriptorGenerator(null))
-            .isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(() -> new TypeBoundsDescriptorGenerator(null));
     }
 
     @Test
@@ -160,35 +159,34 @@ public class TypeBoundsDescriptorGeneratorTests
     public void testGenerateTypeVariableForbiddenTypeBounds()
     {
         TypeVariable<? extends Class<?>> typeVariable = TestForbiddenClass.class.getTypeParameters()[0];
-        assertThatThrownBy(() -> generator.generate(typeVariable)).isInstanceOf(IllegalArgumentException.class);
+        assertThatIllegalArgumentException().isThrownBy(() -> generator.generate(typeVariable));
     }
 
     @Test
     public void testGenerateWildcardForbiddenTypeBounds()
     {
         WildcardType wildcardType1 = requireWildcardType(TestForbiddenWildcard.class, "list1");
-        assertThatThrownBy(() -> generator.generate(wildcardType1)).isInstanceOf(IllegalArgumentException.class);
+        assertThatIllegalArgumentException().isThrownBy(() -> generator.generate(wildcardType1));
         WildcardType wildcardType2 = requireWildcardType(TestForbiddenWildcard.class, "list2");
-        assertThatThrownBy(() -> generator.generate(wildcardType2)).isInstanceOf(IllegalArgumentException.class);
+        assertThatIllegalArgumentException().isThrownBy(() -> generator.generate(wildcardType2));
         WildcardType wildcardType3 = requireWildcardType(TestForbiddenWildcard.class, "list3");
-        assertThatThrownBy(() -> generator.generate(wildcardType3)).isInstanceOf(IllegalArgumentException.class);
+        assertThatIllegalArgumentException().isThrownBy(() -> generator.generate(wildcardType3));
         WildcardType wildcardType4 = requireWildcardType(TestForbiddenWildcard.class, "list4");
-        assertThatThrownBy(() -> generator.generate(wildcardType4)).isInstanceOf(IllegalArgumentException.class);
+        assertThatIllegalArgumentException().isThrownBy(() -> generator.generate(wildcardType4));
     }
 
     @Test
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testGenerateNullTypeVariable()
     {
-        assertThatThrownBy(() -> generator.generate((TypeVariable<? extends Class<?>>)null))
-            .isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(() -> generator.generate((TypeVariable<? extends Class<?>>)null));
     }
 
     @Test
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testGenerateNullWildcard()
     {
-        assertThatThrownBy(() -> generator.generate((WildcardType)null)).isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(() -> generator.generate((WildcardType)null));
     }
 
     private WildcardType requireWildcardType(Class<?> clazz, String fieldName)

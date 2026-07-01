@@ -26,7 +26,6 @@
 package io.andreygs.jcsp.internal.processing.buffer;
 
 import io.andreygs.jcsp.api.processing.buffer.IBufferResizeStrategy;
-import io.andreygs.jcsp.internal.processing.buffer.DoublingBufferSizeStrategy;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,7 +34,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 /**
  * Unit-tests for {@link DoublingBufferSizeStrategy}.
  */
-public class DoublingBufferSizeStrategyTests
+public class DoublingBufferSizeStrategyTest
 {
     private final IBufferResizeStrategy strategy = new DoublingBufferSizeStrategy();
 

@@ -33,10 +33,10 @@ import io.andreygs.jcsp.internal.utils.ResourceMessagesLoader;
 @SuppressWarnings("NotNullFieldNotInitialized" /* All strings will be initialized in static initialization block */)
 final class Messages
 {
-    public static String CspClassProcessorDescriptorGenerator_Arrays_not_supported;
+    public static String CspClassProcessorDescriptorGenerator_Arrays_not_supported__0;
     public static String CspClassProcessorDescriptorGenerator_Descriptor_for_class__0__cannot_be_generated;
-    public static String CspClassProcessorRegistry_Illegal_class;
-    public static String CspClassProcessorRegistry_Illegal_type_group;
+    public static String CspClassProcessorRegistry_Illegal_class__0;
+    public static String CspClassProcessorRegistry_Illegal_type_group__0;
     public static String CspClassSerializationProcessorGenerator_ICspSerializationProcessor_is_invalid;
 
     static

@@ -28,11 +28,16 @@ package io.andreygs.jcsp.api.exception;
 import io.andreygs.jcsp.api.protocol.CspStatus;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.Serial;
+
 /**
  * TODO: place description here
  */
 public class CspException extends Exception
 {
+    @Serial
+    private static final long serialVersionUID = 4966365771625868980L;
+
     private final CspStatus cspStatus;
 
     private CspException(CspStatus cspStatus, @Nullable Throwable cause)
@@ -43,7 +48,7 @@ public class CspException extends Exception
 
     private CspException(CspStatus cspStatus, String additionalInfo, @Nullable Throwable cause)
     {
-        super(cspStatus.toString() + ": " + additionalInfo, cause);
+        super(cspStatus + ": " + additionalInfo, cause);
         this.cspStatus = cspStatus;
     }
 

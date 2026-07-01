@@ -36,14 +36,15 @@ import java.util.Collection;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.mockito.Mockito.when;
 
 /**
  * Unit-tests for {@link CspClassProcessorRegistry}.
  */
 @ExtendWith(MockitoExtension.class)
-public class CspClassProcessorRegistryTests
+public class CspClassProcessorRegistryTest
 {
     @Mock
     private ICspClassProcessorDescriptorGenerator cspClassProcessorDescriptorGenerator;
@@ -58,8 +59,8 @@ public class CspClassProcessorRegistryTests
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testConstructorNullDescriptorGenerator()
     {
-        assertThatThrownBy(() -> new CspClassProcessorRegistry<ICspClassSerializationProcessor<?>>(null))
-            .isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException()
+            .isThrownBy(() -> new CspClassProcessorRegistry<ICspClassSerializationProcessor<?>>(null));
     }
 
     @Test
@@ -78,31 +79,29 @@ public class CspClassProcessorRegistryTests
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testRegisterNullClassProcessor()
     {
-        assertThatThrownBy(() -> registry.register(TestClass.class, null))
-            .isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(() -> registry.register(TestClass.class, null));
     }
 
     @Test
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testRegisterNullClass()
     {
-        assertThatThrownBy(() -> registry.register(null, classProcessor))
-            .isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(() -> registry.register(null, classProcessor));
     }
 
     @Test
     public void testRegisterNotAllowedClass()
     {
-        assertThatThrownBy(() -> registry.register(int.class, classProcessor))
-            .isInstanceOf(IllegalArgumentException.class);
-        assertThatThrownBy(() -> registry.register(Test[].class, classProcessor))
-            .isInstanceOf(IllegalArgumentException.class);
-        assertThatThrownBy(() -> registry.register(String.class, classProcessor))
-            .isInstanceOf(IllegalArgumentException.class);
-        assertThatThrownBy(() -> registry.register(Collection.class, classProcessor))
-            .isInstanceOf(IllegalArgumentException.class);
-        assertThatThrownBy(() -> registry.register(Map.class, classProcessor))
-            .isInstanceOf(IllegalArgumentException.class);
+        assertThatIllegalArgumentException().isThrownBy(() -> registry.register(int.class, classProcessor))
+                                            .withMessageContaining(int.class.getName());
+        assertThatIllegalArgumentException().isThrownBy(() -> registry.register(Test[].class, classProcessor))
+                                            .withMessageContaining(Test[].class.getName());
+        assertThatIllegalArgumentException().isThrownBy(() -> registry.register(String.class, classProcessor))
+                                            .withMessageContaining(String.class.getName());
+        assertThatIllegalArgumentException().isThrownBy(() -> registry.register(Collection.class, classProcessor))
+                                            .withMessageContaining(Collection.class.getName());
+        assertThatIllegalArgumentException().isThrownBy(() -> registry.register(Map.class, classProcessor))
+                                            .withMessageContaining(Map.class.getName());
     }
 
     @Test
@@ -110,8 +109,7 @@ public class CspClassProcessorRegistryTests
     {
         when(cspClassProcessorDescriptorGenerator.<ICspClassSerializationProcessor<?>> generate(classProcessor, TestClass.class))
             .thenThrow(new IllegalArgumentException());
-        assertThatThrownBy(() -> registry.register(TestClass.class, classProcessor))
-            .isInstanceOf(IllegalArgumentException.class);
+        assertThatIllegalArgumentException().isThrownBy(() -> registry.register(TestClass.class, classProcessor));
     }
 
     @Test
@@ -124,8 +122,7 @@ public class CspClassProcessorRegistryTests
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testFindClassProcessorDescriptorNull()
     {
-        assertThatThrownBy(() -> registry.findClassProcessorDescriptor(null))
-            .isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(() -> registry.findClassProcessorDescriptor(null));
     }
 
     @Test
@@ -143,7 +140,7 @@ public class CspClassProcessorRegistryTests
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testUnregisterNullClass()
     {
-        assertThatThrownBy(() -> registry.unregister(null)).isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(() -> registry.unregister(null));
     }
 
     private static class TestClass

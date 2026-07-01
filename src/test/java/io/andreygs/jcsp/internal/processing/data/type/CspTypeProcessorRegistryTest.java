@@ -34,14 +34,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.lang.reflect.AnnotatedType;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.mockito.Mockito.mock;
 
 /**
  * Unit-tests for {@link CspTypeProcessorRegistry}.
  */
 @ExtendWith(MockitoExtension.class)
-public class CspTypeProcessorRegistryTests
+public class CspTypeProcessorRegistryTest
 {
     @Mock
     private ICspTypeSerializationProcessor typeSerializationProcessor;
@@ -69,16 +69,14 @@ public class CspTypeProcessorRegistryTests
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testRegisterNullAnnotatedType()
     {
-        assertThatThrownBy(() -> registry.register(null, typeSerializationProcessor))
-            .isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(() -> registry.register(null, typeSerializationProcessor));
     }
 
     @Test
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testRegisterNullProcessor()
     {
-        assertThatThrownBy(() -> registry.register(annotatedType, null))
-            .isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(() -> registry.register(annotatedType, null));
     }
 
     @Test
@@ -91,7 +89,7 @@ public class CspTypeProcessorRegistryTests
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testFindNullAnnotatedType()
     {
-        assertThatThrownBy(() -> registry.find(null)).isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(() -> registry.find(null));
     }
 
     @Test
@@ -106,7 +104,7 @@ public class CspTypeProcessorRegistryTests
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testUnregisterNullAnnotatedType()
     {
-        assertThatThrownBy(() -> registry.unregister(null)).isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(() -> registry.unregister(null));
     }
 
     @SuppressWarnings("unused" /* Parameters are need for tests of work with generic classes */)

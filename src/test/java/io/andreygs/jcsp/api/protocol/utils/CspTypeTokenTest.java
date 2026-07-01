@@ -45,7 +45,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 /**
  * Unit-tests for {@link CspTypeToken}.
  */
-public class CspTypeTokenTests
+public class CspTypeTokenTest
 {
     @Test
     public void testNotGenericSubType()

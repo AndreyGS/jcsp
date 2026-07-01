@@ -36,8 +36,8 @@ import java.lang.reflect.TypeVariable;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -45,7 +45,7 @@ import static org.mockito.Mockito.when;
  * Unit-tests for {@link TypeVariableDescriptorGenerator}.
  */
 @ExtendWith(MockitoExtension.class)
-public class TypeVariableDescriptorGeneratorTests
+public class TypeVariableDescriptorGeneratorTest
 {
     @Mock
     private ITypeVariableDescriptorFactory typeVariableDescriptorFactory;
@@ -60,18 +60,16 @@ public class TypeVariableDescriptorGeneratorTests
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testConstructorNullDescriptorFactory()
     {
-        assertThatThrownBy(
-            () -> new TypeVariableDescriptorGenerator(null, typeBoundsDescriptorGenerator))
-                .isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(
+            () -> new TypeVariableDescriptorGenerator(null, typeBoundsDescriptorGenerator));
     }
 
     @Test
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testConstructorNullBoundsDescriptorGenerator()
     {
-        assertThatThrownBy(
-            () -> new TypeVariableDescriptorGenerator(typeVariableDescriptorFactory, null))
-                .isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(
+            () -> new TypeVariableDescriptorGenerator(typeVariableDescriptorFactory, null));
     }
 
     @Test
@@ -94,7 +92,7 @@ public class TypeVariableDescriptorGeneratorTests
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testGenerateNullTypeVariable()
     {
-        assertThatThrownBy(() -> generator.generate(null)).isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(() -> generator.generate(null));
     }
 
     @Test
@@ -103,14 +101,13 @@ public class TypeVariableDescriptorGeneratorTests
         Throwable cause = new IllegalArgumentException();
         TypeVariable<? extends Class<?>> typeVariable = TestClass.class.getTypeParameters()[0];
         when(typeBoundsDescriptorGenerator.generate(typeVariable)).thenThrow(cause);
-        Throwable throwable = catchThrowable(() -> generator.generate(typeVariable));
-        assertThat(throwable.getCause()).isEqualTo(cause);
-        assertThat(throwable).isInstanceOf(IllegalArgumentException.class);
-        assertThat(throwable.getMessage()).contains("XXXX");
+        assertThatIllegalArgumentException().isThrownBy(() -> generator.generate(typeVariable))
+            .withCause(cause)
+            .withMessageContaining(typeVariable.getName());
     }
 
+    @SuppressWarnings("unused" /* Params are need for tests of work with generic classes */)
     private static class TestClass<XXXX>
     {
-
     }
 }

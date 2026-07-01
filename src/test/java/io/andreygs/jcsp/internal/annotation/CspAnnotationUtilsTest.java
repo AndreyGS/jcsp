@@ -53,7 +53,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 /**
  * Unit-tests for {@link CspAnnotationUtils}.
  */
-public class CspAnnotationUtilsTests
+public class CspAnnotationUtilsTest
 {
     @Test
     public void testIsCspCreateProcessorAnnotationExists()

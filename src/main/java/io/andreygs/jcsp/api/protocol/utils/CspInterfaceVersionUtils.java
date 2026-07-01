@@ -32,10 +32,10 @@ import io.andreygs.jcsp.api.protocol.ICspInterfaceVersion;
  */
 public class CspInterfaceVersionUtils
 {
-    public static int DEFAULT_CSP_INTERFACE_RAW_VERSION = 0xffffffff;
-    public static ICspInterfaceVersion DEFAULT_CSP_INTERFACE_VERSION = () -> DEFAULT_CSP_INTERFACE_RAW_VERSION;
+    public static final int DEFAULT_CSP_INTERFACE_RAW_VERSION = 0xffffffff;
+    public static final ICspInterfaceVersion DEFAULT_CSP_INTERFACE_VERSION = () -> DEFAULT_CSP_INTERFACE_RAW_VERSION;
 
-    private static long DEFAULT_CSP_INTERFACE_LONG_VERSION = 0xffffffffL;
+    private static final long DEFAULT_CSP_INTERFACE_LONG_VERSION = 0xffffffffL;
 
     private CspInterfaceVersionUtils()
     {

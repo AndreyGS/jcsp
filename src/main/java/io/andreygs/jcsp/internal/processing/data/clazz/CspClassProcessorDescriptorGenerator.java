@@ -67,14 +67,16 @@ public class CspClassProcessorDescriptorGenerator implements ICspClassProcessorD
      * {@inheritDoc}
      *
      * @throws IllegalArgumentException if clazz is an array or if {@link ITypeVariableDescriptorGenerator} throws it.
-     * In latter case, additional information with the class name is added.
+     * In later case new IllegalArgumentException will be thrown with original as cause.
+     * In both cases, additional information with the class name will be added.
      */
     @Override
     public <P> ICspClassProcessorDescriptor<P> generate(P classProcessor, Class<?> clazz)
     {
         if (clazz.isArray())
         {
-            throw new IllegalArgumentException(Messages.CspClassProcessorDescriptorGenerator_Arrays_not_supported);
+            throw new IllegalArgumentException(MessageFormat.format(
+                Messages.CspClassProcessorDescriptorGenerator_Arrays_not_supported__0, clazz.getName()));
         }
         TypeVariable<? extends Class<?>>[] typeVariables = clazz.getTypeParameters();
         if (typeVariables.length == 0)

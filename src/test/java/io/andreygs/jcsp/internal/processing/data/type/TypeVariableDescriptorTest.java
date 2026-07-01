@@ -31,13 +31,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 /**
  * Unit-tests for {@link TypeVariableDescriptor}.
  */
 @ExtendWith(MockitoExtension.class)
-public class TypeVariableDescriptorTests
+public class TypeVariableDescriptorTest
 {
     @Mock
     private ITypeBoundsDescriptor typeBoundsDescriptor;
@@ -54,8 +54,7 @@ public class TypeVariableDescriptorTests
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testConstructorNullTypeName()
     {
-        assertThatThrownBy(() -> new TypeVariableDescriptor(null, typeBoundsDescriptor))
-            .isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(() -> new TypeVariableDescriptor(null, typeBoundsDescriptor));
     }
 
     @Test

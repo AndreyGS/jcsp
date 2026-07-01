@@ -39,15 +39,19 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Utility class for evaluating CSP type traits of fields and their validation.
+ * Utility class for evaluating CSP type traits and their validation.
  */
-public class CspFieldTypeUtils
+public class CspTypeUtils
 {
+    private static final String CSP_PROPERTY_CHARSET = "charset";
+    private static final String CSP_TYPE_STRING = "CSP String";
+
     /**
      * Requires that supplied string charset is not null.
      *
      * @param charset Charset (of CSP {@link String}).
      * @throws CspRuntimeException with {@link CspStatus#ERROR_IN_STRUCT_FORMAT} if charset is null.
+     * Its message will contain {@link #CSP_TYPE_STRING} and {@link #CSP_PROPERTY_CHARSET} as error sources.
      */
     public static void requireStringCharset(@Nullable Charset charset)
     {
@@ -55,7 +59,7 @@ public class CspFieldTypeUtils
         {
             throw CspRuntimeException.createCspRuntimeException(CspStatus.ERROR_IN_STRUCT_FORMAT,
                 MessageFormat.format(Messages.CspStatus_Error_in_struct_format_Property__0__for_struct__1__not_set,
-                    "charset", "CSP String"));
+                    CSP_PROPERTY_CHARSET, CSP_TYPE_STRING));
         }
     }
 
@@ -110,7 +114,8 @@ public class CspFieldTypeUtils
      *                      class must extend it, and if is lower, then bound class must extend override class. This
      *                      check is performing here if bounds are specific classes, but if bound is type variable, then
      *                      it couldn't be validated with current data and no checking is performed here.
-     * @param typeBoundsDescriptor Descriptor of wildcard type bounds which is part of field type. Note that descriptor
+     * @param typeBoundsDescriptor Descriptor of wildcard type bounds which is part of field type or generic type
+     *                             argument of field type or one of its generic arguments. Note that descriptor
      *                             can have at most one bound, because field type declaration does not allow to have
      *                             more. Can be null, if wildcard is unbound (upper-bounded with {@link Object}).
      * @return optional of class for wildcard processing and an empty optional if type bounds descriptor has type
@@ -210,5 +215,9 @@ public class CspFieldTypeUtils
                     typeBoundKind == TypeBoundKind.UPPER_BOUND ? overrideClass : declaredClass,
                     typeBoundKind == TypeBoundKind.UPPER_BOUND ? declaredClass : overrideClass));
         }
+    }
+
+    private CspTypeUtils()
+    {
     }
 }

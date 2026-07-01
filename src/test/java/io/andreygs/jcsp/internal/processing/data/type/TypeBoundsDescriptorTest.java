@@ -30,12 +30,14 @@ import org.junit.jupiter.api.Test;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Unit-tests for {@link TypeBoundsDescriptor}.
  */
-public class TypeBoundsDescriptorTests
+public class TypeBoundsDescriptorTest
 {
     @Test
     public void testConstructorClassBounds()
@@ -51,24 +53,22 @@ public class TypeBoundsDescriptorTests
     @Test
     public void testConstructorClassBoundsEmpty()
     {
-        assertThatThrownBy(() -> new TypeBoundsDescriptor(TypeBoundKind.UPPER_BOUND, Set.of()))
-            .isInstanceOf(IllegalArgumentException.class);
+        assertThatIllegalArgumentException().isThrownBy(() -> new TypeBoundsDescriptor(TypeBoundKind.UPPER_BOUND, Set.of()));
     }
 
     @Test
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testConstructorClassBoundsNullTypeBoundKind()
     {
-        assertThatThrownBy(() -> new TypeBoundsDescriptor(null, Set.of(String.class)))
-            .isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(() -> new TypeBoundsDescriptor(null, Set.of(String.class)));
     }
 
     @Test
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testConstructorClassBoundsNullClassSet()
     {
-        assertThatThrownBy(() -> new TypeBoundsDescriptor(TypeBoundKind.UPPER_BOUND, (Set<Class<?>>)null))
-            .isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException()
+            .isThrownBy(() -> new TypeBoundsDescriptor(TypeBoundKind.UPPER_BOUND, (Set<Class<?>>)null));
     }
 
     @Test
@@ -84,24 +84,21 @@ public class TypeBoundsDescriptorTests
     @Test
     public void testConstructorTypeVariableBoundsEmpty()
     {
-        assertThatThrownBy(() -> new TypeBoundsDescriptor(TypeBoundKind.UPPER_BOUND, ""))
-            .isInstanceOf(IllegalArgumentException.class);
+        assertThatIllegalArgumentException().isThrownBy(() -> new TypeBoundsDescriptor(TypeBoundKind.UPPER_BOUND, ""));
     }
 
     @Test
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testConstructorTypeVariableBoundsNullTypeBoundKind()
     {
-        assertThatThrownBy(() -> new TypeBoundsDescriptor(null, "T"))
-            .isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(() -> new TypeBoundsDescriptor(null, "T"));
     }
 
     @Test
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testConstructorTypeVariableBoundsNullTypeVariableName()
     {
-        assertThatThrownBy(() -> new TypeBoundsDescriptor(TypeBoundKind.UPPER_BOUND, (String)null))
-            .isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(() -> new TypeBoundsDescriptor(TypeBoundKind.UPPER_BOUND, (String)null));
     }
 
     @Test

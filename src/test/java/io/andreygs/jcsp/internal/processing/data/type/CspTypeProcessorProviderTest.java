@@ -36,7 +36,8 @@ import java.lang.reflect.AnnotatedType;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -44,7 +45,7 @@ import static org.mockito.Mockito.when;
  * Unit-tests for {@link CspTypeProcessorProvider}.
  */
 @ExtendWith(MockitoExtension.class)
-public class CspTypeProcessorProviderTests
+public class CspTypeProcessorProviderTest
 {
     @Mock
     private ICspTypeProcessorRegistry<ICspTypeSerializationProcessor> registry;
@@ -60,16 +61,14 @@ public class CspTypeProcessorProviderTests
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testConstructorNullRegistry()
     {
-        assertThatThrownBy(() -> new CspTypeProcessorProvider<>(null, generator))
-            .isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(() -> new CspTypeProcessorProvider<>(null, generator));
     }
 
     @Test
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testConstructorNullGenerator()
     {
-        assertThatThrownBy(() -> new CspTypeProcessorProvider<>(registry, null))
-            .isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(() -> new CspTypeProcessorProvider<>(registry, null));
     }
 
     @Test
@@ -94,14 +93,14 @@ public class CspTypeProcessorProviderTests
     {
         when(registry.find(annotatedType)).thenReturn(Optional.empty());
         when(generator.generate(annotatedType)).thenThrow(new IllegalArgumentException());
-        assertThatThrownBy(() -> provider.provide(annotatedType)).isInstanceOf(IllegalArgumentException.class);
+        assertThatIllegalArgumentException().isThrownBy(() -> provider.provide(annotatedType));
     }
 
     @Test
     @SuppressWarnings("DataFlowIssue" /* Intentional contract nullability violation for test */)
     public void testProvideNullAnnotatedType()
     {
-        assertThatThrownBy(() -> provider.provide(null)).isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(() -> provider.provide(null));
     }
 
     @SuppressWarnings("unused" /* Parameters are need for tests of work with generic classes */)

@@ -49,7 +49,7 @@ import static org.mockito.Mockito.when;
 /**
  * Unit-tests for {@link SerializationBuffer}.
  */
-public class SerializationBufferTests
+public class SerializationBufferTest
 {
     private final IBufferResizeStrategy FAKE_BUFFER_RESIZE_STRATEGY = (currentCapacity, minimumRequiredSize) -> minimumRequiredSize;
 
