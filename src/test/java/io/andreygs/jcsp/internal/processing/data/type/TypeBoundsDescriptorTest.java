@@ -43,10 +43,10 @@ public class TypeBoundsDescriptorTest
     public void testConstructorClassBounds()
     {
         ITypeBoundsDescriptor descriptor =
-            new TypeBoundsDescriptor(TypeBoundKind.UPPER_BOUND,Set.of(String.class, Integer.class));
+            new TypeBoundsDescriptor(TypeBoundKind.UPPER_BOUND, Set.of(String.class, Integer.class));
         assertThat(descriptor.getTypeBoundKind()).isEqualTo(TypeBoundKind.UPPER_BOUND);
         assertThat(descriptor.getTypeIdKind()).isEqualTo(TypeIdKind.CLASS);
-        assertThat(descriptor.getBoundClasses()).containsExactly(String.class, Integer.class);
+        assertThat(descriptor.getBoundClasses()).containsExactlyInAnyOrder(String.class, Integer.class);
         assertThat(descriptor.getBoundTypeVariableName()).isEmpty();
     }
 

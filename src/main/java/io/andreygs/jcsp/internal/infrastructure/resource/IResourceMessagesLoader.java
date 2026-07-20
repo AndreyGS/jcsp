@@ -23,25 +23,24 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.api.processing.data.type;
-
-import io.andreygs.jcsp.internal.infrastructure.InternalFactoryRegistry;
-import io.andreygs.jcsp.internal.infrastructure.resource.factory.IResourceMessagesLoaderFactory;
+package io.andreygs.jcsp.internal.infrastructure.resource;
 
 /**
- * TODO: place description here
+ * Loader of resource messages.
  */
-@SuppressWarnings("NotNullFieldNotInitialized" /* All strings will be initialized in static initialization block */)
-final class Messages
+public interface IResourceMessagesLoader
 {
-    public static String CspTypeToken_Specific_token_class_must_be_generic;
-
-    static
-    {
-        InternalFactoryRegistry
-            .getInstance()
-            .requireFactory(IResourceMessagesLoaderFactory.class)
-            .create()
-            .loadMessages(Messages.class);
-    }
+    /**
+     * Loads messages for specific message class in its static fields.
+     * <p>
+     * Package of clazz must contain at least messages.properties file and messages(_locale_suffix).properties file for
+     * current locale. Each .properties file must contain at least all messages containing in clazz public static
+     * (non-final) String fields.
+     *
+     * @param clazz Class which messages must be loaded.
+     * @throws IllegalArgumentException if there is no resource bundle for provided clazz; or if some message fields
+     * does not have corresponding key values in resource file; or if at least one of message value in resource file is
+     * not a String. Cause is included.
+     */
+    void loadMessages(Class<?> clazz);
 }

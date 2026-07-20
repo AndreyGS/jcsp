@@ -23,25 +23,14 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.api.processing.data.type;
+package io.andreygs.jcsp.internal.infrastructure.resource.factory;
 
-import io.andreygs.jcsp.internal.infrastructure.InternalFactoryRegistry;
-import io.andreygs.jcsp.internal.infrastructure.resource.factory.IResourceMessagesLoaderFactory;
+import io.andreygs.jcsp.internal.infrastructure.ITemplateVariableValueProvider;
 
 /**
  * TODO: place description here
  */
-@SuppressWarnings("NotNullFieldNotInitialized" /* All strings will be initialized in static initialization block */)
-final class Messages
+public interface IResourceConstantValueProviderFactory
 {
-    public static String CspTypeToken_Specific_token_class_must_be_generic;
-
-    static
-    {
-        InternalFactoryRegistry
-            .getInstance()
-            .requireFactory(IResourceMessagesLoaderFactory.class)
-            .create()
-            .loadMessages(Messages.class);
-    }
+    ITemplateVariableValueProvider create(String packageName);
 }

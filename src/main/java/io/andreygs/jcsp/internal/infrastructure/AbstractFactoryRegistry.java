@@ -23,25 +23,35 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.api.processing.data.type;
+package io.andreygs.jcsp.internal.infrastructure;
 
-import io.andreygs.jcsp.internal.infrastructure.InternalFactoryRegistry;
-import io.andreygs.jcsp.internal.infrastructure.resource.factory.IResourceMessagesLoaderFactory;
+import io.andreygs.jcsp.api.infrastructure.IFactoryRegistry;
+
+import java.text.MessageFormat;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 /**
- * TODO: place description here
+ * Base of factory registries.
  */
-@SuppressWarnings("NotNullFieldNotInitialized" /* All strings will be initialized in static initialization block */)
-final class Messages
+public abstract class AbstractFactoryRegistry implements IFactoryRegistry
 {
-    public static String CspTypeToken_Specific_token_class_must_be_generic;
-
-    static
+    @Override
+    public <F> F requireFactory(Class<F> factoryClass)
     {
-        InternalFactoryRegistry
-            .getInstance()
-            .requireFactory(IResourceMessagesLoaderFactory.class)
-            .create()
-            .loadMessages(Messages.class);
+        F factory = factoryClass.cast(getFactories().get(factoryClass));
+        if (factory == null)
+        {
+            throw new NoSuchElementException(
+                MessageFormat.format(Messages.FactoryRegistry_Factory__0__not_registered, factoryClass.getName()));
+        }
+        return factory;
     }
+
+    /**
+     * Gets registry factories.
+     *
+     * @return registry factories.
+     */
+    protected abstract Map<Class<?>, Object> getFactories();
 }

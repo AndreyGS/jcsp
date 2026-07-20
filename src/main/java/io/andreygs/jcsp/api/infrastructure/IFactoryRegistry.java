@@ -23,25 +23,25 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.api.processing.data.type;
+package io.andreygs.jcsp.api.infrastructure;
 
-import io.andreygs.jcsp.internal.infrastructure.InternalFactoryRegistry;
-import io.andreygs.jcsp.internal.infrastructure.resource.factory.IResourceMessagesLoaderFactory;
+import java.util.NoSuchElementException;
 
 /**
- * TODO: place description here
+ * Registry of factories.
+ *
+ * @apiNote
+ * Immutable. Thread-safe.
  */
-@SuppressWarnings("NotNullFieldNotInitialized" /* All strings will be initialized in static initialization block */)
-final class Messages
+public interface IFactoryRegistry
 {
-    public static String CspTypeToken_Specific_token_class_must_be_generic;
-
-    static
-    {
-        InternalFactoryRegistry
-            .getInstance()
-            .requireFactory(IResourceMessagesLoaderFactory.class)
-            .create()
-            .loadMessages(Messages.class);
-    }
+    /**
+     * Requires factory instance for factory class.
+     * 
+     * @param factoryClass Class of factory to require.
+     * @return required factory.
+     * @param <F> Factory type.
+     * @throws NoSuchElementException if factory is not registered in current registry.
+     */
+    <F> F requireFactory(Class<F> factoryClass);
 }

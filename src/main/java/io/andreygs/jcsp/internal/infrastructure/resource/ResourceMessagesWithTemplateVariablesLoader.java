@@ -23,29 +23,38 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.utils;
+package io.andreygs.jcsp.internal.infrastructure.resource;
+
+import io.andreygs.jcsp.internal.infrastructure.IParametrizedStringInterpolator;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InaccessibleObjectException;
 import java.lang.reflect.Modifier;
+import java.text.MessageFormat;
+import java.util.List;
 import java.util.Locale;
-import java.util.Properties;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
- * TODO: place description here
+ * Loader for resource messages that optionally contain template variables.
  */
-public class ResourceMessagesLoader
+public class ResourceMessagesWithTemplateVariablesLoader implements IResourceMessagesLoader
 {
-    private static final Properties properties = new Properties();
+    private final List<IParametrizedStringInterpolator> stringInterpolators;
 
-    static
+    /**
+     * Constructs and instance.
+     *
+     * @param stringInterpolators List of string interpolators that will be using in template variables unreferencing.
+     */
+    public ResourceMessagesWithTemplateVariablesLoader(List<IParametrizedStringInterpolator> stringInterpolators)
     {
-        initCommonConstants();
+        this.stringInterpolators = List.copyOf(stringInterpolators);
     }
 
-    public static void loadMessages(Class<?> clazz)
+    @Override
+    public void loadMessages(Class<?> clazz)
     {
         try
         {
@@ -54,53 +63,24 @@ public class ResourceMessagesLoader
             for (Field field : clazz.getDeclaredFields())
             {
                 if (Modifier.isStatic(field.getModifiers()) && Modifier.isPublic(field.getModifiers())
-                        && field.getType() == String.class)
+                        && !Modifier.isFinal(field.getModifiers()) && field.getType() == String.class)
                 {
                     String key = field.getName();
                     String value = bundle.getString(key);
-                    value = replacePlaceholders(value);
+                    for (IParametrizedStringInterpolator interpolator : stringInterpolators)
+                    {
+                        value = interpolator.interpolate(value);
+                    }
                     field.setAccessible(true);
                     field.set(null, value);
                 }
             }
         }
-        catch (IllegalAccessException e)
+        catch (MissingResourceException | ClassCastException | InaccessibleObjectException | IllegalAccessException e)
         {
-            throw new RuntimeException(e);
+            // We should not use resource message here because it can lead to cyclic error triggering
+            throw new IllegalArgumentException(
+                MessageFormat.format("Cannot load messages for class {0}", clazz), e);
         }
-    }
-
-    private static void initCommonConstants()
-    {
-        ResourceBundle bundle = ResourceBundle.getBundle(ResourceMessagesLoader.class.getPackageName() + ".messages",
-            Locale.getDefault());
-        for (String key : bundle.keySet())
-        {
-            properties.put(key, bundle.getString(key));
-        }
-    }
-
-    private static String replacePlaceholders(String value)
-    {
-        if (value.contains("${"))
-        {
-            String regex = "\\$\\{([^}]+)}";
-            Pattern pattern = Pattern.compile(regex);
-            while (value.contains("${"))
-            {
-                Matcher matcher = pattern.matcher(value);
-                if (matcher.find())
-                {
-                    String property = matcher.group(1);
-                    String propertyValue = properties.getProperty(property);
-                    value = value.replaceAll("\\$\\{" + property + "}", propertyValue);
-                }
-            }
-        }
-        return value;
-    }
-
-    private ResourceMessagesLoader()
-    {
     }
 }

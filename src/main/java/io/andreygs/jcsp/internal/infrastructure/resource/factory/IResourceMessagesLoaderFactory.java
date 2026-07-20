@@ -23,25 +23,33 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.api.processing.data.type;
+package io.andreygs.jcsp.internal.infrastructure.resource.factory;
 
-import io.andreygs.jcsp.internal.infrastructure.InternalFactoryRegistry;
-import io.andreygs.jcsp.internal.infrastructure.resource.factory.IResourceMessagesLoaderFactory;
+import io.andreygs.jcsp.internal.infrastructure.IParametrizedStringInterpolator;
+import io.andreygs.jcsp.internal.infrastructure.resource.IResourceMessagesLoader;
+
+import java.util.List;
 
 /**
- * TODO: place description here
+ * Factory for creating {@link IResourceMessagesLoaderFactory} instances.
+ *
+ * @apiNote
+ * Immutable. Thread-safe.
  */
-@SuppressWarnings("NotNullFieldNotInitialized" /* All strings will be initialized in static initialization block */)
-final class Messages
+public interface IResourceMessagesLoaderFactory
 {
-    public static String CspTypeToken_Specific_token_class_must_be_generic;
+    /**
+     * Creates default resource message loader.
+     *
+     * @return created instance.
+     */
+    IResourceMessagesLoader create();
 
-    static
-    {
-        InternalFactoryRegistry
-            .getInstance()
-            .requireFactory(IResourceMessagesLoaderFactory.class)
-            .create()
-            .loadMessages(Messages.class);
-    }
+    /**
+     * Creates resource message loader with custom string interpolators.
+     *
+     * @param stringInterpolators List of string interpolators that must be used by resource message loader.
+     * @return created instance.
+     */
+    IResourceMessagesLoader create(List<IParametrizedStringInterpolator> stringInterpolators);
 }

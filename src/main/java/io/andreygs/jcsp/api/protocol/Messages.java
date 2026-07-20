@@ -25,7 +25,8 @@
 
 package io.andreygs.jcsp.api.protocol;
 
-import io.andreygs.jcsp.internal.utils.ResourceMessagesLoader;
+import io.andreygs.jcsp.internal.infrastructure.InternalFactoryRegistry;
+import io.andreygs.jcsp.internal.infrastructure.resource.factory.IResourceMessagesLoaderFactory;
 
 /**
  * TODO: place description here
@@ -69,6 +70,10 @@ final class Messages
 
     static
     {
-        ResourceMessagesLoader.loadMessages(Messages.class);
+        InternalFactoryRegistry
+            .getInstance()
+            .requireFactory(IResourceMessagesLoaderFactory.class)
+            .create()
+            .loadMessages(Messages.class);
     }
 }

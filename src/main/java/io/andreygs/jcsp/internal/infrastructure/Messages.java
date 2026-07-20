@@ -23,9 +23,8 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.type.utils;
+package io.andreygs.jcsp.internal.infrastructure;
 
-import io.andreygs.jcsp.internal.infrastructure.InternalFactoryRegistry;
 import io.andreygs.jcsp.internal.infrastructure.resource.factory.IResourceMessagesLoaderFactory;
 
 /**
@@ -33,17 +32,7 @@ import io.andreygs.jcsp.internal.infrastructure.resource.factory.IResourceMessag
  */
 final class Messages
 {
-    public static String CspStatus_Error_in_struct_format_Array_size_number_is_invalid;
-    public static String CspStatus_Error_in_struct_format_Class__0__cannot_be_implementation_of_class__1;
-    public static String CspStatus_Error_in_struct_format_Class__0__cannot_override_class__1;
-    public static String CspStatus_Error_in_struct_format_Internal_error_class__0__is_not_a_collection;
-    public static String CspStatus_Error_in_struct_format_Internal_error_class__0__is_not_a_map;
-    public static String CspStatus_Error_in_struct_format_Internal_error_wildcard_has_illegal_number_of_bounds;
-    public static String CspStatus_Error_in_struct_format_Primitive__0__is_not_supported;
-    public static String CspStatus_Error_in_struct_format_Property__0__for_struct__1__not_set;
-    public static String CspStatus_Error_in_struct_format_Sequence_number_is_invalid;
-    public static String CspStatus_Error_in_struct_format_Unbound_and_not_overridden_wildcard_type_cannot_be_processed;
-    public static String CspStatus_Error_in_struct_format_Unknown_type_category;
+    public static String FactoryRegistry_Factory__0__not_registered;
 
     static
     {

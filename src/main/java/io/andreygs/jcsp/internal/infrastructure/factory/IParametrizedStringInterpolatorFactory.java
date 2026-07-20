@@ -23,23 +23,17 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.type.factory;
+package io.andreygs.jcsp.internal.infrastructure.factory;
 
-import io.andreygs.jcsp.internal.processing.data.type.CspTypeProcessorGenerator;
-import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorGenerator;
-import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
+import io.andreygs.jcsp.internal.infrastructure.IParametrizedStringInterpolator;
+import io.andreygs.jcsp.internal.infrastructure.ITemplateVariableValueProvider;
+
+import java.util.List;
 
 /**
  * TODO: place description here
  */
-public class CspTypeProcessorFactoryProvider
+public interface IParametrizedStringInterpolatorFactory
 {
-    private static final ICspTypeProcessorGenerator<ICspTypeSerializationProcessor>
-        DEFAULT_DATA_SERIALIZATION_PROXY_PROCESSOR_FACTORY =
-            new CspTypeProcessorGenerator<>(new CspTypeSerializationProcessorFactory());
-
-    public ICspTypeProcessorGenerator<ICspTypeSerializationProcessor> provideCspDataSerializationProxyProcessorFactory()
-    {
-        return DEFAULT_DATA_SERIALIZATION_PROXY_PROCESSOR_FACTORY;
-    }
+    IParametrizedStringInterpolator create(List<ITemplateVariableValueProvider> valueProviders);
 }

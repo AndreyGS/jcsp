@@ -74,7 +74,7 @@ public class TypeBoundsDescriptorGeneratorTest
         when(typeBoundsDescriptorFactory.create(eq(TypeBoundKind.UPPER_BOUND), anySet()))
             .thenAnswer(invocation -> {
                 Set<Class<?>> classes = invocation.getArgument(1);
-                assertThat(classes).containsExactly(Number.class, Runnable.class);
+                assertThat(classes).containsExactlyInAnyOrder(Number.class, Runnable.class);
                 return typeBoundsDescriptor;
             });
 

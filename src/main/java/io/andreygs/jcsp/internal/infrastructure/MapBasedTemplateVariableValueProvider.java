@@ -23,32 +23,27 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.api.controller.factory;
+package io.andreygs.jcsp.internal.infrastructure;
 
-import io.andreygs.jcsp.internal.controller.factory.CspSerializationSessionFactory;
-
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * TODO: place description here
  */
-public class FactoryRegistry
+public class MapBasedTemplateVariableValueProvider
+    implements ITemplateVariableValueProvider
 {
-    private static final Map<Class<?>, Object> factories = new HashMap<>();
+    private final Map<String, ? extends Object> templateVariables;
 
-    static
+    public MapBasedTemplateVariableValueProvider(Map<String, ? extends Object> templateVariables)
     {
-        factories.put(ICspSerializationSessionFactory.class, new CspSerializationSessionFactory());
+        this.templateVariables = Map.copyOf(templateVariables);
     }
 
-    public static <F> F requireFactory(Class<F> factoryClazz)
+    @Override
+    public Optional<Object> provideValue(String name)
     {
-        F factory = factoryClazz.cast(factories.get(factoryClazz));
-        if (factory == null)
-        {
-            throw new NullPointerException("Factory for " + factoryClazz.getName() + " is not registered!");
-        }
-        return factory;
+        return Optional.ofNullable(templateVariables.get(name));
     }
 }

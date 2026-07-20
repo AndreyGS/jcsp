@@ -23,25 +23,31 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.api.processing.data.type;
+package io.andreygs.jcsp.internal.infrastructure.resource.factory;
 
-import io.andreygs.jcsp.internal.infrastructure.InternalFactoryRegistry;
-import io.andreygs.jcsp.internal.infrastructure.resource.factory.IResourceMessagesLoaderFactory;
+import io.andreygs.jcsp.internal.infrastructure.ITemplateVariableValueProvider;
+import io.andreygs.jcsp.internal.infrastructure.MapBasedTemplateVariableValueProvider;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
- * TODO: place description here
+ * Stateless factory for creating {@link MapBasedTemplateVariableValueProvider} instances.
  */
-@SuppressWarnings("NotNullFieldNotInitialized" /* All strings will be initialized in static initialization block */)
-final class Messages
+public class MapBasedTemplateVariableValueProviderFactory
+    implements IResourceConstantValueProviderFactory
 {
-    public static String CspTypeToken_Specific_token_class_must_be_generic;
-
-    static
+    @Override
+    public ITemplateVariableValueProvider create(String packageName)
     {
-        InternalFactoryRegistry
-            .getInstance()
-            .requireFactory(IResourceMessagesLoaderFactory.class)
-            .create()
-            .loadMessages(Messages.class);
+        Map<String, String> templateVariables = new HashMap<>();
+        ResourceBundle bundle = ResourceBundle.getBundle(packageName + ".messages", Locale.getDefault());
+        for (String key : bundle.keySet())
+        {
+            templateVariables.put(key, bundle.getString(key));
+        }
+        return new MapBasedTemplateVariableValueProvider(templateVariables);
     }
 }

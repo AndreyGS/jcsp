@@ -23,25 +23,22 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.api.processing.data.type;
+package io.andreygs.jcsp.internal.infrastructure.factory;
 
-import io.andreygs.jcsp.internal.infrastructure.InternalFactoryRegistry;
-import io.andreygs.jcsp.internal.infrastructure.resource.factory.IResourceMessagesLoaderFactory;
+import io.andreygs.jcsp.internal.infrastructure.IParametrizedStringInterpolator;
+import io.andreygs.jcsp.internal.infrastructure.ITemplateVariableValueProvider;
+import io.andreygs.jcsp.internal.infrastructure.MultiValueProviderParametrizedStringInterpolator;
+
+import java.util.List;
 
 /**
  * TODO: place description here
  */
-@SuppressWarnings("NotNullFieldNotInitialized" /* All strings will be initialized in static initialization block */)
-final class Messages
+public class MultiValueProviderParametrizedStringInterpolatorFactory implements IParametrizedStringInterpolatorFactory
 {
-    public static String CspTypeToken_Specific_token_class_must_be_generic;
-
-    static
+    @Override
+    public IParametrizedStringInterpolator create(List<ITemplateVariableValueProvider> valueProviders)
     {
-        InternalFactoryRegistry
-            .getInstance()
-            .requireFactory(IResourceMessagesLoaderFactory.class)
-            .create()
-            .loadMessages(Messages.class);
+        return new MultiValueProviderParametrizedStringInterpolator(valueProviders);
     }
 }

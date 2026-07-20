@@ -23,29 +23,49 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.processing.data.type.factory;
+package io.andreygs.jcsp.api.infrastructure;
 
-import io.andreygs.jcsp.internal.processing.data.type.CspTypeProcessorProvider;
-import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorGenerator;
-import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorProvider;
-import io.andreygs.jcsp.internal.processing.data.type.ICspTypeProcessorRegistry;
-import io.andreygs.jcsp.internal.processing.data.type.ICspTypeSerializationProcessor;
+import io.andreygs.jcsp.api.controller.factory.ICspSerializationSessionFactory;
+import io.andreygs.jcsp.internal.controller.factory.CspSerializationSessionFactory;
+import io.andreygs.jcsp.internal.infrastructure.AbstractFactoryRegistry;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Factory for creating {@link ICspTypeProcessorProvider} instances for serialization processors.
+ * Registry of client "upper-level" factories.
  * <p>
- * Uses default cached {@link ICspTypeProcessorGenerator} instance for serialization processors to create a generator.
+ * Contain next factories:
+ * <ul>
+ *     <li>{@link ICspSerializationSessionFactory}</li>
+ * </ul>
+ * This is JCSP library client entry point.
  */
-public class CspTypeSerializationProcessorProviderFactory
-    implements ICspTypeProcessorProviderFactory<ICspTypeSerializationProcessor>
+public class FactoryRegistry extends AbstractFactoryRegistry
 {
-    private static final ICspTypeProcessorGenerator<ICspTypeSerializationProcessor>
-        DEFAULT_CSP_TYPE_PROCESSOR_GENERATOR = new CspTypeSerializationProcessorGeneratorFactory().create();
+    private static final IFactoryRegistry INSTANCE = new FactoryRegistry();
+    private final Map<Class<?>, Object> factories;
+
+    /**
+     * Gets the singleton.
+     *
+     * @return singleton.
+     */
+    public static IFactoryRegistry getInstance()
+    {
+        return INSTANCE;
+    }
 
     @Override
-    public ICspTypeProcessorProvider<ICspTypeSerializationProcessor> create(
-        ICspTypeProcessorRegistry<ICspTypeSerializationProcessor> registry)
+    protected Map<Class<?>, Object> getFactories()
     {
-        return new CspTypeProcessorProvider<>(registry, DEFAULT_CSP_TYPE_PROCESSOR_GENERATOR);
+        return factories;
+    }
+
+    private FactoryRegistry()
+    {
+        Map<Class<?>, Object> factoriesMutable = new HashMap<>();
+        factoriesMutable.put(ICspSerializationSessionFactory.class, new CspSerializationSessionFactory());
+        factories = Map.copyOf(factoriesMutable);
     }
 }
