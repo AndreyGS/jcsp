@@ -23,27 +23,42 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.infrastructureX;
+package io.andreygs.jcsp.internal.infrastructure.service;
 
-import java.util.Map;
-import java.util.Optional;
+import io.andreygs.jcsp.api.exception.JcspRuntimeException;
+import io.andreygs.jcsp.api.infrastructure.IJcspServiceProvider;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Objects;
 
 /**
  * TODO: place description here
  */
-public class MapBasedTemplateVariableValueProvider
-    implements ITemplateVariableValueProvider
+public class CreatableByGenericFactoryService extends AbstractJcspCreatableService
 {
-    private final Map<String, ? extends Object> templateVariables;
+    private final Method factoryMethod;
 
-    public MapBasedTemplateVariableValueProvider(Map<String, ? extends Object> templateVariables)
+    public CreatableByGenericFactoryService(Constructor<?> constructor, IJcspInjectedParameter[] constructorParameters,
+        IJcspServiceProvider serviceProvider, Method factoryMethod)
     {
-        this.templateVariables = Map.copyOf(templateVariables);
+        super(constructor, constructorParameters, serviceProvider);
+        this.factoryMethod = Objects.requireNonNull(factoryMethod);
     }
 
     @Override
-    public Optional<Object> provide(String name)
+    public <S> S createService(Class<S> serviceClass)
     {
-        return Optional.ofNullable(templateVariables.get(name));
+        Object factory = createServiceCreationResponsibleInstance();
+        try
+        {
+            return serviceClass.cast(factoryMethod.invoke(factory, serviceClass));
+        }
+        catch (IllegalAccessException | InvocationTargetException e)
+        {
+            throw JcspRuntimeException.forClassError(
+                "Invoke factory method \"" + factoryMethod + "\" error", e);
+        }
     }
 }

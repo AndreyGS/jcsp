@@ -25,12 +25,12 @@
 
 package io.andreygs.jcsp.internal.infrastructure.resource.factory;
 
-import io.andreygs.jcsp.internal.infrastructure.resource.IJcspResourceReader;
+import io.andreygs.jcsp.internal.infrastructure.resource.IJcspStringResourceReader;
 
 /**
  * TODO: place description here
  */
 public interface IJcspResourceReaderFactory
 {
-    IJcspResourceReader create();
+    IJcspStringResourceReader create();
 }

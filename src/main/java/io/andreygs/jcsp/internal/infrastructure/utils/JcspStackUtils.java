@@ -34,10 +34,6 @@ public class JcspStackUtils
 {
     private static final StackWalker WALKER = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
 
-    private JcspStackUtils()
-    {
-    }
-
     public static Class<?> getCallerClassExcluding(Set<Class<?>> ignoredClasses)
     {
         return WALKER.walk(frames -> frames
@@ -49,5 +45,9 @@ public class JcspStackUtils
                                          .findFirst()
                                          // If nothing found
                                          .orElseThrow(() -> new IllegalStateException("Empty call stack")));
+    }
+
+    private JcspStackUtils()
+    {
     }
 }

@@ -23,23 +23,42 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.infrastructureX.resource.factory;
+package io.andreygs.jcsp.internal.infrastructure.service;
 
-import io.andreygs.jcsp.internal.infrastructureX.resource.ILocalizedStringProviderRegistry;
-import io.andreygs.jcsp.internal.infrastructureX.resource.LocalizedStringProviderRegistry;
-import io.andreygs.jcsp.internal.infrastructure.resource.factory.JcspMessageProviderFactory;
+import io.andreygs.jcsp.api.exception.JcspRuntimeException;
+import io.andreygs.jcsp.api.infrastructure.IJcspServiceProvider;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Objects;
 
 /**
  * TODO: place description here
  */
-public class LocalizedStringProviderRegistryFactory implements ILocalizedStringProviderRegistryFactory
+public class CreatableByFactoryService extends AbstractJcspCreatableService
 {
-    private static final ILocalizedStringProviderFactory DEFAULT_LOCALIZED_STRING_PROVIDER_FACTORY =
-        new JcspMessageProviderFactory();
+    private final Method factoryMethod;
+
+    public CreatableByFactoryService(Constructor<?> constructor, IJcspInjectedParameter[] constructorParameters,
+        IJcspServiceProvider serviceProvider, Method factoryMethod)
+    {
+        super(constructor, constructorParameters, serviceProvider);
+        this.factoryMethod = Objects.requireNonNull(factoryMethod);
+    }
 
     @Override
-    public ILocalizedStringProviderRegistry create()
+    public <S> S createService(Class<S> serviceClass)
     {
-        return new LocalizedStringProviderRegistry(DEFAULT_LOCALIZED_STRING_PROVIDER_FACTORY);
+        Object factory = createServiceCreationResponsibleInstance();
+        try
+        {
+            return serviceClass.cast(factoryMethod.invoke(factory));
+        }
+        catch (IllegalAccessException | InvocationTargetException e)
+        {
+            throw JcspRuntimeException.forClassError(
+                "Invoke factory method \"" + factoryMethod + "\" error", e);
+        }
     }
 }

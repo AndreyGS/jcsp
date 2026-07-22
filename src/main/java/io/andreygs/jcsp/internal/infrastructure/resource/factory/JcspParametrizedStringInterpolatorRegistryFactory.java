@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.internal.infrastructure.resource.factory;
 
-import io.andreygs.jcsp.api.service.JcspServiceProvider;
+import io.andreygs.jcsp.api.infrastructure.JcspServiceProvider;
 import io.andreygs.jcsp.internal.infrastructure.resource.IJcspParametrizedStringInterpolator;
 import io.andreygs.jcsp.internal.infrastructure.resource.IJcspParametrizedStringInterpolatorRegistry;
 import io.andreygs.jcsp.internal.infrastructure.resource.IJcspTemplateVariableValueProvider;

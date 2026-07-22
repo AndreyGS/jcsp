@@ -25,8 +25,8 @@
 
 package io.andreygs.jcsp.internal.infrastructure.resource.facade;
 
-import io.andreygs.jcsp.api.service.JcspServiceProvider;
-import io.andreygs.jcsp.internal.infrastructure.IJcspMessageService;
+import io.andreygs.jcsp.api.infrastructure.JcspServiceProvider;
+import io.andreygs.jcsp.internal.infrastructure.resource.IJcspMessageService;
 
 /**
  * TODO: place description here
@@ -37,8 +37,8 @@ public class JcspMessage
     {
     }
 
-    public static String msg(String key, Object... args) {
-        // Перенаправляем вызов в сервис сообщений, лежащий в контейнере
+    public static String msg(String key, Object... args)
+    {
         return JcspServiceProvider.getInstance()
                                   .provide(IJcspMessageService.class)
                                   .msg(key, args);

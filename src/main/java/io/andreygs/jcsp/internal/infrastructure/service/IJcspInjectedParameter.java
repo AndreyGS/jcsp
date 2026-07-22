@@ -23,19 +23,14 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.infrastructureX.resource;
-
-import io.andreygs.jcsp.internal.infrastructure.resource.ILocalizedStringProvider;
-
-import java.util.List;
+package io.andreygs.jcsp.internal.infrastructure.service;
 
 /**
  * TODO: place description here
  */
-public interface ILocalizedStringProviderRegistry
+public interface IJcspInjectedParameter
 {
-    ILocalizedStringProvider requireProvider(Class<?> targetClass);
+    Class<?> getClazz();
 
-    ILocalizedStringProvider requireProvider(Class<?> targetClass,
-        List<ILocalizedStringProvider> templateVariableValueProviders);
+    String getServiceName();
 }

@@ -25,8 +25,8 @@
 
 package io.andreygs.jcsp.internal.infrastructure.resource.factory;
 
-import io.andreygs.jcsp.internal.infrastructure.resource.IJcspResourceReader;
-import io.andreygs.jcsp.internal.infrastructure.resource.JcspResourceReader;
+import io.andreygs.jcsp.internal.infrastructure.resource.IJcspStringResourceReader;
+import io.andreygs.jcsp.internal.infrastructure.resource.JcspStringResourceReader;
 
 /**
  * TODO: place description here
@@ -34,8 +34,8 @@ import io.andreygs.jcsp.internal.infrastructure.resource.JcspResourceReader;
 public class JcspResourceReaderFactory implements IJcspResourceReaderFactory
 {
     @Override
-    public IJcspResourceReader create()
+    public IJcspStringResourceReader create()
     {
-        return new JcspResourceReader();
+        return new JcspStringResourceReader();
     }
 }

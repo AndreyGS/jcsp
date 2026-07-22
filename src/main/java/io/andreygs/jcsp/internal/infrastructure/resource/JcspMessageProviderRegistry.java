@@ -25,7 +25,11 @@
 
 package io.andreygs.jcsp.internal.infrastructure.resource;
 
+import io.andreygs.jcsp.internal.annotation.JcspInject;
+import io.andreygs.jcsp.internal.infrastructure.resource.factory.IJcspMessageProviderFactory;
+
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -33,7 +37,14 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class JcspMessageProviderRegistry implements IJcspMessageProviderRegistry
 {
+    private final IJcspMessageProviderFactory messageProviderFactory;
     private final Map<String, IJcspMessageProvider> messageProviders = new ConcurrentHashMap<>();
+
+    @JcspInject
+    public JcspMessageProviderRegistry(@JcspInject IJcspMessageProviderFactory messageProviderFactory)
+    {
+        this.messageProviderFactory = Objects.requireNonNull(messageProviderFactory);
+    }
 
     @Override
     public IJcspMessageProvider requireProvider(String packageName)
@@ -50,7 +61,8 @@ public class JcspMessageProviderRegistry implements IJcspMessageProviderRegistry
             {
                 return messageProvider;
             }
-
+            messageProvider = messageProviderFactory.create(packageName);
+            messageProviders.put(packageName, messageProvider);
         }
         return messageProvider;
     }

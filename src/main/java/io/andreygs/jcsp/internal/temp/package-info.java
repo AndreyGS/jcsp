@@ -1,4 +1,6 @@
 /**
+ * TODO: place brief description here
+ *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -22,24 +24,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+@NotNullByDefault
+package io.andreygs.jcsp.internal.temp;
 
-package io.andreygs.jcsp.internal.infrastructureX;
-
-import io.andreygs.jcsp.internal.infrastructureX.resource.factory.IResourceMessagesLoaderFactory;
-
-/**
- * TODO: place description here
- */
-final class Messages
-{
-    public static String ServiceProviderDelegate_Service__0__not_registered;
-
-    static
-    {
-        InternalFactoryRegistry
-            .getInstance()
-            .requireFactory(IResourceMessagesLoaderFactory.class)
-            .create()
-            .read(Messages.class);
-    }
-}
+import org.jetbrains.annotations.NotNullByDefault;

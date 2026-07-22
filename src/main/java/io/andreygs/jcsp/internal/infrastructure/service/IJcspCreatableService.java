@@ -23,14 +23,21 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.infrastructureX.resource;
+package io.andreygs.jcsp.internal.infrastructure.service;
 
-import io.andreygs.jcsp.internal.infrastructureX.ITemplateVariableValueProvider;
+import io.andreygs.jcsp.api.exception.JcspRuntimeException;
 
 /**
  * TODO: place description here
  */
-public interface IResourceConstantValueProviderRegistry
+public interface IJcspCreatableService
 {
-    ITemplateVariableValueProvider requireProvider(String packageName);
+    /**
+     *
+     * @param serviceClass
+     * @return
+     * @param <S>
+     * @throws JcspRuntimeException
+     */
+    <S> S createService(Class<S> serviceClass);
 }

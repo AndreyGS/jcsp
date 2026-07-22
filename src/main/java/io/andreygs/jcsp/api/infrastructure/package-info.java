@@ -1,4 +1,6 @@
 /**
+ * TODO: place brief description here
+ *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -22,32 +24,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+@NotNullByDefault
+package io.andreygs.jcsp.api.infrastructure;
 
-package io.andreygs.jcsp.internal.infrastructureX.resource.factory;
-
-import io.andreygs.jcsp.internal.infrastructureX.ITemplateVariableValueProvider;
-import io.andreygs.jcsp.internal.infrastructureX.MapBasedTemplateVariableValueProvider;
-
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-
-/**
- * Stateless factory for creating {@link MapBasedTemplateVariableValueProvider} instances.
- */
-public class MapBasedTemplateVariableValueProviderFactory
-    implements IResourceConstantValueProviderFactory
-{
-    @Override
-    public ITemplateVariableValueProvider create(String packageName)
-    {
-        Map<String, String> templateVariables = new HashMap<>();
-        ResourceBundle bundle = ResourceBundle.getBundle(packageName + ".messages", Locale.getDefault());
-        for (String key : bundle.keySet())
-        {
-            templateVariables.put(key, bundle.getString(key));
-        }
-        return new MapBasedTemplateVariableValueProvider(templateVariables);
-    }
-}
+import org.jetbrains.annotations.NotNullByDefault;

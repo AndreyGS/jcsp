@@ -23,26 +23,14 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.infrastructureX.resource;
-
-import java.util.Map;
+package io.andreygs.jcsp.api.infrastructure;
 
 /**
- * Reader of resource messages.
+ * TODO: place description here
  */
-public interface IResourceMessagesReader
+public interface IJcspServiceProvider
 {
-    /**
-     * Reads messages for specific message class in its static fields.
-     * <p>
-     * Package of clazz must contain at least messages.properties file and messages(_locale_suffix).properties file for
-     * current locale. Each .properties file must contain at least all messages containing in clazz public static
-     * (non-final) String fields.
-     *
-     * @param clazz Class which messages must be loaded.
-     * @throws IllegalArgumentException if there is no resource bundle for provided clazz; or if some message fields
-     * does not have corresponding key values in resource file; or if at least one of message value in resource file is
-     * not a String. Cause is included.
-     */
-    Map<String, String> read(Class<?> clazz);
+    <S> S provide(Class<S> serviceClass);
+
+    <S> S provide(Class<S> serviceClass, String serviceName);
 }

@@ -23,38 +23,39 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.infrastructure.resource;
+package io.andreygs.jcsp.internal.temp;
 
-import java.util.HashMap;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.Locale;
-import java.util.Map;
-import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- * Loader for resource messages that optionally contain template variables.
+ * TODO: place description here
  */
-public class JcspResourceReader implements IJcspResourceReader
+public class ResourceMessagesLoader
 {
-    @Override
-    public Map<String, String> read(String packageName, String resourceName)
+    public static void loadMessages(Class<?> clazz)
     {
         try
         {
-            ResourceBundle bundle = ResourceBundle.getBundle(packageName + "." + resourceName,
-                Locale.getDefault());
-            Map<String, String> result = new HashMap<>();
-            for (String key : bundle.keySet())
+            ResourceBundle bundle = ResourceBundle.getBundle(clazz.getPackageName() + ".messages"
+                , Locale.getDefault());
+            for (Field field : clazz.getDeclaredFields())
             {
-                String value = bundle.getString(key);
-                result.put(key, value);
+                if (Modifier.isStatic(field.getModifiers()) && Modifier.isPublic(field.getModifiers())
+                        && field.getType() == String.class)
+                {
+                    String key = field.getName();
+                    String value = bundle.getString(key);
+                    field.setAccessible(true);
+                    field.set(null, value);
+                }
             }
-            return result;
         }
-        catch (MissingResourceException e)
+        catch (IllegalAccessException e)
         {
-            // We should not use resource message here because it can lead to cyclic error triggering
-            throw new IllegalArgumentException();
+            throw new RuntimeException(e);
         }
     }
 }

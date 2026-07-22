@@ -23,14 +23,50 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.infrastructureX.resource.factory;
+package io.andreygs.jcsp.internal.infrastructure.service;
 
-import io.andreygs.jcsp.internal.infrastructureX.resource.ILocalizedStringProviderRegistry;
+import java.util.Objects;
 
 /**
  * TODO: place description here
  */
-public interface ILocalizedStringProviderRegistryFactory
+public class JcspService implements IJcspService
 {
-    ILocalizedStringProviderRegistry create();
+    private final Class<?> clazz;
+    private final String name;
+
+    public JcspService(Class<?> clazz, String name)
+    {
+        this.clazz = Objects.requireNonNull(clazz);
+        this.name = Objects.requireNonNull(name);
+    }
+
+    @Override
+    public Class<?> getClazz()
+    {
+        return clazz;
+    }
+
+    @Override
+    public String getName()
+    {
+        return name;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+        JcspService that = (JcspService) o;
+        return Objects.equals(clazz, that.clazz) && Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(clazz, name);
+    }
 }

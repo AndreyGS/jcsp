@@ -23,24 +23,38 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.infrastructureX;
+package io.andreygs.jcsp.internal.infrastructure.resource;
 
-import java.util.Optional;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 /**
- * Provider of template variable value.
- *
- * @apiNote
- * Immutable. Thread-safe.
+ * Loader for resource messages that optionally contain template variables.
  */
-public interface ITemplateVariableValueProvider
+public class JcspStringResourceReader implements IJcspStringResourceReader
 {
-    /**
-     * Provides value for template variable with supplied name.
-     *
-     * @param name Name of template variable.
-     * @return optional of value of template variable or empty optional if there is no template variable with supplied
-     * name.
-     */
-    Optional<Object> provide(String name);
+    @Override
+    public Map<String, String> read(String packageName, String resourceName)
+    {
+        try
+        {
+            ResourceBundle bundle = ResourceBundle.getBundle(packageName + "." + resourceName,
+                Locale.getDefault());
+            Map<String, String> result = new HashMap<>();
+            for (String key : bundle.keySet())
+            {
+                String value = bundle.getString(key);
+                result.put(key, value);
+            }
+            return result;
+        }
+        catch (MissingResourceException e)
+        {
+            // We should not use resource message here because it can lead to cyclic error triggering
+            throw new IllegalArgumentException();
+        }
+    }
 }

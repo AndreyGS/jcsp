@@ -26,25 +26,12 @@
 package io.andreygs.jcsp.internal.infrastructure.resource.factory;
 
 import io.andreygs.jcsp.internal.infrastructure.resource.IJcspMessageProvider;
-import io.andreygs.jcsp.internal.infrastructure.resource.IJcspParametrizedStringInterpolator;
-import io.andreygs.jcsp.internal.infrastructureX.ITemplateVariableValueProvider;
-import io.andreygs.jcsp.internal.infrastructureX.resource.factory.IResourceMessagesLoaderFactory;
-import io.andreygs.jcsp.internal.infrastructureX.resource.factory.ResourceMessagesLoaderFactory;
-import io.andreygs.jcsp.internal.infrastructure.resource.ILocalizedStringProvider;
-import io.andreygs.jcsp.internal.infrastructureX.resource.IResourceMessagesReader;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 /**
  * TODO: place description here
  */
 public class JcspMessageProviderFactory implements IJcspMessageProviderFactory
 {
-    private static final IResourceMessagesLoaderFactory DEFAULT_RESOURCE_MESSAGES_LOADER_FACTORY =
-        new ResourceMessagesLoaderFactory();
     private static final IJcspParametrizedStringInterpolatorFactory DEFAULT_PARAMETRIZED_STRING_INTERPOLATOR_FACTORY =
         new JcspParametrizedStringInterpolatorFactory();
     private static final IJcspResourceReaderFactory DEFAULT_RESOURCE_READER_FACTORY =
@@ -53,34 +40,6 @@ public class JcspMessageProviderFactory implements IJcspMessageProviderFactory
     @Override
     public IJcspMessageProvider create(String packageName)
     {
-
-    }
-
-    @Override
-    public ILocalizedStringProvider create(Class<?> targetClass,
-        List<ILocalizedStringProvider> templateVariableStringValueProviders)
-    {
-        List<ITemplateVariableValueProvider> templateVariableValueProviders =
-            getTemplateVariableValueProviders(templateVariableStringValueProviders);
-        IJcspParametrizedStringInterpolator parametrizedStringInterpolator =
-            DEFAULT_PARAMETRIZED_STRING_INTERPOLATOR_FACTORY.create(templateVariableValueProviders);
-        IResourceMessagesReader resourceMessagesLoader =
-            DEFAULT_RESOURCE_MESSAGES_LOADER_FACTORY.create(List.of(parametrizedStringInterpolator));
-        Map<String, String> readData = resourceMessagesLoader.read(targetClass);
-        return new JcspMessageProvider(readData);
-    }
-
-    private static List<ITemplateVariableValueProvider> getTemplateVariableValueProviders(
-        List<ILocalizedStringProvider> templateVariableStringValueProviders)
-    {
-        List<ITemplateVariableValueProvider> templateVariableValueProviders =
-            new ArrayList<>(templateVariableStringValueProviders.size());
-        for (ILocalizedStringProvider templateVariableStringValueProvider : templateVariableStringValueProviders)
-        {
-            ITemplateVariableValueProvider templateVariableValueProvider =
-                name -> Optional.of(templateVariableStringValueProvider.provide(name));
-            templateVariableValueProviders.add(templateVariableValueProvider);
-        }
-        return templateVariableValueProviders;
+        return null;
     }
 }

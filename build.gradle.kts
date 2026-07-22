@@ -43,6 +43,7 @@ dependencies {
 }
 
 tasks.test {
+    systemProperty("lib.config.services.custom", "infrastructure/test_config.xml")
     val args = jvmArgs ?: mutableListOf<String>().also { jvmArgs = it }
     args.add("-javaagent:${mockitoAgent.asPath}")
     useJUnitPlatform()

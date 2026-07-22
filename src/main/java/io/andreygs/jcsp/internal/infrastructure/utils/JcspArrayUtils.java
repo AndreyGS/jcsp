@@ -23,28 +23,32 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.infrastructureX.resource.factory;
+package io.andreygs.jcsp.internal.infrastructure.utils;
 
-import io.andreygs.jcsp.internal.infrastructure.resource.IJcspParametrizedStringInterpolator;
-import io.andreygs.jcsp.internal.infrastructureX.resource.IResourceMessagesReader;
-import io.andreygs.jcsp.internal.infrastructureX.resource.ResourceMessagesReader;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import java.util.StringJoiner;
 
 /**
  * TODO: place description here
  */
-public class ResourceMessagesLoaderFactory implements IResourceMessagesLoaderFactory
+public class JcspArrayUtils
 {
-    @Override
-    public IResourceMessagesReader create()
+    public static <T> String toString(@Nullable T @Nullable [] array, String delimiter)
     {
-        return new ResourceMessagesReader();
+        if (array == null || array.length == 0)
+        {
+            return "";
+        }
+        StringJoiner joiner = new StringJoiner(delimiter);
+        for (T element : array)
+        {
+            joiner.add(element == null ? "null" : element.toString());
+        }
+        return joiner.toString();
     }
 
-    @Override
-    public IResourceMessagesReader create(List<IJcspParametrizedStringInterpolator> stringInterpolators)
+    private JcspArrayUtils()
     {
-        return new ResourceMessagesReader(stringInterpolators);
     }
 }

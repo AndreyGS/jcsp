@@ -23,33 +23,29 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.infrastructureX.resource.factory;
+package io.andreygs.jcsp.internal.infrastructure.service;
 
-import io.andreygs.jcsp.internal.infrastructure.resource.IJcspParametrizedStringInterpolator;
-import io.andreygs.jcsp.internal.infrastructureX.resource.IResourceMessagesReader;
+import io.andreygs.jcsp.api.exception.JcspRuntimeException;
+import io.andreygs.jcsp.api.infrastructure.IJcspServiceProvider;
 
-import java.util.List;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Objects;
 
 /**
- * Factory for creating {@link IResourceMessagesLoaderFactory} instances.
- *
- * @apiNote
- * Immutable. Thread-safe.
+ * TODO: place description here
  */
-public interface IResourceMessagesLoaderFactory
+public class CreatableByImplementationService extends AbstractJcspCreatableService
 {
-    /**
-     * Creates default resource message loader.
-     *
-     * @return created instance.
-     */
-    IResourceMessagesReader create();
+    public CreatableByImplementationService(Constructor<?> constructor, IJcspInjectedParameter[] constructorParameters,
+        IJcspServiceProvider serviceProvider)
+    {
+        super(constructor, constructorParameters, serviceProvider);
+    }
 
-    /**
-     * Creates resource message loader with custom string interpolators.
-     *
-     * @param stringInterpolators List of string interpolators that must be used by resource message loader.
-     * @return created instance.
-     */
-    IResourceMessagesReader create(List<IJcspParametrizedStringInterpolator> stringInterpolators);
+    @Override
+    public <S> S createService(Class<S> serviceClass)
+    {
+        return serviceClass.cast(createServiceCreationResponsibleInstance());
+    }
 }

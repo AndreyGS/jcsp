@@ -23,14 +23,21 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.infrastructure.resource;
+package io.andreygs.jcsp.internal.annotation;
 
-import java.util.Map;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * TODO: place description here
  */
-public interface IJcspResourceReader
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.CONSTRUCTOR, ElementType.PARAMETER})
+public @interface JcspInject
 {
-    Map<String, String> read(String packageName, String resourceName);
+    String value() default "";
 }

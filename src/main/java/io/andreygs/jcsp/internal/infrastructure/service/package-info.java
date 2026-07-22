@@ -25,6 +25,6 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 @NotNullByDefault
-package io.andreygs.jcsp.api.service;
+package io.andreygs.jcsp.internal.infrastructure.service;
 
 import org.jetbrains.annotations.NotNullByDefault;

@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,7 +22,25 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-@NotNullByDefault
-package io.andreygs.jcsp.internal.infrastructureX;
 
-import org.jetbrains.annotations.NotNullByDefault;
+package io.andreygs.jcsp.internal.infrastructure.resource;
+
+import java.util.Map;
+
+/**
+ * TODO: place description here
+ */
+public interface IJcspStringResourceReader
+{
+    /**
+     * Reads strings for specific package in specific resource bundle.
+     * <p>
+     * Package of clazz must contain at least {resourceName}.properties file and optionally
+     * {resourceName}(_locale_suffix).properties file for current locale.
+     *
+     *
+     * @throws IllegalArgumentException if there is no resource bundle with resourceName for provided packageName;
+     * or if at least one of value in resource file is not a String. Cause is included.
+     */
+    Map<String, String> read(String packageName, String resourceName);
+}

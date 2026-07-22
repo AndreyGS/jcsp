@@ -23,52 +23,32 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.infrastructureX.resource;
+package io.andreygs.jcsp.internal.infrastructure.service;
 
-import io.andreygs.jcsp.internal.infrastructure.resource.ILocalizedStringProvider;
-
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * TODO: place description here
  */
-public class LocalizedStringProviderRegistry implements ILocalizedStringProviderRegistry
+public class JcspInjectedParameter implements IJcspInjectedParameter
 {
-    private final Map<String, ILocalizedStringProvider> providers = new ConcurrentHashMap<>();
-    private final ILocalizedStringProviderFactory localizedStringProviderFactory;
+    private final Class<?> clazz;
+    private final String serviceName;
 
-    public LocalizedStringProviderRegistry(ILocalizedStringProviderFactory localizedStringProviderFactory)
+    public JcspInjectedParameter(Class<?> clazz, String serviceName)
     {
-        this.localizedStringProviderFactory = Objects.requireNonNull(localizedStringProviderFactory);
+        this.clazz = Objects.requireNonNull(clazz);
+        this.serviceName = Objects.requireNonNull(serviceName);
+    }
+
+    public Class<?> getClazz()
+    {
+        return clazz;
     }
 
     @Override
-    public ILocalizedStringProvider requireProvider(Class<?> targetClass)
+    public String getServiceName()
     {
-        ILocalizedStringProvider provider = providers.get(targetClass.getName());
-        if (provider != null)
-        {
-            return provider;
-        }
-        synchronized (providers)
-        {
-            provider = providers.get(targetClass.getName());
-            if (provider != null)
-            {
-                return provider;
-            }
-
-        }
-        return null;
-    }
-
-    @Override
-    public ILocalizedStringProvider requireProvider(Class<?> targetClass,
-        List<ILocalizedStringProvider> templateVariableValueProviders)
-    {
-        return null;
+        return serviceName;
     }
 }
