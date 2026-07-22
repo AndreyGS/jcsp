@@ -25,13 +25,13 @@
 
 package io.andreygs.jcsp.internal.annotation;
 
-import io.andreygs.jcsp.api.annotation.CspCreateProcessor;
-import io.andreygs.jcsp.api.annotation.CspField;
-import io.andreygs.jcsp.api.annotation.CspFixedSizeArray;
-import io.andreygs.jcsp.api.annotation.CspImplementationClass;
-import io.andreygs.jcsp.api.annotation.CspOverrideProcessorClass;
-import io.andreygs.jcsp.api.annotation.CspReference;
-import io.andreygs.jcsp.api.annotation.CspString;
+import io.andreygs.jcsp.api.annotation.protocol.CspCreateProcessor;
+import io.andreygs.jcsp.api.annotation.protocol.CspField;
+import io.andreygs.jcsp.api.annotation.protocol.CspFixedSizeArray;
+import io.andreygs.jcsp.api.annotation.protocol.CspImplementationClass;
+import io.andreygs.jcsp.api.annotation.protocol.CspOverrideProcessorClass;
+import io.andreygs.jcsp.api.annotation.protocol.CspReference;
+import io.andreygs.jcsp.api.annotation.protocol.CspString;
 import io.andreygs.jcsp.api.processing.data.type.CspTypeToken;
 import io.andreygs.jcsp.internal.annotation.utils.CspAnnotationUtils;
 import org.junit.jupiter.api.Test;

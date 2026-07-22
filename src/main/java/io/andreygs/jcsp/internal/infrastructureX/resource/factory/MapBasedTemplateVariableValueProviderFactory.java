@@ -1,0 +1,53 @@
+/**
+ * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
+ * <p>
+ * License
+ * <p>
+ * Copyright 2025 Andrey Grabov-Smetankin <ukbpyh@gmail.com>
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files
+ * (the "Software"), to deal in the Software without restriction, including without limitation the rights to use,
+ * copy, modify, merge,
+ * publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so,
+ * subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of
+ * the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+package io.andreygs.jcsp.internal.infrastructureX.resource.factory;
+
+import io.andreygs.jcsp.internal.infrastructureX.ITemplateVariableValueProvider;
+import io.andreygs.jcsp.internal.infrastructureX.MapBasedTemplateVariableValueProvider;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
+
+/**
+ * Stateless factory for creating {@link MapBasedTemplateVariableValueProvider} instances.
+ */
+public class MapBasedTemplateVariableValueProviderFactory
+    implements IResourceConstantValueProviderFactory
+{
+    @Override
+    public ITemplateVariableValueProvider create(String packageName)
+    {
+        Map<String, String> templateVariables = new HashMap<>();
+        ResourceBundle bundle = ResourceBundle.getBundle(packageName + ".messages", Locale.getDefault());
+        for (String key : bundle.keySet())
+        {
+            templateVariables.put(key, bundle.getString(key));
+        }
+        return new MapBasedTemplateVariableValueProvider(templateVariables);
+    }
+}

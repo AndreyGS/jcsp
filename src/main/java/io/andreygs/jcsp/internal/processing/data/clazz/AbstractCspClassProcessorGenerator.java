@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.internal.processing.data.clazz;
 
-import io.andreygs.jcsp.api.annotation.CspCreateProcessor;
+import io.andreygs.jcsp.api.annotation.protocol.CspCreateProcessor;
 import io.andreygs.jcsp.internal.annotation.utils.CspAnnotationUtils;
 import io.andreygs.jcsp.api.exception.CspRuntimeException;
 import io.andreygs.jcsp.api.protocol.CspStatus;

@@ -26,10 +26,10 @@
 package io.andreygs.jcsp.internal.processing.data.factory;
 
 import io.andreygs.jcsp.api.processing.data.ICspDataSerializationProcessor;
-import io.andreygs.jcsp.api.annotation.CspReference;
-import io.andreygs.jcsp.api.annotation.CspCreateProcessor;
+import io.andreygs.jcsp.api.annotation.protocol.CspReference;
+import io.andreygs.jcsp.api.annotation.protocol.CspCreateProcessor;
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
-import io.andreygs.jcsp.api.annotation.CspFixedSizeArray;
+import io.andreygs.jcsp.api.annotation.protocol.CspFixedSizeArray;
 import io.andreygs.jcsp.api.exception.CspRuntimeException;
 import io.andreygs.jcsp.api.protocol.CspStatus;
 

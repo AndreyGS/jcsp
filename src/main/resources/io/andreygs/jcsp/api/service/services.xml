@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services>
+    <service interface="io.andreygs.jcsp.api.controller.factory.ICspSerializationSessionFactory" implementation="io.andreygs.jcsp.internal.controller.factory.CspSerializationSessionFactory" />
+    <service interface="io.andreygs.jcsp.internal.infrastructure.resource.IJcspMessageProviderRegistry" implementation="io.andreygs.jcsp.internal.infrastructure.resource.JcspMessageProviderRegistry" />
+    <service interface="io.andreygs.jcsp.internal.infrastructure.resource.IJcspParametrizedStringInterpolatorRegistry" factory="io.andreygs.jcsp.internal.infrastructure.factory.JcspParametrizedStringInterpolatorRegistryFactory" />
+</services>

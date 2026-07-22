@@ -25,8 +25,7 @@
 
 package io.andreygs.jcsp.api.processing.data.type;
 
-import io.andreygs.jcsp.internal.infrastructure.InternalFactoryRegistry;
-import io.andreygs.jcsp.internal.infrastructure.resource.factory.IResourceMessagesLoaderFactory;
+import io.andreygs.jcsp.internal.infrastructureX.resource.factory.IResourceMessagesLoaderFactory;
 
 /**
  * TODO: place description here
@@ -42,6 +41,6 @@ final class Messages
             .getInstance()
             .requireFactory(IResourceMessagesLoaderFactory.class)
             .create()
-            .loadMessages(Messages.class);
+            .read(Messages.class);
     }
 }

@@ -26,11 +26,12 @@
  */
 module io.andreygs.jcsp.base {
     requires static org.jetbrains.annotations;
+    requires java.xml;
 
     exports io.andreygs.jcsp.api.controller;
     exports io.andreygs.jcsp.api.controller.factory;
     exports io.andreygs.jcsp.api.exception;
-    exports io.andreygs.jcsp.api.infrastructure;
+    exports io.andreygs.jcsp.api.service;
     exports io.andreygs.jcsp.api.processing.buffer;
     exports io.andreygs.jcsp.api.processing.buffer.factory;
     exports io.andreygs.jcsp.api.processing.data;
