@@ -58,7 +58,8 @@ class JcspImplementationServiceFactory implements IJcspServiceFactory
         for (int i = 0; i < injectedParameters.size(); ++i)
         {
             IJcspServiceKey serviceKey = injectedParameters.get(i);
-            constructorArguments[i] = serviceProvider.provide(serviceKey);
+            constructorArguments[i] = serviceProvider.provide(serviceKey.getClazz(),
+                serviceKey.getGenericTypeVariableClasses(), serviceKey.getName());
         }
         try
         {

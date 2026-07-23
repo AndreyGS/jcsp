@@ -28,13 +28,35 @@ package io.andreygs.jcsp.internal.infrastructure.service;
 import java.util.List;
 
 /**
- * TODO: place description here
+ * Provider for all JCSP library IoC services.
+ * <p>
+ * Provides all available JCSP services including factories, registries and so on.
+ *
+ * @apiNote
+ * Thread-safe
  */
 public interface IJcspServiceProvider
 {
+    /**
+     * Provides service for serviceClass.
+     *
+     * @param serviceClass Class (probably an interface) of service.
+     * @return service.
+     * @param <S> Type of service.
+     */
     <S> S provide(Class<S> serviceClass);
 
+    /**
+     * Provides service for serviceClass with additional distinguishing features if any.
+     *
+     * @param serviceClass Class (probably an interface) of service.
+     * @param genericTypeVariableClasses Generic type variable arguments if serviceClass is generic and has different
+     *                                   services for different type variable arguments. If list is empty, then no
+     *                                   matter is serviceClass generic or not, but this feature is ignored.
+     * @param serviceName Unique service name for additional distinguishing of specific service. If it equals to empty
+     *                    string, then service considered unnamed and this feature is ignored.
+     * @return service.
+     * @param <S> Type (class) of service.
+     */
     <S> S provide(Class<S> serviceClass, List<Class<?>> genericTypeVariableClasses, String serviceName);
-
-    Object provide(IJcspServiceKey serviceKey);
 }

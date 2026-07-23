@@ -39,7 +39,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 /**
- * TODO: place description here
+ * Singleton provider for IoC services.
+ * <p>
+ * Uses {@link IJcspXmlServiceConfigReader#read(Supplier)} in construction time to get map of services and their
+ * factories. Supplier for it gets XML resource from file "/internal/infrastructure/service/services.xml".
+ * Services are lazily instantiated by the time they have been first time requested with provide(...) methods.
  */
 public final class JcspServiceProvider implements IJcspServiceProvider
 {
@@ -49,9 +53,13 @@ public final class JcspServiceProvider implements IJcspServiceProvider
 
     private static final Supplier<@Nullable InputStream> PROD_STREAM_SUPPLIER =
         () -> IJcspServiceProvider.class.getResourceAsStream("/internal/infrastructure/service/services.xml");
-    private static final Object TEST_INSTANCE_LOCK = new Object();
     private static volatile @Nullable IJcspServiceProvider testInstance;
 
+    /**
+     * Gets instance of service provider.
+     *
+     * @return instance.
+     */
     public static IJcspServiceProvider getInstance()
     {
         if (testInstance != null)
@@ -63,24 +71,6 @@ public final class JcspServiceProvider implements IJcspServiceProvider
             }
         }
         return Holder.INSTANCE;
-    }
-
-    public static void setTestInstance(IJcspXmlServiceConfigReader xmlServiceConfigReader)
-    {
-        checkTestMark();
-        synchronized (TEST_INSTANCE_LOCK)
-        {
-            testInstance = new JcspServiceProvider(xmlServiceConfigReader);
-        }
-    }
-
-    public static void unsetTestInstance()
-    {
-        checkTestMark();
-        synchronized (TEST_INSTANCE_LOCK)
-        {
-            testInstance = null;
-        }
     }
 
     private JcspServiceProvider(IJcspXmlServiceConfigReader xmlServiceConfigReader)
@@ -101,7 +91,7 @@ public final class JcspServiceProvider implements IJcspServiceProvider
     }
 
     @Override
-    public <S> S provide(Class<S> serviceClass, List<Class<?>> genericTypeVariableClasses,  String serviceName)
+    public <S> S provide(Class<S> serviceClass, List<Class<?>> genericTypeVariableClasses, String serviceName)
     {
         if (!matchesComplexDefinedService(genericTypeVariableClasses, serviceName))
         {
@@ -114,21 +104,6 @@ public final class JcspServiceProvider implements IJcspServiceProvider
             return runningService;
         }
         return serviceClass.cast(createService(serviceKey));
-    }
-
-    @Override
-    public Object provide(IJcspServiceKey serviceKey)
-    {
-        if (!matchesComplexDefinedService(serviceKey))
-        {
-            return provide(serviceKey.getClazz());
-        }
-        Object runningService = runningComplexDefinedServices.get(serviceKey);
-        if (runningService != null)
-        {
-            return runningService;
-        }
-        return createService(serviceKey);
     }
 
     private Object createService(IJcspServiceKey serviceKey)
@@ -170,23 +145,6 @@ public final class JcspServiceProvider implements IJcspServiceProvider
     private static boolean matchesComplexDefinedService(List<Class<?>> genericTypeVariableClasses,  String serviceName)
     {
         return genericTypeVariableClasses.isEmpty() || serviceName.isEmpty();
-    }
-
-    private static void checkTestMark()
-    {
-        InputStream markStream = IJcspServiceProvider.class.getResourceAsStream("/infrastructure/service/test.mark");
-        if (markStream == null)
-        {
-            throw new SecurityException("Operation is blocked. Cannot find test.mark");
-        }
-        try
-        {
-            markStream.close();
-        }
-        catch (IOException e)
-        {
-            throw new UncheckedIOException("Could not close test.mark", e);
-        }
     }
 
     private static class Holder
