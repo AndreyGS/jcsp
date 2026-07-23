@@ -23,39 +23,42 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.infrastructure.service;
+package io.andreygs.jcsp.internal.infrastructure.service.factory;
 
 import io.andreygs.jcsp.api.exception.JcspRuntimeException;
-import io.andreygs.jcsp.api.infrastructure.IJcspServiceProvider;
+import io.andreygs.jcsp.internal.infrastructure.service.IJcspServiceKey;
+import io.andreygs.jcsp.internal.infrastructure.service.IJcspServiceProvider;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.Objects;
 
 /**
  * TODO: place description here
  */
-abstract class AbstractJcspCreatableService implements IJcspCreatableService
+class JcspImplementationServiceFactory implements IJcspServiceFactory
 {
+    private final IJcspServiceKey serviceKey;
     private final Constructor<?> constructor;
-    private final IJcspInjectedParameter[] constructorParameters;
-    private final IJcspServiceProvider serviceProvider;
+    private final List<IJcspServiceKey> injectedParameters;
 
-    AbstractJcspCreatableService(Constructor<?> constructor, IJcspInjectedParameter[] constructorParameters,
-        IJcspServiceProvider serviceProvider)
+    JcspImplementationServiceFactory(IJcspServiceKey serviceKey, Constructor<?> constructor,
+        List<IJcspServiceKey> injectedParameters)
     {
+        this.serviceKey = Objects.requireNonNull(serviceKey);
         this.constructor = Objects.requireNonNull(constructor);
-        this.constructorParameters = Objects.requireNonNull(constructorParameters);
-        this.serviceProvider = Objects.requireNonNull(serviceProvider);
+        this.injectedParameters = List.copyOf(injectedParameters);
     }
 
-    protected Object createServiceCreationResponsibleInstance()
+    @Override
+    public Object create(IJcspServiceProvider serviceProvider)
     {
-        Object[] constructorArguments = new Object[constructorParameters.length];
-        for (int i = 0; i < constructorParameters.length; ++i)
+        Object[] constructorArguments = new Object[injectedParameters.size()];
+        for (int i = 0; i < injectedParameters.size(); ++i)
         {
-            IJcspInjectedParameter parameter = constructorParameters[i];
-            constructorArguments[i] = serviceProvider.provide(parameter.getClass(), parameter.getServiceName());
+            IJcspServiceKey serviceKey = injectedParameters.get(i);
+            constructorArguments[i] = serviceProvider.provide(serviceKey);
         }
         try
         {
@@ -67,5 +70,11 @@ abstract class AbstractJcspCreatableService implements IJcspCreatableService
                 "Cannot instantiate class \"" + constructor.getDeclaringClass() + "\" with constructor \"" +
                     constructor + "\"", e);
         }
+    }
+
+    @Override
+    public IJcspServiceKey getServiceKey()
+    {
+        return serviceKey;
     }
 }

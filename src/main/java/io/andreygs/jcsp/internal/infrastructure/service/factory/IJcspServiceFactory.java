@@ -23,42 +23,17 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.infrastructure.service;
+package io.andreygs.jcsp.internal.infrastructure.service.factory;
 
-import io.andreygs.jcsp.api.exception.JcspRuntimeException;
-import io.andreygs.jcsp.api.infrastructure.IJcspServiceProvider;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Objects;
+import io.andreygs.jcsp.internal.infrastructure.service.IJcspServiceKey;
+import io.andreygs.jcsp.internal.infrastructure.service.IJcspServiceProvider;
 
 /**
  * TODO: place description here
  */
-public class CreatableByFactoryService extends AbstractJcspCreatableService
+public interface IJcspServiceFactory
 {
-    private final Method factoryMethod;
+    Object create(IJcspServiceProvider serviceProvider);
 
-    public CreatableByFactoryService(Constructor<?> constructor, IJcspInjectedParameter[] constructorParameters,
-        IJcspServiceProvider serviceProvider, Method factoryMethod)
-    {
-        super(constructor, constructorParameters, serviceProvider);
-        this.factoryMethod = Objects.requireNonNull(factoryMethod);
-    }
-
-    @Override
-    public <S> S createService(Class<S> serviceClass)
-    {
-        Object factory = createServiceCreationResponsibleInstance();
-        try
-        {
-            return serviceClass.cast(factoryMethod.invoke(factory));
-        }
-        catch (IllegalAccessException | InvocationTargetException e)
-        {
-            throw JcspRuntimeException.forClassError(
-                "Invoke factory method \"" + factoryMethod + "\" error", e);
-        }
-    }
+    IJcspServiceKey getServiceKey();
 }

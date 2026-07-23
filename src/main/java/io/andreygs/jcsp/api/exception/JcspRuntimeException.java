@@ -40,9 +40,14 @@ public class JcspRuntimeException extends RuntimeException
 
     private final JcspExceptionStatus status;
 
-    public static JcspRuntimeException forXmlLoadingError(String message, @Nullable  Throwable cause)
+    public static JcspRuntimeException forXmlLoadingError(String message, @Nullable Throwable cause)
     {
         return new JcspRuntimeException(JcspExceptionStatus.XML_LOADING_ERROR, message, cause);
+    }
+
+    public static JcspRuntimeException forXmlLoadingError(Throwable cause)
+    {
+        return new JcspRuntimeException(JcspExceptionStatus.XML_LOADING_ERROR, cause);
     }
 
     public static JcspRuntimeException forClassError(String message, @Nullable Throwable cause)
@@ -50,9 +55,20 @@ public class JcspRuntimeException extends RuntimeException
         return new JcspRuntimeException(JcspExceptionStatus.CLASS_ERROR, message, cause);
     }
 
+    public static JcspRuntimeException forClassError(Throwable cause)
+    {
+        return new JcspRuntimeException(JcspExceptionStatus.CLASS_ERROR, cause);
+    }
+
     private JcspRuntimeException(JcspExceptionStatus status, String message, @Nullable Throwable cause)
     {
         super(message, cause);
+        this.status = Objects.requireNonNull(status);
+    }
+
+    private JcspRuntimeException(JcspExceptionStatus status, @Nullable Throwable cause)
+    {
+        super(cause);
         this.status = Objects.requireNonNull(status);
     }
 

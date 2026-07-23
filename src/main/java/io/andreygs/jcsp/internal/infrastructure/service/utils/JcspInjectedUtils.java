@@ -27,12 +27,16 @@ package io.andreygs.jcsp.internal.infrastructure.service.utils;
 
 import io.andreygs.jcsp.api.exception.JcspRuntimeException;
 import io.andreygs.jcsp.internal.annotation.JcspInject;
-import io.andreygs.jcsp.internal.infrastructure.service.IJcspInjectedParameter;
-import io.andreygs.jcsp.internal.infrastructure.service.JcspInjectedParameter;
+import io.andreygs.jcsp.internal.infrastructure.service.IJcspServiceKey;
+import io.andreygs.jcsp.internal.infrastructure.service.JcspServiceKey;
 import io.andreygs.jcsp.internal.infrastructure.utils.JcspReflectionUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Parameter;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -63,13 +67,12 @@ public class JcspInjectedUtils
         return JcspReflectionUtils.requireDefaultConstructor(clazz);
     }
 
-    public static IJcspInjectedParameter[] requireInjectedParameters(Constructor<?> constructor)
+    public static List<IJcspServiceKey> requireInjectedParameters(Constructor<?> constructor)
     {
         Parameter[] parameters = constructor.getParameters();
-        IJcspInjectedParameter[] parameterClasses = new IJcspInjectedParameter[parameters.length];
-        for (int i = 0; i < parameters.length; ++i)
+        List<IJcspServiceKey> injectedParameters = new ArrayList<>(parameters.length);
+        for (Parameter parameter : parameters)
         {
-            Parameter parameter = parameters[i];
             JcspInject injectAnnotation = parameter.getAnnotation(JcspInject.class);
             if (injectAnnotation == null)
             {
@@ -77,9 +80,33 @@ public class JcspInjectedUtils
                     "Constructor \"" + constructor + "\" parameter \"" + parameter +
                         "\" has no \"" + JcspInject.class + "\" annotation", null);
             }
-            parameterClasses[i] = new JcspInjectedParameter(parameter.getType(), injectAnnotation.value());
+            Class<?> parameterClass = parameter.getType();
+            List<Class<?>> genericTypeVariableClasses = new ArrayList<>();
+            if (parameter.getParameterizedType() instanceof ParameterizedType parametrizedType)
+            {
+                for (Type typeArgument : parametrizedType.getActualTypeArguments())
+                {
+                    if (typeArgument instanceof Class<?> clazz)
+                    {
+                        genericTypeVariableClasses.add(clazz);
+                    }
+                    else if (typeArgument instanceof ParameterizedType parameterizedTypeArgument)
+                    {
+                        genericTypeVariableClasses.add((Class<?>)parameterizedTypeArgument.getRawType());
+                    }
+                    else
+                    {
+                        throw JcspRuntimeException.forClassError(
+                            "Parameter \"" + parameter + "\" of constructor \"" + constructor +
+                                "\" has inappropriate type arguments", null);
+                    }
+                }
+            }
+            IJcspServiceKey serviceKey = new JcspServiceKey(parameterClass, genericTypeVariableClasses,
+                injectAnnotation.value());
+            injectedParameters.add(serviceKey);
         }
-        return parameterClasses;
+        return injectedParameters;
     }
 
     private JcspInjectedUtils()

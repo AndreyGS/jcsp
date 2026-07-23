@@ -25,7 +25,7 @@
 
 package io.andreygs.jcsp.internal.infrastructure.resource.facade;
 
-import io.andreygs.jcsp.api.infrastructure.JcspServiceProvider;
+import io.andreygs.jcsp.internal.infrastructure.service.JcspServiceProvider;
 import io.andreygs.jcsp.internal.infrastructure.resource.IJcspMessageService;
 
 /**

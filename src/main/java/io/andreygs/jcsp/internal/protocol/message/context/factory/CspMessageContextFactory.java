@@ -29,7 +29,6 @@ import io.andreygs.jcsp.api.protocol.CspProtocolVersion;
 import io.andreygs.jcsp.api.protocol.ICspInterfaceVersion;
 import io.andreygs.jcsp.api.protocol.message.context.ICspDataMessageContextExtension;
 import io.andreygs.jcsp.api.protocol.message.context.ICspMessageContext;
-import io.andreygs.jcsp.api.protocol.message.context.factory.ICspMessageContextFactory;
 import io.andreygs.jcsp.internal.protocol.message.context.CspDataMessageContextExtension;
 import io.andreygs.jcsp.internal.protocol.message.context.CspMessageContext;
 

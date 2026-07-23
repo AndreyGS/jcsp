@@ -28,7 +28,6 @@ package io.andreygs.jcsp.internal.processing.buffer.factory;
 import io.andreygs.jcsp.api.processing.buffer.AllocationType;
 import io.andreygs.jcsp.api.processing.buffer.IBufferResizeStrategy;
 import io.andreygs.jcsp.api.processing.buffer.ISerializationBufferConfig;
-import io.andreygs.jcsp.api.processing.buffer.factory.ISerializationBufferConfigFactory;
 import io.andreygs.jcsp.internal.processing.buffer.DoublingBufferSizeStrategy;
 import io.andreygs.jcsp.internal.processing.buffer.SerializationBufferConfig;
 import org.jetbrains.annotations.Nullable;

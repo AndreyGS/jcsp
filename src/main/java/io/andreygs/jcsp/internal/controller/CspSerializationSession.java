@@ -27,12 +27,10 @@ package io.andreygs.jcsp.internal.controller;
 
 import io.andreygs.jcsp.api.controller.ICspSerializationSession;
 import io.andreygs.jcsp.api.processing.buffer.ISerializationBufferConfig;
-import io.andreygs.jcsp.api.processing.buffer.factory.ISerializationBufferConfigFactory;
 import io.andreygs.jcsp.api.protocol.message.ICspDataMessage;
 import io.andreygs.jcsp.api.protocol.message.config.ICspDataMessageConfigExtension;
 import io.andreygs.jcsp.api.protocol.ICspVersionable;
 import io.andreygs.jcsp.api.protocol.message.config.ICspMessageConfig;
-import io.andreygs.jcsp.api.protocol.message.config.factory.ICspMessageConfigFactory;
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
 import io.andreygs.jcsp.internal.processing.ICspSerializationWorkflow;
 import io.andreygs.jcsp.internal.processing.data.clazz.ICspClassProcessorRegistry;
@@ -51,27 +49,26 @@ public class CspSerializationSession implements ICspSerializationSession
 {
     private final ICspClassProcessorRegistry<ICspClassSerializationProcessor<?>> classProcessorRegistry;
     private final ICspTypeProcessorRegistry<ICspTypeSerializationProcessor> typeProcessorRegistry;
-    private final ISerializationBufferConfigFactory serializationBufferConfigFactory;
-    private final ICspMessageConfigFactory cspMessageConfigFactory;
-    private ISerializationBufferConfig defaultBufferConfig;
-    private ICspMessageConfig defaultMessageConfig;
-    private ICspDataMessageConfigExtension defaultDataMessageConfigExtension;
+    private final ISerializationBufferConfig bufferConfig;
+    private final ICspMessageConfig messageConfig;
+    private final ICspDataMessageConfigExtension dataMessageConfigExtension;
     private final ICspSerializationWorkflow serializationWorkflow;
 
     public CspSerializationSession(
         ICspClassProcessorRegistry<ICspClassSerializationProcessor<?>> classProcessorRegistry,
         ICspTypeProcessorRegistry<ICspTypeSerializationProcessor> typeProcessorRegistry,
-        ISerializationBufferConfigFactory serializationBufferConfigFactory,
-        ICspMessageConfigFactory cspMessageConfigFactory,
+        ISerializationBufferConfig bufferConfig,
+        ICspMessageConfig messageConfig,
+        ICspDataMessageConfigExtension dataMessageConfigExtension,
         ICspSerializationWorkflow serializationWorkflow)
     {
         this.serializationWorkflow = Objects.requireNonNull(serializationWorkflow);
         this.classProcessorRegistry = Objects.requireNonNull(classProcessorRegistry);
         this.typeProcessorRegistry = Objects.requireNonNull(typeProcessorRegistry);
-        this.serializationBufferConfigFactory = Objects.requireNonNull(serializationBufferConfigFactory);
-        this.defaultBufferConfig = serializationBufferConfigFactory.provideDefault();
-        this.cspMessageConfigFactory = Objects.requireNonNull(cspMessageConfigFactory);
-        initDefaultMessageConfigs();
+        this.bufferConfig = Objects.requireNonNull(bufferConfig);
+        this.messageConfig = Objects.requireNonNull(messageConfig);
+        this.dataMessageConfigExtension = Objects.requireNonNull(dataMessageConfigExtension);
+
     }
 
     @Override
@@ -87,40 +84,10 @@ public class CspSerializationSession implements ICspSerializationSession
     }
 
     @Override
-    public void setDefaultBufferConfig(ISerializationBufferConfig config)
-    {
-        defaultBufferConfig = Objects.requireNonNull(config);
-    }
-
-    @Override
-    public void setDefaultMessageConfig(ICspMessageConfig config)
-    {
-        defaultMessageConfig = Objects.requireNonNull(config);
-    }
-
-    @Override
-    public void setDefaultDataMessageConfigExtension(ICspDataMessageConfigExtension config)
-    {
-        defaultDataMessageConfigExtension = Objects.requireNonNull(config);
-    }
-
-    @Override
-    public ISerializationBufferConfigFactory getSerializationBufferConfigFactory()
-    {
-        return serializationBufferConfigFactory;
-    }
-
-    @Override
-    public ICspMessageConfigFactory getCspMessageConfigFactory()
-    {
-        return cspMessageConfigFactory;
-    }
-
-    @Override
     public <T extends ICspVersionable> ICspDataMessage<T> serializeData(ICspVersionable struct, Class<T> clazz)
     {
         return serializationWorkflow.serializeDataMessage(Objects.requireNonNull(struct), Objects.requireNonNull(clazz),
-            defaultBufferConfig, defaultMessageConfig, defaultDataMessageConfigExtension);
+            bufferConfig, messageConfig, dataMessageConfigExtension);
     }
 
     @Override
@@ -129,14 +96,8 @@ public class CspSerializationSession implements ICspSerializationSession
         @Nullable ICspDataMessageConfigExtension customDataMessageConfigExtension)
     {
         return serializationWorkflow.serializeDataMessage(Objects.requireNonNull(struct), Objects.requireNonNull(clazz),
-            customBufferConfig != null ?  customBufferConfig : defaultBufferConfig,
-            customMessageConfig != null ? customMessageConfig : defaultMessageConfig,
-            customDataMessageConfigExtension != null ? customDataMessageConfigExtension : defaultDataMessageConfigExtension);
-    }
-
-    private void initDefaultMessageConfigs()
-    {
-        defaultMessageConfig = cspMessageConfigFactory.createCspMessageCommonConfig(null, null);
-        defaultDataMessageConfigExtension = cspMessageConfigFactory.createCspDataMessageConfigExtension(null, null);
+            customBufferConfig != null ?  customBufferConfig : bufferConfig,
+            customMessageConfig != null ? customMessageConfig : messageConfig,
+            customDataMessageConfigExtension != null ? customDataMessageConfigExtension : dataMessageConfigExtension);
     }
 }

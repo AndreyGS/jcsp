@@ -25,19 +25,22 @@
 
 package io.andreygs.jcsp.internal.infrastructure.service;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
  * TODO: place description here
  */
-public class JcspService implements IJcspService
+public class JcspServiceKey implements IJcspServiceKey
 {
     private final Class<?> clazz;
+    private final List<Class<?>> genericTypeVariableClasses;
     private final String name;
 
-    public JcspService(Class<?> clazz, String name)
+    public JcspServiceKey(Class<?> clazz, List<Class<?>> genericTypeVariableClasses, String name)
     {
         this.clazz = Objects.requireNonNull(clazz);
+        this.genericTypeVariableClasses = List.copyOf(genericTypeVariableClasses);
         this.name = Objects.requireNonNull(name);
     }
 
@@ -45,6 +48,12 @@ public class JcspService implements IJcspService
     public Class<?> getClazz()
     {
         return clazz;
+    }
+
+    @Override
+    public List<Class<?>> getGenericTypeVariableClasses()
+    {
+        return genericTypeVariableClasses;
     }
 
     @Override
@@ -60,13 +69,22 @@ public class JcspService implements IJcspService
         {
             return false;
         }
-        JcspService that = (JcspService) o;
-        return Objects.equals(clazz, that.clazz) && Objects.equals(name, that.name);
+        JcspServiceKey that = (JcspServiceKey) o;
+        return Objects.equals(clazz, that.clazz) && Objects.equals(
+            genericTypeVariableClasses, that.genericTypeVariableClasses)
+                   && Objects.equals(name, that.name);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "{" + "clazz=" + clazz + ", genericTypeVariableClasses=" + genericTypeVariableClasses
+                   + ", name='" + name + '\'' + '}';
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(clazz, name);
+        return Objects.hash(clazz, genericTypeVariableClasses, name);
     }
 }

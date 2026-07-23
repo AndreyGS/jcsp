@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,7 +22,22 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-@NotNullByDefault
-package io.andreygs.jcsp.api.processing.buffer.factory;
 
-import org.jetbrains.annotations.NotNullByDefault;
+package io.andreygs.jcsp.internal.controller.factory;
+
+import io.andreygs.jcsp.api.controller.ICspSerializationSession;
+import io.andreygs.jcsp.api.processing.buffer.ISerializationBufferConfig;
+import io.andreygs.jcsp.api.protocol.message.config.ICspDataMessageConfigExtension;
+import io.andreygs.jcsp.api.protocol.message.config.ICspMessageConfig;
+import org.jetbrains.annotations.Nullable;
+
+/**
+ * TODO: place description here
+ */
+public interface ICspSerializationSessionFactory
+{
+    ICspSerializationSession create(
+        @Nullable ISerializationBufferConfig bufferConfig,
+        @Nullable ICspMessageConfig messageConfig,
+        @Nullable ICspDataMessageConfigExtension dataMessageConfigExtension);
+}

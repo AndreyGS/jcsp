@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,7 +22,27 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-@NotNullByDefault
-package io.andreygs.jcsp.api.controller.factory;
 
-import org.jetbrains.annotations.NotNullByDefault;
+package io.andreygs.jcsp.internal.protocol.message.config.factory;
+
+import io.andreygs.jcsp.api.protocol.CspCommonFlag;
+import io.andreygs.jcsp.api.protocol.CspDataFlag;
+import io.andreygs.jcsp.api.protocol.CspProtocolVersion;
+import io.andreygs.jcsp.api.protocol.ICspInterfaceVersion;
+import io.andreygs.jcsp.api.protocol.message.config.ICspDataMessageConfigExtension;
+import io.andreygs.jcsp.api.protocol.message.config.ICspMessageConfig;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Set;
+
+/**
+ * TODO: place description here
+ */
+public interface ICspMessageConfigFactory
+{
+    ICspMessageConfig createCspMessageCommonConfig(@Nullable CspProtocolVersion cspProtocolVersion,
+        @Nullable Set<CspCommonFlag> cspCommonFlags);
+
+    ICspDataMessageConfigExtension createCspDataMessageConfigExtension(@Nullable ICspInterfaceVersion cspInterfaceVersion,
+        @Nullable Set<CspDataFlag> cspDataFlags);
+}

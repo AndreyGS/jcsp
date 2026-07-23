@@ -26,14 +26,12 @@
 package io.andreygs.jcsp.api.controller;
 
 import io.andreygs.jcsp.api.processing.buffer.ISerializationBufferConfig;
-import io.andreygs.jcsp.api.processing.buffer.factory.ISerializationBufferConfigFactory;
 import io.andreygs.jcsp.api.processing.data.ICspDataSerializationProcessor;
 import io.andreygs.jcsp.api.processing.data.type.CspTypeToken;
 import io.andreygs.jcsp.api.protocol.message.ICspDataMessage;
 import io.andreygs.jcsp.api.protocol.message.config.ICspDataMessageConfigExtension;
 import io.andreygs.jcsp.api.protocol.ICspVersionable;
 import io.andreygs.jcsp.api.protocol.message.config.ICspMessageConfig;
-import io.andreygs.jcsp.api.protocol.message.config.factory.ICspMessageConfigFactory;
 import io.andreygs.jcsp.api.processing.data.clazz.ICspClassSerializationProcessor;
 import org.jetbrains.annotations.Nullable;
 
@@ -145,16 +143,6 @@ public interface ICspSerializationSession
      *                                 processors.
      */
     void unregisterClassProcessor(Class<?> clazz, List<AnnotatedType> associatedAnnotatedTypes);
-
-    void setDefaultBufferConfig(ISerializationBufferConfig config);
-
-    void setDefaultMessageConfig(ICspMessageConfig config);
-
-    void setDefaultDataMessageConfigExtension(ICspDataMessageConfigExtension config);
-
-    ISerializationBufferConfigFactory getSerializationBufferConfigFactory();
-
-    ICspMessageConfigFactory getCspMessageConfigFactory();
 
     <T extends ICspVersionable> ICspDataMessage<T> serializeData(ICspVersionable struct, Class<T> clazz);
 

@@ -23,14 +23,24 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.api.controller.factory;
+package io.andreygs.jcsp.internal.protocol.message.context.factory;
 
-import io.andreygs.jcsp.api.controller.ICspSerializationSession;
+import io.andreygs.jcsp.api.protocol.CspProtocolVersion;
+import io.andreygs.jcsp.api.protocol.ICspInterfaceVersion;
+import io.andreygs.jcsp.api.protocol.message.context.ICspDataMessageContextExtension;
+import io.andreygs.jcsp.api.protocol.message.context.ICspMessageContext;
 
 /**
  * TODO: place description here
  */
-public interface ICspSerializationSessionFactory
+public interface ICspMessageContextFactory
 {
-    ICspSerializationSession create();
+    ICspMessageContext createCspMessageContext(CspProtocolVersion cspProtocolVersion, boolean bitness32,
+        boolean bigEndian, boolean endiannessDifference);
+
+    ICspDataMessageContextExtension createCspDataMessageContextExtension(Class<?> structClazz,
+        ICspInterfaceVersion cspInterfaceVersion, boolean alignmentMayBeNotEqual, boolean sizeOfIntegersMayBeNotEqual,
+        boolean allowUnmanagedPointers, boolean checkRecursivePointers,
+        boolean simplyAssignableTagsOptimizationsAreTurnedOff,
+        boolean checkRecursivePointersWhileMaintainingLinkStructure);
 }

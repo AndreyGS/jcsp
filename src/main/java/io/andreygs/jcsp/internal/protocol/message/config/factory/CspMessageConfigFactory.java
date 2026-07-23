@@ -31,7 +31,6 @@ import io.andreygs.jcsp.api.protocol.CspProtocolVersion;
 import io.andreygs.jcsp.api.protocol.ICspInterfaceVersion;
 import io.andreygs.jcsp.api.protocol.message.config.ICspDataMessageConfigExtension;
 import io.andreygs.jcsp.api.protocol.message.config.ICspMessageConfig;
-import io.andreygs.jcsp.api.protocol.message.config.factory.ICspMessageConfigFactory;
 import io.andreygs.jcsp.api.protocol.utils.CspCommonFlagUtils;
 import io.andreygs.jcsp.api.protocol.utils.CspDataFlagUtils;
 import io.andreygs.jcsp.api.protocol.utils.CspInterfaceVersionUtils;

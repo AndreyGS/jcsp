@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,7 +22,20 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-@NotNullByDefault
-package io.andreygs.jcsp.api.infrastructure;
 
-import org.jetbrains.annotations.NotNullByDefault;
+package io.andreygs.jcsp.internal.infrastructure.service.factory;
+
+/**
+ * TODO: place description here
+ */
+public interface IJcspServiceFactoryProducer
+{
+    IJcspServiceFactory produceImplementationFactory(String interfaceClassName, String serviceName,
+        String[] genericTypeVariableClassNames, String implementationClassName);
+
+    IJcspServiceFactory produceFactoryFactory(String interfaceClassName, String serviceName,
+        String[] genericTypeVariableClassNames, String factoryClassName);
+
+    IJcspServiceFactory produceGenericFactoryFactory(String interfaceClassName, String serviceName,
+        String[] genericTypeVariableClassNames, String factoryClassName);
+}

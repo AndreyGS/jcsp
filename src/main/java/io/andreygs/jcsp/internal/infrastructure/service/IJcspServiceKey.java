@@ -1,6 +1,4 @@
 /**
- * TODO: place brief description here
- *
  * @author Andrey Grabov-Smetankin <ukbpyh@gmail.com>
  * <p>
  * License
@@ -24,7 +22,19 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-@NotNullByDefault
-package io.andreygs.jcsp.api.protocol.message.context.factory;
 
-import org.jetbrains.annotations.NotNullByDefault;
+package io.andreygs.jcsp.internal.infrastructure.service;
+
+import java.util.List;
+
+/**
+ * TODO: place description here
+ */
+public interface IJcspServiceKey
+{
+    Class<?> getClazz();
+
+    List<Class<?>> getGenericTypeVariableClasses();
+
+    String getName();
+}

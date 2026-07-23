@@ -23,42 +23,45 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.infrastructure.service;
+package io.andreygs.jcsp.internal.infrastructure.service.factory;
 
 import io.andreygs.jcsp.api.exception.JcspRuntimeException;
-import io.andreygs.jcsp.api.infrastructure.IJcspServiceProvider;
+import io.andreygs.jcsp.internal.infrastructure.service.IJcspServiceKey;
+import io.andreygs.jcsp.internal.infrastructure.service.IJcspServiceProvider;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Objects;
 
 /**
  * TODO: place description here
  */
-public class CreatableByGenericFactoryService extends AbstractJcspCreatableService
+class JcspFactoryServiceFactory extends JcspImplementationServiceFactory
 {
     private final Method factoryMethod;
+    private final Object[] factoryMethodArguments;
 
-    public CreatableByGenericFactoryService(Constructor<?> constructor, IJcspInjectedParameter[] constructorParameters,
-        IJcspServiceProvider serviceProvider, Method factoryMethod)
+    JcspFactoryServiceFactory(IJcspServiceKey serviceKey, Constructor<?> serviceFactoryConstructor,
+        List<IJcspServiceKey> injectedParameters, Method factoryMethod, List<Object> factoryMethodArguments)
     {
-        super(constructor, constructorParameters, serviceProvider);
+        super(serviceKey, serviceFactoryConstructor, injectedParameters);
         this.factoryMethod = Objects.requireNonNull(factoryMethod);
+        this.factoryMethodArguments = factoryMethodArguments.toArray();
     }
 
     @Override
-    public <S> S createService(Class<S> serviceClass)
+    public Object create(IJcspServiceProvider serviceProvider)
     {
-        Object factory = createServiceCreationResponsibleInstance();
+        Object serviceFactory = super.create(serviceProvider);
         try
         {
-            return serviceClass.cast(factoryMethod.invoke(factory, serviceClass));
+            return factoryMethod.invoke(serviceFactory, factoryMethodArguments);
         }
         catch (IllegalAccessException | InvocationTargetException e)
         {
-            throw JcspRuntimeException.forClassError(
-                "Invoke factory method \"" + factoryMethod + "\" error", e);
+            throw JcspRuntimeException.forClassError("Invoke factory method \"" + factoryMethod + "\" error", e);
         }
     }
 }

@@ -23,7 +23,9 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.api.infrastructure;
+package io.andreygs.jcsp.internal.infrastructure.service;
+
+import java.util.List;
 
 /**
  * TODO: place description here
@@ -32,5 +34,7 @@ public interface IJcspServiceProvider
 {
     <S> S provide(Class<S> serviceClass);
 
-    <S> S provide(Class<S> serviceClass, String serviceName);
+    <S> S provide(Class<S> serviceClass, List<Class<?>> genericTypeVariableClasses, String serviceName);
+
+    Object provide(IJcspServiceKey serviceKey);
 }

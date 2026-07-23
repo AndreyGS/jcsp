@@ -46,7 +46,7 @@ public class JcspReflectionUtils
         }
         catch (ClassNotFoundException e)
         {
-            throw JcspRuntimeException.forClassError("Class \"" + className + "\" not found", null);
+            throw JcspRuntimeException.forClassError(e);
         }
     }
 

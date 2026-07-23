@@ -23,29 +23,35 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.andreygs.jcsp.internal.infrastructure.service;
+package io.andreygs.jcsp.api;
 
-import io.andreygs.jcsp.api.exception.JcspRuntimeException;
-import io.andreygs.jcsp.api.infrastructure.IJcspServiceProvider;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Objects;
+import io.andreygs.jcsp.api.controller.ICspSerializationSession;
+import io.andreygs.jcsp.api.processing.buffer.ISerializationBufferConfig;
+import io.andreygs.jcsp.api.protocol.message.config.ICspDataMessageConfigExtension;
+import io.andreygs.jcsp.api.protocol.message.config.ICspMessageConfig;
+import io.andreygs.jcsp.internal.controller.factory.ICspSerializationSessionFactory;
+import io.andreygs.jcsp.internal.infrastructure.service.JcspServiceProvider;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * TODO: place description here
  */
-public class CreatableByImplementationService extends AbstractJcspCreatableService
+public class Jcsp
 {
-    public CreatableByImplementationService(Constructor<?> constructor, IJcspInjectedParameter[] constructorParameters,
-        IJcspServiceProvider serviceProvider)
+    public static ICspSerializationSession createDefaultSerializationSession()
     {
-        super(constructor, constructorParameters, serviceProvider);
+        return JcspServiceProvider.getInstance()
+                                  .provide(ICspSerializationSessionFactory.class)
+                                  .create(null, null, null);
     }
 
-    @Override
-    public <S> S createService(Class<S> serviceClass)
+    public static ICspSerializationSession createSerializationSession(
+        @Nullable ISerializationBufferConfig bufferConfig,
+        @Nullable ICspMessageConfig commonMessageConfig,
+        @Nullable ICspDataMessageConfigExtension dataMessageConfig)
     {
-        return serviceClass.cast(createServiceCreationResponsibleInstance());
+        return JcspServiceProvider.getInstance()
+                                  .provide(ICspSerializationSessionFactory.class)
+                                  .create(bufferConfig, commonMessageConfig, dataMessageConfig);
     }
 }

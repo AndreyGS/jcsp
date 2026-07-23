@@ -29,7 +29,7 @@ import io.andreygs.jcsp.api.processing.buffer.ISerializationBufferConfig;
 import io.andreygs.jcsp.api.protocol.message.ICspDataMessage;
 import io.andreygs.jcsp.api.protocol.message.config.ICspDataMessageConfigExtension;
 import io.andreygs.jcsp.api.protocol.message.config.ICspMessageConfig;
-import io.andreygs.jcsp.api.protocol.message.context.factory.ICspMessageContextFactory;
+import io.andreygs.jcsp.internal.protocol.message.context.factory.ICspMessageContextFactory;
 import io.andreygs.jcsp.internal.processing.buffer.ISerializationBuffer;
 import io.andreygs.jcsp.internal.processing.buffer.factory.ISerializationBufferFactory;
 import io.andreygs.jcsp.internal.protocol.message.factory.ICspMessageFactory;

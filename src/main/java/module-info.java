@@ -29,18 +29,14 @@ module io.andreygs.jcsp.base {
     requires java.xml;
 
     exports io.andreygs.jcsp.api.controller;
-    exports io.andreygs.jcsp.api.controller.factory;
     exports io.andreygs.jcsp.api.exception;
-    exports io.andreygs.jcsp.api.infrastructure;
     exports io.andreygs.jcsp.api.processing.buffer;
-    exports io.andreygs.jcsp.api.processing.buffer.factory;
     exports io.andreygs.jcsp.api.processing.data;
     exports io.andreygs.jcsp.api.processing.data.clazz;
     exports io.andreygs.jcsp.api.processing.data.type;
     exports io.andreygs.jcsp.api.protocol;
     exports io.andreygs.jcsp.api.protocol.message;
     exports io.andreygs.jcsp.api.protocol.message.config;
-    exports io.andreygs.jcsp.api.protocol.message.config.factory;
     exports io.andreygs.jcsp.api.protocol.message.context;
     exports io.andreygs.jcsp.api.protocol.utils;
 }
