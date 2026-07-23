@@ -52,7 +52,10 @@ public interface IJcspServiceProvider
      * @param serviceClass Class (probably an interface) of service.
      * @param genericTypeVariableClasses Generic type variable arguments if serviceClass is generic and has different
      *                                   services for different type variable arguments. If list is empty, then no
-     *                                   matter is serviceClass generic or not, but this feature is ignored.
+     *                                   matter is serviceClass generic or not, but this feature is ignored. If
+     *                                   genericTypeVariableClasses is not empty and provider has no service with such
+     *                                   types, then service without prescribed generic type variable arguments will
+     *                                   try to be found.
      * @param serviceName Unique service name for additional distinguishing of specific service. If it equals to empty
      *                    string, then service considered unnamed and this feature is ignored.
      * @return service.

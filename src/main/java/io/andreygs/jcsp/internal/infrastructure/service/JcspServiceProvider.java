@@ -29,9 +29,7 @@ import io.andreygs.jcsp.internal.infrastructure.service.factory.IJcspServiceFact
 import io.andreygs.jcsp.internal.infrastructure.service.factory.JcspServiceFactoryProducer;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.UncheckedIOException;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -102,6 +100,23 @@ public final class JcspServiceProvider implements IJcspServiceProvider
         if (runningService != null)
         {
             return runningService;
+        }
+        if (!genericTypeVariableClasses.isEmpty())
+        {
+            IJcspServiceKey serviceKeyWithoutGenerics = new JcspServiceKey(serviceClass, List.of(), serviceName);
+            runningService = serviceClass.cast(runningComplexDefinedServices.get(serviceKeyWithoutGenerics));
+            if (runningService != null)
+            {
+                return runningService;
+            }
+        }
+        if (!genericTypeVariableClasses.isEmpty() && serviceName.isEmpty())
+        {
+            runningService = serviceClass.cast(runningServices.get(serviceClass));
+            if (runningService != null)
+            {
+                return runningService;
+            }
         }
         return serviceClass.cast(createService(serviceKey));
     }
